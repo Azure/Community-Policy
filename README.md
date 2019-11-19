@@ -1,14 +1,4 @@
----
-page_type: sample
-languages:
-- csharp
-products:
-- dotnet
-description: "Add 150 character max description"
-urlFragment: "update-this-to-unique-url-stub"
----
-
-# Official Microsoft Sample
+# Community Policy Repo
 
 <!-- 
 Guidelines on README format: https://review.docs.microsoft.com/help/onboard/admin/samples/concepts/readme-template?branch=master
@@ -20,7 +10,7 @@ Taxonomies for products and languages: https://review.docs.microsoft.com/new-hop
 
 The purpose of this repo is for Azure Policy users and Microsoft internal teams to share and colloborate on custom policies. These policies are built either by customers or Microsoft Support engineers for customers. These are NOT Built-in policies hence are not check, tested or validated in any form by the Azure Policy Release Team. Please be weary of this and always TEST your policies before enforcing. Happy Coding! 
 
-For Built-in policies repo, please visit here: 
+For Built-in policies repo, please visit here: [azure-policy](https://github.com/Azure/azure-policy)
 
 ## Contents
 
@@ -28,8 +18,7 @@ Outline the file contents of the repository. It helps users navigate the codebas
 
 | File/folder       | Description                                |
 |-------------------|--------------------------------------------|
-| `src`             | Sample source code.                        |
-| `.gitignore`      | Define what to ignore at commit time.      |           
+| `src`             | Sample source code.                        |       
 | `CONTRIBUTING.md` | Guidelines for contributing to the sample. |
 | `README.md`       | This README file.                          |
 | `LICENSE`         | The license for the sample.                |
