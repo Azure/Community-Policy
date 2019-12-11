@@ -1,0 +1,21 @@
+{
+	"if": {
+		"allOf": [
+			{
+				"field": "type",
+				"equals": "Microsoft.Storage/storageAccounts"
+			},
+			{
+				"field": "kind",
+				"equals": "BlobStorage"
+			},
+			{
+				"field": "Microsoft.Storage/storageAccounts/accessTier",
+				"equals": "cool"
+			}
+		]
+	},
+	"then": {
+		"effect": "deny"
+	}
+}
