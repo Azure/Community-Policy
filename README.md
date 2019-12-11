@@ -12,17 +12,6 @@ The purpose of this repo is for Azure Policy users and Microsoft internal teams 
 
 For Built-in policies repo, please visit here: [azure-policy](https://github.com/Azure/azure-policy)
 
-## Contents
-
-Outline the file contents of the repository. It helps users navigate the codebase, build configuration and any related assets.
-
-| File/folder       | Description                                |
-|-------------------|--------------------------------------------|
-| `src`             | Sample source code.                        |       
-| `CONTRIBUTING.md` | Guidelines for contributing to the sample. |
-| `README.md`       | This README file.                          |
-| `LICENSE`         | The license for the sample.                |
-
 
 ## Contributing
 

@@ -35,7 +35,7 @@ Every Azure Policy sample and its associated files must be contained in its own 
 
 
 
-## README.md
+## README.md (optional)
 
 The README.md describes your policy. A good description helps other community members to understand your deployment. The README.md uses [Github Flavored Markdown](https://guides.github.com/features/mastering-markdown/) for formatting text. If you want to add images to your README.md file, store the images in the **images** folder. Reference the images in the README.md with a relative path (e.g. `![alt text](images/namingConvention.png "Files, folders and naming conventions")`). This ensures the link will reference the target repository if the source repository is forked. A good README.md contains the following sections
 
