@@ -1,6 +1,6 @@
 {
     "properties": {
-        "displayName": "Append AKS API IP Restrictions.",
+        "displayName": "Append AKS API IP Restrictions",
         "mode": "Indexed",
         "description": "This policy will restrict access to the AKS API server as documented here: https://docs.microsoft.com/en-us/azure/aks/api-server-authorized-ip-ranges",
         "metadata": {
