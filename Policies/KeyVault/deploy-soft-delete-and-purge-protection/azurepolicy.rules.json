@@ -1,0 +1,101 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.KeyVault/vaults"
+            },
+            {
+                "anyOf": [
+                    {
+                        "field": "Microsoft.KeyVault/vaults/enableSoftDelete",
+                        "exists": "false"
+                    },
+                    {
+                        "field": "Microsoft.KeyVault/vaults/enablePurgeProtection",
+                        "exists": "false"
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "DeployIfNotExists",
+        "details": {
+            "type": "Microsoft.KeyVault/vaults",
+            "roleDefinitionIds": [
+                "/providers/Microsoft.Authorization/roleDefinitions/f25e0fa2-a7c8-4377-a976-54943a77a395"
+            ],
+            "existenceCondition": {
+                "allOf": [
+                    {
+                        "field": "Microsoft.KeyVault/vaults/enablePurgeProtection",
+                        "equals": "true"
+                    },
+                    {
+                        "field": "Microsoft.KeyVault/vaults/enableSoftDelete",
+                        "equals": "true"
+                    }
+                ]
+            },
+            "deployment": {
+                "properties": {
+                    "mode": "incremental",
+                    "template": {
+                        "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "parameters": {
+                            "keyvaultName": {
+                                "type": "string"
+                            },
+                            "location": {
+                                "type": "string"
+                            },
+                            "sku": {
+                                "type": "object"
+                            },
+                            "tenantId": {
+                                "type": "string"
+                            },
+                            "accessPolicies": {
+                                "type": "array"
+                            }
+                        },
+                        "resources": [
+                            {
+                                "type": "Microsoft.KeyVault/vaults",
+                                "apiVersion": "2018-02-14",
+                                "name": "[parameters('keyVaultName')]",
+                                "location": "[parameters('location')]",
+                                "properties": {
+                                    "tenantId": "[parameters('tenantId')]",
+                                    "enableSoftDelete": true,
+                                    "enablePurgeProtection": true,
+                                    "sku": "[parameters('sku')]",
+                                    "accessPolicies": "[parameters('accessPolicies')]"
+                                }
+                            }
+                        ]
+                    },
+                    "parameters": {
+                        "keyvaultName": {
+                            "value": "[field('name')]"
+                        },
+                        "location": {
+                            "value": "[field('location')]"
+                        },
+                        "sku": {
+                            "value": "[field('Microsoft.KeyVault/vaults/sku')]"
+                        },
+                        "tenantId": {
+                            "value": "[field('Microsoft.KeyVault/vaults/tenantId')]"
+                        },
+                        "accessPolicies": {
+                            "value": "[field('Microsoft.KeyVault/vaults/accessPolicies')]"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
