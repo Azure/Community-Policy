@@ -3,7 +3,7 @@
     "displayName": "Enable soft-delete and purge protection on Key Vaults",
     "description": "This Policy will enable soft-delete and purge protection on all Key Vaults.",
     "metadata": {
-        "category": "Kubernetes service"
+        "category": "Key Vault"
     },
     "policyRule": {
         "if": {
