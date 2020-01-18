@@ -20,6 +20,10 @@
                         "equals": "BusinessCritical"
                     }
                 ]
+            },
+            {
+                "field": "Microsoft.Sql/servers/databases/currentSku.name",
+                "notContains": "GP_S"
             }
         ]
     },
@@ -27,6 +31,7 @@
         "effect": "DeployIfNotExists",
         "details": {
             "type": "Microsoft.Sql/servers/databases",
+            "name": "[field('fullname')]",
             "roleDefinitionIds": [
                 "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
             ],
@@ -50,9 +55,6 @@
                             },
                             "location": {
                                 "type": "string"
-                            },
-                            "sqlServerDatabaseSkuName": {
-                                "type": "string"
                             }
                         },
                         "resources": [
@@ -61,9 +63,6 @@
                                 "type": "Microsoft.Sql/servers/databases",
                                 "apiVersion": "2017-10-01-preview",
                                 "location": "[parameters('location')]",
-                                "sku": {
-                                    "name": "[parameters('sqlServerDatabaseSkuName')]"
-                                },
                                 "properties": {
                                     "licenseType": "BasePrice"
                                 }
@@ -72,13 +71,10 @@
                     },
                     "parameters": {
                         "sqlServerDatabaseName": {
-                            "value": "[field('name')]"
+                            "value": "[field('fullname')]"
                         },
                         "location": {
                             "value": "[field('location')]"
-                        },
-                        "sqlServerDatabaseSkuName": {
-                            "value": "[field('Microsoft.Sql/servers/databases/currentSku.name')]"
                         }
                     }
                 }
