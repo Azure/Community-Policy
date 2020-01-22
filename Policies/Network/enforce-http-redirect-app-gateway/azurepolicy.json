@@ -1,10 +1,8 @@
 {
-    "properties": {
-        "displayName": "Audit for Application Gateway without HTTP Redirect",
-        "description": "This Policy looks to see if an HTTP listener exists. It then checks to see if a routing rule is configured for redirect. If a redirect is not detected then an audit is performed.",
-        "mode": "All",
-        "parameters": {}
-    },
+    "displayName": "Audit for Application Gateway without HTTP Redirect",
+    "description": "This Policy looks to see if an HTTP listener exists. It then checks to see if a routing rule is configured for redirect. If a redirect is not detected then an audit is performed.",
+    "mode": "All",
+    "parameters": {},
     "policyRule": {
         "if": {
             "allOf": [
