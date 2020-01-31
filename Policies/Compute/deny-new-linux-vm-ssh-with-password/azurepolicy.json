@@ -6,8 +6,20 @@
 		"if": {
 			"allOf": [
 				{
-					"field": "Microsoft.Compute/virtualMachines/osProfile.adminPassword",
-					"exists": "True"
+					"field": "type",
+					"equals": "Microsoft.Compute/virtualMachines"
+				},
+				{
+					"anyof": [
+						{
+							"field": "Microsoft.Compute/virtualMachines/osProfile.linuxConfiguration.disablePasswordAuthentication",
+							"exists": "False"
+						},
+						{
+							"field": "Microsoft.Compute/virtualMachines/osProfile.linuxConfiguration.disablePasswordAuthentication",
+							"equals": "false"
+						}
+					]
 				},
 				{
 					"anyOf": [{
