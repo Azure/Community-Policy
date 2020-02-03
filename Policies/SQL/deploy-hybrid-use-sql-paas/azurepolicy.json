@@ -32,6 +32,10 @@
                 {
                     "field": "Microsoft.Sql/servers/databases/currentSku.name",
                     "notContains": "GP_S"
+                },
+                {
+                    "field": "Microsoft.Sql/servers/databases/currentSku.name",
+                    "notEquals": "ElasticPool"
                 }
             ]
         },
