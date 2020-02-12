@@ -1,17 +1,4 @@
 {
-  "properties": {
-    "displayName": "NSG rule ports without IP source",
-    "policyType": "Custom",
-    "mode": "All",
-    "parameters": {
-      "ipAddresses": {
-        "type": "Array",
-        "metadata": {
-          "displayname": "Destination Port Ranges"
-        }
-      }
-    },
-    "policyRule": {
       "if": {
         "allOf": [
           {
@@ -36,5 +23,3 @@
         "effect": "deny"
       }
     }
-  }
-}

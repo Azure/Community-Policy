@@ -1,57 +1,29 @@
 {
-
     "mode": "Indexed",
-
     "policyRule": {
-
         "if": {
-
             "value": "[resourceGroup().name]",
-
             "equals": "Put Your ResourceGroup Name Here"
-
- 
-
         },
-
         "then": {
-
             "effect": "modify",
-
             "details": {
-
                 "roleDefinitionIds": [
-
                     "/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionsID}"
-
                 ],
-
-                "operations": [{
-
+                "operations": [
+                    {
                         "operation": "addOrReplace",
-
                         "field": "tags['Environment']",
-
                         "value": "Production/Live"
-
-                    }, {
-
+                    },
+                    {
                         "operation": "addOrReplace",
-
                         "field": "tags['Customer']",
-
                         "value": "User1/User2"
-
                     }
-
                 ]
-
             }
-
-        },
-
-        "parameters": {}
-
+        }
     }
-
 }
