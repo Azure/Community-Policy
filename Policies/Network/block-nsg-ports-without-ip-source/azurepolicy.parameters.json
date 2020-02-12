@@ -1,0 +1,8 @@
+{
+    "ipAddresses": {
+      "type": "Array",
+      "metadata": {
+        "displayname": "Destination Port Ranges"
+      }
+    }
+  }
