@@ -1,0 +1,41 @@
+"policyRule": {
+
+      "if": {
+
+        "allOf": [
+
+          {
+
+            "field": "type",
+
+            "equals": "Microsoft.Storage/storageAccounts"
+
+          },
+
+          {
+
+            "allOf": [
+
+              {
+
+                "value": "[length(field('Microsoft.Storage/storageAccounts/networkAcls.ipRules'))]",
+
+                "equals": "0"
+
+              }
+
+            ]
+
+          }
+
+        ]
+
+      },
+
+      "then": {
+
+        "effect": "audit"
+
+      }
+
+    }
