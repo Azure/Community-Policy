@@ -16,6 +16,18 @@
                 {
                     "field": "Microsoft.Sql/servers/elasticpools/licenseType",
                     "notEquals": "BasePrice"
+                },
+                {
+                    "anyOf": [
+                        {
+                            "field": "Microsoft.Sql/servers/databases/currentSku.tier",
+                            "equals": "BusinessCritical"
+                        },
+                        {
+                            "field": "Microsoft.Sql/servers/databases/currentSku.tier",
+                            "equals": "GeneralPurpose"
+                        }
+                    ]
                 }
             ]
         },
