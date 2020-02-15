@@ -1,4 +1,4 @@
-# Deploy Hybrid Use SQL MI
+# Deploy Hybrid Use for SQL MI
 
 This Policy will enable HUB for SQL Managed Instance.
 
@@ -9,7 +9,7 @@ This Policy will enable HUB for SQL Managed Instance.
 ## Try with PowerShell
 
 ````powershell
-$definition = New-AzPolicyDefinition -Name "deploy-hybrid-use-sql-mi" -DisplayName "Deploy Hybrid Use SQL IaaS" -description "This Policy will enable HUB for any SQL IaaS enrolled in the SQL Resource Provider with the SKU of Standard or Enterprise." -Policy 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-mi/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-mi/azurepolicy.parameters.json' -Mode All
+$definition = New-AzPolicyDefinition -Name "deploy-hybrid-use-sql-mi" -DisplayName "Deploy Hybrid Use for SQL MI" -description "This Policy will enable HUB for SQL Managed Instance." -Policy 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-mi/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-mi/azurepolicy.parameters.json' -Mode All
 $definition
 $assignment = New-AzPolicyAssignment -Name <assignmentname> -Scope <scope> -PolicyDefinition $definition
 $assignment 
@@ -19,7 +19,7 @@ $assignment
 
 ````cli
 
-az policy definition create --name 'deploy-hybrid-use-sql-mi' --display-name 'Deploy Hybrid Use SQL IaaS' --description 'This Policy will enable HUB for any SQL IaaS enrolled in the SQL Resource Provider with the SKU of Standard or Enterprise.' --rules 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-mi/azurepolicy.rules.json' --params 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-mi/azurepolicy.parameters.json' --mode All
+az policy definition create --name 'deploy-hybrid-use-sql-mi' --display-name 'Deploy Hybrid Use for SQL MI' --description 'This Policy will enable HUB for SQL Managed Instance.' --rules 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-mi/azurepolicy.rules.json' --params 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-mi/azurepolicy.parameters.json' --mode All
 
 az policy assignment create --name <assignmentname> --scope <scope> --policy "deploy-hybrid-use-sql-mi" 
 

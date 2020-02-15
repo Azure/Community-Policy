@@ -1,6 +1,6 @@
-# Deploy Hybrid Use SQL PaaS
+# Deploy Hybrid Use For SQL PaaS
 
-This Policy will enable HUB for Azure SQL with the tier of General Purpose, Hyperscale, or Business Critical. This does not work for Elastic Pools for SQL MI.
+This Policy will enable HUB for Azure SQL with the tier of General Purpose, Hyperscale, or Business Critical. This does not work for Elastic Pools or for SQL MI.
 
 ## Try on Portal
 
@@ -9,7 +9,7 @@ This Policy will enable HUB for Azure SQL with the tier of General Purpose, Hype
 ## Try with PowerShell
 
 ````powershell
-$definition = New-AzPolicyDefinition -Name "deploy-hybrid-use-sql-paas" -DisplayName "Deploy Hybrid Use SQL PaaS" -description "This Policy will enable HUB for any SQL PaaS with the tier of General Purpose, Hyperscale, or Business Critical." -Policy 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-paas/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-paas/azurepolicy.parameters.json' -Mode All
+$definition = New-AzPolicyDefinition -Name "deploy-hybrid-use-sql-paas" -DisplayName "Deploy Hybrid Use For SQL PaaS" -description "This Policy will enable HUB for Azure SQL with the tier of General Purpose, Hyperscale, or Business Critical. This does not work for Elastic Pools or for SQL MI." -Policy 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-paas/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-paas/azurepolicy.parameters.json' -Mode All
 $definition
 $assignment = New-AzPolicyAssignment -Name <assignmentname> -Scope <scope> -PolicyDefinition $definition
 $assignment 
@@ -19,7 +19,7 @@ $assignment
 
 ````cli
 
-az policy definition create --name 'deploy-hybrid-use-sql-paas' --display-name 'Deploy Hybrid Use SQL PaaS' --description 'This Policy will enable HUB for any SQL PaaS with the tier of General Purpose, Hyperscale, or Business Critical.' --rules 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-paas/azurepolicy.rules.json' --params 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-paas/azurepolicy.parameters.json' --mode All
+az policy definition create --name 'deploy-hybrid-use-sql-paas' --display-name 'Deploy Hybrid Use For SQL PaaS' --description 'This Policy will enable HUB for Azure SQL with the tier of General Purpose, Hyperscale, or Business Critical. This does not work for Elastic Pools or for SQL MI.' --rules 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-paas/azurepolicy.rules.json' --params 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/HybridUseBenefits/deploy-hybrid-use-sql-paas/azurepolicy.parameters.json' --mode All
 
 az policy assignment create --name <assignmentname> --scope <scope> --policy "deploy-hybrid-use-sql-paas" 
 

@@ -1,5 +1,5 @@
 {
-    "displayName": "Enable hybrid use for SQL PaaS",
+    "displayName": "Deploy hybrid use for SQL PaaS",
     "policyType": "Custom",
     "description": "This Policy will enable HUB for Azure SQL. It does not work for Elastic Pools or SQL MI.",
     "mode": "All",
