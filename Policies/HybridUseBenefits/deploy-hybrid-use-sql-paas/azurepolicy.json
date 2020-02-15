@@ -1,0 +1,98 @@
+{
+    "displayName": "Deploy hybrid use for SQL PaaS",
+    "policyType": "Custom",
+    "description": "This Policy will enable HUB for Azure SQL. It does not work for Elastic Pools or SQL MI.",
+    "mode": "All",
+    "metadata": {
+        "category": "SQL"
+    },
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Sql/servers/databases"
+                },
+                {
+                    "anyOf": [
+                        {
+                            "field": "Microsoft.Sql/servers/databases/currentSku.tier",
+                            "equals": "GeneralPurpose"
+                        },
+                        {
+                            "field": "Microsoft.Sql/servers/databases/currentSku.tier",
+                            "equals": "Hyperscale"
+                        },
+                        {
+                            "field": "Microsoft.Sql/servers/databases/currentSku.tier",
+                            "equals": "BusinessCritical"
+                        }
+                    ]
+                },
+                {
+                    "field": "Microsoft.Sql/servers/databases/currentSku.name",
+                    "notContains": "GP_S"
+                },
+                {
+                    "field": "Microsoft.Sql/servers/databases/currentSku.name",
+                    "notEquals": "ElasticPool"
+                }
+            ]
+        },
+        "then": {
+            "effect": "DeployIfNotExists",
+            "details": {
+                "type": "Microsoft.Sql/servers/databases",
+                "name": "[field('fullname')]",
+                "roleDefinitionIds": [
+                    "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+                ],
+                "existenceCondition": {
+                    "allOf": [
+                        {
+                            "field": "Microsoft.Sql/servers/databases/licenseType",
+                            "equals": "BasePrice"
+                        }
+                    ]
+                },
+                "deployment": {
+                    "properties": {
+                        "mode": "incremental",
+                        "template": {
+                            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                            "contentVersion": "1.0.0.0",
+                            "parameters": {
+                                "sqlServerDatabaseName": {
+                                    "type": "string"
+                                },
+                                "location": {
+                                    "type": "string"
+                                }
+                            },
+                            "resources": [
+                                {
+                                    "name": "[parameters('sqlServerDatabaseName')]",
+                                    "type": "Microsoft.Sql/servers/databases",
+                                    "apiVersion": "2017-10-01-preview",
+                                    "location": "[parameters('location')]",
+                                    "properties": {
+                                        "licenseType": "BasePrice"
+                                    }
+                                }
+                            ]
+                        },
+                        "parameters": {
+                            "sqlServerDatabaseName": {
+                                "value": "[field('fullname')]"
+                            },
+                            "location": {
+                                "value": "[field('location')]"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "parameters": {}
+}

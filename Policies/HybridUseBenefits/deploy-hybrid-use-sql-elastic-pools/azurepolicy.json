@@ -1,7 +1,7 @@
 {
-    "displayName": "Enable hybrid use for SQL PaaS",
+    "displayName": "Deploy hybrid use for Azure SQL Elastic Pools",
     "policyType": "Custom",
-    "description": "This Policy will enable HUB for any SQL PaaS database.",
+    "description": "This Policy will enable HUB for Azure SQL Elastic Pools.",
     "mode": "All",
     "metadata": {
         "category": "SQL"
@@ -11,38 +11,30 @@
             "allOf": [
                 {
                     "field": "type",
-                    "equals": "Microsoft.Sql/servers/databases"
+                    "equals": "Microsoft.Sql/servers/elasticPools"
+                },
+                {
+                    "field": "Microsoft.Sql/servers/elasticpools/licenseType",
+                    "notEquals": "BasePrice"
                 },
                 {
                     "anyOf": [
                         {
                             "field": "Microsoft.Sql/servers/databases/currentSku.tier",
-                            "equals": "GeneralPurpose"
-                        },
-                        {
-                            "field": "Microsoft.Sql/servers/databases/currentSku.tier",
-                            "equals": "Hyperscale"
-                        },
-                        {
-                            "field": "Microsoft.Sql/servers/databases/currentSku.tier",
                             "equals": "BusinessCritical"
+                        },
+                        {
+                            "field": "Microsoft.Sql/servers/databases/currentSku.tier",
+                            "equals": "GeneralPurpose"
                         }
                     ]
-                },
-                {
-                    "field": "Microsoft.Sql/servers/databases/currentSku.name",
-                    "notContains": "GP_S"
-                },
-                {
-                    "field": "Microsoft.Sql/servers/databases/currentSku.name",
-                    "notEquals": "ElasticPool"
                 }
             ]
         },
         "then": {
             "effect": "DeployIfNotExists",
             "details": {
-                "type": "Microsoft.Sql/servers/databases",
+                "type": "Microsoft.Sql/servers/elasticPools",
                 "name": "[field('fullname')]",
                 "roleDefinitionIds": [
                     "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
@@ -50,7 +42,7 @@
                 "existenceCondition": {
                     "allOf": [
                         {
-                            "field": "Microsoft.Sql/servers/databases/licenseType",
+                            "field": "Microsoft.Sql/servers/elasticpools/licenseType",
                             "equals": "BasePrice"
                         }
                     ]
@@ -62,7 +54,7 @@
                             "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
                             "contentVersion": "1.0.0.0",
                             "parameters": {
-                                "sqlServerDatabaseName": {
+                                "sqlElasticPoolName": {
                                     "type": "string"
                                 },
                                 "location": {
@@ -71,8 +63,8 @@
                             },
                             "resources": [
                                 {
-                                    "name": "[parameters('sqlServerDatabaseName')]",
-                                    "type": "Microsoft.Sql/servers/databases",
+                                    "name": "[parameters('sqlElasticPoolName')]",
+                                    "type": "Microsoft.Sql/servers/elasticpools/licenseType",
                                     "apiVersion": "2017-10-01-preview",
                                     "location": "[parameters('location')]",
                                     "properties": {
@@ -82,7 +74,7 @@
                             ]
                         },
                         "parameters": {
-                            "sqlServerDatabaseName": {
+                            "sqlElasticPoolName": {
                                 "value": "[field('fullname')]"
                             },
                             "location": {
