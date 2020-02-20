@@ -6,8 +6,16 @@
                 "equals": "Microsoft.Sql/servers/elasticPools"
             },
             {
-                "field": "Microsoft.Sql/servers/elasticpools/licenseType",
-                "notEquals": "BasePrice"
+                "anyOf": [
+                    {
+                        "field": "Microsoft.Sql/servers/elasticpools/sku.tier",
+                        "equals": "BusinessCritical"
+                    },
+                    {
+                        "field": "Microsoft.Sql/servers/elasticpools/sku.tier",
+                        "equals": "GeneralPurpose"
+                    }
+                ]
             }
         ]
     },
