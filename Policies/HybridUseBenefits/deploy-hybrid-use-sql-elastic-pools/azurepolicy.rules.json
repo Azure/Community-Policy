@@ -52,7 +52,7 @@
                         "resources": [
                             {
                                 "name": "[parameters('sqlElasticPoolName')]",
-                                "type": "Microsoft.Sql/servers/elasticpools/licenseType",
+                                "type": "Microsoft.Sql/servers/elasticpools",
                                 "apiVersion": "2017-10-01-preview",
                                 "location": "[parameters('location')]",
                                 "properties": {
