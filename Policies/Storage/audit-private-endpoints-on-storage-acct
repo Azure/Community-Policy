@@ -1,0 +1,25 @@
+{
+    "policyRule": {
+        "if": {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+        },
+        "then": {
+            "effect": "auditIfNotExists",
+            "details": {
+                "type": "Microsoft.Network/privateEndpoints",
+                "existenceScope": "Subscription",
+                "existenceCondition": {
+                    "count": {
+                        "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*]",
+                        "where": {
+                            "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
+                            "equals": "[concat(subscription().id,'/resourcegroups/',resourceGroup().name,'/providers/Microsoft.Storage/storageAccounts/',field('name'))]"
+                        }
+                    },
+                    "greaterOrEquals": 1
+                }
+            }
+        }
+    }
+}
