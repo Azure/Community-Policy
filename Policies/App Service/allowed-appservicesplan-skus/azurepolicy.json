@@ -1,0 +1,73 @@
+{
+  "properties": {
+    "displayName": "Allowed App Services Plan SKUs",
+    "policyType": "Custom",
+    "mode": "all",
+    "description": "This policy enables you to specify a set of App Services Plan SKUs that your organization can deploy.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "App Service"
+    },
+    "parameters": {
+      "listOfAllowedSKUs": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of SKUs that can be specified for App Services Plan.",
+          "displayName": "Allowed SKUs",
+          "allowedValues": [
+            "F1",
+            "D1",
+            "B1",
+            "B2",
+            "B3",
+            "S1",
+            "S2",
+            "S3",
+            "P1",
+            "P2",
+            "P3",
+            "I1",
+            "I2",
+            "I3",
+            "P1v2",
+            "P2v2",
+            "P3v2",
+            "PC1",
+            "PC2",
+            "PC3",
+            "PC4",
+            "EP1",
+            "EP2",
+            "EP3",
+            "EI1",
+            "EI2",
+            "EI3",
+            "U1",
+            "U2",
+            "U3",
+            "Y1"
+          ]
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/serverfarms"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Web/serverfarms/sku.name",
+              "in": "[parameters('listOfAllowedSKUs')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "Deny"
+      }
+    }
+  }
+}
