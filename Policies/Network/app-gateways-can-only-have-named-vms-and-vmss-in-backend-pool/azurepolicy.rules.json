@@ -1,0 +1,19 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/applicationGateways"
+            },
+            {
+                "count": {
+                    "field": "Microsoft.Network/applicationGateways/backendAddressPools[*].backendAddresses[*]"
+                },
+                "greater": 0
+            }
+        ]
+    },
+    "then": {
+        "effect": "deny"
+    }
+}
