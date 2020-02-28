@@ -1,0 +1,8 @@
+{
+    "allowedSubnetName": {
+        "type": "string",
+        "metadata": {
+            "displayName": "Name of subnet where VMs are allowed to be added into a backend pool."
+        }
+    }
+}
