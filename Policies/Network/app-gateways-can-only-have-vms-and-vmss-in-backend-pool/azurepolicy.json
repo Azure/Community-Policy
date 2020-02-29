@@ -1,5 +1,5 @@
 {
-    "displayName": "App Gateway can only have a named VM or VMSS in its backend pool.",
+    "displayName": "App Gateway can only have a VM's or VMSS in its backend pool.",
     "mode": "All",
     "policyRule": {
         "if": {
