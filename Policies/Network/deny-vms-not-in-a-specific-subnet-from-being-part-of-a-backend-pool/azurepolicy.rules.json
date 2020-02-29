@@ -1,0 +1,21 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/networkInterfaces"
+            },
+            {
+                "field": "Microsoft.Network/networkInterfaces/ipConfigurations[*].applicationGatewayBackendAddressPools[*]",
+                "exists": true
+            },
+            {
+                "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
+                "notContains": "[parameters('allowedSubnetName')]"
+            }
+        ]
+    },
+    "then": {
+        "effect": "deny"
+    }
+}

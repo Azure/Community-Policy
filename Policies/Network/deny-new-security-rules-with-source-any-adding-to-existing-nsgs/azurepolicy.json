@@ -1,0 +1,41 @@
+{
+  "mode": "All",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+        },
+        {
+          "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+          "equals": "Allow"
+        },
+        {
+          "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+          "equals": "Inbound"
+        },
+        {
+          "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
+          "in": [
+            "*",
+            "Internet"
+          ]
+        },
+        {
+          "not": {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]",
+            "in": [
+              "*",
+              "Internet"
+            ]
+          }
+        }
+      ]
+    },
+    "then": {
+      "effect": "deny"
+    }
+  },
+  "parameters": {}
+}

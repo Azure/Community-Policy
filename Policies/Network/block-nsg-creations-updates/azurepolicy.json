@@ -1,0 +1,70 @@
+{
+    "displayName": "Block NSG Creations and Updates",
+    "mode": "All",
+    "parameters": {},
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/networkSecurityGroups"
+                },
+                {
+                    "count": {
+                        "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
+                        "where": {
+                            "allOf": [
+                                {
+                                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].access",
+                                    "equals": "Allow"
+                                },
+                                {
+                                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].direction",
+                                    "equals": "Inbound"
+                                },
+                                {
+                                    "anyOf": [
+                                        {
+                                            "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange",
+                                            "equals": "*"
+                                        },
+                                        {
+                                            "not": {
+                                                "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]",
+                                                "notEquals": "*"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "anyOf": [
+                                        {
+                                            "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix",
+                                            "in": [
+                                                "*",
+                                                "Internet"
+                                            ]
+                                        },
+                                        {
+                                            "not": {
+                                                "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]",
+                                                "notIn": [
+                                                    "*",
+                                                    "Internet"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "greaterOrEquals": 1
+                }
+            ]
+        },
+        "then": {
+            "effect": "deny"
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{
+  "mode": "Indexed",
+  "policyRule": {
+    "if": {
+      "allof": [
+        {
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "exists": "false"
+        }
+      ]
+    },
+    "then": {
+      "effect": "deny"
+    }
+  },
+  "parameters": {
+    "tagName": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Tag name",
+        "description": "Name of the tag to enforce"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+    "displayName": "VMs not in a specific subnet cannot be part of a backend pool",
+    "mode": "All",
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/networkInterfaces"
+                },
+                {
+                    "field": "Microsoft.Network/networkInterfaces/ipConfigurations[*].applicationGatewayBackendAddressPools[*]",
+                    "exists": true
+                },
+                {
+                    "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
+                    "notContains": "[parameters('allowedSubnetName')]"
+                }
+            ]
+        },
+        "then": {
+            "effect": "deny"
+        }
+    },
+    "parameters": {
+        "allowedSubnetName": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Name of subnet where VMs are allowed to be added into a backend pool."
+            }
+        }
+    }
+}
