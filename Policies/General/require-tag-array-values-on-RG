@@ -1,0 +1,71 @@
+{
+
+  "mode": "All",
+
+  "policyRule": {
+
+    "if": {
+
+      "allOf": [
+
+        {
+
+          "field": "type",
+
+          "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+
+        },
+
+        {
+
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+
+          "notIn": "[parameters('tagValue')]"
+
+        }
+
+      ]
+
+    },
+
+    "then": {
+
+      "effect": "deny"
+
+    }
+
+  },
+
+  "parameters": {
+
+    "tagName": {
+
+      "type": "String",
+
+      "metadata": {
+
+        "displayName": "Tag Name",
+
+        "description": "Name of the tag, such as 'environment'"
+
+      }
+
+    },
+
+    "tagValue": {
+
+      "type": "Array",
+
+      "metadata": {
+
+        "displayName": "Tag Value",
+
+        "description": "Set of allowed values separated by semicolons"
+
+      }
+
+    }
+
+  }
+
+}

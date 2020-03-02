@@ -1,0 +1,53 @@
+{
+
+  "mode": "All",
+
+  "policyRule": {
+
+     "if": {
+
+          "field": "type",
+
+          "equals": "Microsoft.Keyvault/vaults"
+
+    },
+
+    "then": {
+
+        "effect": "auditIfNotExists",
+
+        "details": {
+
+            "type": "Microsoft.Network/privateEndpoints",
+
+            "existenceScope": "Subscription",
+
+            "existenceCondition": {
+
+        "count": {
+
+             "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*]",
+
+             "where": {
+
+                  "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
+
+                  "equals": "[concat(subscription().id,'/resourcegroups/',resourceGroup().name,'/providers/Microsoft.Keyvault/vaults/',field('name'))]"
+
+              }
+
+          },
+
+          "greaterOrEquals": 1
+
+          }
+
+      }
+
+    }
+
+  },
+
+  "parameters": {}
+
+}

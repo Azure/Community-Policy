@@ -1,0 +1,41 @@
+{
+
+  "mode": "All",
+
+  "policyRule": {
+
+    "if": {
+
+      "field": "type",
+
+      "equals": "Microsoft.Network/networkSecurityGroups"
+
+    },
+
+    "then": {
+
+      "effect": "auditIfNotExists",
+
+      "details": {
+
+        "type": "Microsoft.Network/networkWatchers/flowLogs",
+
+        "resourceGroupName": "NetworkWatcherRG",
+
+        "name":"[concat('NetworkWatcher_', field('location'), '/', 'Microsoft.Network', resourceGroup().name, field('name'))]",
+
+        "existenceCondition": {
+
+          "field": "Microsoft.Network/networkWatchers/flowLogs/enabled",
+
+          "equals": "true"
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
