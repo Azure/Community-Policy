@@ -1,0 +1,29 @@
+{
+    "properties": {
+        "mode": "All",
+        "displayName": "Allowed PostgreSQL SKUs",
+        "description": "PostgreSQL DB creation will fail if a SKU other than what's defined in this Policy is selected.",
+        "parameters": {
+            "allowedSkus": {
+                "type": "Array"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.DBforPostgreSQL/servers"
+                    },
+                    {
+                        "field": "Microsoft.DBforPostgreSQL/servers/sku.tier",
+                        "notIn": "[parameters('allowedSkus')]"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "deny"
+            }
+        }
+    }
+}
