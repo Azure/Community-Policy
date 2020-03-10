@@ -1,4 +1,7 @@
 {
+    "displayName": "App Gateway can only have a VM's or VMSS on allowed subnets.",
+    "mode": "All",
+    "policyRule": {
     "if": {
         "allOf": [
             {
