@@ -1,0 +1,28 @@
+{
+    "properties": {
+        "mode": "All",
+        "displayName": "Audit unattached static Public IPs",
+        "description": "Static Public IPs incur cost even when not in use. This Policy will help you detect the existence of unattached static Public IPs in the effort to help drive down cost.",
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/publicIPAddresses"
+                    },
+                    {
+                        "field": "Microsoft.Network/publicIPAddresses/publicIPAllocationMethod",
+                        "equals": "Static"
+                    },
+                    {
+                        "field": "Microsoft.Network/publicIPAddresses/ipConfiguration",
+                        "exists": false
+                    }
+                ]
+            },
+            "then": {
+                "effect": "deny"
+            }
+        }
+    }
+}
