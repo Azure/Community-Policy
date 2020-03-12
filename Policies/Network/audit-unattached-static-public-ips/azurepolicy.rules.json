@@ -1,0 +1,21 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/publicIPAddresses"
+            },
+            {
+                "field": "Microsoft.Network/publicIPAddresses/publicIPAllocationMethod",
+                "equals": "Static"
+            },
+            {
+                "field": "Microsoft.Network/publicIPAddresses/ipConfiguration",
+                "exists": false
+            }
+        ]
+    },
+    "then": {
+        "effect": "deny"
+    }
+}
