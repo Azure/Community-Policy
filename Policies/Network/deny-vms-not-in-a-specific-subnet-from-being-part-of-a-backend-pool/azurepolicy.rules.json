@@ -1,7 +1,4 @@
 {
-    "displayName": "App Gateway can only have a VM's or VMSS on allowed subnets.",
-    "mode": "All",
-    "policyRule": {
     "if": {
         "allOf": [
             {
@@ -9,8 +6,10 @@
                 "equals": "Microsoft.Network/networkInterfaces"
             },
             {
-                "field": "Microsoft.Network/networkInterfaces/ipConfigurations[*].applicationGatewayBackendAddressPools[*]",
-                "exists": true
+                "count": {
+                    "field": "Microsoft.Network/networkInterfaces/ipConfigurations[*].applicationGatewayBackendAddressPools[*]"
+                },
+                "greater": 0
             },
             {
                 "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
