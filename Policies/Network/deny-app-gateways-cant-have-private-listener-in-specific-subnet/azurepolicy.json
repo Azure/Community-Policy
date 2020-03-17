@@ -1,0 +1,23 @@
+{
+    "displayName": "deny-app-gateways-cant-have-private-listener-in-specific-subnet",
+    "policyType": "Custom",
+    "mode": "All",
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/applicationGateways"
+          },
+          {
+            "field": "Microsoft.Network/applicationGateways/httpListeners[*].frontendIPConfiguration.id",
+            "contains": "Private"
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    },
+    "parameters": {}
+}
