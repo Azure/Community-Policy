@@ -1,0 +1,38 @@
+{
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "in": [
+            "Microsoft.Compute/virtualMachines",
+            "Microsoft.Compute/VirtualMachineScaleSets"
+          ]
+        },
+        {
+          "not": {
+            "anyOf": [
+              {
+                "field": "Microsoft.Compute/licenseType",
+                "equals": "Windows_Server"
+              },
+              {
+                "field": "Microsoft.Compute/imageOffer",
+                "contains": "byos"
+              },
+              {
+                "field": "Microsoft.Compute/imagePublisher",
+                "in": [
+                  "Canonical",
+                  "Debian",
+                  "OpenLogic"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "then": {
+      "effect": "audit"
+    }
+}
