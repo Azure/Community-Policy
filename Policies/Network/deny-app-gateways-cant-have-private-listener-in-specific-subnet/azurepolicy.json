@@ -3,21 +3,27 @@
     "policyType": "Custom",
     "mode": "All",
     "policyRule": {
-      "if": {
-        "allOf": [
-          {
-            "field": "type",
-            "equals": "Microsoft.Network/applicationGateways"
-          },
-          {
-            "field": "Microsoft.Network/applicationGateways/httpListeners[*].frontendIPConfiguration.id",
-            "contains": "Private"
-          }
-        ]
-      },
-      "then": {
-        "effect": "deny"
-      }
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/applicationGateways"
+                },
+                {
+                    "count": {
+                        "field": "Microsoft.Network/applicationGateways/frontendIPConfigurations[*]",
+                        "where": {
+                            "field": "Microsoft.Network/applicationGateways/frontendIPConfigurations[*].subnet.id",
+                            "like": "*"
+                        }
+                    },
+                    "greater": 0
+                }
+            ]
+        },
+        "then": {
+            "effect": "deny"
+        }
     },
     "parameters": {}
 }
