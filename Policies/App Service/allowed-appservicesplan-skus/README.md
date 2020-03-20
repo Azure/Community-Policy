@@ -21,7 +21,7 @@ $assignment
 
 ````cli
 
-az policy definition create --name 'allowed-role-definitions' --display-name 'Allowed Role Definitions' --description 'This policy defines a white list of role deffnitions that can be used in IAM' --rules 'https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/App%20Services/allowed-role-definitions/azurepolicy.rules.json' --params 'https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/App%20Services/allowed-role-definitions/azurepolicy.parameters.json' --mode All
+az policy definition create --name 'allowed-role-definitions' --display-name 'Allowed Role Definitions' --description 'This policy defines a white list of role definitions that can be used in IAM' --rules 'https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/App%20Services/allowed-role-definitions/azurepolicy.rules.json' --params 'https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/App%20Services/allowed-role-definitions/azurepolicy.parameters.json' --mode All
 
 az policy assignment create --name <assignmentname> --scope <scope> --policy "allowed-role-definitions" 
 
