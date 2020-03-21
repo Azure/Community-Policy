@@ -2,7 +2,7 @@
 
 This repository contains custom policies contributed by the community. The following information is relevant to get started with contributing to this repository.
 
-- [**Contribution guide**](/1-contribution-guide/README.md#contribution-guide). Describes the minimal guidelines for contributing.
+- [**Contribution guide**](/README.md#Contributing). Describes the minimal guidelines for contributing.
 - [**Git tutorial**](https://guides.github.com/activities/hello-world/). Step by step to get you started with Git.
 - [**Useful Tools**](/1-contribution-guide/useful-tools.md#useful-tools). Useful resources and tools for Azure development.
 
