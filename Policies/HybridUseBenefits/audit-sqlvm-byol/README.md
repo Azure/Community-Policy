@@ -13,14 +13,14 @@ Once deployed, you can see the non-compliant VMs under the [Policy Compliance bl
 
 ## Try with Azure portal
 
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/?#blade/Microsoft_Azure_Policy/CreatePolicyDefinitionBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FCommunity-Policy%2Fmaster%2FPolicies%2FCompute%2Faudit-sqlvm-byol%2Fazurepolicy.json)
-[![Deploy to Azure Gov](https://docs.microsoft.com/azure/governance/policy/media/deploy/deployGovbutton.png)](https://portal.azure.us/?#blade/Microsoft_Azure_Policy/CreatePolicyDefinitionBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FCommunity-Policy%2Fmaster%2FPolicies%2FCompute%2Faudit-sqlvm-byol%2Fazurepolicy.json)
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/?#blade/Microsoft_Azure_Policy/CreatePolicyDefinitionBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FCommunity-Policy%2Fmaster%2FPolicies%2FHybridUseBenefits%2Faudit-sqlvm-byol%2Fazurepolicy.json)
+[![Deploy to Azure Gov](https://docs.microsoft.com/azure/governance/policy/media/deploy/deployGovbutton.png)](https://portal.azure.us/?#blade/Microsoft_Azure_Policy/CreatePolicyDefinitionBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FCommunity-Policy%2Fmaster%2FPolicies%2FHybridUseBenefits%2Faudit-sqlvm-byol%2Fazurepolicy.json)
 
 ## Try with Azure PowerShell
 
 ````powershell
 # Create the Policy Definition (Subscription scope)
-$definition = New-AzPolicyDefinition -Name 'audit-sqlvm-byol' -DisplayName 'Audit SQL Server VM BYOL Compliance' -description 'This policy audits whether an existing SQL Server VM is enabled for SQL Server BYOL.' -Policy 'https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Compute/audit-sqlvm-byol/azurepolicy.rules.json' -Mode All
+$definition = New-AzPolicyDefinition -Name 'audit-sqlvm-byol' -DisplayName 'Audit SQL Server VM BYOL Compliance' -description 'This policy audits whether an existing SQL Server VM is enabled for SQL Server BYOL.' -Policy 'https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/HybridUseBenefits/audit-sqlvm-byol/azurepolicy.rules.json' -Mode All
 
 # Set the scope to a resource group; may also be a subscription or management group
 $scope = Get-AzResourceGroup -Name 'YourResourceGroup'
@@ -33,7 +33,7 @@ $assignment = New-AzPolicyAssignment -Name 'audit-sqlvm-byol' -DisplayName 'Audi
 
 ```cli
 # Create the Policy Definition (Subscription scope)
-az policy definition create --name audit-sqlvm-byol --display-name "Audit SQL Server VM BYOL Compliance" --description "This policy audits whether an existing SQL Server VM is enabled for SQL Server BYOL." --rules https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Compute/audit-sqlvm-byol/azurepolicy.rules.json --mode All
+az policy definition create --name audit-sqlvm-byol --display-name "Audit SQL Server VM BYOL Compliance" --description "This policy audits whether an existing SQL Server VM is enabled for SQL Server BYOL." --rules https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/HybridUseBenefits/audit-sqlvm-byol/azurepolicy.rules.json --mode All
 
 # Create the Policy Assignment
 # Set the scope to a resource group; may also be a subscription or management group
