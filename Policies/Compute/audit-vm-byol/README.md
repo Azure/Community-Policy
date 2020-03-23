@@ -2,7 +2,7 @@
 
 This policy audits whether an existing VM is enabled for OS (Operating System) BYOL (Bring-Your-Own-License) or is based on a Linux GPL distro from Canonical, Debian or Rogue Wave (formerly OpenLogic). Linux distros not under GPL may use BYOS (Bring-Your-Own-Subscription) instead of BYOL terminology. Auditing for BYOL compliance is useful for cost optimization as non-compliant VMs incur Azure Billing charges for OS licenses in addition to the cost of running the base VM. If you already have eligible OS licenses which can be applied or transferred to Azure VM deployments, you should enable BYOL per the OS vendor's requirements...
 
-- Microsoft Windows Sever: [Azure Hybrid Benfit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing)
+- Microsoft Windows Sever: [Azure Hybrid Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing)
 
 - Red Hat Enterprise Linux: [Enabling RHEL BYOS Gold Images in Azure](https://docs.microsoft.com/azure/virtual-machines/workloads/redhat/byos)
 
