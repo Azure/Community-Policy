@@ -1,0 +1,30 @@
+{
+  "mode": "all",
+  "displayName": "Audit SQL VM BYOL Compliance",
+  "description": "This policy audits whether an existing SQL Server VM is enabled for SQL Server BYOL.",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
+        },
+        {
+          "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/sqlServerLicenseType",
+          "equals": "PAYG"
+        },
+        {
+          "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/sqlImageSku",
+          "in": [
+            "Standard",
+            "Enterprise"
+          ]
+        }
+      ]
+    },
+    "then": {
+      "effect": "audit"
+    }
+  },
+  "parameters": {}
+}
