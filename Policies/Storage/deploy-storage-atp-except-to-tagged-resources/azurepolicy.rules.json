@@ -4,6 +4,10 @@
             {
                 "field": "type",
                 "equals": "Microsoft.Storage/storageAccounts"
+            },
+            {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "notEquals": "[parameters('tagValue')]"
             }
         ]
     },
@@ -17,10 +21,6 @@
                     {
                         "field": "Microsoft.Security/advancedThreatProtectionSettings/isEnabled",
                         "equals": "true"
-                    },
-                    {
-                        "field": "[concat('tags[', parameters('tagName'), ']')]",
-                        "equals": "[parameters('tagValue')]"
                     }
                 ]
             },
