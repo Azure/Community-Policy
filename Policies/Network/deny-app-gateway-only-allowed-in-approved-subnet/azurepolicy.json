@@ -1,0 +1,30 @@
+{
+    "displayName": "Deny-App-Gateway-Cannot-Have-Private-IP",
+    "policyType": "Custom",
+    "mode": "All",
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/applicationGateways"
+                },
+                {
+                    "field": "Microsoft.Network/applicationGateways/gatewayIPConfigurations[*].subnet.id",
+                    "notContains": "[parameters('allowedSubnetName')]"
+                }
+            ]
+        },
+        "then": {
+            "effect": "deny"
+        }
+    },
+    "parameters": {
+        "allowedSubnetName": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Name of subnet where Applicaiton Gateways are allowed."
+            }
+        }
+    }
+}

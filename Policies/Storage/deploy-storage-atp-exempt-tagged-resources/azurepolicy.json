@@ -1,0 +1,86 @@
+{
+    "mode": "Indexed",
+    "name": "Deploy Storage Advanced Threat Protection - Tag Exemption",
+    "description": "This Policy will deploy Storage ATP to all Storage Accounts unless they have a tag and value that you define in this Policy. This allows you to exempt certain Storage Accounts from this Policy by leveraging Tags.",
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Storage/storageAccounts"
+                },
+                {
+                    "field": "[concat('tags[', parameters('tagName'), ']')]",
+                    "notEquals": "[parameters('tagValue')]"
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]",
+            "details": {
+                "type": "Microsoft.Security/advancedThreatProtectionSettings",
+                "name": "current",
+                "existenceCondition": {
+                    "anyOf": [
+                        {
+                            "field": "Microsoft.Security/advancedThreatProtectionSettings/isEnabled",
+                            "equals": "true"
+                        }
+                    ]
+                },
+                "roleDefinitionIds": [
+                    "/providers/Microsoft.Authorization/roleDefinitions/fb1c8493-542b-48eb-b624-b4c8fea62acd"
+                ],
+                "deployment": {
+                    "properties": {
+                        "mode": "incremental",
+                        "template": {
+                            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                            "contentVersion": "1.0.0.0",
+                            "parameters": {
+                                "storageAccountName": {
+                                    "type": "string"
+                                }
+                            },
+                            "resources": [
+                                {
+                                    "apiVersion": "2019-01-01",
+                                    "type": "Microsoft.Storage/storageAccounts/providers/advancedThreatProtectionSettings",
+                                    "name": "[concat(parameters('storageAccountName'), '/Microsoft.Security/current')]",
+                                    "properties": {
+                                        "isEnabled": true
+                                    }
+                                }
+                            ]
+                        },
+                        "parameters": {
+                            "storageAccountName": {
+                                "value": "[field('name')]"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+                "DeployIfNotExists",
+                "Disabled"
+            ],
+            "defaultValue": "DeployIfNotExists"
+        },
+        "tagName": {
+            "type": "String"
+        },
+        "tagValue": {
+            "type": "String"
+        }
+    }
+}

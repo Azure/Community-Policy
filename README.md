@@ -8,7 +8,7 @@ Guidance on onboarding samples to docs.microsoft.com/samples: https://review.doc
 Taxonomies for products and languages: https://review.docs.microsoft.com/new-hope/information-architecture/metadata/taxonomies?branch=master
 -->
 
-The purpose of this repo is for Azure Policy users and Microsoft internal teams to share and colloborate on custom policies. These policies are built either by customers or Microsoft Support engineers for customers. These are NOT Built-in policies hence are not check, tested or validated in any form by the Azure Policy Release Team. Please be weary of this and always TEST your policies before enforcing. Happy Coding! 
+The purpose of this repo is for Azure Policy users and Microsoft internal teams to share and collaborate on custom policies. These policies are built either by customers or Microsoft Support engineers for customers. These are NOT Built-in policies hence are not check, tested or validated in any form by the Azure Policy Release Team. Please be weary of this and always TEST your policies before enforcing. Happy Coding! 
 
 For Built-in policies repo, please visit here: [azure-policy](https://github.com/Azure/azure-policy)
 
