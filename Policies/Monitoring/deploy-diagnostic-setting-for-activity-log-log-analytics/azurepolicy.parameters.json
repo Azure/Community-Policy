@@ -1,0 +1,31 @@
+{
+    "logAnalytics": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Log Analytics workspace",
+            "description": "Select Log Analytics workspace from dropdown list",
+            "strongType": "omsWorkspace",
+            "assignPermissions": true
+        }
+    },
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effects",
+            "description": "Enable or disable the execution of the Policy."
+        },
+        "allowedValues": [
+            "DeployIfNotExists",
+            "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+    },
+    "profileName": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Profile name",
+            "description": "The diagnostic settings profile name"
+        },
+        "defaultValue": "setbypolicy_logAnalytics"
+    }
+}
