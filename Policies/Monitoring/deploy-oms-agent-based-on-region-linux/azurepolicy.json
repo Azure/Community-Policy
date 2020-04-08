@@ -11,7 +11,8 @@
             "metadata": {
                 "displayName": "Log Analytics workspace",
                 "description": "Select Log Analytics workspace from dropdown list",
-                "strongType": "omsWorkspace"
+                "strongType": "omsWorkspace",
+                "assignPermissions": true
             }
         },
         "effect": {
@@ -90,7 +91,7 @@
                             },
                             "resources": [
                                 {
-                                    "name": "[concat(parameters('vmName'),'/omsPolicy')]",
+                                    "name": "[concat(parameters('vmName'),'/MMAExtension')]",
                                     "type": "Microsoft.Compute/virtualMachines/extensions",
                                     "location": "[parameters('location')]",
                                     "apiVersion": "2017-12-01",

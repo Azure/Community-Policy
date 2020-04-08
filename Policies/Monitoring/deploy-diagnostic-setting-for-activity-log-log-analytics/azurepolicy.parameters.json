@@ -20,12 +20,12 @@
         ],
         "defaultValue": "DeployIfNotExists"
     },
-    "targetRegions": {
-        "type": "Array",
+    "profileName": {
+        "type": "String",
         "metadata": {
-            "displayName": "Target Regions",
-            "description": "This dictates which regions should be connected to this Workspace.",
-            "strongType": "location"
-        }
+            "displayName": "Profile name",
+            "description": "The diagnostic settings profile name"
+        },
+        "defaultValue": "setbypolicy_logAnalytics"
     }
 }
