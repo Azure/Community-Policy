@@ -76,9 +76,6 @@
                                 },
                                 "profileName": {
                                     "type": "String"
-                                },
-                                "administrativeLogEnabled": {
-                                    "type": "String"
                                 }
                             },
                             "variables": {},
