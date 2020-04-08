@@ -1,0 +1,8 @@
+{
+    "deniedSubnetName": {
+        "type": "string",
+        "metadata": {
+            "displayName": "Name of subnet where VM, VMSS, and LB are denied."
+        }
+    }
+}

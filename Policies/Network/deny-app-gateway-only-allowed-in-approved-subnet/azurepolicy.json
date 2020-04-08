@@ -1,5 +1,5 @@
 {
-    "displayName": "Deny-App-Gateway-Cannot-Have-Private-IP",
+    "displayName": "deny-app-gateway-only-allowed-in-approved-subnet",
     "policyType": "Custom",
     "mode": "All",
     "policyRule": {

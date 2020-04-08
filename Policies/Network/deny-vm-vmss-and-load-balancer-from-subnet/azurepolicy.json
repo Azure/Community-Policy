@@ -1,0 +1,56 @@
+{
+    "mode": "All",
+    "policyRule": {
+        "if": {
+            "anyOf": [
+                {
+                    "allOf": [
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.Compute/VirtualMachineScaleSets"
+                        },
+                        {
+                            "field": "Microsoft.Compute/VirtualMachineScaleSets/networkInterfaceConfigurations[*].ipConfigurations[*].subnet.id",
+                            "Contains": "[parameters('deniedSubnetName')]"
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.Network/networkInterfaces"
+                        },
+                        {
+                            "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
+                            "Contains": "[parameters('deniedSubnetName')]"
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.Network/loadBalancers"
+                        },
+                        {
+                            "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].subnet.id",
+                            "Contains": "[parameters('deniedSubnetName')]"
+                        }
+                    ]
+                }
+            ]
+        },
+        "then": {
+            "effect": "deny"
+        }
+    },
+    "parameters": {
+        "deniedSubnetName": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Name of subnet where VM, VMSS, and LB are denied."
+            }
+        }
+    }
+}

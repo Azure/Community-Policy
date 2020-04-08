@@ -1,5 +1,5 @@
 {
-    "displayName": "deny-app-gateways-cant-have-private-listener-in-specific-subnet",
+    "displayName": "deny-app-gateways-cant-have-private-listener",
     "policyType": "Custom",
     "mode": "All",
     "policyRule": {
