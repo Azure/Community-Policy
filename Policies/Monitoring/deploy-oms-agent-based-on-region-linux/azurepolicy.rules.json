@@ -53,7 +53,7 @@
                         },
                         "resources": [
                             {
-                                "name": "[concat(parameters('vmName'),'/omsPolicy')]",
+                                "name": "[concat(parameters('vmName'),'/MMAExtension')]",
                                 "type": "Microsoft.Compute/virtualMachines/extensions",
                                 "location": "[parameters('location')]",
                                 "apiVersion": "2017-12-01",
