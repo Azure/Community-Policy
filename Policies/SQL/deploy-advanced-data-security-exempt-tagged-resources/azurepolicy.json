@@ -1,5 +1,5 @@
 {
-    "mode": "Indexed",
+    "mode": "All",
     "name": "Deploy Advanced Data Security on SQL servers - Exempt resources with a matching tag key/value",
     "description": "This Policy will deploy Advanced Data Security to all Azure SQL servers unless they have a tag key/value that you define in this Policy. This allows you to exempt certain Storage Accounts from this Policy by leveraging Tags.",
     "policyRule": {
