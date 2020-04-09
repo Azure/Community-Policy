@@ -12,7 +12,7 @@
         ]
     },
     "then": {
-        "effect": "DeployIfNotExists",
+        "effect": "[parameters('effect')]",
         "details": {
             "type": "Microsoft.Sql/servers/securityAlertPolicies",
             "name": "Default",
