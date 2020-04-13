@@ -16,8 +16,21 @@
             ]
         },
         "then": {
-            "effect": "deny"
+            "effect": "[parameters('effect')]"
         }
     },
-    "parameters": {}
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+                "Deny",
+                "Disabled"
+            ],
+            "defaultValue": "Deny"
+        }
+    }
 }
