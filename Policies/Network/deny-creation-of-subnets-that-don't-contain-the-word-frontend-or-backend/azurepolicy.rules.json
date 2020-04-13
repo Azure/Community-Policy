@@ -1,0 +1,85 @@
+{
+    "if": {
+        "anyOf": [
+            {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/virtualNetworks"
+                    },
+                    {
+                        "anyOf": [
+                            {
+                                "not": {
+                                    "anyOf": [
+                                        {
+                                            "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                                            "contains": "frontend"
+                                        },
+                                        {
+                                            "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                                            "contains": "backend"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                                        "contains": "frontend"
+                                    },
+                                    {
+                                        "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                                        "contains": "backend"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/virtualNetworks/subnets"
+                    },
+                    {
+                        "anyOf": [
+                            {
+                                "not": {
+                                    "anyOf": [
+                                        {
+                                            "field": "name",
+                                            "contains": "frontend"
+                                        },
+                                        {
+                                            "field": "name",
+                                            "contains": "backend"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "field": "name",
+                                        "contains": "frontend"
+                                    },
+                                    {
+                                        "field": "name",
+                                        "contains": "backend"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}
