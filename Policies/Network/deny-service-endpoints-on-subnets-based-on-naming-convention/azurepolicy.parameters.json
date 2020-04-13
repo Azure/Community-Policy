@@ -1,0 +1,21 @@
+{
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+            "Deny",
+            "Disabled"
+        ],
+        "defaultValue": "Deny"
+    },
+    "targetSubnetName": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Target Subnet Naming Convention",
+            "description": "This is the keyword the policy will look for in order to trigger an effect. If you were to enter the value of 'example' any subnets that contained this word would Service Endpoint enablement denied. This is not case sensitive."
+        }
+    }
+}
