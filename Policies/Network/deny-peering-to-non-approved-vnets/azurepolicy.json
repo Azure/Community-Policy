@@ -9,7 +9,8 @@
                 "metadata": {
                     "displayName": "Allowed VNets",
                     "description": "Enter list of allowed VNets using a semi-coling ';' seperated list. VNets must be entered using their resource ID. Example: /subscriptions/{SubID}/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualNetworks/resourceGroupName/virtualNetworkPeerings/vnetName"
-                }
+                },
+                "defaultvalue": "None"
             },
             "effect": {
                 "type": "String",
