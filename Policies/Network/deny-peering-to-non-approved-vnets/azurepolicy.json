@@ -36,12 +36,8 @@
                             },
                             {
                                 "not": {
-                                    "allOf": [
-                                        {
-                                            "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
-                                            "in": "[parameters('allowedVnets')]"
-                                        }
-                                    ]
+                                    "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
+                                    "in": "[parameters('allowedVnets')]"
                                 }
                             }
                         ]
@@ -54,12 +50,14 @@
                             },
                             {
                                 "not": {
-                                    "allOf": [
-                                        {
-                                            "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id",
-                                            "in": "[parameters('allowedVnets')]"
-                                        }
-                                    ]
+                                    "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id",
+                                    "in": "[parameters('allowedVnets')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id",
+                                    "exists": false
                                 }
                             }
                         ]
