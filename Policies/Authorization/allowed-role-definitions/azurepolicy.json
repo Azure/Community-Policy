@@ -1,6 +1,5 @@
 {
-  
-    "name": "allowed-role-definitions", 
+    "name": "allowed-role-definitions",
     "properties": {
         "displayName": "Allowed Role Definitions",
         "description": "This policy defines a white list of role deifnitions that can be used in IAM",
@@ -12,6 +11,18 @@
                     "description": "The list of role definition Ids",
                     "displayName": "Approved Role Definitions"
                 }
+            },
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "Deny",
+                    "Disabled"
+                ],
+                "defaultValue": "Deny"
             }
         },
         "policyRule": {
@@ -30,8 +41,8 @@
                 ]
             },
             "then": {
-                "effect": "deny"
+                "effect": "[parameters('effect')]"
             }
         }
-    }   
+    }
 }
