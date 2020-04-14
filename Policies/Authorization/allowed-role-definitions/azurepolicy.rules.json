@@ -7,8 +7,14 @@
 			},
 			{
 				"not": {
-					"field": "Microsoft.Authorization/roleAssignments/roleDefinitionId",
+					"value": "[split(field('Microsoft.Authorization/roleAssignments/roleDefinitionId'),'/')[6]]",
 					"in": "[parameters('roleDefinitionIds')]"
+				}
+			},
+			{
+				"not": {
+					"field": "Microsoft.Authorization/roleAssignments/principalId",
+					"in": "[parameters('exemptPrincipalIDs')]"
 				}
 			}
 		]
