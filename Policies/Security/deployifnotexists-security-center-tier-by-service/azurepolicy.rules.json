@@ -3,7 +3,7 @@
         "anyOf": [
             {
                 "field": "type",
-                "equals": "Microsoft.Security/pricings"
+                "equals": "Microsoft.Resources/subscriptions"
             }
         ]
     },
