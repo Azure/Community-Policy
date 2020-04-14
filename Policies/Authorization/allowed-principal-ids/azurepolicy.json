@@ -1,0 +1,48 @@
+{
+    "name": "allowed principal ids",
+    "properties": {
+        "displayName": "Allowed Principal Ids",
+        "description": "This policy defines a white list of Principal IDs that can be used in IAM",
+        "mode": "All",
+        "parameters": {
+            "principalIds": {
+                "type": "array",
+                "metadata": {
+                    "description": "The list of allowed Principal IDs. Enter in semi-colon ';' separated list.",
+                    "displayName": "Allowed Principal IDs"
+                }
+            },
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "Deny",
+                    "Disabled"
+                ],
+                "defaultValue": "Deny"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Authorization/roleAssignments"
+                    },
+                    {
+                        "not": {
+                            "field": "Microsoft.Authorization/roleAssignments/principalId",
+                            "in": "[parameters('principalIds')]"
+                        }
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
+        }
+    }
+}
