@@ -9,7 +9,8 @@
                 "metadata": {
                     "displayName": "Allowed VNets",
                     "description": "Enter list of allowed VNets using a semi-coling ';' seperated list. VNets must be entered using their resource ID. Example: /subscriptions/{SubID}/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualNetworks/resourceGroupName/virtualNetworkPeerings/vnetName"
-                }
+                },
+                "defaultvalue": "None"
             },
             "effect": {
                 "type": "String",
@@ -35,12 +36,8 @@
                             },
                             {
                                 "not": {
-                                    "allOf": [
-                                        {
-                                            "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
-                                            "in": "[parameters('allowedVnets')]"
-                                        }
-                                    ]
+                                    "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
+                                    "in": "[parameters('allowedVnets')]"
                                 }
                             }
                         ]
@@ -53,12 +50,14 @@
                             },
                             {
                                 "not": {
-                                    "allOf": [
-                                        {
-                                            "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id",
-                                            "in": "[parameters('allowedVnets')]"
-                                        }
-                                    ]
+                                    "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id",
+                                    "in": "[parameters('allowedVnets')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id",
+                                    "exists": false
                                 }
                             }
                         ]

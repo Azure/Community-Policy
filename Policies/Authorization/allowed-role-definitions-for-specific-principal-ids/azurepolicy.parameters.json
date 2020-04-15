@@ -6,11 +6,11 @@
 			"displayName": "Approved Role Definitions"
 		}
 	},
-	"exemptPrincipalIDs": {
+	"targetedPrincipalIDs": {
 		"type": "array",
 		"metadata": {
-			"displayName": "Exempt Principal IDs",
-			"description": "Any Principal IDs included in this list will not have this Policy applied to them."
+			"displayName": "Targeted Principal IDs",
+			"description": "Any Principal IDs included in this list will have this Policy applied to them."
 		},
 		"defaultvalue": "None"
 	},

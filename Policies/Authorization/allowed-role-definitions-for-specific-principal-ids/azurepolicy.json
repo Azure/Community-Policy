@@ -1,8 +1,8 @@
 {
-    "name": "allowed-role-definitions",
+    "name": "allowed-role-definitions-for-specific-principal-ids",
     "properties": {
-        "displayName": "Allowed Role Definitions",
-        "description": "This policy defines a white list of role definitions that can be used in IAM",
+        "displayName": "Allowed Role Definitions For Specific Principal IDs",
+        "description": "This policy defines a white list of role definitions that can be assigned to specific Principal IDs in IAM. This is useful in the example where you don't want an SPN having it's rights elevated.",
         "mode": "All",
         "parameters": {
             "roleDefinitionIds": {
@@ -12,11 +12,11 @@
                     "displayName": "Approved Role Definitions"
                 }
             },
-            "exemptPrincipalIDs": {
+            "targetedPrincipalIDs": {
                 "type": "array",
                 "metadata": {
-                    "displayName": "Exempt Principal IDs",
-                    "description": "Any Principal IDs included in this list will not have this Policy applied to them."
+                    "displayName": "Targeted Principal IDs",
+                    "description": "Any Principal IDs included in this list will have this Policy applied to them."
                 },
                 "defaultvalue": "None"
             },
@@ -47,10 +47,8 @@
                         }
                     },
                     {
-                        "not": {
-                            "field": "Microsoft.Authorization/roleAssignments/principalId",
-                            "in": "[parameters('exemptPrincipalIDs')]"
-                        }
+                        "field": "Microsoft.Authorization/roleAssignments/principalId",
+                        "in": "[parameters('targetedPrincipalIDs')]"
                     }
                 ]
             },

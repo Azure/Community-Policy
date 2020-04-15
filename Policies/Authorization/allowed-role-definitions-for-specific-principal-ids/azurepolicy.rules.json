@@ -12,10 +12,8 @@
 				}
 			},
 			{
-				"not": {
-					"field": "Microsoft.Authorization/roleAssignments/principalId",
-					"in": "[parameters('exemptPrincipalIDs')]"
-				}
+				"field": "Microsoft.Authorization/roleAssignments/principalId",
+				"in": "[parameters('targetedPrincipalIDs')]"
 			}
 		]
 	},

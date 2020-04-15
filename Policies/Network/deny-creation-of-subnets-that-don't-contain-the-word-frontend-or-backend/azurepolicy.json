@@ -1,6 +1,6 @@
 {
     "mode": "All",
-    "name": "Deny Creation of Subnets That Don't Contain The Word Frontend or Backend. Can only have the word Frontend or Backend present, not both.",
+    "name": "Subnets That Don't Contain The Word Frontend or Backend are Denied. Cannot contain both Frontend & Backend.",
     "description": "This Policy will deny the creation of subnets that do not contain the word frontend or backend. Case does not matter. Additionaly, a subnet cannot contain both the word backend and frontend, must be one or the other.",
     "policyRule": {
         "if": {

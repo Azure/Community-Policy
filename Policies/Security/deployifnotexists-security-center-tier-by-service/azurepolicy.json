@@ -1,13 +1,13 @@
 {
     "mode": "All",
-    "displayName": "Deploy Azure Security Center Pricing Tier.",
+    "displayName": "Deploy Azure Security Center Pricing Tier",
     "description": "This will configure the ASC tier for each service on a per subscription basis. The available options are Free or Standard.",
     "policyRule": {
         "if": {
             "anyOf": [
                 {
                     "field": "type",
-                    "equals": "Microsoft.Security/pricings"
+                    "equals": "Microsoft.Resources/subscriptions"
                 }
             ]
         },
@@ -152,7 +152,7 @@
                             }
                         },
                         "template": {
-                            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                            "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
                             "contentVersion": "1.0.0.0",
                             "parameters": {
                                 "virtualMachinesTier": {

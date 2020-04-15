@@ -1,0 +1,33 @@
+{
+    "principalTypes": {
+        "type": "array",
+        "metadata": {
+            "description": "The list of allowed Principal types",
+            "displayName": "Allowed Principal Types"
+        },
+        "allowedValues": [
+            "User",
+            "Group",
+            "ServicePrincipal",
+            "Unknown",
+            "DirectoryRoleTemplate",
+            "ForeignGroup",
+            "Application",
+            "MSI",
+            "DirectoryObjectOrGroup",
+            "Everyone"
+        ]
+    },
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+            "Deny",
+            "Disabled"
+        ],
+        "defaultValue": "Deny"
+    }
+}
