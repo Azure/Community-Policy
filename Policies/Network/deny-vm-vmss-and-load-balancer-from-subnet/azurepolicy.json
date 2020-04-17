@@ -34,8 +34,14 @@
                             "equals": "Microsoft.Network/loadBalancers"
                         },
                         {
-                            "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].subnet.id",
-                            "Contains": "[parameters('deniedSubnetName')]"
+                            "count": {
+                                "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*]",
+                                "where": {
+                                    "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].subnet.id",
+                                    "like": "[concat('*',parameters('deniedSubnetName'))]"
+                                }
+                            },
+                            "greater": 0
                         }
                     ]
                 }
@@ -49,7 +55,8 @@
         "deniedSubnetName": {
             "type": "String",
             "metadata": {
-                "displayName": "Name of subnet where VM, VMSS, and LB are denied."
+                "displayName": "Name of subnet where VM, VMSS, and LB are denied.",
+                "description": null
             }
         }
     }

@@ -32,8 +32,14 @@
                         "equals": "Microsoft.Network/loadBalancers"
                     },
                     {
-                        "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].subnet.id",
-                        "Contains": "[parameters('deniedSubnetName')]"
+                        "count": {
+                            "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*]",
+                            "where": {
+                                "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].subnet.id",
+                                "like": "[concat('*',parameters('deniedSubnetName'))]"
+                            }
+                        },
+                        "greater": 0
                     }
                 ]
             }
