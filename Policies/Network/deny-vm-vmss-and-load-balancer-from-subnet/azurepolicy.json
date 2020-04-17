@@ -56,7 +56,7 @@
             "type": "String",
             "metadata": {
                 "displayName": "Name of subnet where VM, VMSS, and LB are denied.",
-                "description": null
+                "description": "The creation of VM, VMSS, and LB in the defined subnet will be denied"
             }
         }
     }
