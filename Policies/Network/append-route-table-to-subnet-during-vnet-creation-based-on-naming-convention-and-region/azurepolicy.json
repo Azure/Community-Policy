@@ -1,0 +1,68 @@
+{
+    "displayName": "Newly created VNets will have certain subnets assigned a Route Table",
+    "description": "This policy applies a specific Route Table to subnets during VNet creation. This Policy will look for the existence of a keyword in a subnet name to apply the Policy. This policy must partner with the policy 'append-route-table-to-subnet-during-subnet-creation-based-on-naming-convention' in order to fully work. Additionally this policy is parameterized to be able to target all regions where a route table exists.",
+    "parameters": {
+        "targetedNamingConvention": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Targeted Subnet Naming Convention",
+                "description": "This determines the keyword in the subnet name that will be used to trigger the Policy"
+            }
+        },
+        "resourceGroupNamingConvention": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Route Table Resource Groups Naming Convention",
+                "description": "This is to help locate the regions route table. This concats the flagged resources region with this value. In example, if you defined this param as '-example': eastus-example."
+            }
+        },
+        "routeTableNamingConvention": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Route Table Naming Convention",
+                "description": "This is the name for your route table. This assumes the route tables in all regions have the same name. "
+            }
+        },
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effects",
+                "description": "Enable or disable the execution of the Policy."
+            },
+            "allowedValues": [
+                "Append",
+                "Disabled"
+            ],
+            "defaultValue": "Append"
+        }
+    },
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/virtualNetworks"
+                },
+                {
+                    "not": {
+                        "field": "Microsoft.Network/virtualNetworks/subnets[*].routeTable.id",
+                        "equals": "[concat(subscription().id, '/resourceGroups/', resourcegroup().location, parameters('resourceGroupNamingConvention'), '/providers/Microsoft.Network/routeTables/', parameters('routeTableNamingConvention'))]"
+                    }
+                },
+                {
+                    "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                    "contains": "[parameters('targetedNamingConvention')]"
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]",
+            "details": [
+                {
+                    "field": "Microsoft.Network/virtualNetworks/subnets[*].routeTable.id",
+                    "value": "[concat(subscription().id, '/resourceGroups/', resourcegroup().location, parameters('resourceGroupNamingConvention'), '/providers/Microsoft.Network/routeTables/', parameters('routeTableNamingConvention'))]"
+                }
+            ]
+        }
+    }
+}
