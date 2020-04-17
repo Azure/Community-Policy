@@ -9,8 +9,8 @@
   "then": {
     "effect": "[parameters('effect')]",
     "details": {
-      "constraintTemplate": "https://raw.githubusercontent.com/EmandM/azure-policy/feature/privilege-escalation/built-in-references/Kubernetes/container-no-privilege-escalation/template.yaml",
-      "constraint": "https://raw.githubusercontent.com/EmandM/azure-policy/feature/privilege-escalation/built-in-references/Kubernetes/container-no-privilege-escalation/constraint.yaml",
+      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/container-no-privilege-escalation/template.yaml",
+      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/container-no-privilege-escalation/constraint.yaml",
       "values": {
         "excludedNamespaces": "[parameters('excludedNamespaces')]"
       }
