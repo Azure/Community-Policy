@@ -1,0 +1,58 @@
+{
+  "properties": {
+    "displayName": "[Preview] [PSP]: Ensure only allowed app armor profiles are used in Kubernetes Cluster",
+    "policyType": "Custom",
+    "mode": "Microsoft.Kubernetes.Data",
+    "description": "This policy ensures only given App Armor profiles are used inside a Kubernetes cluster. For instructions on using this policy, please go to https://aka.ms/kubepolicydoc.",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "enforceOPAConstraint",
+          "disabled"
+        ],
+        "defaultValue": "enforceOPAConstraint"
+      },
+      "excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "[Preview]: Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+        },
+        "defaultValue": []
+      },
+      "allowedProfiles": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed App Armor profiles",
+          "description": "List of App Armor profiles that containers are able to run"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "AKS Engine",
+          "Microsoft.Kubernetes/connectedClusters"
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/enforce-apparmor-profile/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/enforce-apparmor-profile/constraint.yaml",
+          "values": {
+            "excludedNamespaces": "[parameters('excludedNamespaces')]",
+            "allowedProfiles": "[parameters('allowedProfiles')]"
+          }
+        }
+      }
+    }
+  },
+  "type": "Microsoft.Authorization/policyDefinitions"
+}
