@@ -1,0 +1,22 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "enforceOPAConstraint",
+      "disabled"
+    ],
+    "defaultValue": "enforceOPAConstraint"
+  },
+  "excludedNamespaces": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "[Preview]: Namespace exclusions",
+      "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+    },
+    "defaultValue": []
+  }
+}

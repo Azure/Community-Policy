@@ -1,0 +1,50 @@
+{
+  "properties": {
+    "displayName": "[Preview] [PSP]: Do not allow container privilege escalation in Kubernetes cluster",
+    "policyType": "Custom",
+    "mode": "Microsoft.Kubernetes.Data",
+    "description": "This policy does not allow containers to use privilege escalation in a Kubernetes cluster. For instructions on using this policy, please go to https://aka.ms/kubepolicydoc.",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "enforceOPAConstraint",
+          "disabled"
+        ],
+        "defaultValue": "enforceOPAConstraint"
+      },
+      "excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "[Preview]: Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+        },
+        "defaultValue": []
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "AKS Engine",
+          "Microsoft.Kubernetes/connectedClusters"
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "constraintTemplate": "https://raw.githubusercontent.com/EmandM/azure-policy/feature/privilege-escalation/built-in-references/Kubernetes/container-no-privilege-escalation/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/EmandM/azure-policy/feature/privilege-escalation/built-in-references/Kubernetes/container-no-privilege-escalation/constraint.yaml",
+          "values": {
+            "excludedNamespaces": "[parameters('excludedNamespaces')]"
+          }
+        }
+      }
+    }
+  },
+  "type": "Microsoft.Authorization/policyDefinitions"
+}
