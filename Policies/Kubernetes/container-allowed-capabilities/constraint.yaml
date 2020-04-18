@@ -10,4 +10,4 @@ spec:
         kinds: ["Pod"]
   parameters:
     allowedCapabilities: {{ .Values.allowedCapabilities }}
-    requiredDropCapabilities: {{ .Values.requiredDropCapabilites }}
+    requiredDropCapabilities: {{ .Values.requiredDropCapabilities }}
