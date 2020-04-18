@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: opa-capability-good
+  labels:
+    owner: me.agilebank.demo
+spec:
+  containers:
+    - name: opa
+      image: openpolicyagent/opa:0.9.2
+      args:
+        - "run"
+        - "--server"
+        - "--addr=localhost:8080"
+      securityContext:
+        # Assuming assignment uses the following:
+        capabilities:
+          add: ["allowedcapability"]
+          drop: ["requireddropcapability"]
+      resources:
+        limits:
+          cpu: "100m"
+          memory: "30Mi"
