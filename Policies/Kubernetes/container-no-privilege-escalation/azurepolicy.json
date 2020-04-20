@@ -1,6 +1,6 @@
 {
   "properties": {
-    "displayName": "Kubernetes PSP: Do not allow container privilege escalation in Kubernetes cluster",
+    "displayName": "Do not allow container privilege escalation in Kubernetes cluster",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
     "description": "This policy does not allow containers to use privilege escalation in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
