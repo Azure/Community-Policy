@@ -5,7 +5,7 @@ Here are sample files for building Azure Policy for Kubernetes policy defintions
 > 
 > Azure Policy for Kubernetes is in Preview and only supports built-in policy definitions at this time.
 
-To onboard to Azure policy for AKS, please refer:
+To onboard to Azure policy for Kubernetes, please refer:
 - [Azure Policy for AKS](https://aka.ms/akspolicydoc)
 - [Azure Policy for AKS Engine](https://aka.ms/kubepolicydoc)
 
