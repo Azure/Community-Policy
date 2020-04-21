@@ -3,7 +3,8 @@
     "field": "type",
     "in": [
       "AKS Engine",
-      "Microsoft.Kubernetes/connectedClusters"
+      "Microsoft.Kubernetes/connectedClusters",
+      "Microsoft.ContainerService/managedClusters"
     ]
   },
   "then": {
