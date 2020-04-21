@@ -1,0 +1,29 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks/subnets"
+            },
+            {
+                "not": {
+                    "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",
+                    "equals": "[concat(subscription().id, '/resourceGroups/', resourcegroup().location, parameters('resourceGroupNamingConvention'), '/providers/Microsoft.Network/routeTables/', parameters('routeTableNamingConvention'))]"
+                }
+            },
+            {
+                "field": "name",
+                "contains": "[parameters('targetedNamingConvention')]"
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]",
+        "details": [
+            {
+                "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",
+                "value": "[concat(subscription().id, '/resourceGroups/', resourcegroup().location, parameters('resourceGroupNamingConvention'), '/providers/Microsoft.Network/routeTables/', parameters('routeTableNamingConvention'))]"
+            }
+        ]
+    }
+}
