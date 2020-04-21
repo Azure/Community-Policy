@@ -1,9 +1,14 @@
 {
   "properties": {
-    "displayName": "[Preview] [PSP]: Do not allow container privilege escalation in Kubernetes cluster",
+    "displayName": "Do not allow container privilege escalation in Kubernetes cluster",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
-    "description": "This policy does not allow containers to use privilege escalation in a Kubernetes cluster. For instructions on using this policy, please go to https://aka.ms/kubepolicydoc.",
+    "description": "This policy does not allow containers to use privilege escalation in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
+    "metadata": {
+      "version": "1.0.0-preview",
+      "category": "Kubernetes PSP",
+      "preview": true
+    },
     "parameters": {
       "effect": {
         "type": "String",
@@ -20,7 +25,7 @@
       "excludedNamespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "[Preview]: Namespace exclusions",
+          "displayName": "Namespace exclusions",
           "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
         },
         "defaultValue": []
@@ -31,20 +36,20 @@
         "field": "type",
         "in": [
           "AKS Engine",
-          "Microsoft.Kubernetes/connectedClusters"
+          "Microsoft.Kubernetes/connectedClusters",
+          "Microsoft.ContainerService/managedClusters"
         ]
       },
       "then": {
         "effect": "[parameters('effect')]",
         "details": {
-          "constraintTemplate": "https://raw.githubusercontent.com/EmandM/azure-policy/feature/privilege-escalation/built-in-references/Kubernetes/container-no-privilege-escalation/template.yaml",
-          "constraint": "https://raw.githubusercontent.com/EmandM/azure-policy/feature/privilege-escalation/built-in-references/Kubernetes/container-no-privilege-escalation/constraint.yaml",
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/container-no-privilege-escalation/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/container-no-privilege-escalation/constraint.yaml",
           "values": {
             "excludedNamespaces": "[parameters('excludedNamespaces')]"
           }
         }
       }
     }
-  },
-  "type": "Microsoft.Authorization/policyDefinitions"
+  }
 }
