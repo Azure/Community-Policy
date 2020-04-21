@@ -1,6 +1,20 @@
 {
     "displayName": "App Gateway can only have a VM's or VMSS in its backend pool.",
     "mode": "All",
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effects",
+                "description": "Enable or disable the execution of the Policy."
+            },
+            "allowedValues": [
+                "Deny",
+                "Disabled"
+            ],
+            "defaultValue": "Deny"
+        }
+    },
     "policyRule": {
         "if": {
             "allOf": [
@@ -17,8 +31,7 @@
             ]
         },
         "then": {
-            "effect": "deny"
+            "effect": "[parameters('effect')]"
         }
-    },
-    "parameters": {}
+    }
 }
