@@ -6,12 +6,6 @@ test_input_apparmor_allowed_empty {
     count(results) == 1
 }
 
-test_input_apparmor_allowed_wildcard {
-    input := { "review": input_review_container, "parameters": input_parameters_wildcard}
-    results := violation with input as input
-    count(results) == 0
-}
-
 test_input_apparmor_not_allowed_no_annotation_empty {
     input := { "review": input_review_no_annotation, "parameters": input_parameters_empty}
     results := violation with input as input
@@ -103,12 +97,6 @@ input_review_no_annotation = {
 
 input_parameters_empty = {
     "allowedProfiles": []
-}
-
-input_parameters_wildcard = {
-    "allowedProfiles": [
-        "*"
-    ]
 }
 
 input_parameters_in_list = {
