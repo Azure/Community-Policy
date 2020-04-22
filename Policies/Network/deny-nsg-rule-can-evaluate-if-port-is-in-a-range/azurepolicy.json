@@ -1,41 +1,55 @@
 {
-    "properties": {
-        "displayName": "Denies NSG rule changes that allow all inbound traffic",
-        "description": "Denies the creation of network security group rules that allow all inbound traffic",
-        "mode": "All",
-        "parameters": {
-            "notAllowedPort": {
-                "type": "integer"
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+    "mode": "All",
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+                "equals": "Allow"
+              },
+              {
+                "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+                "equals": "Inbound"
+              },
+              {
+                "anyOf": [
+                  {
+                    "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges')), and(greaterOrEquals(parameters('notAllowedPort'), int(first(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))), lessOrEquals(parameters('notAllowedPort'), int(last(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-'))))), bool('false'))]",
+                    "equals": true
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]",
+                      "where": {
+                        "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), bool('false'), and(greaterOrEquals(parameters('notAllowedPort'), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), 4)), '-')))), lessOrEquals(parameters('notAllowedPort'), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), 4)), '-'))))))]",
+                        "equals": true
+                      }
                     },
-                    {
-                        "allOf": [
-                            {
-                                "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
-                                "equals": "Allow"
-                            },
-                            {
-                                "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
-                                "equals": "Inbound"
-                            },
-                            {
-                                "value": "[and(greater(parameters('notAllowedPort'), int(first(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))), less(parameters('notAllowedPort'), int(last(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))))]",
-                                "equals": true
-                            }
-                        ]
-                    }
+                    "greater": 0
+                  }
                 ]
-            },
-            "then": {
-                "effect": "deny"
-            }
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    },
+    "parameters": {
+      "notAllowedPort": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "notAllowedPort",
+          "description": null
         }
+      }
     }
-}
+  }
