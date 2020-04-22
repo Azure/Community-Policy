@@ -1,0 +1,41 @@
+{
+    "properties": {
+        "displayName": "Denies NSG rule changes that allow all inbound traffic",
+        "description": "Denies the creation of network security group rules that allow all inbound traffic",
+        "mode": "All",
+        "parameters": {
+            "notAllowedPort": {
+                "type": "integer"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+                    },
+                    {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+                                "equals": "Allow"
+                            },
+                            {
+                                "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+                                "equals": "Inbound"
+                            },
+                            {
+                                "value": "[and(greater(parameters('notAllowedPort'), int(first(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))), less(parameters('notAllowedPort'), int(last(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))))]",
+                                "equals": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "effect": "deny"
+            }
+        }
+    }
+}
