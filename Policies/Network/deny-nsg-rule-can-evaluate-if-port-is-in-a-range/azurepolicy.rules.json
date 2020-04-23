@@ -1,0 +1,87 @@
+{
+    "if": {
+        "anyOf": [
+            {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+                    },
+                    {
+                        "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+                        "equals": "[parameters('access')]"
+                    },
+                    {
+                        "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+                        "equals": "[parameters('direction')]"
+                    },
+                    {
+                        "anyOf": [
+                            {
+                                "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges')), and(greaterOrEquals(parameters('notAllowedPort'), int(first(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))), lessOrEquals(parameters('notAllowedPort'), int(last(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-'))))), bool('false'))]",
+                                "equals": true
+                            },
+                            {
+                                "count": {
+                                    "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]",
+                                    "where": {
+                                        "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), bool('false'), and(greaterOrEquals(parameters('notAllowedPort'), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), 4)), '-')))), lessOrEquals(parameters('notAllowedPort'), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), 4)), '-'))))))]",
+                                        "equals": true
+                                    }
+                                },
+                                "greater": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/networkSecurityGroups"
+                    },
+                    {
+                        "count": {
+                            "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
+                            "where": {
+                                "allOf": [
+                                    {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].access",
+                                        "equals": "[parameters('access')]"
+                                    },
+                                    {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].direction",
+                                        "equals": "[parameters('direction')]"
+                                    },
+                                    {
+                                        "anyOf": [
+                                            {
+                                                "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), and(greaterOrEquals(parameters('notAllowedPort'), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'))), 4)), '-')))), lessOrEquals(parameters('notAllowedPort'), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'))), 4)), '-'))))), bool('false'))]",
+                                                "equals": true
+                                            },
+                                            {
+                                                "count": {
+                                                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]",
+                                                    "where": {
+                                                        "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), bool('false'), and(greaterOrEquals(parameters('notAllowedPort'), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'))), 4)), '-')))), lessOrEquals(parameters('notAllowedPort'), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'))), 4)), '-'))))))]",
+                                                        "equals": true
+                                                    }
+                                                },
+                                                "greater": 0
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "greater": 0
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "deny"
+    }
+}
