@@ -67,7 +67,7 @@ test_input_apparmor_containers_not_allowed_not_in_list_mixed {
 }
 
 test_input_apparmor_init_container_not_allowed_no_annotation {
-    input := { "review": input_review_no_annotation, "parameters": input_parameters_in_list}
+    input := { "review": input_review_no_annotation_init_container, "parameters": input_parameters_in_list}
     results := violation with input as input
     count(results) == 1
 }
