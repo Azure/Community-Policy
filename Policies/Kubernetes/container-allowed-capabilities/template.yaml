@@ -25,31 +25,16 @@ spec:
         package k8sazureallowedcapabilities
 
         violation[{"msg": msg}] {
-          container := input.review.object.spec.containers[_]
+          container := input_containers[_]
           has_disallowed_capabilities(container)
           msg := sprintf("container <%v> has a disallowed capability. Allowed capabilities are %v", [container.name, get_default(input.parameters, "allowedCapabilities", "NONE")])
         }
 
         violation[{"msg": msg}] {
-          container := input.review.object.spec.containers[_]
+          container := input_containers[_]
           missing_drop_capabilities(container)
           msg := sprintf("container <%v> is not dropping all required capabilities. Container must drop all of %v", [container.name, input.parameters.requiredDropCapabilities])
         }
-
-
-
-        violation[{"msg": msg}] {
-          container := input.review.object.spec.initContainers[_]
-          has_disallowed_capabilities(container)
-          msg := sprintf("init container <%v> has a disallowed capability. Allowed capabilities are %v", [container.name, get_default(input.parameters, "allowedCapabilities", "NONE")])
-        }
-
-        violation[{"msg": msg}] {
-          container := input.review.object.spec.initContainers[_]
-          missing_drop_capabilities(container)
-          msg := sprintf("init container <%v> is not dropping all required capabilities. Container must drop all of %v", [container.name, input.parameters.requiredDropCapabilities])
-        }
-
 
         has_disallowed_capabilities(container) {
           allowed := {c | c := input.parameters.allowedCapabilities[_]}
@@ -72,4 +57,10 @@ spec:
           not obj[param]
           not obj[param] == false
           out = _default
+        }
+        input_containers[c] {
+            c := input.review.object.spec.containers[_]
+        }
+        input_containers[c] {
+            c := input.review.object.spec.initContainers[_]
         }
