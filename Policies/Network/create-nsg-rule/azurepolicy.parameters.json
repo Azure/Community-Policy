@@ -1,0 +1,43 @@
+{
+    "name": {
+      "type": "String"
+    },
+    "protocol": {
+      "type": "String",
+      "allowedvalues": [
+        "TCP",
+        "UDP",
+        "ICMP",
+        "*"
+      ]
+    },
+    "access": {
+      "type": "String",
+      "allowedvalues": [
+        "Allow",
+        "Deny"
+      ]
+    },
+    "priority": {
+      "type": "String"
+    },
+    "direction": {
+      "type": "String",
+      "allowedvalues": [
+        "Inbound",
+        "Outbound"
+      ]
+    },
+    "sourcePortRanges": {
+      "type": "Array"
+    },
+    "destinationPortRanges": {
+      "type": "Array"
+    },
+    "sourceAddressPrefixes": {
+      "type": "Array"
+    },
+    "destinationAddressPrefixes": {
+      "type": "Array"
+    }
+  }

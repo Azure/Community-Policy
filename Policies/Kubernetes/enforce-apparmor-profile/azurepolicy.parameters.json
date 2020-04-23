@@ -1,0 +1,29 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "enforceOPAConstraint",
+      "disabled"
+    ],
+    "defaultValue": "enforceOPAConstraint"
+  },
+  "excludedNamespaces": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Namespace exclusions",
+      "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+    },
+    "defaultValue": []
+  },
+  "allowedProfiles": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed App Armor profiles",
+      "description": "List of valid App Armor profiles. E.g. runtime/default. For more information on App Armor, please refer https://aka.ms/k8s-app-armor"
+    }
+  }
+}
