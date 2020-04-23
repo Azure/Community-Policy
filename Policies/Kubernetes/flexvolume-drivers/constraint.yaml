@@ -1,0 +1,11 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sAzureFlexVolumes
+metadata:
+  name: psp-flexvolume-drivers
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+  parameters:
+    allowedFlexVolumes: {{ .Values.allowedFlexVolumes }}
