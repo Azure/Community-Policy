@@ -67,9 +67,9 @@ test_input_apparmor_containers_not_allowed_not_in_list_mixed {
 }
 
 test_input_apparmor_init_container_not_allowed_no_annotation {
-    input := { "review": input_review_no_annotation_init_container, "parameters": input_parameters_in_list}
+    input := { "review": input_review_mixed_init_containers, "parameters": input_parameters_mixed_good}
     results := violation with input as input
-    count(results) == 1
+    count(results) == 0
 }
 
 input_review_container = {
@@ -105,12 +105,19 @@ input_review_no_annotation = {
 }
 
 
-input_review_no_annotation_init_container = {
+input_review_mixed_init_containers = {
     "object": {
         "metadata": {
-            "name": "nginx"
+            "name": "nginx",
+            "annotations": {
+                "container.apparmor.security.beta.kubernetes.io/nginx": "runtime/default"
+            }
         },
         "spec": {
+            "containers": [{
+                "name": "nginx",
+                "image": "nginx"
+            }],
             "initContainers": [{
                 "name": "nginx",
                 "image": "nginx"
@@ -191,5 +198,12 @@ input_parameters_mixed = {
     "allowedProfiles": [
         "runtime/default",
         "unconfined"
+    ]
+}
+
+input_parameters_mixed_good = {
+    "allowedProfiles": [
+        "runtime/default",
+        "localhost/profile"
     ]
 }
