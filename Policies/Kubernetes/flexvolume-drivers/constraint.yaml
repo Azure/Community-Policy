@@ -4,6 +4,7 @@ metadata:
   name: psp-flexvolume-drivers
 spec:
   match:
+    excludedNamespaces: {{ .Values.excludedNamespaces }}
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]
