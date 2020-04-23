@@ -60,6 +60,18 @@ test_input_apparmor_containers_not_allowed_not_in_list_mixed {
     count(results) == 1
 }
 
+test_input_apparmor_containers_not_allowed_not_in_list_mixed {
+    input := { "review": input_review_containers_mixed, "parameters": input_parameters_mixed}
+    results := violation with input as input
+    count(results) == 0
+}
+
+test_input_apparmor_init_container_not_allowed_no_annotation {
+    input := { "review": input_review_no_annotation, "parameters": input_parameters_in_list}
+    results := violation with input as input
+    count(results) == 1
+}
+
 input_review_container = {
     "object": {
         "metadata": {
@@ -85,6 +97,21 @@ input_review_no_annotation = {
         },
         "spec": {
             "containers": [{
+                "name": "nginx",
+                "image": "nginx"
+            }]
+        }
+    }
+}
+
+
+input_review_no_annotation_init_container = {
+    "object": {
+        "metadata": {
+            "name": "nginx"
+        },
+        "spec": {
+            "initContainers": [{
                 "name": "nginx",
                 "image": "nginx"
             }]
@@ -156,6 +183,13 @@ input_parameters_in_list = {
 
 input_parameters_not_in_list = {
     "allowedProfiles": [
+        "unconfined"
+    ]
+}
+
+input_parameters_mixed = {
+    "allowedProfiles": [
+        "runtime/default",
         "unconfined"
     ]
 }
