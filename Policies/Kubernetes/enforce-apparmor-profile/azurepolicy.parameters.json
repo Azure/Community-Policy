@@ -23,7 +23,7 @@
     "type": "Array",
     "metadata": {
       "displayName": "Allowed App Armor profiles",
-      "description": "List of App Armor profiles that containers are able to run"
+      "description": "List of valid App Armor profiles. E.g. runtime/default. For more information on App Armor, please refer https://aka.ms/k8s-app-armor"
     }
   }
 }
