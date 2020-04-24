@@ -1,9 +1,9 @@
 {
     "displayName": "Deny specific port from being included in the destination field of an NSG rule",
-    "description": "This policy will check to see if the provided value is present in the destination port field of an NSG rule. This can even evaluate if a number is included in a range of numbers. Example, if you provided the value of 22, and tried to make an NSG rule where the destination port value was 20-200 this Policy would deny that creation.",
+    "description": "This policy will check to see if the provided value is present in the destination port field of an NSG rule. This can even evaluate if a number is included in a range of numbers. Example, if you provided the value of 22, and tried to make an NSG rule where the destination port value was 20-200 this Policy would deny that creation. Additionally it will prevent a user from using '*' in a rule as that would effectively violate the intent of this Policy.",
     "mode": "All",
     "parameters": {
-        "notAllowedPort": {
+        "notAllowedDestinationPort": {
             "type": "Integer",
             "metadata": {
                 "displayName": "Port to Block",
@@ -53,14 +53,14 @@
                         {
                             "anyOf": [
                                 {
-                                    "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges')), and(greaterOrEquals(parameters('notAllowedPort'), int(first(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))), lessOrEquals(parameters('notAllowedPort'), int(last(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-'))))), bool('false'))]",
+                                    "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange')), bool('false'), if(contains(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '*'), bool('true'), and(greaterOrEquals(parameters('notAllowedDestinationPort'), int(first(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))), lessOrEquals(parameters('notAllowedDestinationPort'), int(last(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))))))]",
                                     "equals": true
                                 },
                                 {
                                     "count": {
                                         "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]",
                                         "where": {
-                                            "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), bool('false'), and(greaterOrEquals(parameters('notAllowedPort'), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), 4)), '-')))), lessOrEquals(parameters('notAllowedPort'), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), 4)), '-'))))))]",
+                                            "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), bool('false'), if(contains(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), '*'), bool('true'), and(greaterOrEquals(parameters('notAllowedDestinationPort'), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), 4)), '-')))), lessOrEquals(parameters('notAllowedDestinationPort'), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), 4)), '-')))))))]",
                                             "equals": true
                                         }
                                     },
@@ -92,14 +92,14 @@
                                         {
                                             "anyOf": [
                                                 {
-                                                    "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), and(greaterOrEquals(parameters('notAllowedPort'), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'))), 4)), '-')))), lessOrEquals(parameters('notAllowedPort'), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'))), 4)), '-'))))), bool('false'))]",
+                                                    "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange')), bool('false'), if(contains(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange')), '*'), bool('true'), and(greaterOrEquals(parameters('notAllowedDestinationPort'), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'))), 4)), '-')))), lessOrEquals(parameters('notAllowedDestinationPort'), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'))), 4)), '-')))))))]",
                                                     "equals": true
                                                 },
                                                 {
                                                     "count": {
                                                         "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]",
                                                         "where": {
-                                                            "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), bool('false'), and(greaterOrEquals(parameters('notAllowedPort'), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'))), 4)), '-')))), lessOrEquals(parameters('notAllowedPort'), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'))), 4)), '-'))))))]",
+                                                            "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), bool('false'), if(contains(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), '*'), bool('true'), and(greaterOrEquals(parameters('notAllowedDestinationPort'), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'))), 4)), '-')))), lessOrEquals(parameters('notAllowedDestinationPort'), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'))), 4)), '-')))))))]",
                                                             "equals": true
                                                         }
                                                     },
