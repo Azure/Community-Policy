@@ -1,0 +1,12 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sAzureForbiddenSysctls
+metadata:
+  name: psp-forbidden-sysctls
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+  parameters:
+    forbiddenSysctls:
+    - kernel.*
