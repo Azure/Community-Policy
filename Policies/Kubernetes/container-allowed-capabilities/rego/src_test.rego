@@ -61,8 +61,39 @@ test_input_disallowed_x2 {
     results := violation with input as input
     count(results) == 2
 }
+test_input_empty_empty_add {
+    input := { "review": input_review([cdrop("one"), cdrop("two")]), "parameters": {"allowedCapabilities": []}}
+    results := violation with input as input
+    count(results) == 0
+}
+test_input_empty_required_add {
+    input := { "review": input_review([cdrop("one"), cdrop("two")]), "parameters": {"allowedCapabilities": ["one"]}}
+    results := violation with input as input
+    count(results) == 0
+}
+test_input_empty_seccontext_empty_add {
+    input := { "review": empty_input_review, "parameters": {"allowedCapabilities": []}}
+    results := violation with input as input
+    count(results) == 0
+}
+test_input_empty_seccontext_required_add {
+    input := { "review": empty_input_review, "parameters": {"allowedCapabilities": ["one"]}}
+    results := violation with input as input
+    count(results) == 0
+}
 
 
+test_input_empty_seccontext_empty_drop {
+    input := { "review": empty_input_review, "parameters": {"requiredDropCapabilities": []}}
+    results := violation with input as input
+    count(results) == 0
+}
+
+test_input_empty_seccontext_required_drop {
+    input := { "review": empty_input_review, "parameters": {"requiredDropCapabilities": ["one"]}}
+    results := violation with input as input
+    count(results) == 1
+}
 test_input_empty_drop {
    input := { "review": input_review([cdrop(["one", "two"])]), "parameters": {"requiredDropCapabilities": []}}
    results := violation with input as input
@@ -165,6 +196,39 @@ test_input_disallowed_x2 {
     results := violation with input as input
     count(results) == 2
 }
+test_input_empty_empty_add {
+    input := { "review": input_init_review([cdrop("one"), cdrop("two")]), "parameters": {"allowedCapabilities": []}}
+    results := violation with input as input
+    count(results) == 0
+}
+test_input_empty_required_add {
+    input := { "review": input_init_review([cdrop("one"), cdrop("two")]), "parameters": {"allowedCapabilities": ["one"]}}
+    results := violation with input as input
+    count(results) == 0
+}
+test_input_empty_seccontext_empty_add {
+    input := { "review": empty_input_init_review, "parameters": {"allowedCapabilities": []}}
+    results := violation with input as input
+    count(results) == 0
+}
+test_input_empty_seccontext_required_add {
+    input := { "review": empty_input_init_review, "parameters": {"allowedCapabilities": ["one"]}}
+    results := violation with input as input
+    count(results) == 0
+}
+
+
+test_input_empty_seccontext_empty_drop {
+    input := { "review": empty_input_init_review, "parameters": {"requiredDropCapabilities": []}}
+    results := violation with input as input
+    count(results) == 0
+}
+
+test_input_empty_seccontext_required_drop {
+    input := { "review": empty_input_init_review, "parameters": {"requiredDropCapabilities": ["one"]}}
+    results := violation with input as input
+    count(results) == 1
+}
 
 
 test_input_empty_drop {
@@ -206,6 +270,34 @@ test_input_drop_undefined_x2 {
    input := { "review": input_init_review([cadd([]), cadd([])]), "parameters": {"requiredDropCapabilities": ["one", "two"]}}
    results := violation with input as input
    count(results) == 2
+}
+
+empty_input_review = {
+    "object": {
+        "metadata": {
+            "name": "nginx"
+        },
+        "spec": {
+            "containers": [{
+                "name": "nginx",
+                "image": "nginx"
+            }],
+        }
+    }
+}
+
+empty_input_init_review = {
+    "object": {
+        "metadata": {
+            "name": "nginx"
+        },
+        "spec": {
+            "initContainers": [{
+                "name": "nginx",
+                "image": "nginx"
+            }],
+        }
+    }
 }
 
 input_review(containers) = output {
