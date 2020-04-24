@@ -10,8 +10,8 @@
   "then": {
     "effect": "[parameters('effect')]",
     "details": {
-      "constraintTemplate": "https://raw.githubusercontent.com/EmandM/Community-Policy/psp/flexvolume/Policies/Kubernetes/flexvolume-drivers/template.yaml",
-      "constraint": "https://raw.githubusercontent.com/EmandM/Community-Policy/psp/flexvolume/Policies/Kubernetes/flexvolume-drivers/constraint.yaml",
+      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/flexvolume-drivers/template.yaml",
+      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/flexvolume-drivers/constraint.yaml",
       "values": {
         "excludedNamespaces": "[parameters('excludedNamespaces')]",
         "allowedFlexVolumes": "[parameters('allowedFlexVolumes')]"
