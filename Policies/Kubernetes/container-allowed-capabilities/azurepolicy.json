@@ -3,7 +3,7 @@
     "displayName": "Ensure only allowed capabilities are used in Kubernetes Cluster",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
-    "description": "This policy ensures only given capabilities are used inside a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
+    "description": "This policy ensures specified security capabilities are defined and removed inside a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
     "metadata": {
       "version": "1.0.0-preview",
       "category": "Kubernetes PSP",
