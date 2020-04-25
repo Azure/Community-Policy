@@ -1,0 +1,17 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/privateEndpoints"
+            },
+            {
+                "value": "[split(field('Microsoft.Network/privateEndpoints/subnet.id'), '/')[10]]",
+                "contains": "[parameters('subnetNamingConvention')]"
+            }
+        ]
+    },
+    "then": {
+        "effect": "Deny"
+    }
+}

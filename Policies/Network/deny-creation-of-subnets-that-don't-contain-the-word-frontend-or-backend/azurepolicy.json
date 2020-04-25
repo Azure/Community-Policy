@@ -12,34 +12,40 @@
                             "equals": "Microsoft.Network/virtualNetworks"
                         },
                         {
-                            "anyOf": [
-                                {
-                                    "not": {
-                                        "anyOf": [
-                                            {
-                                                "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
-                                                "contains": "frontend"
-                                            },
-                                            {
-                                                "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
-                                                "contains": "backend"
-                                            }
-                                        ]
-                                    }
-                                },
-                                {
-                                    "allOf": [
+                            "count": {
+                                "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+                                "where": {
+                                    "anyOf": [
                                         {
-                                            "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
-                                            "contains": "frontend"
+                                            "not": {
+                                                "anyOf": [
+                                                    {
+                                                        "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                                                        "contains": "frontend"
+                                                    },
+                                                    {
+                                                        "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                                                        "contains": "backend"
+                                                    }
+                                                ]
+                                            }
                                         },
                                         {
-                                            "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
-                                            "contains": "backend"
+                                            "allOf": [
+                                                {
+                                                    "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                                                    "contains": "frontend"
+                                                },
+                                                {
+                                                    "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                                                    "contains": "backend"
+                                                }
+                                            ]
                                         }
                                     ]
                                 }
-                            ]
+                            },
+                            "greater": 0
                         }
                     ]
                 },

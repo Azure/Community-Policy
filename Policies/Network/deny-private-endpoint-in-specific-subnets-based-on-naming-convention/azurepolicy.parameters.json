@@ -1,0 +1,9 @@
+{
+    "subnetNamingConvention": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Not Allowed Subnet",
+            "description": "This does not work on exact matches, but checks to see if the subnet contains the word you specify here."
+        }
+    }
+}
