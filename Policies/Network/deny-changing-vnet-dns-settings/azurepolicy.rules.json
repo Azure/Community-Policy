@@ -8,11 +8,11 @@
             {
                 "anyOf": [
                     {
-                        "value": "[equals(length(intersection(parameters('dnsSettings'), field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers'))), length(parameters('dnsSettings')))]",
+                        "value": "[if(empty(field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers')), bool('false'), equals(length(intersection(parameters('dnsSettings'), field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers'))), length(parameters('dnsSettings'))))]",
                         "equals": false
                     },
                     {
-                        "value": "[equals(length(field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers')),length(parameters('dnsSettings')))]",
+                        "value": "[if(empty(field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers')), bool('false'), equals(length(field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers')),length(parameters('dnsSettings'))))]",
                         "equals": false
                     }
                 ]
