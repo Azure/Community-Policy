@@ -1,0 +1,23 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/networkInterfaces"
+            },
+            {
+                "count": {
+                    "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*]",
+                    "where": {
+                        "value": "[split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), '/')[10]]",
+                        "contains": "[parameters('disallowedSubnet')]"
+                    }
+                },
+                "greater": 0
+            }
+        ]
+    },
+    "then": {
+        "effect": "deny"
+    }
+}

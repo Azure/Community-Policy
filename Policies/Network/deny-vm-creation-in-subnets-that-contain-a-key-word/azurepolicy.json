@@ -1,0 +1,37 @@
+{
+    "displayName": "Deny VM creation in subnets that contain a key word",
+    "description": "This policy will deny the creation of VMs in subnets that contain a key word",
+    "mode": "All",
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/networkInterfaces"
+                },
+                {
+                    "count": {
+                        "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*]",
+                        "where": {
+                            "value": "[split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), '/')[10]]",
+                            "contains": "[parameters('disallowedSubnet')]"
+                        }
+                    },
+                    "greater": 0
+                }
+            ]
+        },
+        "then": {
+            "effect": "deny"
+        }
+    },
+    "parameters": {
+        "disallowedSubnet": {
+            "type": "string",
+            "metadata": {
+                "displayname": "Deny VMs in subnets based on this name",
+                "description": "VMs will not be allowed to provision into subnets that contain this word."
+            }
+        }
+    }
+}
