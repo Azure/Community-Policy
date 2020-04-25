@@ -1,0 +1,7 @@
+{
+  "parameters": {
+    "excludedNamespaces": { "value": [ "kube-system", "azure-arc" ] },
+    "allowedCapabilities": { "value": [ "allowedcapability" ] },
+    "requiredDropCapabilities": { "value": [ "requireddropcapability" ] }
+  }
+}
