@@ -1,0 +1,9 @@
+{
+    "disallowedSubnet": {
+        "type": "string",
+        "metadata": {
+            "displayName": "Deny VMs in subnets based on this name",
+            "description": "VMs will not be allowed to provision into subnets that contain this word."
+        }
+    }
+}
