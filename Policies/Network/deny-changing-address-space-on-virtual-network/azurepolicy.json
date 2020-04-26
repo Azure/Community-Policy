@@ -1,0 +1,39 @@
+{
+    "mode": "All",
+    "name": "Deny changing Address Space of a Virtual Network",
+    "description": "This Policy will prevent users from changing the Address Space on a VNet",
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/virtualNetworks"
+                },
+                {
+                    "anyOf": [
+                        {
+                            "value": "[if(empty(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes')), bool('false'), equals(length(intersection(parameters('addressSpaceSettings'), field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes'))), length(parameters('addressSpaceSettings'))))]",
+                            "equals": false
+                        },
+                        {
+                            "value": "[if(empty(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes')), bool('false'), equals(length(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes')),length(parameters('addressSpaceSettings'))))]",
+                            "equals": false
+                        }
+                    ]
+                }
+            ]
+        },
+        "then": {
+            "effect": "deny"
+        }
+    },
+    "parameters": {
+        "addressSpaceSettings": {
+            "type": "array",
+            "metadata": {
+                "displayname": "Enforced Address Space Settings",
+                "description": "Users will be unable to change the address space on a VNet from the values defined in this array."
+            }
+        }
+    }
+}

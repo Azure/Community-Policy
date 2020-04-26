@@ -1,0 +1,25 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+            },
+            {
+                "anyOf": [
+                    {
+                        "value": "[if(empty(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes')), bool('false'), equals(length(intersection(parameters('addressSpaceSettings'), field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes'))), length(parameters('addressSpaceSettings'))))]",
+                        "equals": false
+                    },
+                    {
+                        "value": "[if(empty(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes')), bool('false'), equals(length(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes')),length(parameters('addressSpaceSettings'))))]",
+                        "equals": false
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "deny"
+    }
+}
