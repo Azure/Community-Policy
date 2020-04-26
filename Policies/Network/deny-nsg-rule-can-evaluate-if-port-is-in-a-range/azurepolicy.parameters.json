@@ -1,10 +1,19 @@
 {
-    "notAllowedPort": {
+    "notAllowedDestinationPort": {
         "type": "Integer",
         "metadata": {
-            "displayName": "Port to Block",
+            "displayName": "Destination Port to Block - 0 Disables Check",
             "description": "Port you're seeking to block"
-        }
+        },
+        "defaultValue": 0
+    },
+    "notAllowedSourcePort": {
+        "type": "Integer",
+        "metadata": {
+            "displayName": "Source Port to Block - 0 Disables Check",
+            "description": "Port you're seeking to block"
+        },
+        "defaultValue": 0
     },
     "direction": {
         "type": "string",
