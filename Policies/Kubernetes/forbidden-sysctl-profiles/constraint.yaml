@@ -4,9 +4,9 @@ metadata:
   name: psp-forbidden-sysctls
 spec:
   match:
+    excludedNamespaces: {{ .Values.excludedNamespaces }}
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]
   parameters:
-    forbiddenSysctls:
-    - kernel.*
+    forbiddenSysctls: {{ .Values.forbiddenSysctls }}
