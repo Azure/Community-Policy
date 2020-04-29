@@ -1,0 +1,38 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8sazurevolumetypes
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sAzureForbiddenSysctls
+      validation:
+        # Schema for the `parameters` field
+        openAPIV3Schema:
+          properties:
+            volumes:
+              type: array
+              items:
+                type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8sazurevolumetypes
+
+        violation[{"msg": msg, "details": {}}] {
+            volume := input.review.object.spec.volumes[_]
+            volume_fields := {x | volume[x]; x != "name"}
+            field := volume_fields[_]
+            input_volume_type_disallowed(field)
+            msg := sprintf("The volume type %v on volume %v is not allowed, pod: %v. Allowed volume types: %v", [field, volume.name, input.review.object.metadata.name, input.parameters.volumes])
+        }
+
+        # * may be used to allow all volume types
+        input_volume_type_disallowed(field) {
+            input.parameters.volumes[_] == "*"
+        }
+
+        input_volume_type_disallowed(field) {
+            field == input.parameters.volumes[_]
+        }
