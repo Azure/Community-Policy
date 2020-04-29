@@ -5,13 +5,9 @@ metadata:
   labels:
     app: nginx-volume-types
 spec:
+  automountServiceAccountToken: false
   containers:
   - name: nginx
-    image: nginx
-    volumeMounts:
-    - mountPath: /cache
-      name: cache-volume
-  - name: nginx2
     image: nginx
     volumeMounts:
     - mountPath: /cache2

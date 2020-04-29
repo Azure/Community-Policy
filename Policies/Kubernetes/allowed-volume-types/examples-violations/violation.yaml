@@ -19,6 +19,6 @@ spec:
   volumes:
   - name: cache-volume
     hostPath:
-      path: /tmp # directory location on host
+      path: /tmp
   - name: demo-vol
     emptyDir: {}
