@@ -1,0 +1,338 @@
+{
+    "displayName": "Deny rule combinations within an NSG",
+    "description": "This policy will deny the creation of NSG rules that are defined via this Policy. All parameters are optional in that if you want you could only detect on one field within an NSG. The source and destination address fields work by detecting if a rule would allow a non-rf1918 address, if so, then deny. The source and destination port field can even evaluate if a number is included in a range of numbers. Example, if you provided the value of 22, and tried to make an NSG rule where the destination port value was 20-200 this Policy would deny that creation. Additionally it will prevent a user from using '*' or 'Internet' in a rule as that would effectively violate the intent of this Policy.",
+    "mode": "All",
+    "parameters": {
+        "direction": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Check for Inbound or Outbound rule",
+                "description": "This specifies if you're looking for this port as part of an inbound or outbound rule"
+            },
+            "allowedValues": [
+                "Inbound",
+                "Outbound"
+            ]
+        },
+        "access": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Prevent Allow or Deny rule",
+                "description": "This specifies if you're looking for this port as part of an allow or deny rule"
+            },
+            "allowedValues": [
+                "Allow",
+                "Deny"
+            ]
+        },
+        "destinationInternet": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Internet Access in Destination Address",
+                "description": "This defines whether or not this Policy will assess to see if someone has made a rule in the destination address field this is NOT an RFC1918 address. Allowed values are: 'Do Not Assess' or 'Deny'. If set to Deny a user will be unable to put a non RFC1918 address in their destination rule."
+            },
+            "allowedValues": [
+                "Do Not Assess",
+                "Deny"
+            ],
+            "defaultValue": "Do Not Assess"
+        },
+        "sourceInternet": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Internet Access in Source Address",
+                "description": "This defines whether or not this Policy will assess to see if someone has made a rule in the source address field this is NOT an RFC1918 address. Allowed values are: 'Do Not Assess' or 'Deny'. If set to Deny a user will be unable to put a non RFC1918 address in their source rule."
+            },
+            "allowedValues": [
+                "Do Not Assess",
+                "Deny"
+            ],
+            "defaultValue": "Do Not Assess"
+        },
+        "destinationPort": {
+            "type": "Integer",
+            "metadata": {
+                "displayName": "Destination Port to Block - 0 Disables Check",
+                "description": "Port you're seeking to block"
+            },
+            "defaultValue": 0
+        },
+        "sourcePort": {
+            "type": "Integer",
+            "metadata": {
+                "displayName": "Source Port to Block - 0 Disables Check",
+                "description": "Port you're seeking to block"
+            },
+            "defaultValue": 0
+        }
+    },
+    "policyRule": {
+        "if": {
+            "anyOf": [
+                {
+                    "allOf": [
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+                        },
+                        {
+                            "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+                            "equals": "[parameters('access')]"
+                        },
+                        {
+                            "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+                            "equals": "[parameters('direction')]"
+                        },
+                        {
+                            "anyOf": [
+                                {
+                                    "allOf": [
+                                        {
+                                            "value": "[if(and(not(equals(parameters('destinationInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix')))), if(contains(createArray('1','2'), first(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix'))), if(if(not(equals(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix'), '.')[0], '10')), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix')), bool('true'), bool('false'))), bool('false'))]",
+                                            "equals": true
+                                        },
+                                        {
+                                            "value": "[if(and(not(equals(parameters('destinationInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix')))), if(contains(createArray('1','2'), first(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix'))), if(if(not(and(equals(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix'), '.')[0], '172'), and(greaterOrEquals(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix'), '.')[1], '16'), lessOrEquals(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix'), '.')[1], '32')))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix')), bool('true'), bool('false'))), bool('false'))]",
+                                            "equals": true
+                                        },
+                                        {
+                                            "value": "[if(and(not(equals(parameters('destinationInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix')))), if(contains(createArray('1','2'), first(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix'))), if(if(not(and(equals(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix'), '.')[0], '192'), equals(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix'), '.')[1], '168'))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix')), bool('true'), bool('false'))), bool('false'))]",
+                                            "equals": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "count": {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]",
+                                        "where": {
+                                            "allOf": [
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('destinationInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')), '.')[0], 2))), if(if(not(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')), '.')[0], 2), '10')), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                },
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('destinationInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')), '.')[0], 2))), if(if(not(and(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')), '.')[0], 2), '172'), and(greaterOrEquals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')), '.')[1], '16'), lessOrEquals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')), '.')[1], '32')))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                },
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('destinationInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')), '.')[0], 2))), if(if(not(and(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')), '.')[0], 2), '192'), equals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')), '.')[1], '168'))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefixes[*]')), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "greater": 0
+                                },
+                                {
+                                    "allOf": [
+                                        {
+                                            "value": "[if(and(not(equals(parameters('sourceInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix')))), if(contains(createArray('1','2'), first(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix'))), if(if(not(equals(split(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix'), '.')[0], '10')), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix')), bool('true'), bool('false'))), bool('false'))]",
+                                            "equals": true
+                                        },
+                                        {
+                                            "value": "[if(and(not(equals(parameters('sourceInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix')))), if(contains(createArray('1','2'), first(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix'))), if(if(not(and(equals(split(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix'), '.')[0], '172'), and(greaterOrEquals(split(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix'), '.')[1], '16'), lessOrEquals(split(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix'), '.')[1], '32')))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix')), bool('true'), bool('false'))), bool('false'))]",
+                                            "equals": true
+                                        },
+                                        {
+                                            "value": "[if(and(not(equals(parameters('sourceInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix')))), if(contains(createArray('1','2'), first(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix'))), if(if(not(and(equals(split(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix'), '.')[0], '192'), equals(split(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix'), '.')[1], '168'))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix')), bool('true'), bool('false'))), bool('false'))]",
+                                            "equals": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "count": {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]",
+                                        "where": {
+                                            "allOf": [
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('sourceInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')), '.')[0], 2))), if(if(not(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')), '.')[0], 2), '10')), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                },
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('sourceInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')), '.')[0], 2))), if(if(not(and(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')), '.')[0], 2), '172'), and(greaterOrEquals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')), '.')[1], '16'), lessOrEquals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')), '.')[1], '32')))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                },
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('sourceInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')), '.')[0], 2))), if(if(not(and(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')), '.')[0], 2), '192'), equals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')), '.')[1], '168'))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "greater": 0
+                                },
+                                {
+                                    "value": "[if(equals(parameters('destinationPort'), 0), bool('false'), if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange')), bool('false'), if(contains(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '*'), bool('true'), and(greaterOrEquals(parameters('destinationPort'), int(first(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))), lessOrEquals(parameters('destinationPort'), int(last(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-'))))))))]",
+                                    "equals": true
+                                },
+                                {
+                                    "count": {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]",
+                                        "where": {
+                                            "value": "[if(equals(parameters('destinationPort'), 0), bool('false'), if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), bool('false'), if(contains(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), '*'), bool('true'), and(greaterOrEquals(parameters('destinationPort'), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), 4)), '-')))), lessOrEquals(parameters('destinationPort'), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), 4)), '-'))))))))]",
+                                            "equals": true
+                                        }
+                                    },
+                                    "greater": 0
+                                },
+                                {
+                                    "value": "[if(equals(parameters('sourcePort'), 0), bool('false'), if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/sourcePortRange')), bool('false'), if(contains(field('Microsoft.Network/networkSecurityGroups/securityRules/sourcePortRange'), '*'), bool('true'), and(greaterOrEquals(int(parameters('sourcePort')), int(first(split(field('Microsoft.Network/networkSecurityGroups/securityRules/sourcePortRange'), '-')))), lessOrEquals(int(parameters('sourcePort')), int(last(split(field('Microsoft.Network/networkSecurityGroups/securityRules/sourcePortRange'), '-'))))))))]",
+                                    "equals": true
+                                },
+                                {
+                                    "count": {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourcePortRanges[*]",
+                                        "where": {
+                                            "value": "[if(equals(parameters('sourcePort'), 0), bool('false'), if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/sourcePortRanges[*]')), bool('false'), if(contains(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourcePortRanges[*]')), '*'), bool('true'), and(greaterOrEquals(int(parameters('sourcePort')), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourcePortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourcePortRanges[*]'))), 4)), '-')))), lessOrEquals(int(parameters('sourcePort')), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourcePortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/sourcePortRanges[*]'))), 4)), '-'))))))))]",
+                                            "equals": true
+                                        }
+                                    },
+                                    "greater": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.Network/networkSecurityGroups"
+                        },
+                        {
+                            "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].access",
+                            "equals": "[parameters('access')]"
+                        },
+                        {
+                            "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].direction",
+                            "equals": "[parameters('direction')]"
+                        },
+                        {
+                            "anyOf": [
+                                {
+                                    "value": "[if(equals(parameters('destinationPort'), 0), bool('false'), if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange')), bool('false'), if(contains(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange')), '*'), bool('true'), and(greaterOrEquals(parameters('destinationPort'), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'))), 4)), '-')))), lessOrEquals(parameters('destinationPort'), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'))), 4)), '-'))))))))]",
+                                    "equals": true
+                                },
+                                {
+                                    "count": {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]",
+                                        "where": {
+                                            "value": "[if(equals(parameters('destinationPort'), 0), bool('false'), if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), bool('false'), if(contains(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), '*'), bool('true'), and(greaterOrEquals(parameters('destinationPort'), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'))), 4)), '-')))), lessOrEquals(parameters('destinationPort'), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'))), 4)), '-'))))))))]",
+                                            "equals": true
+                                        }
+                                    },
+                                    "greater": 0
+                                },
+                                {
+                                    "value": "[if(equals(parameters('sourcePort'), 0), bool('false'), if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRange')), bool('false'), if(contains(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRange')), '*'), bool('true'), and(greaterOrEquals(int(parameters('sourcePort')), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRange')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRange'))), 4)), '-')))), lessOrEquals(int(parameters('sourcePort')), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRange')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRange'))), 4)), '-'))))))))]",
+                                    "equals": true
+                                },
+                                {
+                                    "count": {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRanges[*]",
+                                        "where": {
+                                            "value": "[if(equals(parameters('sourcePort'), 0), bool('false'), if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRanges[*]')), bool('false'), if(contains(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRanges[*]')), '*'), bool('true'), and(greaterOrEquals(int(parameters('sourcePort')), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRanges[*]'))), 4)), '-')))), lessOrEquals(int(parameters('sourcePort')), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRanges[*]'))), 4)), '-'))))))))]",
+                                            "equals": true
+                                        }
+                                    },
+                                    "greater": 0
+                                },
+                                {
+                                    "count": {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
+                                        "where": {
+                                            "allOf": [
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('destinationInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')), '.')[0], 2))), if(if(not(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')), '.')[0], 2), '10')), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix'))), 4))), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                },
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('destinationInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')), '.')[0], 2))), if(if(not(and(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')), '.')[0], 2), '172'), and(greaterOrEquals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')), '.')[1], '16'), lessOrEquals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')), '.')[1], '32')))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix'))), 4))), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                },
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('destinationInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')), '.')[0], 2))), if(if(not(and(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')), '.')[0], 2), '192'), equals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')), '.')[1], '168'))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix'))), 4))), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "greater": 0
+                                },
+                                {
+                                    "count": {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]",
+                                        "where": {
+                                            "allOf": [
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('destinationInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')), '.')[0], 2))), if(if(not(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')), '.')[0], 2), '10')), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                },
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('destinationInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')), '.')[0], 2))), if(if(not(and(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')), '.')[0], 2), '172'), and(greaterOrEquals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')), '.')[1], '16'), lessOrEquals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')), '.')[1], '32')))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                },
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('destinationInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')), '.')[0], 2))), if(if(not(and(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')), '.')[0], 2), '192'), equals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')), '.')[1], '168'))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes[*]')), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "greater": 0
+                                },
+                                {
+                                    "count": {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
+                                        "where": {
+                                            "allOf": [
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('sourceInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), '.')[0], 2))), if(if(not(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), '.')[0], 2), '10')), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix'))), 4))), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                },
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('sourceInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), '.')[0], 2))), if(if(not(and(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), '.')[0], 2), '172'), and(greaterOrEquals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), '.')[1], '16'), lessOrEquals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), '.')[1], '32')))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix'))), 4))), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                },
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('sourceInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), '.')[0], 2))), if(if(not(and(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), '.')[0], 2), '192'), equals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), '.')[1], '168'))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix'))), 4))), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "greater": 0
+                                },
+                                {
+                                    "count": {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]",
+                                        "where": {
+                                            "allOf": [
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('sourceInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')), '.')[0], 2))), if(if(not(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')), '.')[0], 2), '10')), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                },
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('sourceInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')), '.')[0], 2))), if(if(not(and(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')), '.')[0], 2), '172'), and(greaterOrEquals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')), '.')[1], '16'), lessOrEquals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')), '.')[1], '32')))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                },
+                                                {
+                                                    "value": "[if(and(not(equals(parameters('sourceInternet'), 'Do Not Assess')), not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')))), if(contains(createArray('1','2'), first(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')), '.')[0], 2))), if(if(not(and(equals(skip(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')), '.')[0], 2), '192'), equals(split(string(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')), '.')[1], '168'))), bool('true'), bool('false')), bool('true'), bool('false')), if(contains(createArray('Internet','*'), field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')), bool('true'), bool('false'))), bool('false'))]",
+                                                    "equals": true
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "greater": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "then": {
+            "effect": "deny"
+        }
+    }
+}
