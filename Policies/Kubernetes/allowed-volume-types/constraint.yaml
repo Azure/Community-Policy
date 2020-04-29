@@ -1,5 +1,5 @@
 apiVersion: constraints.gatekeeper.sh/v1beta1
-kind: K8sAzureForbiddenSysctls
+kind: K8sAzureVolumeTypes
 metadata:
   name: psp-volume-types
 spec:

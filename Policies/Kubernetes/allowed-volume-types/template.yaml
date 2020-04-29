@@ -6,7 +6,7 @@ spec:
   crd:
     spec:
       names:
-        kind: K8sAzureForbiddenSysctls
+        kind: K8sAzureVolumeTypes
       validation:
         # Schema for the `parameters` field
         openAPIV3Schema:

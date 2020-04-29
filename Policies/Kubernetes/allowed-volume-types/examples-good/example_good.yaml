@@ -17,6 +17,5 @@ spec:
     - mountPath: /cache2
       name: demo-vol
   volumes:
-  - name: cache-volume
-    hostPath:
-      path: /tmp # directory location on host
+  - name: demo-vol
+    emptyDir: {}
