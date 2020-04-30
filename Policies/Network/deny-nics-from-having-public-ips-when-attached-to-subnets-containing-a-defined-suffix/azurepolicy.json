@@ -1,0 +1,37 @@
+{
+    "displayName": "Network interfaces attached to subnets containing a suffix should not have public IPs",
+    "mode": "Indexed",
+    "description": "This policy prevents NICs connected to subnets containing a defined suffix from having Public IPs associated to them. This is helpful when making a 'backend' subnet",
+    "parameters": {
+        "deniedSuffix": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Denied Subnet Suffix",
+                "description": "NICs attached to a subnet containing this suffix will be unable to attach a Public IP"
+            }
+        }
+    },
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/networkInterfaces"
+                },
+                {
+                    "not": {
+                        "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].publicIpAddress.id",
+                        "notLike": "*"
+                    }
+                },
+                {
+                    "value": "[split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), '/')[10]]",
+                    "like": "[concat('*', parameters('deniedSuffix'))]"
+                }
+            ]
+        },
+        "then": {
+            "effect": "deny"
+        }
+    }
+}

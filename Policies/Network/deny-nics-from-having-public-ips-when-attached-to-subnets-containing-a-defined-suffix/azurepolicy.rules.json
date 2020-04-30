@@ -1,0 +1,23 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/networkInterfaces"
+            },
+            {
+                "not": {
+                    "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].publicIpAddress.id",
+                    "notLike": "*"
+                }
+            },
+            {
+                "value": "[split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), '/')[10]]",
+                "like": "[concat('*', parameters('deniedSuffix'))]"
+            }
+        ]
+    },
+    "then": {
+        "effect": "deny"
+    }
+}
