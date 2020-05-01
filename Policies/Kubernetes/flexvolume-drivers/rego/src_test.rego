@@ -26,6 +26,11 @@ test_input_flexvolume_many_is_allowed {
     count(results) == 0
 }
 
+test_input_flexvolume_many_is_allowed_no_flexvolume {
+    input := { "review": input_review_many_no_flexvolume, "parameters": input_parameters_in_list}
+    results := violation with input as input
+    count(results) == 0
+}
 
 test_input_flexvolume_not_allowed {
     input := { "review": input_review, "parameters": input_parameters_not_in_list}
@@ -72,7 +77,6 @@ input_review_no_flexvolume = {
         },
         "spec": {
             "containers": input_containers_one,
-            "volumes": []
       }
     }
 }
@@ -85,6 +89,18 @@ input_review_many = {
         "spec": {
             "containers": input_containers_many,
             "volumes": input_volumes_many
+      }
+    }
+}
+
+input_review_many_no_flexvolume = {
+    "object": {
+        "metadata": {
+            "name": "nginx"
+        },
+        "spec": {
+            "containers": input_containers_many,
+            "volumes": input_volumes_many_no_flexvolume
       }
     }
 }
@@ -145,6 +161,27 @@ input_volumes_many = [
     "flexVolume": {
         "driver": "example/cifs"
     }
+},
+{
+    "name": "certs",
+    "secret": {
+        "secretName": "cert-data"
+    }
+}]
+
+input_volumes_many_no_flexvolume = [
+{
+    "name": "certs",
+    "secret": {
+        "secretName": "cert-data"
+    }
+},
+{
+    "name": "data",
+    "hostPath": {
+        "path": "/tmp/data",
+        "type": "File"
+    }
 }]
 
 input_volumes_not_allowed = [
@@ -162,17 +199,17 @@ input_volumes_not_allowed = [
 }]
 
 input_parameters_empty = {
-    "allowedFlexVolumes": []
+    "allowedFlexVolumeDrivers": []
 }
 
 input_parameter_in_list = {
-    "allowedFlexVolumes": ["example/lvm"]
+    "allowedFlexVolumeDrivers": ["example/lvm"]
 }
 
 input_parameters_in_list = {
-    "allowedFlexVolumes": ["example/lvm", "example/cifs"]
+    "allowedFlexVolumeDrivers": ["example/lvm", "example/cifs"]
 }
 
 input_parameters_not_in_list = {
-    "allowedFlexVolumes": [ "example/testdriver", "example/cifs" ]
+    "allowedFlexVolumeDrivers": [ "example/testdriver", "example/cifs" ]
 }

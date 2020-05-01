@@ -3,16 +3,16 @@ package k8sazureflexvolumes
 violation[{"msg": msg, "details": {}}] {
     volume := input_flexvolumes[_]
     not input_flexvolumes_allowed(volume)
-    msg := sprintf("FlexVolume %v is not allowed, pod: %v. Allowed drivers: %v", [volume, input.review.object.metadata.name, input.parameters.allowedFlexVolumes])
+    msg := sprintf("FlexVolume %v is not allowed, pod: %v. Allowed drivers: %v", [volume, input.review.object.metadata.name, input.parameters.allowedFlexVolumeDrivers])
 }
 
 input_flexvolumes_allowed(volume) {
     # An empty list means there is no restriction on flexVolume drivers used
-    input.parameters.allowedFlexVolumes == []
+    input.parameters.allowedFlexVolumeDrivers == []
 }
 
 input_flexvolumes_allowed(volume) {
-    input.parameters.allowedFlexVolumes[_] == volume.flexVolume.driver
+    input.parameters.allowedFlexVolumeDrivers[_] == volume.flexVolume.driver
 }
 
 input_flexvolumes[v] {

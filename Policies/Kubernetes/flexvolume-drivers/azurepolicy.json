@@ -3,7 +3,7 @@
     "displayName": "Ensure only allowed FlexVolume Drivers are used in Kubernetes Cluster",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
-    "description": "This policy ensures only allowe FlexVolume Drivers are used inside a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc",
+    "description": "This policy ensures only allowed FlexVolume Drivers are used in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc",
     "parameters": {
       "effect": {
         "type": "String",
@@ -25,11 +25,11 @@
         },
         "defaultValue": []
       },
-      "allowedFlexVolumes": {
+      "allowedFlexVolumeDrivers": {
         "type": "Array",
         "metadata": {
           "displayName": "Allowed FlexVolume Drivers",
-          "description": "List of FlexVolume Drivers that volumes are able to use"
+          "description": "List of FlexVolume Drivers that volumes are able to use. An empty list means there is no restriction on FlexVolume drivers used."
         },
         "defaultValue": []
       }
@@ -50,7 +50,7 @@
           "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/flexvolume-drivers/constraint.yaml",
           "values": {
             "excludedNamespaces": "[parameters('excludedNamespaces')]",
-            "allowedFlexVolumes": "[parameters('allowedFlexVolumes')]"
+            "allowedFlexVolumeDrivers": "[parameters('allowedFlexVolumeDrivers')]"
           }
         }
       }

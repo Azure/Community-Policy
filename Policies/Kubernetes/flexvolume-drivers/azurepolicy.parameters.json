@@ -19,11 +19,11 @@
     },
     "defaultValue": []
   },
-  "allowedFlexVolumes": {
+  "allowedFlexVolumeDrivers": {
     "type": "Array",
     "metadata": {
       "displayName": "Allowed FlexVolume Drivers",
-      "description": "List of FlexVolume Drivers that volumes are able to use"
+      "description": "List of FlexVolume Drivers that volumes are able to use. An empty list means there is no restriction on FlexVolume drivers used."
     },
     "defaultValue": []
   }

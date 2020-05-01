@@ -9,4 +9,4 @@ spec:
       - apiGroups: [""]
         kinds: ["Pod"]
   parameters:
-    allowedFlexVolumes: {{ .Values.allowedFlexVolumes }}
+    allowedFlexVolumeDrivers: {{ .Values.allowedFlexVolumeDrivers }}
