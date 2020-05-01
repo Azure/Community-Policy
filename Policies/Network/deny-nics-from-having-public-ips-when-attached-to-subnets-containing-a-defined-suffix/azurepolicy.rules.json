@@ -6,22 +6,14 @@
                 "equals": "Microsoft.Network/networkInterfaces"
             },
             {
-                "count": {
-                    "field": "Microsoft.Network/networkInterfaces/ipConfigurations[*]",
-                    "where": {
-                        "allOf": [
-                            {
-                                "value": "[empty(field('Microsoft.Network/networkInterfaces/ipConfigurations[*].publicIPAddress'))]",
-                                "equals": false
-                            },
-                            {
-                                "value": "[substring(split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), '/')[10], 0, sub(length(split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), '/')[10]), 2))]",
-                                "like": "[concat('*', parameters('deniedSuffix'))]"
-                            }
-                        ]
-                    }
-                },
-                "greater": 0
+                "not": {
+                    "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].publicIpAddress.id",
+                    "notLike": "*"
+                }
+            },
+            {
+                "value": "[substring(split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), '/')[10], 0, sub(length(split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), '/')[10]), 2))]",
+                "like": "[concat('*', parameters('deniedSuffix'))]"
             }
         ]
     },
