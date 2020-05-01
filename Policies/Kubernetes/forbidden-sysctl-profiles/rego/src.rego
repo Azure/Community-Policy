@@ -16,7 +16,7 @@ forbidden_sysctl(sysctl) {
 }
 
 forbidden_sysctl(sysctl) {
-	# Escape any existing periods so they are matched exactly
+    # Escape any existing periods so they are matched exactly
     initial := replace(input.parameters.forbiddenSysctls[_], ".", `\.`)
     # Replace any wildcard * characters with the .+ regex wildcard
     pattern := replace(initial, "*", `.+`)
