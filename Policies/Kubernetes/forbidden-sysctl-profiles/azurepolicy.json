@@ -3,7 +3,7 @@
     "displayName": "Forbid Pods in Kubernetes Cluster from using disallowed Sysctl Profiles",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
-    "description": "This policy ensures Pods inside a Kubernetes cluster from using particular Sysctl Profiles. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc",
+    "description": "This policy forbids pods in a Kubernetes cluster from using specified Sysctl Profiles. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc",
     "metadata": {
       "version": "1.0.0-preview",
       "category": "Kubernetes PSP",
@@ -34,7 +34,7 @@
         "type": "Array",
         "metadata": {
           "displayName": "Forbidden Sysctl Profiles",
-          "description": "List of Sysctl Profiles that pods are unable to use. Use * for a wildcard match. E.g. kernal* will disallow any profile starting with kernal. * on its own will disallow all profiles"
+          "description": "List of Sysctl Profiles that pods cannot use. Use * for a wildcard match. E.g. kernel* will disallow any profile starting with kernel. * on its own will disallow all profiles"
         }
       }
     },
