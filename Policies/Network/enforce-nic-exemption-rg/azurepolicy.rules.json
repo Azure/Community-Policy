@@ -1,0 +1,53 @@
+{
+    "if": {
+        "anyOf": [
+            {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Compute/virtualMachines"
+                    },
+                    {
+                        "value": "[resourceGroup().name]",
+                        "notLike": "[concat('*', parameters('resourceGroupSuffix'))]"
+                    },
+                    {
+                        "count": {
+                            "field": "Microsoft.Compute/virtualMachines/networkProfile.networkInterfaces[*]",
+                            "where": {
+                                "value": "[split(string(field('Microsoft.Compute/virtualMachines/networkProfile.networkInterfaces[*].id')), '/')[4]]",
+                                "like": "[concat('*', parameters('resourceGroupSuffix'))]"
+                            }
+                        },
+                        "greater": 0
+                    }
+                ]
+            },
+            {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Compute/virtualMachines"
+                    },
+                    {
+                        "value": "[resourceGroup().name]",
+                        "like": "[concat('*', parameters('resourceGroupSuffix'))]"
+                    },
+                    {
+                        "count": {
+                            "field": "Microsoft.Compute/virtualMachines/networkProfile.networkInterfaces[*]",
+                            "where": {
+                                "value": "[split(string(field('Microsoft.Compute/virtualMachines/networkProfile.networkInterfaces[*].id')), '/')[4]]",
+                                "notLike": "[concat('*', parameters('resourceGroupSuffix'))]"
+                            }
+                        },
+                        "greater": 0
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "deny"
+    }
+}
