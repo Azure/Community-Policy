@@ -1,0 +1,64 @@
+{
+  "properties": {
+    "displayName": "Ensure only allowed Volume Types are used in Kubernetes Cluster",
+    "policyType": "Custom",
+    "mode": "Microsoft.Kubernetes.Data",
+    "description": "This policy ensures only allowed volume types are used in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc",
+    "metadata": {
+      "version": "1.0.0-preview",
+      "category": "Kubernetes PSP",
+      "preview": true
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "enforceOPAConstraint",
+          "disabled"
+        ],
+        "defaultValue": "enforceOPAConstraint"
+      },
+      "excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+        },
+        "defaultValue": []
+      },
+      "allowedVolumeTypes": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed Volume Types",
+          "description": "List of volume types that volumes are allowed to use. Use * to allow all volume types. Empty array means all volume types are disallowed."
+        },
+        "defaultValue": []
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "AKS Engine",
+          "Microsoft.Kubernetes/connectedClusters",
+          "Microsoft.ContainerService/managedClusters"
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/allowed-volume-types/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/allowed-volume-types/constraint.yaml",
+          "values": {
+            "excludedNamespaces": "[parameters('excludedNamespaces')]",
+            "allowedVolumeTypes": "[parameters('allowedVolumeTypes')]"
+          }
+        }
+      }
+    }
+  }
+}
