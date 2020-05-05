@@ -1,0 +1,55 @@
+{
+  "properties": {
+    "displayName": "Ensure Read-Only Access to Root Filesystem in a Kubernetes Cluster",
+    "policyType": "Custom",
+    "mode": "Microsoft.Kubernetes.Data",
+    "description": "This policy ensures pods only have read-only access to the root filesystem in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc/.",
+    "metadata": {
+      "version": "1.0.0-preview",
+      "category": "Kubernetes PSP",
+      "preview": true
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "enforceOPAConstraint",
+          "disabled"
+        ],
+        "defaultValue": "enforceOPAConstraint"
+      },
+      "excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+        },
+        "defaultValue": []
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "AKS Engine",
+          "Microsoft.Kubernetes/connectedClusters",
+          "Microsoft.ContainerService/managedClusters"
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/read-only-root-filesystem/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/read-only-root-filesystem/constraint.yaml",
+          "values": {
+            "excludedNamespaces": "[parameters('excludedNamespaces')]"
+          }
+        }
+      }
+    }
+  }
+}
