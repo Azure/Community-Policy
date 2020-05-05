@@ -1,9 +1,9 @@
 {
   "properties": {
-    "displayName": "Forbid Pods in Kubernetes Cluster from using disallowed Sysctl Profiles",
+    "displayName": "Forbid Pods in Kubernetes Cluster from using forbidden Sysctl Interfaces",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
-    "description": "This policy forbids pods in a Kubernetes cluster from using specified Sysctl Profiles. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc",
+    "description": "This policy forbids pods in a Kubernetes cluster from using specified Sysctl Interfaces. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc",
     "metadata": {
       "version": "1.0.0-preview",
       "category": "Kubernetes PSP",
@@ -33,8 +33,8 @@
       "forbiddenSysctls": {
         "type": "Array",
         "metadata": {
-          "displayName": "Forbidden Sysctl Profiles",
-          "description": "List of Sysctl Profiles that pods cannot use. Use * for a wildcard match. E.g. kernel* will disallow any profile starting with kernel. * on its own will disallow all profiles"
+          "displayName": "Forbidden Sysctl Interfaces",
+          "description": "List of Sysctl Interfaces that pods cannot use. Use * for a wildcard match. E.g. kernel* will forbid any interface starting with kernel. * on its own will forbid all interfaces"
         }
       }
     },
@@ -50,8 +50,8 @@
       "then": {
         "effect": "[parameters('effect')]",
         "details": {
-          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/forbidden-sysctl-profiles/template.yaml",
-          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/forbidden-sysctl-profiles/constraint.yaml",
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/forbidden-sysctl-interfaces/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/forbidden-sysctl-interfaces/constraint.yaml",
           "values": {
             "excludedNamespaces": "[parameters('excludedNamespaces')]",
             "forbiddenSysctls": "[parameters('forbiddenSysctls')]"

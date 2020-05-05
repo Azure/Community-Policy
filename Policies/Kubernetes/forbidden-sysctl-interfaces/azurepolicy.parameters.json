@@ -22,8 +22,8 @@
   "forbiddenSysctls": {
     "type": "Array",
     "metadata": {
-      "displayName": "Forbidden Sysctl Profiles",
-      "description": "List of Sysctl Profiles that pods cannot use. Use * for a wildcard match. E.g. kernel* will disallow any profile starting with kernel. * on its own will disallow all profiles"
+      "displayName": "Forbidden Sysctl Interfaces",
+      "description": "List of Sysctl Interfaces that pods cannot use. Use * for a wildcard match. E.g. kernel* will forbid any interface starting with kernel. * on its own will forbid all interfaces"
     }
   }
 }
