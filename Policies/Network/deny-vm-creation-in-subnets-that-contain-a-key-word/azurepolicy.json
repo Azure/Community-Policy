@@ -18,6 +18,10 @@
                         }
                     },
                     "greater": 0
+                },
+                {
+                    "value": "[resourceGroup().name]",
+                    "notLike": "[concat('*', parameters('resourceGroupSuffix'))]"
                 }
             ]
         },
@@ -31,6 +35,13 @@
             "metadata": {
                 "displayname": "Deny VMs in subnets based on this name",
                 "description": "VMs will not be allowed to provision into subnets that contain this word."
+            }
+        },
+        "resourceGroupSuffix": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Resource Group Suffix",
+                "description": "NICs deployed into Resource Groups containing this suffix are exempt from the Policy."
             }
         }
     }
