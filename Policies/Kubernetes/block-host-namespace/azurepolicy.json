@@ -1,9 +1,9 @@
 {
   "properties": {
-    "displayName": "Do not allow sharing of the Host Namespace in a Kubernetes Cluster",
+    "displayName": "Do not allow sharing of host process ID and IPC namespaces in a Kubernetes Cluster",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
-    "description": "This policy blocks pod containers from sharing the host process ID namespace and IPC namespace a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc/.",
+    "description": "This policy blocks pod containers from sharing the host process ID namespace and IPC namespace in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc/.",
     "metadata": {
       "version": "1.0.0-preview",
       "category": "Kubernetes PSP",
