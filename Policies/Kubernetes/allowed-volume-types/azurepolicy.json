@@ -3,7 +3,7 @@
     "displayName": "Ensure only allowed Volume Types are used in Kubernetes Cluster",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
-    "description": "This policy ensures only allowed volume types are used inside a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc",
+    "description": "This policy ensures only allowed volume types are used in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc",
     "metadata": {
       "version": "1.0.0-preview",
       "category": "Kubernetes PSP",
@@ -34,8 +34,9 @@
         "type": "Array",
         "metadata": {
           "displayName": "Allowed Volume Types",
-          "description": "List of volume types that volumes are allowed to use. Use * to allow all volume types"
-        }
+          "description": "List of volume types that volumes are allowed to use. Use * to allow all volume types. Empty array means all volume types are disallowed."
+        },
+        "defaultValue": []
       }
     },
     "policyRule": {
