@@ -34,7 +34,7 @@
         "type": "Array",
         "metadata": {
           "displayName": "Forbidden Sysctl Interfaces",
-          "description": "List of Sysctl Interfaces that pods cannot use. Use * for a wildcard match. E.g. kernel* will forbid any interface starting with kernel. * on its own will forbid all interfaces"
+          "description": "List of Sysctl Interfaces that pods cannot use. Use * for a wildcard match. E.g. kernel* will forbid any interface starting with kernel. * on its own will forbid all interfaces. For more information, please refer https://aka.ms/k8s-policy-sysctl-interfaces"
         }
       }
     },
