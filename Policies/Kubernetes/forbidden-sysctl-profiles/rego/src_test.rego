@@ -30,18 +30,6 @@ test_input_sysctls_forbidden_in_list_wildcard {
     count(results) == 2
 }
 
-test_input_sysctls_forbidden_in_list_centered_wildcard {
-    input := { "review": input_review, "parameters": input_parameters_centered_wildcard}
-    results := violation with input as input
-    count(results) == 2
-}
-
-test_input_sysctls_forbidden_one_in_list_centered_wildcard {
-    input := { "review": input_review, "parameters": input_parameters_one_centered_wildcard}
-    results := violation with input as input
-    count(results) == 1
-}
-
 test_input_sysctls_forbidden_in_list_wildcard_mixed {
     input := { "review": input_review, "parameters": input_parameters_one_in_list_wildcard}
     results := violation with input as input
@@ -50,12 +38,6 @@ test_input_sysctls_forbidden_in_list_wildcard_mixed {
 
 test_input_sysctls_forbidden_not_in_list_wildcard {
     input := { "review": input_review, "parameters": input_parameters_not_in_list_wildcard}
-    results := violation with input as input
-    count(results) == 0
-}
-
-test_input_sysctls_forbidden_not_in_list_wildcard_centerd {
-    input := { "review": input_review, "parameters": input_parameters_not_in_list_wildcard_centered}
     results := violation with input as input
     count(results) == 0
 }
@@ -257,28 +239,9 @@ input_parameters_one_in_list_wildcard = {
     ]
 }
 
-input_parameters_centered_wildcard = {
-    "forbiddenSysctls": [
-        "kernel.*forced",
-        "net.*conn"
-    ]
-}
-
-input_parameters_one_centered_wildcard = {
-    "forbiddenSysctls": [
-        "kernel.*forced"
-    ]
-}
-
 input_parameters_not_in_list_wildcard = {
     "forbiddenSysctls": [
         "kernel.msg*"
-    ]
-}
-
-input_parameters_not_in_list_wildcard_centered = {
-    "forbiddenSysctls": [
-        "shm*forced"
     ]
 }
 
