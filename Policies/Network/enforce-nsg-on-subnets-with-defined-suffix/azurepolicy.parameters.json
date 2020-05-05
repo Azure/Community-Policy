@@ -1,0 +1,9 @@
+{
+    "deniedSuffix": {
+        "type": "string",
+        "metadata": {
+            "displayName": "Target Subnet Suffix",
+            "description": "Subnets containing this suffix will require an NSG for deployment to succeed."
+        }
+    }
+}
