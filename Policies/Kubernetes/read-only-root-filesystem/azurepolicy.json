@@ -3,7 +3,7 @@
     "displayName": "Ensure Read-Only Access to Root Filesystem in a Kubernetes Cluster",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
-    "description": "This policy ensures pods only have read-only access to the root filesystem in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc/.\n",
+    "description": "This policy ensures pods only have read-only access to the root filesystem in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc/.",
     "metadata": {
       "version": "1.0.0-preview",
       "category": "Kubernetes PSP",
