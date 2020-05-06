@@ -42,7 +42,7 @@
                     },
                     {
                         "not": {
-                            "value": "[split(field('Microsoft.Authorization/roleAssignments/roleDefinitionId'),'/')[6]]",
+                            "value": "[split(field('Microsoft.Authorization/roleAssignments/roleDefinitionId'),'/')[4]]",
                             "in": "[parameters('roleDefinitionIds')]"
                         }
                     },
