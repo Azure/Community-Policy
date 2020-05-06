@@ -1,0 +1,44 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "enforceOPAConstraint",
+      "disabled"
+    ],
+    "defaultValue": "enforceOPAConstraint"
+  },
+  "excludedNamespaces": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Namespace exclusions",
+      "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+    },
+    "defaultValue": []
+  },
+  "allowedHostNetwork": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Host Network Allowed",
+      "description": "Whether a pod is allowed to use the host network"
+    },
+    "defaultValue": false
+  },
+  "maxPort": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "Maximum Host Port Value",
+      "description": "List of volume types that volumes are allowed to use. Use * to allow all volume types"
+    }
+  },
+  "minPort": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "Minimum Host Port Value",
+      "description": "List of volume types that volumes are allowed to use. Use * to allow all volume types"
+    }
+  }
+}
