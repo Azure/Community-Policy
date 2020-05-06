@@ -1,0 +1,8 @@
+{
+  "parameters": {
+    "excludedNamespaces": { "value": [ "kube-system", "azure-arc" ] },
+    "allowedHostNetwork": { "value": [ true ] },
+    "minPort": { "value": [ 80 ] },
+    "maxPort": { "value": [ 9000 ] }
+  }
+}
