@@ -1,0 +1,30 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "enforceOPAConstraint",
+      "disabled"
+    ],
+    "defaultValue": "enforceOPAConstraint"
+  },
+  "excludedNamespaces": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Namespace exclusions",
+      "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+    },
+    "defaultValue": []
+  },
+  "allowedProfiles": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed Seccomp Profiles",
+      "description": "List of Seccomp Profiles that pods are allowed to use. Use * to allow all profiles, an empty list will block everything."
+    },
+    "defaultValue": []
+  }
+}
