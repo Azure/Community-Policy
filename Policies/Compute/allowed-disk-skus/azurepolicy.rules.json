@@ -1,0 +1,14 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Compute/disks"
+            },
+            {
+                "field": "Microsoft.Compute/disk/sku.name",
+                "NotIn": "[parameters('allowedDiskSkus')]"
+            }
+        ]
+    }
+}
