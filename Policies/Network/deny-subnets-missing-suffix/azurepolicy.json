@@ -1,0 +1,57 @@
+{
+    "mode": "All",
+    "name": "Deny subnets missing suffix",
+    "description": "This Policy will deny the creation of subnets that do not contain one of the suffixes defined within this Policy.",
+    "policyRule": {
+        "if": {
+            "anyOf": [
+                {
+                    "allOf": [
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.Network/virtualNetworks"
+                        },
+                        {
+                            "count": {
+                                "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+                                "where": {
+                                    "not": {
+                                        "value": "[substring(last(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].name')), '-')), 0, sub(length(last(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].name')), '-'))), 2))]",
+                                        "in": "[parameters('requiredSuffix')]"
+                                    }
+                                }
+                            },
+                            "greater": 0
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.Network/virtualNetworks/subnets"
+                        },
+                        {
+                            "not": {
+                                "value": "[last(split(field('name'),'-'))]",
+                                "in": "[parameters('requiredSuffix')]"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "then": {
+            "effect": "deny"
+        }
+    },
+    "parameters": {
+        "requiredSuffix": {
+            "type": "Array",
+            "metadata": {
+                "displayName": "Required Suffixes",
+                "description": "Assessment is performed as such: 'exameple-subnet-suffix', would be split by '-' and the last value would be returned. That would be the word 'suffix' in this example. If that word was not defined in this list the creation of that subnet would be denied."
+            }
+        }
+    }
+}
