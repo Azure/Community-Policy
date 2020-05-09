@@ -9,8 +9,8 @@
                 "count": {
                     "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*]",
                     "where": {
-                        "value": "[split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), '/')[10]]",
-                        "contains": "[parameters('disallowedSubnet')]"
+                        "value": "[substring(last(split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), 'subnets/')), 0, sub(length(last(split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), 'subnets/'))), 2))]",
+                        "like": "[concat('*', parameters('disallowedSubnet'))]"
                     }
                 },
                 "greater": 0
