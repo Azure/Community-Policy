@@ -1,0 +1,97 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Resources/subscriptions"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "microsoft.insights/diagnosticSettings",
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+            "equals": "[parameters('workspaceId')]"
+          }
+        ]
+      },
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa",
+        "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+      ],
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "profileName": {
+                "type": "string"
+              },
+              "workspaceId": {
+                "type": "string"
+              }
+            },
+            "variables": {},
+            "resources": [
+              {
+                "type": "microsoft.insights/diagnosticSettings",
+                "apiVersion": "2017-05-01-preview",
+                "name": "[parameters('profileName')]",
+                "properties": {
+                  "workspaceId": "[parameters('workspaceId')]",
+                  "logs": [
+                    {
+                      "category": "Administrative",
+                      "enabled": true
+                    },
+                    {
+                      "category": "Security",
+                      "enabled": true
+                    },
+                    {
+                      "category": "ServiceHealth",
+                      "enabled": true
+                    },
+                    {
+                      "category": "Alert",
+                      "enabled": true
+                    },
+                    {
+                      "category": "Recommendation",
+                      "enabled": true
+                    },
+                    {
+                      "category": "Policy",
+                      "enabled": true
+                    },
+                    {
+                      "category": "Autoscale",
+                      "enabled": true
+                    },
+                    {
+                      "category": "ResourceHealth",
+                      "enabled": true
+                    }
+                  ]
+                }
+              }
+            ],
+            "outputs": {}
+          },
+          "parameters": {
+            "workspaceId": {
+              "value": "[parameters('workspaceId')]"
+            },
+            "profileName": {
+              "value": "[parameters('profileName')]"
+            }
+          }
+        },
+        "location": "eastus"
+      },
+      "deploymentScope": "subscription"
+    }
+  }
+}
