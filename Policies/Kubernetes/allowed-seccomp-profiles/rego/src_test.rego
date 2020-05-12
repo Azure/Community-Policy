@@ -48,6 +48,12 @@ test_input_seccomp_pod_multiple_not_allowed_not_in_list {
     count(results) == 2
 }
 
+test_input_seccomp_wildcard_no_annotation {
+    input := { "review": input_review_no_annotation, "parameters": input_parameters_wildcard}
+    results := violation with input as input
+    count(results) == 0
+}
+
 test_input_seccomp_not_allowed_no_annotation {
     input := { "review": input_review_no_annotation, "parameters": input_parameter_in_list}
     results := violation with input as input
