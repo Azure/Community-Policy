@@ -1,0 +1,13 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sAzureFSGroup
+metadata:
+  name: psp-fsgroup
+spec:
+  match:
+    excludedNamespaces: {{ .Values.excludedNamespaces }}
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+  parameters:
+    rule: {{ .Values.fsgroupRule }}
+    ranges: {{ .Values.validFsgroupRanges }}

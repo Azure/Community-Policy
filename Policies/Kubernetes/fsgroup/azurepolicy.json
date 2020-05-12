@@ -1,0 +1,79 @@
+{
+  "properties": {
+    "displayName": "Control allowed fsgroup on pods in a Kubernetes Cluster",
+    "policyType": "Custom",
+    "mode": "Microsoft.Kubernetes.Data",
+    "description": "This policy controls valid ranges for FsGroup (File System Group) on volumes in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
+    "metadata": {
+      "version": "1.0.0-preview",
+      "category": "Kubernetes PSP",
+      "preview": true
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "enforceOPAConstraint",
+          "disabled"
+        ],
+        "defaultValue": "enforceOPAConstraint"
+      },
+      "excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+        },
+        "defaultValue": []
+      },
+      "fsgroupRule": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Rule for a pod to confirm to FsGroup ranges.",
+          "description": "The rule for how pods may confirm to the given FsGroup ranges. Either 'MayRunAs', 'MustRunAs, or 'RunAsAll'. For more information, visit https://kubernetes.io/docs/concepts/policy/pod-security-policy/#volumes-and-file-systems"
+        }
+      },
+      "validFsgroupRanges": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Valid ranges for Pod FsGroup",
+          "description": "Enter valid ranges from 'min' to max' for the fsgroup used in a pod's security context."
+        },
+        "defaultValue": {
+          "ranges": [
+            {
+              "min": 1,
+              "max": 1000
+            }
+          ]
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "AKS Engine",
+          "Microsoft.Kubernetes/connectedClusters",
+          "Microsoft.ContainerService/managedClusters"
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "constraintTemplate": "https://raw.githubusercontent.com/EmandM/Community-Policy/psp/fsgroup/Policies/Kubernetes/fsgroup/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/EmandM/Community-Policy/psp/fsgroup/Policies/Kubernetes/fsgroup/constraint.yaml",
+          "values": {
+            "excludedNamespaces": "[parameters('excludedNamespaces')]",
+            "fsgroupRule": "[parameters('fsgroupRule')]",
+            "validFsgroupRanges": "[parameters('validFsgroupRanges').ranges]"
+          }
+        }
+      }
+    }
+  }
+}

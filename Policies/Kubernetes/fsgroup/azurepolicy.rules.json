@@ -1,0 +1,22 @@
+{
+  "if": {
+    "field": "type",
+    "in": [
+      "AKS Engine",
+      "Microsoft.Kubernetes/connectedClusters",
+      "Microsoft.ContainerService/managedClusters"
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "constraintTemplate": "https://raw.githubusercontent.com/EmandM/Community-Policy/psp/fsgroup/Policies/Kubernetes/fsgroup/template.yaml",
+      "constraint": "https://raw.githubusercontent.com/EmandM/Community-Policy/psp/fsgroup/Policies/Kubernetes/fsgroup/constraint.yaml",
+      "values": {
+        "excludedNamespaces": "[parameters('excludedNamespaces')]",
+        "fsgroupRule": "[parameters('fsgroupRule')]",
+        "validFsgroupRanges": "[parameters('validFsgroupRanges').ranges]"
+      }
+    }
+  }
+}
