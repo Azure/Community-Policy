@@ -9,6 +9,6 @@ spec:
       - apiGroups: [""]
         kinds: ["Pod"]
   parameters:
-    allowedHostNetwork: {{ .Values.allowedHostNetwork }}
+    allowHostNetwork: {{ .Values.allowHostNetwork }}
     minPort: {{ .Values.minPort }}
     maxPort: {{ .Values.maxPort }}

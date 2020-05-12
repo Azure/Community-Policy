@@ -19,10 +19,10 @@
     },
     "defaultValue": []
   },
-  "allowedHostNetwork": {
+  "allowHostNetwork": {
     "type": "Boolean",
     "metadata": {
-      "displayName": "Host Network Allowed",
+      "displayName": "Host Network Usage",
       "description": "Whether a pod is allowed to use the host network"
     },
     "defaultValue": false
@@ -31,14 +31,14 @@
     "type": "Integer",
     "metadata": {
       "displayName": "Maximum Host Port Value",
-      "description": "List of volume types that volumes are allowed to use. Use * to allow all volume types"
+      "description": "Maximum Host Port that pods are allowed to use on a Kubernetes cluster"
     }
   },
   "minPort": {
     "type": "Integer",
     "metadata": {
       "displayName": "Minimum Host Port Value",
-      "description": "List of volume types that volumes are allowed to use. Use * to allow all volume types"
+      "description": "Minimum Host Port that pods are allowed to use on a Kubernetes cluster"
     }
   }
 }

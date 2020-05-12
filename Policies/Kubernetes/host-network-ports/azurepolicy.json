@@ -1,9 +1,9 @@
 {
   "properties": {
-    "displayName": "Control whether a Pod may use the Host Network, and whitelist Host Ports in a Kubernetes Cluster",
+    "displayName": "Control whether a Pod may use the Host Network, and allow Host Ports in a Kubernetes Cluster",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
-    "description": "This policy controls whether pod may use the host network, and whitelists host ports in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
+    "description": "This policy controls whether pod may use the host network, and allows host ports in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
     "metadata": {
       "version": "1.0.0-preview",
       "category": "Kubernetes PSP",
@@ -30,10 +30,10 @@
         },
         "defaultValue": []
       },
-      "allowedHostNetwork": {
+      "allowHostNetwork": {
         "type": "Boolean",
         "metadata": {
-          "displayName": "Host Network Allowed",
+          "displayName": "Host Network Usage",
           "description": "Whether a pod is allowed to use the host network"
         },
         "defaultValue": false
@@ -42,14 +42,14 @@
         "type": "Integer",
         "metadata": {
           "displayName": "Maximum Host Port Value",
-          "description": "List of volume types that volumes are allowed to use. Use * to allow all volume types"
+          "description": "Maximum Host Port that pods are allowed to use on a Kubernetes cluster"
         }
       },
       "minPort": {
         "type": "Integer",
         "metadata": {
           "displayName": "Minimum Host Port Value",
-          "description": "List of volume types that volumes are allowed to use. Use * to allow all volume types"
+          "description": "Minimum Host Port that pods are allowed to use on a Kubernetes cluster"
         }
       }
     },
@@ -69,7 +69,7 @@
           "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/host-network-ports/constraint.yaml",
           "values": {
             "excludedNamespaces": "[parameters('excludedNamespaces')]",
-            "allowedHostNetwork": "[parameters('allowedHostNetwork')]",
+            "allowHostNetwork": "[parameters('allowHostNetwork')]",
             "minPort": "[parameters('minPort')]",
             "maxPort": "[parameters('maxPort')]"
           }

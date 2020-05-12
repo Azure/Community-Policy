@@ -11,7 +11,7 @@ spec:
         # Schema for the `parameters` field
         openAPIV3Schema:
           properties:
-            allowedHostNetwork:
+            allowHostNetwork:
               type: boolean
             minPort:
               type: integer
@@ -28,7 +28,7 @@ spec:
         }
 
         input_share_hostnetwork(o) {
-          not input.parameters.allowedHostNetwork
+          not input.parameters.allowHostNetwork
           o.spec.hostNetwork
         }
 
