@@ -30,7 +30,7 @@
     "type": "Object",
     "metadata": {
       "displayName": "Valid ranges for Pod FsGroup",
-      "description": "Enter valid ranges from 'min' to max' for the fsgroup used in a pod's security context."
+      "description": "Enter valid ranges from 'min' to max' for the fsgroup used in a pod's security context. Format: { \"ranges\": {\"min\": <minimum valid range>, \"max\": <maximum valid range>\" }"
     },
     "defaultValue": {
       "ranges": [
