@@ -1,22 +1,23 @@
 package k8spsphostnetworkingports
 
 violation[{"msg": msg, "details": {}}] {
-    input_share_hostnetwork(input.review.object)
-    msg := sprintf("The specified hostNetwork and hostPort are not allowed, pod: %v. Allowed values: %v", [input.review.object.metadata.name, input.parameters])
+	container := input_containers[_]
+    input_share_hostnetwork(container)
+    msg := sprintf("The specified hostNetwork and hostPort are not allowed, pod: %v, container: %v. Allowed values: %v", [input.review.object.metadata.name, container.name, input.parameters])
 }
 
-input_share_hostnetwork(o) {
-    not input.parameters.allowedHostNetwork
-    o.spec.hostNetwork
+input_share_hostnetwork(container) {
+    not input.parameters.allowHostNetwork
+    input.review.object.spec.hostNetwork
 }
 
-input_share_hostnetwork(o) {
-    hostPort := input_containers[_].ports[_].hostPort
+input_share_hostnetwork(container) {
+    hostPort := container.ports[_].hostPort
     hostPort < input.parameters.minPort
 }
 
-input_share_hostnetwork(o) {
-    hostPort := input_containers[_].ports[_].hostPort
+input_share_hostnetwork(container) {
+    hostPort := container.ports[_].hostPort
     hostPort > input.parameters.maxPort
 }
 
