@@ -1,4 +1,4 @@
-package k8azurehostfilesystem
+package k8sazurehostfilesystem
 
 violation[{"msg": msg, "details": {}}] {
     volume := input_hostpath_volumes[_]

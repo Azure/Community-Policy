@@ -1,4 +1,4 @@
-package k8azurehostfilesystem
+package k8sazurehostfilesystem
 
 test_input_hostpath_allowed_all {
     input := { "review": input_review, "parameters": input_parameters_wildcard}

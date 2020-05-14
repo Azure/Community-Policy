@@ -1,7 +1,7 @@
 apiVersion: templates.gatekeeper.sh/v1beta1
 kind: ConstraintTemplate
 metadata:
-  name: k8azurehostfilesystem
+  name: k8sazurehostfilesystem
 spec:
   crd:
     spec:
@@ -23,7 +23,7 @@ spec:
   targets:
     - target: admission.k8s.gatekeeper.sh
       rego: |
-        package k8azurehostfilesystem
+        package k8sazurehostfilesystem
 
         violation[{"msg": msg, "details": {}}] {
             volume := input_hostpath_volumes[_]
