@@ -1,0 +1,11 @@
+{
+  "parameters": {
+    "excludedNamespaces": { "value": [ "kube-system", "azure-arc" ] },
+    "allowedHostPaths": { "value": {
+      "paths": [{
+        "pathPrefix": "/etc",
+        "readOnly": true
+      }]
+    } }
+  }
+}
