@@ -33,8 +33,8 @@
       "allowHostNetwork": {
         "type": "Boolean",
         "metadata": {
-          "displayName": "Host Network Usage",
-          "description": "Whether a pod is allowed to use the host network"
+          "displayName": "Allow Host Network Usage",
+          "description": "Set this value to true if pod is allowed to use host network otherwise false"
         },
         "defaultValue": false
       },
