@@ -114,6 +114,12 @@ test_input_seccomp_containers_allowed_in_list_multiple {
     count(results) == 0
 }
 
+test_input_seccomp_container_allowed_in_list_multiple {
+    input := { "review": input_review_container, "parameters": input_parameters_in_list}
+    results := violation with input as input
+    count(results) == 0
+}
+
 test_input_seccomp_pod_container_annotation {
     input := { "review": input_review_pod_container, "parameters": input_parameter_in_list}
     results := violation with input as input
