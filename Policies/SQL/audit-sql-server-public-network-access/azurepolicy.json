@@ -1,0 +1,24 @@
+{
+   "properties": {
+      "displayName": "Audit SQL server level Public Network Access settings",
+      "description": "Audits the existence of SQL Public Network Access at the server level",
+      "parameters": {},
+      "policyRule": {
+         "if": {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers"
+         },
+         "then": {
+            "effect": "AuditIfNotExists",
+            "details": {
+               "type": "Microsoft.Sql/servers/publicNetworkAccess",
+               "name": "default",
+               "existenceCondition": {
+                  "field": "Microsoft.Sql/publicNetworkAccess",
+                  "equals": "Disabled"
+               }
+            }
+         }
+      }
+   }
+}
