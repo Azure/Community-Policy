@@ -24,7 +24,12 @@
     "metadata": {
       "displayName": "Rule for a pod to confirm to FSGroup ranges.",
       "description": "The rule for how pods may confirm to the given FSGroup ranges. Either 'MayRunAs', 'MustRunAs, or 'RunAsAll'. For more information, visit https://kubernetes.io/docs/concepts/policy/pod-security-policy/#volumes-and-file-systems"
-    }
+    },
+    "allowedValues": [
+      "MayRunAs",
+      "MustRunAs",
+      "RunAsAll"
+    ]
   },
   "validFsgroupRanges": {
     "type": "Object",
