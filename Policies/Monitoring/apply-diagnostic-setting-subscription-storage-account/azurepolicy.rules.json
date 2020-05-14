@@ -1,0 +1,97 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Resources/subscriptions"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "microsoft.insights/diagnosticSettings",
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/storageAccountId",
+            "equals": "[parameters('storageAccountId')]"
+          }
+        ]
+      },
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa",
+        "/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe"
+      ],
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "profileName": {
+                "type": "string"
+              },
+              "storageAccountId": {
+                "type": "string"
+              }
+            },
+            "variables": {},
+            "resources": [
+              {
+                "type": "microsoft.insights/diagnosticSettings",
+                "apiVersion": "2017-05-01-preview",
+                "name": "[parameters('profileName')]",
+                "properties": {
+                  "storageAccountId": "[parameters('storageAccountId')]",
+                  "logs": [
+                    {
+                      "category": "Administrative",
+                      "enabled": true
+                    },
+                    {
+                      "category": "Security",
+                      "enabled": true
+                    },
+                    {
+                      "category": "ServiceHealth",
+                      "enabled": true
+                    },
+                    {
+                      "category": "Alert",
+                      "enabled": true
+                    },
+                    {
+                      "category": "Recommendation",
+                      "enabled": true
+                    },
+                    {
+                      "category": "Policy",
+                      "enabled": true
+                    },
+                    {
+                      "category": "Autoscale",
+                      "enabled": true
+                    },
+                    {
+                      "category": "ResourceHealth",
+                      "enabled": true
+                    }
+                  ]
+                }
+              }
+            ],
+            "outputs": {}
+          },
+          "parameters": {
+            "storageAccountId": {
+              "value": "[parameters('storageAccountId')]"
+            },
+            "profileName": {
+              "value": "[parameters('profileName')]"
+            }
+          }
+        },
+        "location": "eastus"
+      },
+      "deploymentScope": "subscription"
+    }
+  }
+}
