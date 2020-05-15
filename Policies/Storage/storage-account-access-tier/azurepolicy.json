@@ -13,7 +13,10 @@
                     },
                     {
                         "field": "kind",
-                        "equals": "BlobStorage"
+                        "in": [
+                                "BlobStorage",
+                                "StorageV2"
+                              ]
                     },
                     {
                         "field": "Microsoft.Storage/storageAccounts/accessTier",
