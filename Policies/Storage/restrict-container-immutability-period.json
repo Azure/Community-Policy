@@ -1,0 +1,21 @@
+{
+  "mode": "All",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Storage/storageAccounts/blobServices/containers/immutabilityPolicies"
+        },
+        {
+          "field": "Microsoft.Storage/storageAccounts/blobServices/containers/immutabilityPolicies/default.immutabilityPeriodSinceCreationInDays",
+          "greater": 30
+        }
+      ]
+    },
+    "then": {
+      "effect": "deny"
+    }
+  },
+  "parameters": {}
+}
