@@ -1,0 +1,34 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "enforceOPAConstraint",
+      "disabled"
+    ],
+    "defaultValue": "enforceOPAConstraint"
+  },
+  "excludedNamespaces": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Namespace exclusions",
+      "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+    },
+    "defaultValue": []
+  },
+  "procMountType": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Type of Proc Mount for containers to use.",
+      "description": "The type of proc mount to use for containers to use in the cluster. Either 'Default' or 'Unmasked'. For more information, visit https://aka.ms/k8s-psp-proc-mount"
+    },
+    "allowedValues": [
+      "Unmasked",
+      "Default"
+    ],
+    "defaultValue": "Default"
+  }
+}

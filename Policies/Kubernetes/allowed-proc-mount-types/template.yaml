@@ -1,0 +1,39 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8sazureprocmount
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sAzureProcMount
+      validation:
+        # Schema for the `parameters` field
+        openAPIV3Schema:
+          properties:
+            procMountType:
+              type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8sazureprocmount
+
+        violation[{"msg": msg, "details": {}}] {
+            c := input_containers[_]
+            not input_proc_mount_type_allowed(c)
+            msg := sprintf("ProcMount type is not allowed, container: %v. Allowed procMount types: %v", [c.name, input.parameters.procMountType])
+        }
+
+        input_proc_mount_type_allowed(c) {
+            input.parameters.procMountType == c.securityContext.procMount
+        }
+
+        input_containers[c] {
+            c := input.review.object.spec.containers[_]
+            c.securityContext.procMount
+        }
+
+        input_containers[c] {
+            c := input.review.object.spec.initContainers[_]
+            c.securityContext.procMount
+        }
