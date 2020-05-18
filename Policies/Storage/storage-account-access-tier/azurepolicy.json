@@ -1,29 +1,28 @@
 {
-    "properties": {
-        "mode": "All",
-        "parameters": {},
-        "displayName": "Deny cool access tiering for storage accounts",
-        "description": "Ensures there's no usage of cool access tiering for storage.",
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Storage/storageAccounts"
-                    },
-                    {
-                        "field": "kind",
-                        "equals": "BlobStorage"
-                    },
-                    {
-                        "field": "Microsoft.Storage/storageAccounts/accessTier",
-                        "equals": "cool"
-                    }
-                ]
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "mode": "All",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Storage/storageAccounts"
+        },
+        {
+          "field": "kind",
+          "in": [
+            "BlobStorage",
+            "StorageV2"
+          ]
+        },
+        {
+          "field": "Microsoft.Storage/storageAccounts/accessTier",
+          "equals": "cool"
         }
+      ]
+    },
+    "then": {
+      "effect": "deny"
     }
+  },
+  "parameters": {}
 }
