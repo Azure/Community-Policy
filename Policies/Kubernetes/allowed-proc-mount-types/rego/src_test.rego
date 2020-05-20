@@ -35,6 +35,11 @@ test_input_container_proc_mount_unmasked {
     results := violation with input as input
     count(results) == 0
 }
+test_input_container_proc_mount_case_insensitive {
+    input := { "review": input_review, "parameters": input_parameters_default_lower}
+    results := violation with input as input
+    count(results) == 0
+}
 
 input_review = {
     "object": {
@@ -150,6 +155,10 @@ input_containers_many_mixed = [
 
 input_parameters_default = {
      "procMountType": "Default"
+}
+
+input_parameters_default_lower = {
+     "procMountType": "default"
 }
 
 input_parameters_unmasked = {

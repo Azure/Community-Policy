@@ -7,7 +7,7 @@ violation[{"msg": msg, "details": {}}] {
 }
 
 input_proc_mount_type_allowed(c) {
-    input.parameters.procMountType == c.securityContext.procMount
+    lower(input.parameters.procMountType) == lower(c.securityContext.procMount)
 }
 
 input_containers[c] {
