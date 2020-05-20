@@ -15,6 +15,11 @@ test_input_fsgroup_allowed_all_with_range {
     results := violation with input as input
     count(results) == 0
 }
+test_input_securitycontext_no_fsgroup_allowed_all {
+    input := { "review": input_review_with_securitycontext_no_fsgroup , "parameters": input_parameters(anyrun, [range_in_range])}
+    results := violation with input as input
+    count(results) == 0
+}
 test_input_no_fsgroup_allowed_all_with_range_outofrange {
     input := { "review": input_review, "parameters": input_parameters(anyrun, [range_outofrange])}
     results := violation with input as input
