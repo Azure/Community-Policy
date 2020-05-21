@@ -1,0 +1,87 @@
+{
+  "properties": {
+    "displayName": "Ensure only allowed SELinux options are used in a kubernetes cluster",
+    "policyType": "Custom",
+    "mode": "Microsoft.Kubernetes.Data",
+    "description": "This policy ensures only allowed SELinux options are used in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
+    "metadata": {
+      "version": "1.0.0-preview",
+      "category": "Kubernetes PSP",
+      "preview": true
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "audit",
+          "deny"
+        ],
+        "defaultValue": "deny"
+      },
+      "excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+        },
+        "defaultValue": []
+      },
+      "allowedSELinuxLevel": {
+        "type": "String",
+        "metadata": {
+          "displayName": "SELinux Level Label",
+          "description": "The SELinux level label that applies to the container."
+        }
+      },
+      "allowedSELinuxRole": {
+        "type": "String",
+        "metadata": {
+          "displayName": "SELinux Role Label",
+          "description": "The SELinux role label that applies to the container."
+        }
+      },
+      "allowedSELinuxType": {
+        "type": "String",
+        "metadata": {
+          "displayName": "SELinux Type Label",
+          "description": "The SELinux type label that applies to the container."
+        }
+      },
+      "allowedSELinuxUser": {
+        "type": "String",
+        "metadata": {
+          "displayName": "SELinux User Label",
+          "description": "The SELinux user label that applies to the container"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "AKS Engine",
+          "Microsoft.Kubernetes/connectedClusters",
+          "Microsoft.ContainerService/managedClusters"
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/constraint.yaml",
+          "values": {
+            "excludedNamespaces": "[parameters('excludedNamespaces')]",
+            "allowedSELinuxLevel": "[parameters('allowedSELinuxLevel')]",
+            "allowedSELinuxRole": "[parameters('allowedSELinuxRole')]",
+            "allowedSELinuxType": "[parameters('allowedSELinuxType')]",
+            "allowedSELinuxUser": "[parameters('allowedSELinuxUser')]"
+          }
+        }
+      }
+    }
+  }
+}

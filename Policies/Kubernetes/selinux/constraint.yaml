@@ -1,0 +1,16 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sAzureSELinux
+metadata:
+  name: psp-selinux
+spec:
+  match:
+    excludedNamespaces: {{ .Values.excludedNamespaces }}
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+  parameters:
+    allowedSELinuxOptions:
+        level: {{ .Values.allowedSELinuxLevel }}
+        role: {{ .Values.allowedSELinuxRole }}
+        type: {{ .Values.allowedSELinuxType }}
+        user: {{ .Values.allowedSELinuxUser }}

@@ -1,0 +1,24 @@
+{
+  "if": {
+    "field": "type",
+    "in": [
+      "AKS Engine",
+      "Microsoft.Kubernetes/connectedClusters",
+      "Microsoft.ContainerService/managedClusters"
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/template.yaml",
+      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/constraint.yaml",
+      "values": {
+        "excludedNamespaces": "[parameters('excludedNamespaces')]",
+        "allowedSELinuxLevel": "[parameters('allowedSELinuxLevel')]",
+        "allowedSELinuxRole": "[parameters('allowedSELinuxRole')]",
+        "allowedSELinuxType": "[parameters('allowedSELinuxType')]",
+        "allowedSELinuxUser": "[parameters('allowedSELinuxUser')]"
+      }
+    }
+  }
+}
