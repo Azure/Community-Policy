@@ -1,6 +1,6 @@
 {
   "properties": {
-    "displayName": "Ensure only allowed SELinux options are used in a kubernetes cluster",
+    "displayName": "Ensure only allowed SELinux options are used in a Kubernetes cluster",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
     "description": "This policy ensures only allowed SELinux options are used in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
@@ -18,9 +18,10 @@
         },
         "allowedValues": [
           "audit",
-          "deny"
+          "deny",
+          "disabled"
         ],
-        "defaultValue": "deny"
+        "defaultValue": "audit"
       },
       "excludedNamespaces": {
         "type": "Array",
