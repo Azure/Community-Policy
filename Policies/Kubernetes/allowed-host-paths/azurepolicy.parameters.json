@@ -1,0 +1,37 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "enforceOPAConstraint",
+      "disabled"
+    ],
+    "defaultValue": "enforceOPAConstraint"
+  },
+  "excludedNamespaces": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Namespace exclusions",
+      "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+    },
+    "defaultValue": []
+  },
+  "allowedHostPaths": {
+    "type": "Object",
+    "metadata": {
+      "displayName": "Valid hostPaths",
+      "description": "Configure what hostPaths are valid for volumes to use. An empty list means there is no restriction on host paths used. This is defined as a list of objects with a single pathPrefix field, which allows hostPath volumes to mount a path that begins with an allowed prefix, and a readOnly field indicating it must be mounted read-only. E.g. { \"paths\": [{\"pathPrefix\": \"/foo\", \"readOnly\": true}] }"
+    },
+    "defaultValue": {
+      "paths": [
+        {
+          "pathPrefix": "/foo",
+          "readOnly": true
+        }
+      ]
+    }
+  }
+}
