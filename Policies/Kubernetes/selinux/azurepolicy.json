@@ -29,34 +29,21 @@
           "displayName": "Namespace exclusions",
           "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
         },
-        "defaultValue": []
+        "defaultValue": ["kube-system", "gatekeeper-system", "azure-arc"]
       },
-      "allowedSELinuxLevel": {
-        "type": "String",
+      "allowedSELinuxOptions": {
+        "type": "Object",
         "metadata": {
-          "displayName": "SELinux Level Label",
-          "description": "The SELinux level label that applies to the container."
-        }
-      },
-      "allowedSELinuxRole": {
-        "type": "String",
-        "metadata": {
-          "displayName": "SELinux Role Label",
-          "description": "The SELinux role label that applies to the container."
-        }
-      },
-      "allowedSELinuxType": {
-        "type": "String",
-        "metadata": {
-          "displayName": "SELinux Type Label",
-          "description": "The SELinux type label that applies to the container."
-        }
-      },
-      "allowedSELinuxUser": {
-        "type": "String",
-        "metadata": {
-          "displayName": "SELinux User Label",
-          "description": "The SELinux user label that applies to the container"
+          "displayName": "Allowed SELinux Options",
+          "description": "The options for allowed SELinux configuration. Consists of \"level\", \"role\", \"type\" and \"user\" strings. E.g: \"options\": { \"level\": \"s0:c123,c456\",  \"role\": \"object_r\", \"type\": \"svirt_sandbox_file_t\", \"user\": \"system_u\" }"
+        },
+        "defaultValue": {
+          "options": {
+            "level": "s0:c123,c456", 
+            "role": "object_r",
+            "type": "svirt_sandbox_file_t",
+            "user": "system_u"
+          }
         }
       }
     },
@@ -76,10 +63,7 @@
           "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/constraint.yaml",
           "values": {
             "excludedNamespaces": "[parameters('excludedNamespaces')]",
-            "allowedSELinuxLevel": "[parameters('allowedSELinuxLevel')]",
-            "allowedSELinuxRole": "[parameters('allowedSELinuxRole')]",
-            "allowedSELinuxType": "[parameters('allowedSELinuxType')]",
-            "allowedSELinuxUser": "[parameters('allowedSELinuxUser')]"
+            "allowedSELinuxOptions": "[parameters('allowedSELinuxOptions').options]"
           }
         }
       }

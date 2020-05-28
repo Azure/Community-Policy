@@ -9,8 +9,4 @@ spec:
       - apiGroups: [""]
         kinds: ["Pod"]
   parameters:
-    allowedSELinuxOptions:
-        level: {{ .Values.allowedSELinuxLevel }}
-        role: {{ .Values.allowedSELinuxRole }}
-        type: {{ .Values.allowedSELinuxType }}
-        user: {{ .Values.allowedSELinuxUser }}
+    allowedSELinuxOptions: {{ .Values.allowedSELinuxOptions }}
