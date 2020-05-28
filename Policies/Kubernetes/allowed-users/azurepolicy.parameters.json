@@ -1,0 +1,50 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "audit",
+      "deny",
+      "disabled"
+    ],
+    "defaultValue": "deny"
+  },
+  "excludedNamespaces": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Namespace exclusions",
+      "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+    },
+    "defaultValue": []
+  },
+  "runAsUserRule": {
+    "type": "String",
+    "metadata": {
+      "displayName": "User Restriction Rule",
+      "description": "How much restriction on users to apply to the cluster"
+    },
+    "allowedValues": [
+      "MustRunAs",
+      "MustRunAsNonRoot",
+      "RunAsAny"
+    ]
+  },
+  "runAsUserRanges": {
+    "type": "Object",
+    "metadata": {
+      "displayName": "Valid user ids",
+      "description": "Configure what user ids are valid for pods to use. An empty list means there is no restriction on user ids used. This is defined as a list of objects with a min and a max user id value. E.g. { \"ranges\": [{\"min\": 100, \"max\": 200}] }"
+    },
+    "defaultValue": {
+      "ranges": [
+        {
+          "min": 100,
+          "max": 200
+        }
+      ]
+    }
+  }
+}

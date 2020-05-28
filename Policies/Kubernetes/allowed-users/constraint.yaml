@@ -1,0 +1,14 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sAzureAllowedUsers
+metadata:
+  name: azure-psp-pods-allowed-user-ranges
+spec:
+  match:
+    excludedNamespaces: {{ .Values.excludedNamespaces }}
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+  parameters:
+    runAsUser:
+      rule: {{ .Values.runAsUserRule }}
+      ranges: {{ .Values.runAsUserRanges }}
