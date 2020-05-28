@@ -10,7 +10,7 @@
       "deny",
       "disabled"
     ],
-    "defaultValue": "deny"
+    "defaultValue": "audit"
   },
   "excludedNamespaces": {
     "type": "Array",
@@ -18,7 +18,7 @@
       "displayName": "Namespace exclusions",
       "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
     },
-    "defaultValue": []
+    "defaultValue": ["kube-system", "gatekeeper-system", "azure-arc"]
   },
   "runAsUserRule": {
     "type": "String",
