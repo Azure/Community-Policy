@@ -1,0 +1,50 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "audit",
+      "Deny",
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "audit"
+  },
+  "timeZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Timezone ID",
+      "description": "The timezone ID for the schedule"
+    },
+    "defaultValue": "Israel Standard Time"
+  },
+  "tag": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag Name",
+      "description": "Name of the tag, such as 'environment'"
+    },
+    "defaultValue": "environment"
+  },
+  "time": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Time to shutdown on",
+      "description": "The time of the day the schedule will occur"
+    },
+    "defaultValue": "1200"
+  },
+  "shutdownValues": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Tag values to set the schedule for",
+      "description": "use ; to seperate values - i.e. dev;test"
+    },
+    "defaultValue": [
+      "dev"
+    ]
+  }
+}
