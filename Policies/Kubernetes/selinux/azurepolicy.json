@@ -35,7 +35,7 @@
         "type": "Object",
         "metadata": {
           "displayName": "Allowed SELinux Options",
-          "description": "The options for allowed SELinux configuration. Consists of \"level\", \"role\", \"type\" and \"user\" strings. E.g: \"options\": { \"level\": \"s0:c123,c456\",  \"role\": \"object_r\", \"type\": \"svirt_sandbox_file_t\", \"user\": \"system_u\" }"
+          "description": "The options for allowed SELinux configuration. Consists of \"level\", \"role\", \"type\" and \"user\" strings. E.g: \"options\": { \"level\": \"s0:c123,c456\",  \"role\": \"object_r\", \"type\": \"svirt_sandbox_file_t\", \"user\": \"system_u\" }. All of these fields are optional, leave out any field to not enforce that field. An empty object means all SELinux parameters are valid."
         },
         "defaultValue": {
           "options": {

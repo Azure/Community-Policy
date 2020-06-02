@@ -24,6 +24,12 @@ test_input_seLinux_options_empty {
     count(results) == 1
 }
 
+test_input_seLinux_option_two_empty {
+    input := { "review": input_review_two , "parameters": input_parameters_empty}
+    results := violation with input as input
+    count(results) == 1
+}
+
 test_input_seLinux_options_no_security_context {
     input := { "review": input_review_no_security_context, "parameters": input_parameters_in_list}
     results := violation with input as input
@@ -68,6 +74,18 @@ test_input_seLinux_options_many_not_allowed_not_in_list {
 
 test_input_seLinux_options_many_not_allowed_not_in_list_two {
     input := { "review": input_review_many, "parameters": input_parameters_not_in_list_two}
+    results := violation with input as input
+    count(results) == 1
+}
+
+test_input_seLinux_option_two_allowed_in_list_subset {
+    input := { "review": input_review_two , "parameters": input_parameters_in_list_subset}
+    results := violation with input as input
+    count(results) == 0
+}
+
+test_input_seLinux_option_two_not_allowed_not_in_list_subset {
+    input := { "review": input_review_two , "parameters": input_parameters_not_in_list_two}
     results := violation with input as input
     count(results) == 1
 }
