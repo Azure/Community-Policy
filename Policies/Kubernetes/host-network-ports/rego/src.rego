@@ -1,4 +1,4 @@
-package k8spsphostnetworkingports
+package k8sazurehostnetworkingports
 
 violation[{"msg": msg, "details": {}}] {
 	container := input_containers[_]

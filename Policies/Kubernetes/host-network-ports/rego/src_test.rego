@@ -1,4 +1,4 @@
-package k8spsphostnetworkingports
+package k8sazurehostnetworkingports
 
 test_input_no_hostnetwork_no_port_is_allowed {
     input := { "review": input_review, "parameters": input_parameters_ports}
