@@ -90,6 +90,19 @@ test_input_seLinux_option_two_not_allowed_not_in_list_subset {
     count(results) == 1
 }
 
+test_input_seLinux_options_many_allowed_in_list_double_seccontext {
+    input := { "review": input_review_many_double_seccontext, "parameters": input_parameters_in_list}
+    results := violation with input as input
+    count(results) == 0
+}
+
+test_input_seLinux_options_many_not_allowed_not_in_list_double_seccontext {
+    input := { "review": input_review_many_double_seccontext, "parameters": input_parameters_not_in_list}
+    results := violation with input as input
+    count(results) == 1
+}
+
+
 input_review = {
     "object": {
         "metadata": {
@@ -143,6 +156,19 @@ input_review_many = {
     }
 }
 
+input_review_many_double_seccontext = {
+    "object": {
+        "metadata": {
+            "name": "nginx"
+        },
+        "spec": {
+            "securityContext": input_seLinuxOptions,
+            "containers": input_containers_many,
+            "initContainers": input_containers_one
+      }
+    }
+}
+
 input_containers_one = [
 {
     "name": "nginx",
@@ -160,7 +186,7 @@ input_containers_many = [
 },
 {
     "name": "nginx2",
-    "image": "nginx",
+    "image": "nginx"
 },
 {
     "name": "nginx3",
