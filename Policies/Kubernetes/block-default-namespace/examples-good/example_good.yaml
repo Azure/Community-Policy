@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-block-default
+  namespace: test-namespace
+  labels:
+    app: nginx-block-default
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      limits:
+        cpu: "100m"
+        memory: "30Mi"
