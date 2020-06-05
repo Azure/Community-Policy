@@ -1,7 +1,7 @@
 apiVersion: templates.gatekeeper.sh/v1beta1
 kind: ConstraintTemplate
 metadata:
-  name: k8sazureblockdefualt
+  name: k8sazureblockdefault
 spec:
   crd:
     spec:
