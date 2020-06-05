@@ -6,5 +6,5 @@ spec:
   match:
     excludedNamespaces: {{ .Values.excludedNamespaces }}
     kinds:
-      # - apiGroups: [""]?
-      #   kinds: ["Pod"]?
+      - apiGroups: [""]
+        kinds: ["ConfigMap", "Pod", "Secret", "Service", "ServiceAccount"]
