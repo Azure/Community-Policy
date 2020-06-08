@@ -23,8 +23,8 @@
   "runAsUserRule": {
     "type": "String",
     "metadata": {
-      "displayName": "User Restriction Rule",
-      "description": "How much restriction on users to apply to the cluster"
+      "displayName": "Run as User",
+      "description": "RunAsUser controls the user ID that containers are allowed to run with"
     },
     "allowedValues": [
       "MustRunAs",
@@ -35,8 +35,8 @@
   "runAsUserRanges": {
     "type": "Object",
     "metadata": {
-      "displayName": "Valid user ids",
-      "description": "Configure what user ids are valid for pods to use. An empty list means there is no restriction on user ids used. This is defined as a list of objects with a min and a max user id value. E.g. { \"ranges\": [{\"min\": 100, \"max\": 200}] }"
+      "displayName": "Valid user IDs",
+      "description": "Configure what user IDs are valid for pods to use. An empty list means there is no restriction on user IDs used. This is defined as a list of objects with a min and a max user id value. E.g. { \"ranges\": [{\"min\": 100, \"max\": 200}] }"
     },
     "defaultValue": {
       "ranges": [
