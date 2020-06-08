@@ -1,4 +1,4 @@
-package k8spspapparmor
+package k8sazureapparmor
 
 test_input_apparmor_allowed_empty {
     input := { "review": input_review_container, "parameters": input_parameters_empty}

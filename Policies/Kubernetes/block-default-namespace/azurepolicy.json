@@ -1,9 +1,9 @@
 {
   "properties": {
-    "displayName": "Do not allow sharing of host process ID and IPC namespaces in a Kubernetes Cluster",
+    "displayName": "Block usage of the default namespace in a Kubernetes cluster",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
-    "description": "This policy blocks pod containers from sharing the host process ID namespace and IPC namespace in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc/.",
+    "description": "This policy blocks usage of the default namespace in a Kubernetes cluster. For instructions on using this policy, please go to https://aka.ms/kubepolicydoc.",
     "metadata": {
       "version": "1.0.0-preview",
       "category": "Kubernetes PSP",
@@ -44,8 +44,8 @@
       "then": {
         "effect": "[parameters('effect')]",
         "details": {
-          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/block-host-namespace/template.yaml",
-          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/block-host-namespace/constraint.yaml",
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/block-default-namespace/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/block-default-namespace/constraint.yaml",
           "values": {
             "excludedNamespaces": "[parameters('excludedNamespaces')]"
           }

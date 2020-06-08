@@ -1,4 +1,4 @@
-package k8spspapparmor
+package k8sazureapparmor
 
 violation[{"msg": msg, "details": {}}] {
     metadata := input.review.object.metadata
