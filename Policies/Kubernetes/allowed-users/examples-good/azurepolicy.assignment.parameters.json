@@ -1,0 +1,12 @@
+{
+  "parameters": {
+    "excludedNamespaces": { "value": [ "kube-system", "azure-arc" ] },
+    "runAsUser": { "value": {
+      "rule": "MustRunAs",
+      "ranges": [{
+        "min": 100,
+        "max": 200
+      }]
+    }}
+  }
+}
