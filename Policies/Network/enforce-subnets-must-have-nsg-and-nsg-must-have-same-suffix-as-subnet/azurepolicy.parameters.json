@@ -1,1 +1,9 @@
-{}
+{
+    "exceptionList": {
+        "type": "Array",
+        "metadata": {
+            "displayName": "Exempt Subnets",
+            "description": "Subnets with this name will be exempt from this Policy"
+        }
+    }
+}
