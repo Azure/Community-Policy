@@ -7,7 +7,12 @@ violation[{"msg": msg, "details": {}}] {
 }
 
 input_proc_mount_type_allowed(c) {
-    lower(input.parameters.procMountType) == lower(c.securityContext.procMount)
+	lower(input.parameters.procMountType) == "default"
+    lower(c.securityContext.procMount) == "default"
+}
+
+input_proc_mount_type_allowed(c) {
+	lower(input.parameters.procMountType) == "unmasked"
 }
 
 input_containers[c] {
