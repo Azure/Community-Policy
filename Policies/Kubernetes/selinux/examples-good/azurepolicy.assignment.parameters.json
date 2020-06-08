@@ -1,0 +1,13 @@
+{
+  "parameters": {
+    "excludedNamespaces": { "value": [ "kube-system", "azure-arc" ] },
+    "allowedSELinuxOptions": {
+      "options": {
+        "level": "s0:c123,c456", 
+        "role": "object_r",
+        "type": "svirt_sandbox_file_t",
+        "user": "system_u"
+      }
+    }
+  }
+}
