@@ -1,0 +1,85 @@
+{
+  "properties": {
+    "displayName": "Control which user ID containers are run with in a Kubernetes Cluster",
+    "policyType": "Custom",
+    "mode": "Microsoft.Kubernetes.Data",
+    "description": "This policy controls allowed user IDs for containers to run with in a Kubernetes Cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
+    "metadata": {
+      "version": "1.0.0-preview",
+      "category": "Kubernetes PSP",
+      "preview": true
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "audit",
+          "deny",
+          "disabled"
+        ],
+        "defaultValue": "audit"
+      },
+      "excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+        },
+        "defaultValue": ["kube-system", "gatekeeper-system", "azure-arc"]
+      },
+      "runAsUserRule": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Run as User",
+          "description": "RunAsUser controls the user ID that containers are allowed to run with"
+        },
+        "allowedValues": [
+          "MustRunAs",
+          "MustRunAsNonRoot",
+          "RunAsAny"
+        ]
+      },
+      "runAsUserRanges": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Valid user IDs",
+          "description": "Configure what user IDs are valid for pods to use. An empty list means there is no restriction on user IDs used. This is defined as a list of objects with a min and a max user id value. E.g. { \"ranges\": [{\"min\": 100, \"max\": 200}] }"
+        },
+        "defaultValue": {
+          "ranges": [
+            {
+              "min": 100,
+              "max": 200
+            }
+          ]
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "AKS Engine",
+          "Microsoft.Kubernetes/connectedClusters",
+          "Microsoft.ContainerService/managedClusters"
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/allowed-users/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/allowed-users/constraint.yaml",
+          "values": {
+            "excludedNamespaces": "[parameters('excludedNamespaces')]",
+            "runAsUserRule": "[parameters('runAsUserRule')]",
+            "runAsUserRanges": "[parameters('runAsUserRanges').ranges]"
+          }
+        }
+      }
+    }
+  }
+}

@@ -28,7 +28,7 @@ test_input_container_many_mixed_proc_mount_not_allowed_two {
 test_input_container_not_proc_mount_unmasked {
     input := { "review": input_review, "parameters": input_parameters_unmasked}
     results := violation with input as input
-    count(results) == 1
+    count(results) == 0
 }
 test_input_container_proc_mount_unmasked {
     input := { "review": input_review_unmasked, "parameters": input_parameters_unmasked}

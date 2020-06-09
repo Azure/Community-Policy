@@ -1,0 +1,38 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "audit",
+      "deny",
+      "disabled"
+    ],
+    "defaultValue": "audit"
+  },
+  "excludedNamespaces": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Namespace exclusions",
+      "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+    },
+    "defaultValue": ["kube-system", "gatekeeper-system", "azure-arc"]
+  },
+  "allowedSELinuxOptions": {
+    "type": "Object",
+    "metadata": {
+      "displayName": "Allowed SELinux Options",
+      "description": "The options for allowed SELinux configuration. Consists of \"level\", \"role\", \"type\" and \"user\" strings. E.g: \"options\": { \"level\": \"s0:c123,c456\",  \"role\": \"object_r\", \"type\": \"svirt_sandbox_file_t\", \"user\": \"system_u\" }"
+    },
+    "defaultValue": {
+      "options": {
+        "level": "s0:c123,c456", 
+        "role": "object_r",
+        "type": "svirt_sandbox_file_t",
+        "user": "system_u"
+      }
+    }
+  }
+}
