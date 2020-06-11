@@ -12,7 +12,7 @@ Audits the existence of Public Network Access at the server level
 $definition = New-AzPolicyDefinition -Name "audit-sql-server-public-network-access" -DisplayName "Audit SQL server level Public Network Access setting" -description "Audits the existence of Public Network Access at the server level" -Policy 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/SQL/audit-sql-server-public-network-access/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/SQL/audit-sql-server-public-network-access/azurepolicy.parameters.json' -Mode All
 $definition
 $assignment = New-AzPolicyAssignment -Name <assignmentname> -Scope <scope> -PolicyDefinition $definition
-$assignment 
+$assignment
 ````
 
 
@@ -23,6 +23,6 @@ $assignment
 
 az policy definition create --name 'audit-sql-server-public-network-access' --display-name 'Audit SQL server level Public Network Access setting' --description 'Audits the existence of Public Network Access at the server level' --rules 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/SQL/audit-sql-server-public-network-access/azurepolicy.rules.json' --params 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/SQL/audit-sql-server-public-network-access/azurepolicy.parameters.json' --mode All
 
-az policy assignment create --name <assignmentname> --scope <scope> --policy "audit-sql-server-public-network-access" 
+az policy assignment create --name <assignmentname> --scope <scope> --policy "audit-sql-server-public-network-access"
 
 ````

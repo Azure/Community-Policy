@@ -1,7 +1,7 @@
 {
    "properties": {
-      "displayName": "Audit SQL server level Private Endpoint Connections settings",
-      "description": "Audits the existence of Private Endpoint Connections at the server level",
+      "displayName": "Audit private endpoint connections setting for Azure SQL Database",
+      "description": "Customers enable private endpoint connections to enable private connectivity to Azure SQL Database. This policy audits that private endpoint connections are in use.",
       "parameters": {},
       "policyRule": {
          "if": {

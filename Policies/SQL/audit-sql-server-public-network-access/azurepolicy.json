@@ -1,7 +1,7 @@
 {
    "properties": {
-      "displayName": "Audit SQL server level Public Network Access settings",
-      "description": "Audits the existence of SQL Public Network Access at the server level",
+      "displayName": "Audit public network access setting for Azure SQL Database",
+      "description": "Customers use public network access property to control public vs private connectivity to Azure SQL Database. This policy audits that public network access property is set to 'Disabled' so that no public connectivity is allowed.",
       "parameters": {},
       "policyRule": {
          "if": {
