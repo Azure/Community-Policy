@@ -1,0 +1,96 @@
+{
+  "policyType": "Custom",
+  "displayName": "PSP Baseline",
+  "parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Enable or disable the execution of the initative"
+      },
+      "allowedValues": [
+        "enforceOPAConstraint",
+        "disabled"
+      ],
+      "defaultValue": "enforceOPAConstraint"
+    },
+    "excludedNamespaces": {
+      "type": "Array",
+      "metadata": {
+        "displayName": "Namespace exclusions",
+        "description": "List of Kubernetes namespaces to exclude from initative evaluation. Providing a value for this parameter is optional."
+      },
+      "defaultValue": ["kube-system", "gatekeeper-system", "azure-arc"]
+    }
+  },
+  "policyDefinitions": [
+    {
+      "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/33901f1a-b110-422c-aa41-a4239dd4a831",
+      "parameters": {
+        "excludedNamespaces": {
+          "value": "[parameters('excludedNamespaces')]"
+        },
+        "effect": {
+          "value": "[parameters('effect')]"
+        }
+      }
+    },
+    {
+      "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/7fb520cf-edc6-46bd-9897-dbde7de1c1a7",
+      "parameters": {
+        "excludedNamespaces": {
+          "value": "[parameters('excludedNamespaces')]"
+        },
+        "effect": {
+          "value": "[parameters('effect')]"
+        }
+      }
+    },
+    {
+      "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/7fb520cf-edc6-46bd-9897-dbde7de1c1e9",
+      "parameters": {
+        "allowHostNetwork": {
+          "value": false
+        },
+        "maxPort": {
+          "value": 0
+        },
+        "minPort": {
+          "value": 0
+        }
+      }
+    },
+    {
+      "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/d483e4f9-74cb-4800-8773-0398985eefd9",
+      "parameters": {
+        "excludedNamespaces": {
+          "value": "[parameters('excludedNamespaces')]"
+        },
+        "effect": {
+          "value": "[parameters('effect')]"
+        },
+        "allowedHostPaths": {
+          "value": {
+            "paths": [
+              {
+                "pathPrefix": "/dev/null ",
+                "readOnly": true
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/95edb821-ddaf-4404-9732-666045e056b4",
+      "parameters": {
+        "excludedNamespaces": {
+          "value": "[parameters('excludedNamespaces')]"
+        },
+        "effect": {
+          "value": "[parameters('effect')]"
+        }
+      }
+    }
+  ]
+}
