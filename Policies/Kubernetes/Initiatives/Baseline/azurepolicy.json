@@ -49,6 +49,12 @@
     {
       "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/7fb520cf-edc6-46bd-9897-dbde7de1c1e9",
       "parameters": {
+        "excludedNamespaces": {
+          "value": "[parameters('excludedNamespaces')]"
+        },
+        "effect": {
+          "value": "[parameters('effect')]"
+        },
         "allowHostNetwork": {
           "value": false
         },
