@@ -1,17 +1,16 @@
 {
-   "if": {
-      "field": "type",
-      "equals": "Microsoft.Sql/servers"
-   },
-   "then": {
-      "effect": "AuditIfNotExists",
-      "details": {
-         "type": "Microsoft.Sql/servers/publicNetworkAccess",
-         "name": "default",
-         "existenceCondition": {
-            "field": "Microsoft.Sql/publicNetworkAccess",
-            "equals": "Disabled"
-         }
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Sql/servers"
+  },
+  "then": {
+    "effect": "AuditIfNotExists",
+    "details": {
+      "name": "default",
+      "existenceCondition": {
+        "field": "Microsoft.Sql/publicNetworkAccess",
+        "equals": "Disabled"
       }
-   }
+    }
+  }
 }

@@ -1,6 +1,6 @@
 # Audit SQL server level Public Network Access settings
 
-Audits the existence of Public Network Access at the server level
+Customers use public network access property to control public vs private connectivity to Azure SQL Database. This policy audits that public network access property is set to 'Disabled' so that no public connectivity is allowed.
 
 ## Try on Portal
 
