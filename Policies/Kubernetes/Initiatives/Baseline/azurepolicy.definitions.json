@@ -63,7 +63,7 @@
     }
   },
   {
-    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/95edb821-ddaf-4404-9732-666045e056b4",
+    "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/5de2233a-5c06-436f-8080-90045bde317d",
     "parameters": {
       "excludedNamespaces": {
         "value": "[parameters('excludedNamespaces')]"

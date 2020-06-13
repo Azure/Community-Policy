@@ -63,13 +63,61 @@
     }
   },
   {
-    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/95edb821-ddaf-4404-9732-666045e056b4",
+    "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/5de2233a-5c06-436f-8080-90045bde317d",
     "parameters": {
       "excludedNamespaces": {
         "value": "[parameters('excludedNamespaces')]"
       },
       "effect": {
         "value": "[parameters('effect')]"
+      }
+    }
+  },
+  {
+    "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/33901f1a-b110-422c-aa41-a4239dd4a81e",
+    "parameters": {
+      "effect": {
+        "value": "[parameters('effect')]"
+      },
+      "excludedNamespaces": {
+        "value": "[parameters('excludedNamespaces')]"
+      },
+      "allowedVolumeTypes": {
+        "value": [
+          "configMap",
+          "emptyDir",
+          "projected",
+          "secret",
+          "downwardAPI",
+          "persistentVolumeClaim"
+        ]
+      }
+    }
+  },
+  {
+    "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/7fb520cf-edc6-46bd-9897-dbde7de1c1b2",
+    "parameters": {
+      "effect": {
+        "value": "[parameters('effect')]"
+      },
+      "excludedNamespaces": {
+        "value": "[parameters('excludedNamespaces')]"
+      }
+    }
+  },
+  {
+    "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/33901f1a-b110-422c-aa41-a4239dd4a816",
+    "parameters": {
+      "effect": {
+        "value": "[parameters('effect')]"
+      },
+      "excludedNamespaces": {
+        "value": "[parameters('excludedNamespaces')]"
+      },
+      "allowedProfiles": {
+        "value": [
+          "runtime/default"
+        ]
       }
     }
   }

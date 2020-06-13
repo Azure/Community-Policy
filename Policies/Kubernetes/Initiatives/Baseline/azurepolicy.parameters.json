@@ -6,16 +6,17 @@
       "description": "Enable or disable the execution of the initative"
     },
     "allowedValues": [
-      "enforceOPAConstraint",
+      "audit",
+      "deny",
       "disabled"
     ],
-    "defaultValue": "enforceOPAConstraint"
+    "defaultValue": "audit"
   },
   "excludedNamespaces": {
     "type": "Array",
     "metadata": {
       "displayName": "Namespace exclusions",
-      "description": "List of Kubernetes namespaces to exclude from initative evaluation. Providing a value for this parameter is optional."
+      "description": "List of Kubernetes namespaces to exclude from initative evaluation."
     },
     "defaultValue": ["kube-system", "gatekeeper-system", "azure-arc"]
   }
