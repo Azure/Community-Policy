@@ -16,7 +16,7 @@
     "type": "Array",
     "metadata": {
       "displayName": "Namespace exclusions",
-      "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+      "description": "List of Kubernetes namespaces to exclude from policy evaluation."
     },
     "defaultValue": ["kube-system", "gatekeeper-system", "azure-arc"]
   },
@@ -36,7 +36,30 @@
     "type": "Object",
     "metadata": {
       "displayName": "Valid user IDs",
-      "description": "Configure what user IDs are valid for pods to use. An empty list means there is no restriction on user IDs used. This is defined as a list of objects with a min and a max user id value. E.g. { \"ranges\": [{\"min\": 100, \"max\": 200}] }"
+      "description": "Configure what user IDs are valid for pods to use. An empty list means there is no restriction on user IDs used.",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "ranges": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "min": {
+                  "type": "integer"
+                },
+                "max": {
+                  "type": "integer"
+                }
+              },
+              "required": ["min", "max"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["ranges"],
+        "additionalProperties": false
+      }
     },
     "defaultValue": {
       "ranges": [
