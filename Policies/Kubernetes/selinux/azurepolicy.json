@@ -27,23 +27,43 @@
         "type": "Array",
         "metadata": {
           "displayName": "Namespace exclusions",
-          "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation."
         },
-        "defaultValue": ["kube-system", "gatekeeper-system", "azure-arc"]
+        "defaultValue": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc"
+        ]
       },
       "allowedSELinuxOptions": {
         "type": "Object",
         "metadata": {
           "displayName": "Allowed SELinux Options",
-          "description": "The options for allowed SELinux configuration. Consists of \"level\", \"role\", \"type\" and \"user\" strings. E.g: \"options\": { \"level\": \"s0:c123,c456\",  \"role\": \"object_r\", \"type\": \"svirt_sandbox_file_t\", \"user\": \"system_u\" }. All of these fields are optional, leave out any field to not enforce that field. An empty object means all SELinux parameters are valid."
+          "description": "The 'level', 'role', 'type' and 'user' options allowed for SELinux configuration. The option will not be enforced if it is not specified. An empty option object means all SELinux parameters are valid.",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "level": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
         },
         "defaultValue": {
-          "options": {
-            "level": "s0:c123,c456", 
-            "role": "object_r",
-            "type": "svirt_sandbox_file_t",
-            "user": "system_u"
-          }
+          "level": "s0:c123,c456",
+          "role": "object_r",
+          "type": "svirt_sandbox_file_t",
+          "user": "system_u"
         }
       }
     },
@@ -63,7 +83,7 @@
           "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/constraint.yaml",
           "values": {
             "excludedNamespaces": "[parameters('excludedNamespaces')]",
-            "allowedSELinuxOptions": "[parameters('allowedSELinuxOptions').options]"
+            "allowedSELinuxOptions": "[parameters('allowedSELinuxOptions')]"
           }
         }
       }

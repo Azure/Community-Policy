@@ -16,7 +16,7 @@
     "type": "Array",
     "metadata": {
       "displayName": "Namespace exclusions",
-      "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+      "description": "List of Kubernetes namespaces to exclude from policy evaluation."
     },
     "defaultValue": ["kube-system", "gatekeeper-system", "azure-arc"]
   },
@@ -36,7 +36,30 @@
     "type": "Object",
     "metadata": {
       "displayName": "Valid ranges for Pod FSGroup",
-      "description": "Enter valid ranges from 'min' to max' for the FSGroup used in a pod's security context. E.g. { \"ranges\": [{\"min\": 1, \"max\": 1000 }] }"
+      "description": "Valid ranges from 'min' to max' for the FSGroup used in a pod's security context.",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "ranges": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "min": {
+                  "type": "integer"
+                },
+                "max": {
+                  "type": "integer"
+                }     
+              },
+              "required": ["min", "max"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["ranges"],
+        "additionalProperties": false
+      }
     },
     "defaultValue": {
       "ranges": [
