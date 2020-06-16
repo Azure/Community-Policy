@@ -1,32 +1,30 @@
 {
-   "properties": {
-      "displayName": "Audit SQL server level Private Endpoint Connections settings",
-      "description": "Audits the existence of Private Endpoint Connections at the server level",
-      "parameters": {},
-      "policyRule": {
-         "if": {
-            "field": "type",
-            "equals": "Microsoft.Sql/servers"
-         },
-         "then": {
-            "effect": "AuditIfNotExists",
-            "details": {
-               "type": "Microsoft.Sql/servers/privateEndpointConnections",
-               "existenceCondition": {
-                 "allOf": [
-                   {
-                     "field": "Microsoft.Sql/servers/privateEndpointConnections/privateEndpoint",
-                     "exists": "true"
-                   },
-                   {
-                     "field": "Microsoft.Sql/servers/privateEndpointConnections/privateLinkServiceConnectionState.status",
-                     "equals": "Ready"
-                   }
-                 ]
-               }
-             }
-           }
-         }
+  "properties": {
+    "displayName": "Audit private endpoint connections setting for Azure SQL Database",
+    "description": "Customers enable private endpoint connections to enable private connectivity to Azure SQL Database. This policy audits that private endpoint connections are in use.",
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Sql/servers"
+      },
+      "then": {
+        "effect": "AuditIfNotExists",
+        "details": {
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Sql/servers/privateEndpointConnections/privateEndpoint",
+                "exists": true
+              },
+              {
+                "field": "Microsoft.Sql/servers/privateEndpointConnections/privateLinkServiceConnectionState.status",
+                "equals": "Ready"
+              }
+            ]
+          }
+        }
       }
-   }
+    }
+  }
 }

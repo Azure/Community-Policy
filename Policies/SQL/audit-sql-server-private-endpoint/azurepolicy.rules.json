@@ -1,25 +1,23 @@
 {
-   "if": {
-      "field": "type",
-      "equals": "Microsoft.Sql/servers"
-   },
-   "then": {
-      "effect": "AuditIfNotExists",
-      "details": {
-         "type": "Microsoft.Sql/servers/privateEndpointConnections",
-         "existenceCondition": {
-           "allOf": [
-             {
-               "field": "Microsoft.Sql/servers/privateEndpointConnections/privateEndpoint",
-               "exists": "true"
-             },
-             {
-               "field": "Microsoft.Sql/servers/privateEndpointConnections/privateLinkServiceConnectionState.status",
-               "equals": "Ready"
-             }
-           ]
-         }
-     
-     }
-   }
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Sql/servers"
+  },
+  "then": {
+    "effect": "AuditIfNotExists",
+    "details": {
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.Sql/servers/privateEndpointConnections/privateEndpoint",
+            "exists": true
+          },
+          {
+            "field": "Microsoft.Sql/servers/privateEndpointConnections/privateLinkServiceConnectionState.status",
+            "equals": "Ready"
+          }
+        ]
+      }
+    }
+  }
 }
