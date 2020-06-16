@@ -1,0 +1,39 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/networkSecurityGroups"
+            },
+            {
+                "field": "location",
+                "equals": "[parameters('targetRegion')]"
+            }
+        ]
+    },
+    "then": {
+        "effect": "append",
+        "details": [
+            {
+                "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
+                "value": {
+                    "name": "[parameters('name')]",
+                    "properties": {
+                        "protocol": "[parameters('protocol')]",
+                        "sourcePortRange": "[if(equals(length(parameters('sourcePortRange')), 1), parameters('sourcePortRange')[0], json('null'))]",
+                        "sourcePortRanges": "[if(greater(length(parameters('sourcePortRange')), 1), parameters('sourcePortRange'), json('null'))]",
+                        "destinationPortRange": "[if(equals(length(parameters('destinationPortRange')), 1), parameters('destinationPortRange')[0], json('null'))]",
+                        "destinationPortRanges": "[if(greater(length(parameters('destinationPortRange')), 1), parameters('destinationPortRange'), json('null'))]",
+                        "sourceAddressPrefix": "[if(equals(length(parameters('sourceAddressPrefix')), 1), parameters('sourceAddressPrefix')[0], json('null'))]",
+                        "sourceAddressPrefixes": "[if(greater(length(parameters('sourceAddressPrefix')), 1), parameters('sourceAddressPrefix'), json('null'))]",
+                        "destinationAddressPrefix": "[if(equals(length(parameters('destinationAddressPrefix')), 1), parameters('destinationAddressPrefix')[0], json('null'))]",
+                        "destinationAddressPrefixes": "[if(greater(length(parameters('destinationAddressPrefix')), 1), parameters('destinationAddressPrefix'), json('null'))]",
+                        "access": "[parameters('access')]",
+                        "priority": "[parameters('priority')]",
+                        "direction": "[parameters('direction')]"
+                    }
+                }
+            }
+        ]
+    }
+}
