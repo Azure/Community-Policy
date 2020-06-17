@@ -45,10 +45,67 @@
           "value": "[parameters('effect')]"
         },
         "allowedCapabilities": {
-          "value": []
+          "value": [
+            "CHOWN",
+            "DAC_OVERRIDE",
+            "FSETID",
+            "FOWNER",
+            "MKNOD",
+            "NET_RAW",
+            "SETGID",
+            "SETUID",
+            "SETFCAP",
+            "SETPCAP",
+            "NET_BIND_SERVICE",
+            "SYS_CHROOT",
+            "KILL",
+            "AUDIT_WRITE"
+          ]
         },
-        "requiredDropCapabilites": {
+        "requiredDropCapabilities": {
           "value": []
+        }
+      }
+    },
+    {
+      "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/33901f1a-b110-422c-aa41-a4239dd4a81e",
+      "parameters": {
+        "effect": {
+          "value": "[parameters('effect')]"
+        },
+        "excludedNamespaces": {
+          "value": "[parameters('excludedNamespaces')]"
+        },
+        "allowedVolumeTypes": {
+          "value": [
+            "configMap",
+            "emptyDir",
+            "projected",
+            "secret",
+            "downwardAPI",
+            "persistentVolumeClaim",
+            "awsElasticBlockStore",
+            "azureDisk",
+            "azureFile",
+            "cephFS",
+            "cinder",
+            "csi",
+            "fc",
+            "flexVolume",
+            "flocker",
+            "gcePersistentDisk",
+            "gitRepo",
+            "glusterfs",
+            "iscsi",
+            "nfs",
+            "photonPersistentDisk",
+            "portworxVolume",
+            "quobyte",
+            "rbd",
+            "scaleIO",
+            "storageos",
+            "vsphereVolume"
+          ]
         }
       }
     },
@@ -101,6 +158,44 @@
         },
         "effect": {
           "value": "[parameters('effect')]"
+        }
+      }
+    },
+    {
+      "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/7fb520cf-edc6-46bd-9897-dbde7de1c19a",
+      "parameters": {
+        "effect": {
+          "value": "[parameters('effect')]"
+        },
+        "excludedNamespaces": {
+          "value": "[parameters('excludedNamespaces')]"
+        },
+        "runAsUserRule": {
+          "value": "RunAsAny"
+        },
+        "runAsUserRanges": {
+          "value": {
+            "ranges": []
+          }
+        }
+      }
+    },
+    {
+      "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/7fb520cf-edc6-46bd-9897-dbde7de1c1de",
+      "parameters": {
+        "effect": {
+          "value": "[parameters('effect')]"
+        },
+        "excludedNamespaces": {
+          "value": "[parameters('excludedNamespaces')]"
+        },
+        "fsgroupRule": {
+          "value": "RunAsAny"
+        },
+        "validFsgroupRanges": {
+          "value": {
+            "ranges": []
+          }
         }
       }
     }
