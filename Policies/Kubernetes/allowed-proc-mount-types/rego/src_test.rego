@@ -10,6 +10,16 @@ test_input_container_proc_mount_not_allowed {
     results := violation with input as input
     count(results) == 1
 }
+test_input_container_proc_mount_not_allowed_null_param {
+    input := { "review": input_review_unmasked, "parameters": null }
+    results := violation with input as input
+    count(results) == 1
+}
+test_input_container_proc_mount_not_allowed_missing_param {
+    input := { "review": input_review_unmasked }
+    results := violation with input as input
+    count(results) == 1
+}
 test_input_container_many_not_proc_mount_allowed {
     input := { "review": input_review_many, "parameters": input_parameters_default}
     results := violation with input as input
@@ -25,6 +35,11 @@ test_input_container_many_mixed_proc_mount_not_allowed_two {
     results := violation with input as input
     count(results) == 2
 }
+test_input_container_proc_mount_case_insensitive {
+    input := { "review": input_review, "parameters": input_parameters_default_lower}
+    results := violation with input as input
+    count(results) == 0
+}
 test_input_container_not_proc_mount_unmasked {
     input := { "review": input_review, "parameters": input_parameters_unmasked}
     results := violation with input as input
@@ -35,8 +50,8 @@ test_input_container_proc_mount_unmasked {
     results := violation with input as input
     count(results) == 0
 }
-test_input_container_proc_mount_case_insensitive {
-    input := { "review": input_review, "parameters": input_parameters_default_lower}
+test_input_container_many_mixed_proc_mount_allowed_two {
+    input := { "review": input_review_many_mixed_two, "parameters": input_parameters_unmasked}
     results := violation with input as input
     count(results) == 0
 }
@@ -154,13 +169,13 @@ input_containers_many_mixed = [
 }]
 
 input_parameters_default = {
-     "procMountType": "Default"
+     "procMount": "Default"
 }
 
 input_parameters_default_lower = {
-     "procMountType": "default"
+     "procMount": "default"
 }
 
 input_parameters_unmasked = {
-     "procMountType": "Unmasked"
+     "procMount": "Unmasked"
 }
