@@ -12,6 +12,7 @@
         "effect": "AuditIfNotExists",
         "details": {
           "name": "default",
+          "type": "Microsoft.Sql/servers",
           "existenceCondition": {
             "field": "Microsoft.Sql/publicNetworkAccess",
             "equals": "Disabled"

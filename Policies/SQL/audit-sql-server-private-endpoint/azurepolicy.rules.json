@@ -6,6 +6,8 @@
   "then": {
     "effect": "AuditIfNotExists",
     "details": {
+      "name": "default",
+      "type": "Microsoft.Sql/servers",
       "existenceCondition": {
         "allOf": [
           {
