@@ -28,6 +28,10 @@
                     {
                         "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
                         "equals": "Microsoft.EnterpriseCloud.Monitoring"
+                    },
+                    {
+                        "field": "Microsoft.Compute/virtualMachines/extensions/settings.workspaceId",
+                        "equals": "[parameters('targetRegions')]"
                     }
                 ]
             },
@@ -56,7 +60,7 @@
                                 "name": "[concat(parameters('vmName'),'/MMAExtension')]",
                                 "type": "Microsoft.Compute/virtualMachines/extensions",
                                 "location": "[parameters('location')]",
-                                "apiVersion": "2017-12-01",
+                                "apiVersion": "2018-06-01",
                                 "properties": {
                                     "publisher": "Microsoft.EnterpriseCloud.Monitoring",
                                     "type": "MicrosoftMonitoringAgent",
