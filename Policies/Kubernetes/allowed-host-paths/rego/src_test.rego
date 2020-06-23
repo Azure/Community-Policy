@@ -1,9 +1,24 @@
 package k8sazurehostfilesystem
 
-test_input_hostpath_allowed_all {
+test_input_hostpath_block_all {
     input := { "review": input_review, "parameters": input_parameters_empty}
     results := violation with input as input
-    count(results) == 0
+    count(results) == 1
+}
+test_input_hostpath_block_all_null_params {
+    input := { "review": input_review, "parameters": null }
+    results := violation with input as input
+    count(results) == 1
+}
+test_input_hostpath_block_all_no_params {
+    input := { "review": input_review }
+    results := violation with input as input
+    count(results) == 1
+}
+test_input_hostpath_block_all {
+    input := { "review": input_review_many, "parameters": input_parameters_empty}
+    results := violation with input as input
+    count(results) == 2
 }
 test_input_hostpath_no_volumes {
     input := { "review": input_review_no_volumes, "parameters": input_parameters_in_list}
@@ -391,20 +406,17 @@ input_parameters_not_in_list = {
 input_parameters_in_list_writable = {
     "allowedHostPaths": [
     {
-        "pathPrefix": "/tmp",
-        "readOnly": false
+        "pathPrefix": "/tmp"
     },
     {
-        "pathPrefix": "/foo",
-        "readOnly": false
+        "pathPrefix": "/foo"
     }]
 }
 
 input_parameters_not_in_list_writable = {
     "allowedHostPaths": [
     {
-        "pathPrefix": "/foo",
-        "readOnly": false
+        "pathPrefix": "/foo"
     }]
 }
 
@@ -415,7 +427,6 @@ input_parameters_in_list_mixed_writable = {
         "readOnly": true
     },
     {
-        "pathPrefix": "/foo",
-        "readOnly": false
+        "pathPrefix": "/foo"
     }]
 }

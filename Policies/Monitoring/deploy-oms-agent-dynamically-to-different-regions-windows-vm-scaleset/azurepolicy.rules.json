@@ -3,7 +3,7 @@
         "allOf": [
             {
                 "field": "type",
-                "equals": "Microsoft.Compute/virtualMachineScaleSetscaleSet"
+                "equals": "Microsoft.Compute/virtualMachineScaleSets"
             },
             {
                 "anyOf": [
