@@ -188,10 +188,6 @@
                     {
                         "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/provisioningState",
                         "equals": "Succeeded"
-                    },
-                    {
-                        "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/settings.workspaceId",
-                        "equals": "[concat('/subscriptions/', parameters('logAnalyticsSubscriptionId'), '/resourcegroups/', parameters('logAnalyticsResourceGroupNamingConvention'), field('location'), '/providers/microsoft.operationalinsights/workspaces/', parameters('logAnalyticsNamingConvention'), field('location'))]"
                     }
                 ]
             },
