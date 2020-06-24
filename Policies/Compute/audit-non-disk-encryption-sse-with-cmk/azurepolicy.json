@@ -1,0 +1,41 @@
+{
+  "properties": {
+    "displayName":"Audit non disk encryption (SSE with CMK)",
+    "description":"Audit VMs where not all disks are encrypted with Server Side Encryption with Customer Managed Key.",
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachines"
+                },
+                {
+                "anyOf": [
+                    {
+                        "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.managedDisk.diskEncryptionSet.id",
+                        "exists": "false"
+                    },
+                    {
+                        "count": {
+                            "field": "Microsoft.Compute/virtualMachines/storageProfile.dataDisks[*]",
+                            "where": {
+                                "allOf": [
+                                    {
+                                        "field": "Microsoft.Compute/virtualMachines/storageProfile.dataDisks[*].managedDisk.diskEncryptionSet.id",
+                                        "exists": "false"
+                                    }
+                                ]
+                            }
+                        },
+                        "greater": 0
+                    }
+                ]
+            }            
+        ]
+        },
+      "then": {
+        "effect": "audit"
+      }
+    }
+  }
+}
