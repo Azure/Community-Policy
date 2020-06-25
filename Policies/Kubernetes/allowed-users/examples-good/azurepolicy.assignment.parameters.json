@@ -1,12 +1,33 @@
 {
   "parameters": {
     "excludedNamespaces": { "value": [ "kube-system", "azure-arc" ] },
-    "runAsUser": { "value": {
-      "rule": "MustRunAs",
-      "ranges": [{
+    "runAsUserRule": { "value": "MustRunAs" },
+    "runAsUserRanges": { "value": {
+      "ranges": { "value": [{
         "min": 100,
         "max": 200
-      }]
+      }]}
+    }},
+    "runAsGroupRule": { "value": "MustRunAs" },
+    "runAsGroupRanges": { "value": {
+      "ranges": { "value": [{
+        "min": 100,
+        "max": 200
+      }]}
+    }},
+    "SupplmentalGroupsRule": { "value": "MustRunAs" },
+    "SupplmentalGroupsRanges": { "value": {
+      "ranges": { "value": [{
+        "min": 100,
+        "max": 200
+      }]}
+    }},
+    "fsGroupRule": { "value": "MustRunAs" },
+    "fsGroupRanges": { "value": {
+      "ranges": { "value": [{
+        "min": 100,
+        "max": 200
+      }]}
     }}
   }
 }

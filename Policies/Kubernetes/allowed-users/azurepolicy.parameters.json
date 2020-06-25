@@ -69,5 +69,86 @@
         }
       ]
     }
+  },
+  "runAsGroupRule": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Run as Group",
+      "description": "RunAsGroup controls the group ID that containers are allowed to run with"
+    },
+    "allowedValues": [
+      "MustRunAs",
+      "MayRunAs",
+      "RunAsAny"
+    ]
+  },
+  "runAsGroupRanges": {
+    "type": "Object",
+    "metadata": {
+      "displayName": "Valid group IDs",
+      "description": "Configure what group IDs are valid for pods to use. An empty list means there is no restriction on group IDs used. This is defined as a list of objects with a min and a max group id value. E.g. { \"ranges\": [{\"min\": 100, \"max\": 200}] }"
+    },
+    "defaultValue": {
+      "ranges": [
+        {
+          "min": 100,
+          "max": 200
+        }
+      ]
+    }
+  },
+  "supplementalGroupsRule": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Supplemental Groups",
+      "description": "SupplementalGroups controls the supplemental groups ID that pods are allowed to add"
+    },
+    "allowedValues": [
+      "MustRunAs",
+      "MayRunAs",
+      "RunAsAny"
+    ]
+  },
+  "supplementalGroupsRanges": {
+    "type": "Object",
+    "metadata": {
+      "displayName": "Valid supplmental group IDs",
+      "description": "Configure what supplmental group IDs are valid for pods to use. An empty list means there is no restriction on supplmental group IDs used. This is defined as a list of objects with a min and a max supplmental group id value. E.g. { \"ranges\": [{\"min\": 100, \"max\": 200}] }"
+    },
+    "defaultValue": {
+      "ranges": [
+        {
+          "min": 100,
+          "max": 200
+        }
+      ]
+    }
+  },
+  "fsGroupRule": {
+    "type": "String",
+    "metadata": {
+      "displayName": "FS Group",
+      "description": "FSGroup controls the fsgroup ID that containers are allowed to run with"
+    },
+    "allowedValues": [
+      "MustRunAs",
+      "MayRunAs",
+      "RunAsAny"
+    ]
+  },
+  "fsGroupRanges": {
+    "type": "Object",
+    "metadata": {
+      "displayName": "Valid fsgroup IDs",
+      "description": "Configure what fsgroup IDs are valid for pods to use. An empty list means there is no restriction on fsgroup IDs used. This is defined as a list of objects with a min and a max fsgroup id value. E.g. { \"ranges\": [{\"min\": 100, \"max\": 200}] }"
+    },
+    "defaultValue": {
+      "ranges": [
+        {
+          "min": 100,
+          "max": 200
+        }
+      ]
+    }
   }
 }

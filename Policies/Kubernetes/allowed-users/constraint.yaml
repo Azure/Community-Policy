@@ -12,3 +12,12 @@ spec:
     runAsUser:
       rule: {{ .Values.runAsUserRule }}
       ranges: {{ .Values.runAsUserRanges }}
+    runAsGroup:
+      rule: {{ .Values.runAsGroupRule }}
+      ranges: {{ .Values.runAsGroupRanges }}
+    supplementalGroups:
+      rule: {{ .Values.supplementalGroupsRule }}
+      ranges: {{ .Values.supplementalGroupsRanges }}
+    fsGroup:
+      rule: {{ .Values.fsGroupRule }}
+      ranges: {{ .Values.fsGroupRanges }}
