@@ -160,29 +160,30 @@
         },
         "runAsUserRanges": {
           "value": {"ranges": []}
-        }
-      }
-    },
-    {
-      "policyDefinitionId": "/subscriptions/44d01367-c909-4ddc-94ef-9c4a4b34ed23/providers/Microsoft.Authorization/policyDefinitions/7fb520cf-edc6-46bd-9897-dbde7de1c1de",
-      "parameters": {
-        "effect": {
-          "value": "[parameters('effect')]"
         },
-        "excludedNamespaces": {
-          "value": "[parameters('excludedNamespaces')]"
+        "runAsGroupRule": {
+          "value": "RunAsAny"
         },
-        "fsgroupRule": {
+        "runAsGroupRanges": {
+          "value": {"ranges": []}
+        },
+        "supplementalGroupsRule": {
           "value": "MustRunAs"
         },
-        "validFsgroupRanges": {
-          "value": {
-            "ranges": [
-              {
-                "min": 1,
-                "max": 65535
-              }
-            ]}
+        "supplementalGroupsRanges": {
+          "value": {"ranges": [{
+            "min": 1,
+            "max": 65535
+          }]}
+        },
+        "fsGroupRule": {
+          "value": "MustRunAs"
+        },
+        "fsGroupRanges": {
+          "value": {"ranges": [{
+            "min": 1,
+            "max": 65535
+          }]}
         }
       }
     }
