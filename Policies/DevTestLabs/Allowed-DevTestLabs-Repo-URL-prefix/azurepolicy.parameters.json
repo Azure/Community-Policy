@@ -1,0 +1,10 @@
+{
+   "URI": {
+	"type": "String",
+	"metadata": {
+	  "displayName": "URI",
+	  "description": "Allowed URL for the like operator"
+	},
+	"defaultValue": "https://dev.azure.com/ORG/*"
+  }
+}
