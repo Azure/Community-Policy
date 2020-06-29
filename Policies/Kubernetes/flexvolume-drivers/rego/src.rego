@@ -7,11 +7,6 @@ violation[{"msg": msg, "details": {}}] {
 }
 
 input_flexvolumes_allowed(volume) {
-    # An empty list means there is no restriction on flexVolume drivers used
-    input.parameters.allowedFlexVolumeDrivers == []
-}
-
-input_flexvolumes_allowed(volume) {
     input.parameters.allowedFlexVolumeDrivers[_] == volume.flexVolume.driver
 }
 

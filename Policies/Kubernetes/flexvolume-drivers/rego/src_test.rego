@@ -1,13 +1,14 @@
 package k8sazureflexvolumes
 
-has_field(object, field) = true {
-    object[field]
-}
-
-test_input_flexvolume_allowed_empty_params {
+test_input_flexvolume_empty_params {
     input := { "review": input_review, "parameters": input_parameters_empty}
     results := violation with input as input
-    count(results) == 0
+    count(results) == 1
+}
+test_input_flexvolume_many_empty_params{
+    input := { "review": input_review_many, "parameters": input_parameters_empty}
+    results := violation with input as input
+    count(results) == 2
 }
 test_input_no_flexvolume_is_allowed {
     input := { "review": input_review_no_flexvolume, "parameters": input_parameter_in_list}
