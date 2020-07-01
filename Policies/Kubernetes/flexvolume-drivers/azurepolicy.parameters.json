@@ -24,7 +24,7 @@
     "type": "Array",
     "metadata": {
       "displayName": "Allowed FlexVolume Drivers",
-      "description": "List of FlexVolume Drivers that volumes are able to use. An empty list means there is no restriction on FlexVolume drivers used."
+      "description": "List of FlexVolume Drivers that volumes are able to use. An empty list will block all FlexVolume drivers."
     },
     "defaultValue": []
   }
