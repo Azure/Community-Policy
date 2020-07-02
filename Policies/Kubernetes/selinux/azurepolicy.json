@@ -39,51 +39,55 @@
         "type": "Object",
         "metadata": {
           "displayName": "Allowed SELinux Options",
-          "description": "The 'level', 'role', 'type' and 'user' options allowed for SELinux configuration. The option will not be enforced if it is not specified. An empty option object means all SELinux parameters are valid.",
+          "description": "Allowed configurations for pod and container level SELinux Options. An empty array will block the setting of any SELinux options.",
           "schema": {
             "type": "object",
             "properties": {
-              "level": {
-                "type": "string"
-              },
-              "role": {
-                "type": "string"
-              },
-              "type": {
-                "type": "string"
-              },
-              "user": {
-                "type": "string"
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "level": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
               }
             },
+            "required": ["options"],
             "additionalProperties": false
           }
-        },
-        "defaultValue": {
-          "level": "s0:c123,c456",
-          "role": "object_r",
-          "type": "svirt_sandbox_file_t",
-          "user": "system_u"
         }
-      }
-    },
-    "policyRule": {
-      "if": {
-        "field": "type",
-        "in": [
-          "AKS Engine",
-          "Microsoft.Kubernetes/connectedClusters",
-          "Microsoft.ContainerService/managedClusters"
-        ]
       },
-      "then": {
-        "effect": "[parameters('effect')]",
-        "details": {
-          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/template.yaml",
-          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/constraint.yaml",
-          "values": {
-            "excludedNamespaces": "[parameters('excludedNamespaces')]",
-            "allowedSELinuxOptions": "[parameters('allowedSELinuxOptions')]"
+      "policyRule": {
+        "if": {
+          "field": "type",
+          "in": [
+            "AKS Engine",
+            "Microsoft.Kubernetes/connectedClusters",
+            "Microsoft.ContainerService/managedClusters"
+          ]
+        },
+        "then": {
+          "effect": "[parameters('effect')]",
+          "details": {
+            "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/template.yaml",
+            "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/constraint.yaml",
+            "values": {
+              "excludedNamespaces": "[parameters('excludedNamespaces')]",
+              "allowedSELinuxOptions": "[parameters('allowedSELinuxOptions').options]"
+            }
           }
         }
       }
