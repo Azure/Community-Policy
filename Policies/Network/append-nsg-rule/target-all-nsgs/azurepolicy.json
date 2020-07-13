@@ -69,8 +69,90 @@
     },
     "policyRule": {
         "if": {
-            "field": "type",
-            "equals": "Microsoft.Network/networkSecurityGroups"
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/networkSecurityGroups"
+                },
+                {
+                    "count": {
+                        "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
+                        "where": {
+                            "allOf": [
+                                {
+                                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].name",
+                                    "equals": "[parameters('name')]"
+                                },
+                                {
+                                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].protocol",
+                                    "equals": "[parameters('protocol')]"
+                                },
+                                {
+                                    "anyOf": [
+                                        {
+                                            "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRange'), parameters('sourcePortRange'))]",
+                                            "equals": true
+                                        },
+                                        {
+                                            "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRanges'), parameters('sourcePortRange'))]",
+                                            "equals": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "anyOf": [
+                                        {
+                                            "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'), parameters('destinationPortRange'))]",
+                                            "equals": true
+                                        },
+                                        {
+                                            "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges'), parameters('destinationPortRange'))]",
+                                            "equals": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "anyOf": [
+                                        {
+                                            "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix'), parameters('sourceAddressPrefix'))]",
+                                            "equals": true
+                                        },
+                                        {
+                                            "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes'), parameters('sourceAddressPrefix'))]",
+                                            "equals": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "anyOf": [
+                                        {
+                                            "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix'), parameters('destinationAddressPrefix'))]",
+                                            "equals": true
+                                        },
+                                        {
+                                            "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes'), parameters('destinationAddressPrefix'))]",
+                                            "equals": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].access",
+                                    "equals": "[parameters('access')]"
+                                },
+                                {
+                                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].priority",
+                                    "equals": "[parameters('priority')]"
+                                },
+                                {
+                                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].direction",
+                                    "equals": "[parameters('direction')]"
+                                }
+                            ]
+                        }
+                    },
+                    "equals": 0
+                }
+            ]
         },
         "then": {
             "effect": "append",
