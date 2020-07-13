@@ -60,14 +60,14 @@
         "metadata": {
             "displayName": "direction",
             "description": "The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic. - Inbound or Outbound"
-        },
-        "targetRegion": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Target Region",
-                "description": "NSGs created within this region will have this NSG rule applied to them.",
-                "strongType": "location"
-            }
+        }
+    },
+    "targetRegion": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Target Region",
+            "description": "NSGs created within this region will have this NSG rule applied to them.",
+            "strongType": "location"
         }
     }
 }
