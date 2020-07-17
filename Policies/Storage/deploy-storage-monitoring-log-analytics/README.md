@@ -39,8 +39,8 @@ az policy assignment create --name <assignmentname> --scope <scope> --policy "de
 
 ## Single service policies
 
-- [Blob services](blobservices/README.md)
-- [File services]()
-- [Queue services]()
-- [Storage account]()
-- [Table services]()
+- [Storage accounts](storageaccounts/README.md)
+  - [Blob services](blobservices/README.md)
+  - [File services](fileservices/README.md)
+  - [Queue services](queueservices/README.md)
+  - [Table services](tableservices/README.md)
