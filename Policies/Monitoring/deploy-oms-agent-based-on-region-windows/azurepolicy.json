@@ -69,7 +69,7 @@
                         },
                         {
                             "field": "Microsoft.Compute/virtualMachines/extensions/settings.workspaceId",
-                            "equals": "[parameters('targetRegions')]"
+                            "equals": "[parameters('logAnalytics')]"
                         }
                     ]
                 },

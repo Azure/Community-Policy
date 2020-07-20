@@ -49,7 +49,7 @@
                 },
                 {
                     "field": "location",
-                    "In": "[parameters('targetRegions')]"
+                    "In": "[parameters('logAnalytics')]"
                 }
             ]
         },
