@@ -1,0 +1,43 @@
+{
+    "displayName": "Enforce Lowercase or Uppercase on Tags and their Values",
+    "description": "This policy can be used to convert all tags on a resource to either being all lowercase or all uppercase. This will be transparent to the user during resource creation.",
+    "mode": "All",
+    "parameters": {
+        "toLowerOrToUpper": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Enforce Lowercase or Uppercase",
+                "description": "If set to Lowercase then the Policy will convert all tags on existing and new resources to lowercase. Uppercase will convert them to uppercase."
+            },
+            "allowedValues": [
+                "Lowercase",
+                "Uppercase"
+            ]
+        }
+    },
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "value": "[empty(field('tags'))]",
+                    "equals": false
+                }
+            ]
+        },
+        "then": {
+            "effect": "modify",
+            "details": {
+                "roleDefinitionIds": [
+                    "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                ],
+                "operations": [
+                    {
+                        "operation": "addOrReplace",
+                        "field": "tags",
+                        "value": "[json(if(equals(parameters('toLowerOrToUpper'), 'Lowercase'), toLower(string(field('tags'))),toUpper(string(field('tags')))))]"
+                    }
+                ]
+            }
+        }
+    }
+}
