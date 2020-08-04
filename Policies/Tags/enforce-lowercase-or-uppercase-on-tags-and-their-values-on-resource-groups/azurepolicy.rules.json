@@ -2,6 +2,10 @@
     "if": {
         "allOf": [
             {
+                "field": "type",
+                "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+            },
+            {
                 "value": "[empty(field('tags'))]",
                 "equals": false
             }
