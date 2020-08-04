@@ -1,0 +1,13 @@
+{
+    "toLowerOrToUpper": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Enforce Lowercase or Uppercase",
+            "description": "If set to Lowercase then the Policy will convert all tags on existing and new resources to lowercase. Uppercase will convert them to uppercase."
+        },
+        "allowedValues": [
+            "Lowercase",
+            "Uppercase"
+        ]
+    }
+}
