@@ -18,7 +18,9 @@
                         "field": "Microsoft.Storage/storageAccounts/sku.name",
                         "notIn": [
                             "Standard_RAGRS",
-                            "Standard_GRS"
+                            "Standard_GRS",
+                            "Standard_GZRS",
+                            "Standard_RAGZRS"
                         ]
                     }
                 ]
@@ -32,7 +34,9 @@
                         "field": "Microsoft.Storage/storageAccounts/sku.name",
                         "in": [
                             "Standard_RAGRS",
-                            "Standard_GRS"
+                            "Standard_GRS",
+                            "Standard_GZRS",
+                            "Standard_RAGZRS"
                         ]
                     },
                     "roleDefinitionIds": [
