@@ -1,0 +1,38 @@
+{
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+                "Audit",
+                "Disabled",
+                "Deny"
+            ],
+            "defaultValue": "Deny"
+        }
+    },
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Web/sites"
+                },
+                {
+                    "field": "kind",
+                    "like": "functionapp*"
+                },
+                {
+                    "field": "Microsoft.Web/sites/httpsOnly",
+                    "equals": "false"
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+        }
+    }
+}
