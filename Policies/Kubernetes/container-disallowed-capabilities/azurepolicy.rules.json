@@ -1,0 +1,21 @@
+{
+  "if": {
+    "field": "type",
+    "in": [
+      "AKS Engine",
+      "Microsoft.Kubernetes/connectedClusters",
+      "Microsoft.ContainerService/managedClusters"
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/container-disallowed-capabilities/template.yaml",
+      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/container-disallowed-capabilities/constraint.yaml",
+      "values": {
+        "excludedNamespaces": "[parameters('excludedNamespaces')]",
+        "disallowedCapabilities": "[parameters('disallowedCapabilities')]"
+      }
+    }
+  }
+}
