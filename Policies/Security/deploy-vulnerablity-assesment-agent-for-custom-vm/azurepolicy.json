@@ -2,7 +2,7 @@
     "properties": {
         "displayName": "Deploy Azure Security Center Vulnerability Assessment extension if does not exist",
         "policyType": "Custom",
-        "mode": "All",
+        "mode": "Indexed",
         "description": "This policy deploy vulnerability assessment agent AzureSecurityCenter to Virtual Machine deployed from Shared Gallery Image.",
         "metadata": {
             "category": "Security"
