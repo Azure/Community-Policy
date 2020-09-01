@@ -1,0 +1,38 @@
+{
+    "galleryRGName": {
+        "type": "String",
+        "metadata": {
+            "description": "Shared Image Gallery resourceGroup name ",
+            "displayName": "Image Gallery RG name"
+        }
+    },
+    "galleryName": {
+        "type": "String",
+        "metadata": {
+            "description": "Shared Image Gallery resourceGroup name ",
+            "displayName": "Image Gallery name"
+        }
+    },
+    "imageDefinitionName": {
+        "type": "String",
+        "metadata": {
+            "description": "Shared Image Gallery resourceGroup name ",
+            "displayName": "Image Definition name"
+        }
+    },
+    "imageVersion": {
+        "type": "String",
+        "metadata": {
+            "description": "Shared Image Gallery resourceGroup name ",
+            "displayName": "Image Version(Name)"
+        }
+    },
+    "deplomentApiVersion": {
+        "type": "String",
+        "metadata": {
+            "description": "ASC Vulnerability assesment API version",
+            "displayName": "ASC Resource Provider Api Version"
+        },
+        "defaultvalue": "2015-06-01-preview"
+    }
+} 
