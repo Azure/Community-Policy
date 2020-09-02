@@ -1,0 +1,138 @@
+{
+    "properties": {
+        "displayName": "Deploy Azure Security Center Vulnerability Assessment extension if does not exist",
+        "policyType": "Custom",
+        "mode": "Indexed",
+        "description": "This policy deploy vulnerability assessment agent AzureSecurityCenter to Virtual Machine deployed from Shared Gallery Image.",
+        "metadata": {
+            "category": "Security"
+        },
+        "parameters": {
+            "galleryRGName": {
+                "type": "String",
+                "metadata": {
+                    "description": "Shared Image Gallery resourceGroup name ",
+                    "displayName": "Image Gallery RG name"
+                }
+            },
+            "galleryName": {
+                "type": "String",
+                "metadata": {
+                    "description": "Shared Image Gallery resourceGroup name ",
+                    "displayName": "Image Gallery name"
+                }
+            },
+            "imageDefinitionName": {
+                "type": "String",
+                "metadata": {
+                    "description": "Shared Image Gallery resourceGroup name ",
+                    "displayName": "Image Definition name"
+                }
+            },
+            "imageVersion": {
+                "type": "String",
+                "metadata": {
+                    "description": "Shared Image Gallery resourceGroup name ",
+                    "displayName": "Image Version(Name)"
+                }
+            },
+            "deplomentApiVersion": {
+                "type": "String",
+                "metadata": {
+                    "description": "ASC Vulnerability assesment API version",
+                    "displayName": "ASC Resource Provider Api Version"
+                },
+                "defaultValue": "2015-06-01-preview"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Compute/virtualMachines"
+                    },
+                    {
+                        "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.id",
+                        "contains": "[concat('resourceGroups/',parameters('galleryRGName'),'/providers/Microsoft.Compute/galleries/',parameters('galleryName'),'/images/',parameters('imageDefinitionName'),'/versions/',parameters('imageVersion'))]"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "deployIfNotExists",
+                "details": {
+                    "type": "Microsoft.Compute/virtualMachines/extensions",
+                    "roleDefinitionIds": [
+                        "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                    ],
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                                "like": "*.AzureSecurityCenter"
+                            },
+                            {
+                                "field": "Microsoft.Compute/virtualMachines/extensions/provisioningState",
+                                "like": "Succeeded"
+                            },
+                            {
+                                "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+                                "equals": "Qualys"
+                            }
+                        ]
+                    },
+                    "deployment": {
+                        "properties": {
+                            "mode": "incremental",
+                            "template": {
+                                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {
+                                    "vmName": {
+                                        "type": "string"
+                                    },
+                                    "apiVersionByEnv": {
+                                        "type": "string"
+                                    }
+                                },
+                                "resources": [
+                                    {
+                                        "type": "Microsoft.Compute/virtualMachines/providers/serverVulnerabilityAssessments",
+                                        "name": "[concat(parameters('vmName'), '/Microsoft.Security/default')]",
+                                        "apiVersion": "[parameters('apiVersionByEnv')]"
+                                    }
+                                ],
+                                "outputs": {
+                                    "policy": {
+                                        "type": "string",
+                                        "value": "[concat('Enabled extension for: ', parameters('vmName'))]"
+                                    }
+                                }
+                            },
+                            "parameters": {
+                                "vmName": {
+                                    "value": "[field('name')]"
+                                },
+                                "galleryRGName": {
+                                    "value": "[parameters('galleryRGName')]"
+                                },
+                                "galleryName": {
+                                    "value": "[parameters('galleryName')]"
+                                },
+                                "imageDefinitionName": {
+                                    "value": "[parameters('imageDefinitionName')]"
+                                },
+                                "imageVersion": {
+                                    "value": "[parameters('imageVersion')]"
+                                },
+                                "deplomentApiVersion": {
+                                    "value": "[parameters('deplomentApiVersion')]"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
