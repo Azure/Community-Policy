@@ -1,4 +1,4 @@
-package k8sazureblockhostnamespace
+package k8sazuremanagehostnamespace
 
 violation[{"msg": msg, "details": {}}] {
     input_invalid_hostnamespace(input.review.object)
