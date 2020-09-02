@@ -1,0 +1,7 @@
+{
+  "parameters": {
+    "excludedNamespaces": { "value": [ "kube-system", "gatkeeper-system", "azure-arc" ] },
+    "allowedHostPID": { "value": false },
+    "allowedHostIPC": { "value": false }
+  }
+}

@@ -30,6 +30,22 @@
           "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
         },
         "defaultValue": ["kube-system", "gatekeeper-system", "azure-arc"]
+      },
+      "allowedHostPID": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Allow Host Process ID",
+          "description": "Allow pods to use the Host Process ID"
+        },
+        "defaultValue": false
+      },
+      "allowedHostIPC": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Allow Host IPC",
+          "description": "Allow pods to use the Host IPC"
+        },
+        "defaultValue": false
       }
     },
     "policyRule": {
@@ -44,10 +60,12 @@
       "then": {
         "effect": "[parameters('effect')]",
         "details": {
-          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/block-host-namespace/template.yaml",
-          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/block-host-namespace/constraint.yaml",
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/manage-host-namespace/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/manage-host-namespace/constraint.yaml",
           "values": {
-            "excludedNamespaces": "[parameters('excludedNamespaces')]"
+            "excludedNamespaces": "[parameters('excludedNamespaces')]",
+            "allowedHostPID": "[parameters('allowedHostPID')]",
+            "allowedHostIPC": "[parameters('allowedHostIPC')]"
           }
         }
       }

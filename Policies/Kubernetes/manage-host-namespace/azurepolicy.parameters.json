@@ -19,5 +19,21 @@
       "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
     },
     "defaultValue": ["kube-system", "gatekeeper-system", "azure-arc"]
+  },
+  "allowedHostPID": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Allow Host Process ID",
+      "description": "Allow pods to use the Host Process ID"
+    },
+    "defaultValue": false
+  },
+  "allowedHostIPC": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Allow Host IPC",
+      "description": "Allow pods to use the Host IPC"
+    },
+    "defaultValue": false
   }
 }

@@ -1,5 +1,5 @@
 apiVersion: constraints.gatekeeper.sh/v1beta1
-kind: K8sAzureBlockHostNamespace
+kind: K8sAzureManageHostNamespace
 metadata:
   name: psp-host-namespace
 spec:
@@ -8,3 +8,6 @@ spec:
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]
+  parameters:
+    allowedHostPID: {{ .Values.allowedHostPID }}
+    allowedHostIPC: {{ .Values.allowedHostIPC }}
