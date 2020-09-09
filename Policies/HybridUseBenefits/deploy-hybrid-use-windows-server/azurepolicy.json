@@ -20,7 +20,7 @@
             ]
         },
         "then": {
-            "effect": "DeployIfNotExists",
+            "effect": "deployIfNotExists",
             "details": {
                 "type": "Microsoft.Compute/virtualMachines",
                 "name": "[field('name')]",
