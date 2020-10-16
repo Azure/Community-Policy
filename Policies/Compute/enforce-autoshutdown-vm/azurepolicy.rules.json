@@ -1,0 +1,86 @@
+{
+    "if": {
+        "field": "type",
+        "equals": "Microsoft.Compute/virtualMachines"
+    },
+    "then": {
+        "effect": "DeployIfNotExists",
+        "details": {
+            "type": "Microsoft.devtestlab/schedules",
+            "roleDefinitionIds": [
+                "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+            ],
+            "existenceCondition": {
+                "allOf": [
+                    {
+                        "field": "Microsoft.devtestlab/schedules/status",
+                        "equals": "Enabled"
+                    },
+                    {
+                        "field": "Microsoft.devtestlab/schedules/targetResourceId",
+                        "equals": "[field('id')]"
+                    }
+                ]
+            },
+            "deployment": {
+                "properties": {
+                    "mode": "incremental",
+                    "parameters": {
+                        "virtualMachine_name": {
+                            "value": "[field('name')]"
+                        },
+                        "virtualMachine_id": {
+                            "value": "[field('id')]"
+                        },
+                        "schedule_location": {
+                            "value": "[field('location')]"
+                        },
+                        "schedule_time": {
+                            "value": "[parameters('schedule_time')]"
+                        }
+                    },
+                    "template": {
+                        "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "parameters": {
+                            "virtualMachine_name": {
+                                "type": "string"
+                            },
+                            "virtualMachine_id": {
+                                "type": "string"
+                            },
+                            "schedule_location": {
+                                "type": "string"
+                            },
+                            "schedule_time": {
+                                "type": "string"
+                            }
+                        },
+                        "resources": [
+                            {
+                                "type": "microsoft.devtestlab/schedules",
+                                "apiVersion": "2018-09-15",
+                                "name": "[concat('shutdown-computevm-',parameters('virtualMachine_name'))]",
+                                "location": "[parameters('schedule_location')]",
+                                "properties": {
+                                    "status": "Enabled",
+                                    "taskType": "ComputeVmShutdownTask",
+                                    "dailyRecurrence": {
+                                        "time": "[parameters('schedule_time')]"
+                                    },
+                                    "timeZoneId": "UTC",
+                                    "notificationSettings": {
+                                        "status": "Disabled",
+                                        "timeInMinutes": 30,
+                                        "notificationLocale": "en"
+                                    },
+                                    "targetResourceId": "[parameters('virtualMachine_id')]"
+                                }
+                            }
+                        ]
+                    }
+                }   
+            }
+        }
+    }
+}
