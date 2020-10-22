@@ -65,6 +65,7 @@ If you are encountering livesite issues or difficulties in implementing new poli
 - [How to assign policies using the Azure portal](https://docs.microsoft.com/azure/governance/policy/assign-policy-portal)
 - [How to assign policies using Azure PowerShell](https://docs.microsoft.com/azure/governance/policy/assign-policy-powershell)
 - [How to assign policies using Azure CLI](https://docs.microsoft.com/azure/governance/policy/assign-policy-azurecli)
+- [Export and manage Azure policies as code with GitHub](https://docs.microsoft.com/en-us/azure/governance/policy/tutorials/policy-as-code-github)
 - [Definition structure](https://docs.microsoft.com/azure/governance/policy/concepts/definition-structure)
 - [Understand Policy effects](https://docs.microsoft.com/azure/governance/policy/concepts/effects)
 - [Programmatically create policies](https://docs.microsoft.com/azure/governance/policy/how-to/programmatically-create)
