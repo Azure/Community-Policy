@@ -22,6 +22,8 @@ definition. Use <kbd>Ctrl</kbd>-<kbd>F</kbd> to use your browser's search featur
 |[Allowed Role Definitions](https://github.com/Azure/Community-Policy/blob/master/Policies/Authorization/allowed-role-definitions/azurepolicy.json) |This policy defines a white list of role definitions that can be used in IAM |Deny, Disabled |
 |[Allowed Role Definitions For Specific Principal IDs](https://github.com/Azure/Community-Policy/blob/master/Policies/Authorization/allowed-role-definitions-for-specific-principal-ids/azurepolicy.json) |This policy defines a white list of role definitions that can be assigned to specific Principal IDs in IAM. This is useful in the example where you don't want an SPN having it's rights elevated. |Deny, Disabled |
 |[Disallowed Role Definitions](https://github.com/Azure/Community-Policy/blob/master/Policies/Authorization/disallowed-role-definitions/azurepolicy.json) |This policy defines a black list of role deifnitions that can not be used in IAM |Deny, Disabled |
+|[Audit Resource Type For Lock](https://github.com/Azure/Community-Policy/blob/master/Policies/Authorization/audit-resourcetype-for-lock/azurepolicy.json) |This policy audits the specified resource type for any lock such as 'CanNotDelete' or 'ReadOnly' |auditIfNotExists |
+|[Audit Role Assignments Principal Type](https://github.com/Azure/Community-Policy/blob/master/Policies/Authorization/audit-role-assignments-principaltype/azurepolicy.json) |This policy audits for any Role Assignments for a specific Principal Type (e.g. User/Group/ServicePrincipal)|audit |
 
 ## microsoft.compute
 
@@ -108,6 +110,11 @@ definition. Use <kbd>Ctrl</kbd>-<kbd>F</kbd> to use your browser's search featur
 |---|---|---|
 |[Deny cool access tiering for storage accounts](https://github.com/Azure/Community-Policy/blob/master/Policies/Storage/storage-account-access-tier/azurepolicy.json) |Ensures there's no usage of cool access tiering for storage. |deny |
 |[Deploy 'Geo-redundant' replication on Storage Account](https://github.com/Azure/Community-Policy/blob/master/Policies/Storage/deploy-geo-redundant-replication/azurepolicy.json) |This policy set geo-redundancy on storage accounts. |DeployIfNotExists |
+
+## resource-management.tags
+|Name |Description |Effect(s) |
+|---|---|---|
+|[Inherit A Tag From Resource Group And Overwrite Existing](https://github.com/Azure/Community-Policy/blob/master/Policies/Tags/inherit-tag-from-rg-overwite-existing/azurepolicy.json) |This policy inherits the specified tag from the resource group to the resource overwriting the existing tag value. If the tag value on the resource group matches those specified in the array parameter 'tagValuesToIgnore' then no tag inheritance occurs |modify |
 
 ## microsoft.web
 
