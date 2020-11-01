@@ -1,0 +1,68 @@
+{
+    "name":"inherit-tag-from-rg-overwite-existing",
+    "properties":{
+       "displayName":"Inherit A Tag From Resource Group And Overwrite Existing",
+       "description":"This policy inherits the specified tag from the resource group to the resource overwriting the existing tag value. If the tag value on the resource group matches those specified in the array parameter 'tagValuesToIgnore'. then no tag inheritance occurs.",
+       "mode":"Indexed",
+       "parameters":{
+          "tagName":{
+             "type":"String",
+             "metadata":{
+                "description":"Name of the tag to inherit from RG",
+                "displayName":"tagName"
+             }
+          },
+          "tagValuesToIgnore":{
+             "type":"Array",
+             "metadata":{
+                "description":"An array of possible tag values to ignore when evaluating tag inheritance",
+                "displayName":"tagValuesToIgnore"
+             },
+             "defaultValue":[
+                "tbc",
+                "'tbc'",
+                "TBC",
+                "to_be_confirmed",
+                "to be confirmed"
+             ]
+          }
+       },
+       "policyRule":{
+          "if":{
+             "allOf":[
+                {
+                   "exists":"true",
+                   "field":"[concat('tags[', parameters('tagName'), ']')]"
+                },
+                {
+                   "notEquals":"",
+                   "value":"[resourceGroup().tags[parameters('tagName')]]"
+                },
+                {
+                   "field":"[concat('tags[', parameters('tagName'), ']')]",
+                   "notEquals":"[resourceGroup().tags[parameters('tagName')]]"
+                },
+                {
+                   "notIn":"[parameters('tagValuesToIgnore')]",
+                   "value":"[resourceGroup().tags[parameters('tagName')]]"
+                }
+             ]
+          },
+          "then":{
+             "details":{
+                "operations":[
+                   {
+                      "field":"[concat('tags[', parameters('tagName'), ']')]",
+                      "operation":"addOrReplace",
+                      "value":"[resourceGroup().tags[parameters('tagName')]]"
+                   }
+                ],
+                "roleDefinitionIds":[
+                   "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                ]
+             },
+             "effect":"modify"
+          }
+       }
+    }
+}

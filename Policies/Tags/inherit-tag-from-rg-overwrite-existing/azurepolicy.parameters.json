@@ -1,0 +1,23 @@
+{
+    "tagName":{
+       "type":"String",
+       "metadata":{
+          "description":"Name of the tag to inherit from RG",
+          "displayName":"tagName"
+       }
+    },
+    "tagValuesToIgnore":{
+       "type":"Array",
+       "metadata":{
+          "description":"An array of possible tag values to ignore when evaluating tag inheritance",
+          "displayName":"tagValuesToIgnore"
+       },
+       "defaultValue":[
+          "tbc",
+          "'tbc'",
+          "TBC",
+          "to_be_confirmed",
+          "to be confirmed"
+       ]
+    }
+}
