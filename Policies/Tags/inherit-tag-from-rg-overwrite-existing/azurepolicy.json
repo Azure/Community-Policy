@@ -2,7 +2,7 @@
     "name":"inherit-tag-from-rg-overwite-existing",
     "properties":{
        "displayName":"Inherit A Tag From Resource Group And Overwrite Existing",
-       "description":"This policy inherits the specified tag from the resource group to the resource overwriting the existing tag value. If the tag value on the resource group matches those specified in the array parameter 'tagValuesToIgnore'. then no tag inheritance occurs.",
+       "description":"This policy inherits the specified tag from the resource group to the resource overwriting the existing tag value. If the tag value on the resource group matches those specified in the array parameter 'tagValuesToIgnore' then no tag inheritance occurs.",
        "mode":"Indexed",
        "parameters":{
           "tagName":{
