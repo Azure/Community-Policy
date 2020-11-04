@@ -75,6 +75,21 @@ test_input_two_required_mixed_existing_two_containers_1 {
     results := violation with input as input
     count(results) == 2
 }
+test_input_none_required_two_existing {
+    input := { "review": review([cont([p("livenessProbe"), p("readinessProbe")])]), "parameters": {"requiredProbes": []}}
+    results := violation with input as input
+    count(results) == 0
+}
+test_input_none_required_none_existing {
+    input := { "review": review([cont([])]), "parameters": {"requiredProbes": []}}
+    results := violation with input as input
+    count(results) == 0
+}
+test_input_none_required_empty_existing {
+    input := { "review": review([cont([empty("livenessProbe")])]), "parameters": {"requiredProbes": []}}
+    results := violation with input as input
+    count(results) == 0
+}
 # Init
 test_input_init_one_required_one_existing {
     input := { "review": init_review([cont([p("livenessProbe")])]), "parameters": {"requiredProbes": ["livenessProbe"]}}
