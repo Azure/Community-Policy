@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      livenessProbe:
+        httpGet:
+          path: /healthz
+          port: 9090
+      readinessProbe:
+        httpGet:
+          path: /readyz
+          port: 9090
+      resources:
+        limits:
+          cpu: "100m"
+          memory: "30Mi"
