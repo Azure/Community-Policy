@@ -5,7 +5,8 @@
       "displayName": "Required probes list",
       "description": "The list of probes that are required to be defined on a container. Kubernetes currently supports 'livenessProbe', 'readinessProbe', and 'startupProbe'."
     },
-    "defaultValue": ["readinessProbe", "livenessProbe"]
+    "defaultValue": ["readinessProbe", "livenessProbe"],
+    "allowedValues": ["readinessProbe", "livenessProbe", "startupProbe"]
   },
   "effect": {
     "type": "String",

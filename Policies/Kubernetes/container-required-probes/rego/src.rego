@@ -4,7 +4,7 @@ violation[{"msg": msg}] {
   container := input_containers[_]
   probe := input.parameters.requiredProbes[_]
   probe_is_missing(container, probe)
-  msg := sprintf("Container %v has is missing required probe %v. Required probes: %v", [container.name, probe, input.parameters.requiredProbes])
+  msg := sprintf("Container %v is missing required probe %v. Required probes: %v", [container.name, probe, input.parameters.requiredProbes])
 }
 
 probe_is_missing(ctr, probe) {

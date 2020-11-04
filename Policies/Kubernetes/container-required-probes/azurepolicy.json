@@ -1,12 +1,13 @@
 {
   "properties": {
-    "displayName": "Ensure all pods have lifecycle probes configured",
+    "displayName": "Kubernetes cluster containers should configure probes",
     "policyType": "BuiltIn",
     "mode": "Microsoft.Kubernetes.Data",
-    "description": "This policy enforces that all pods have the expected lifecycle probes configured. This policy is generally available for Kubernetes Service (AKS), and preview for AKS Engine and Azure Arc enabled Kubernetes. For instructions on using this policy, visit https://aka.ms/kubepolicydoc.",
+    "description": "This policy enforces that all pods have the expected lifecycle probes configured. For instructions on using this policy, visit https://aka.ms/kubepolicydoc.",
     "metadata": {
-      "version": "1.0.1",
-      "category": "Kubernetes"
+      "version": "1.0.0-preview",
+      "category": "Kubernetes PSP",
+      "preview": true
     },
     "parameters": {
       "requiredProbesList": {
@@ -15,7 +16,8 @@
           "displayName": "Required probes list",
           "description": "The list of probes that are required to be defined on a container. Kubernetes currently supports 'livenessProbe', 'readinessProbe', and 'startupProbe'."
         },
-        "defaultValue": ["readinessProbe", "livenessProbe"]
+        "defaultValue": ["readinessProbe", "livenessProbe"],
+        "allowedValues": ["readinessProbe", "livenessProbe", "startupProbe"]
       },
       "effect": {
         "type": "String",
