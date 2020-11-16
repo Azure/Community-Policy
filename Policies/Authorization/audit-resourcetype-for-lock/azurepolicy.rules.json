@@ -1,0 +1,16 @@
+{
+    "if":{
+       "field":"type",
+       "in":"[parameters('resourceTypes')]"
+    },
+    "then":{
+       "details":{
+          "existenceCondition":{
+             "field":"Microsoft.Authorization/locks/level",
+             "in":"[parameters('lockLevel')]"
+          },
+          "type":"Microsoft.Authorization/locks"
+       },
+       "effect":"auditIfNotExists"
+    }
+}
