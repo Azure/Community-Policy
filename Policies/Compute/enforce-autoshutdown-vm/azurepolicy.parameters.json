@@ -1,0 +1,6 @@
+{
+    "schedule_time": {
+        "type": "String",
+        "defaultValue": "0100"
+    }   
+}
