@@ -1,4 +1,4 @@
-package k8sazurenamedserviceaccount
+package k8sazureblockautomounttoken
 
 test_input_automount_false {
     input := { "review": input_review_automount_false }

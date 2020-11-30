@@ -1,4 +1,4 @@
-package k8sazurenamedserviceaccount
+package k8sazureblockautomounttoken
 
 violation[{"msg": msg}] {
   obj := input.review.object

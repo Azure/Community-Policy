@@ -1,7 +1,7 @@
 apiVersion: constraints.gatekeeper.sh/v1beta1
-kind: K8sAzureNamedServiceAccount
+kind: K8sAutomountServiceAccount
 metadata:
-  name: azure-named-service-account
+  name: automount-service-account
 spec:
   match:
     excludedNamespaces: {{ .Values.excludedNamespaces }}

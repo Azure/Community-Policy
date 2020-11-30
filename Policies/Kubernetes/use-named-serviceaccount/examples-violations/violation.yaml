@@ -5,6 +5,8 @@ metadata:
   labels:
     app: nginx-service-account
 spec:
+  serviceAccountName: test-account-bad
+  automountServiceAccountToken: true
   containers:
   - name: nginx
     image: nginx
