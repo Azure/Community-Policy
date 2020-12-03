@@ -1,9 +1,9 @@
 {
   "properties": {
-    "displayName": "Ensure usage of a named Service Account in a Kubernetes cluster",
+    "displayName": "Kubernetes clusters should disable automounting API credentials",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
-    "description": "This policy ensures usage of a named Service Account and blocks automount of the service account token on pods in a Kubernetes cluster. For instructions on using this policy, please go to https://aka.ms/kubepolicydoc.",
+    "description": "Disable automounting API credentials to prevent a potentially compromised Pod resource to run API commands against Kubernetes clusters. For instructions on using this policy, please go to https://aka.ms/kubepolicydoc.",
     "metadata": {
       "version": "1.0.0-preview",
       "category": "Kubernetes PSP",
