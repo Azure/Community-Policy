@@ -1,0 +1,6 @@
+{
+  "parameters": {
+    "excludedNamespaces": { "value": [ "kube-system", "azure-arc" ] },
+    "allowedExternalIPs": { "value": [ "203.0.113.0"] }
+  }
+}
