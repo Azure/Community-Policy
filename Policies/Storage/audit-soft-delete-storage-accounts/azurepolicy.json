@@ -1,6 +1,6 @@
 {
     "displayName": "Audit Soft Delete For Storage Accounts",
-    "description": "This Policy will audit for Storage Accounts in which Soft Delete has not been enabled. This will check for enablement at the blob and container level.",
+    "description": "This Policy will audit for Storage Accounts in which Soft Delete has not been enabled. This will check for enablement at the blob, file share, and container level.",
     "mode": "All",
     "policyRule": {
         "if": {
@@ -43,6 +43,25 @@
                         },
                         {
                             "field": "Microsoft.Storage/storageAccounts/blobServices/default.deleteRetentionPolicy.enabled",
+                            "equals": true
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.Storage/storageAccounts"
+                        },
+                        {
+                            "field": "kind",
+                            "in": [
+                                "Storage",
+                                "StorageV2"
+                            ]
+                        },
+                        {
+                            "field": "Microsoft.Storage/storageAccounts/fileServices/default.shareDeleteRetentionPolicy.enabled",
                             "equals": true
                         }
                     ]

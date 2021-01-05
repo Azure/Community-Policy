@@ -42,6 +42,25 @@
                         "equals": true
                     }
                 ]
+            },
+            {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Storage/storageAccounts"
+                    },
+                    {
+                        "field": "kind",
+                        "in": [
+                            "Storage",
+                            "StorageV2"
+                        ]
+                    },
+                    {
+                        "field": "Microsoft.Storage/storageAccounts/fileServices/default.shareDeleteRetentionPolicy.enabled",
+                        "equals": true
+                    }
+                ]
             }
         ]
     },
