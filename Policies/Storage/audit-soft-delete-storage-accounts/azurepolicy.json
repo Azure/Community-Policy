@@ -1,0 +1,57 @@
+{
+    "displayName": "Audit Soft Delete For Storage Accounts",
+    "description": "This Policy will audit for Storage Accounts in which Soft Delete has not been enabled. This will check for enablement at the blob and container level.",
+    "mode": "All",
+    "policyRule": {
+        "if": {
+            "anyOf": [
+                {
+                    "allOf": [
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.Storage/storageAccounts"
+                        },
+                        {
+                            "field": "kind",
+                            "in": [
+                                "Storage",
+                                "StorageV2",
+                                "BlobStorage",
+                                "BlockBlobStorage"
+                            ]
+                        },
+                        {
+                            "field": "Microsoft.Storage/storageAccounts/blobServices/default.deleteRetentionPolicy.enabled",
+                            "equals": false
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.Storage/storageAccounts"
+                        },
+                        {
+                            "field": "kind",
+                            "in": [
+                                "Storage",
+                                "StorageV2",
+                                "BlobStorage",
+                                "BlockBlobStorage"
+                            ]
+                        },
+                        {
+                            "field": "Microsoft.Storage/storageAccounts/blobServices/default.deleteRetentionPolicy.enabled",
+                            "equals": true
+                        }
+                    ]
+                }
+            ]
+        },
+        "then": {
+            "effect": "audit"
+        }
+    },
+    "parameters": {}
+}
