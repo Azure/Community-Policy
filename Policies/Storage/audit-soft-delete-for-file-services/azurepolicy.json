@@ -1,10 +1,11 @@
 {
     "properties": {
-        "displayName": "Audit Soft Delete on Storage Accounts for Azure Files",
+        "displayName": "Audit - Azure Files should have Soft Delete enabled",
+        "policyType": "BuiltIn",
         "mode": "Indexed",
-        "description": "This policy audits if Soft Delete for File Services is enabled for Storage Accounts.",
+        "description": "Protect your File Shares from accidental or malicious deletions by enabling Soft Delete: https://docs.microsoft.com/azure/storage/files/storage-files-prevent-file-share-deletion",
         "metadata": {
-            "version": "1.0.0",
+            "version": "1.0.0-preview",
             "category": "Storage"
         },
         "parameters": {
@@ -61,6 +62,8 @@
                     }
                 }
             }
-        }
+        },
+        "id": "/providers/Microsoft.Authorization/policyDefinitions/b959c857-3c53-5ceb-9ae3-f6f39166d099",
+        "name": "b959c857-3c53-5ceb-9ae3-f6f39166d099"
     }
 }
