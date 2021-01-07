@@ -1,0 +1,66 @@
+{
+    "properties": {
+        "displayName": "Audit Soft Delete on Storage Accounts for Azure Files",
+        "mode": "Indexed",
+        "description": "This policy audits if Soft Delete for File Services is enabled for Storage Accounts.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Storage"
+        },
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "retentionInDays": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Retention in Days",
+                    "description": "How long should deleted resources be retained for."
+                },
+                "minValue": 1,
+                "maxValue": 365
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Storage/storageAccounts"
+                    },
+                    {
+                        "field": "kind",
+                        "notEquals": "BlobStorage"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]",
+                "details": {
+                    "type": "Microsoft.Storage/storageAccounts/fileServices",
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Storage/storageAccounts/fileServices/default.shareDeleteRetentionPolicy.enabled",
+                                "equals": true
+                            },
+                            {
+                                "field": "Microsoft.Storage/storageAccounts/fileServices/default.shareDeleteRetentionPolicy.days",
+                                "equals": "[parameters('retentionInDays')]"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
