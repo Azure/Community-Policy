@@ -1,10 +1,11 @@
 {
     "properties": {
-        "displayName": "Audit Soft Delete on Storage Accounts for Blob Services",
+        "displayName": "Audit - Azure Storage Blobs and Containers should have Soft Delete enabled",
+        "policyType": "BuiltIn",
         "mode": "Indexed",
-        "description": "This policy audits if Soft Delete for Blob Services is enabled for Storage Accounts.",
+        "description": "Protect your Storage Blobs or Containers from accidental or malicious deletions by enabling Soft Delete: https://docs.microsoft.com/azure/storage/blobs/soft-delete-container-overview?tabs=powershell",
         "metadata": {
-            "version": "1.0.0",
+            "version": "1.0.0-preview",
             "category": "Storage"
         },
         "parameters": {
@@ -81,6 +82,8 @@
                     }
                 }
             }
-        }
+        },
+        "id": "/providers/Microsoft.Authorization/policyDefinitions/7332309d-0a0e-5015-8800-82a3dd5da2ca",
+        "name": "7332309d-0a0e-5015-8800-82a3dd5da2ca"
     }
 }
