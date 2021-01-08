@@ -60,6 +60,8 @@ $assignment = New-AzPolicyAssignment `
     -Name <assignmentname> ` 
     -Scope <scope> `  
     -PolicyDefinition $definition `
+    -AssignIdentity `
+    -Location <location> `
     -PolicyParameterObject $policyParameterObject
 
 $assignment
@@ -76,7 +78,7 @@ az policy definition create \
     --params 'https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Network/modify-routetable-nexthopvirtualappliance/azurepolicy.parameters.json' \
     --mode All
 
-az policy assignment create --name <assignmentname> --scope <scope> --policy 'modify-routetable-nexthopvirtualappliance' --params \
+az policy assignment create --name <assignmentname> --scope <scope> --policy 'modify-routetable-nexthopvirtualappliance' --assign-identity --location <location> --params \
 "{ \
     'routeTableSettings': { \
         'value': { \
