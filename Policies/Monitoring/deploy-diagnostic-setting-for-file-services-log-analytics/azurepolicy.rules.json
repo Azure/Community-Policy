@@ -1,0 +1,130 @@
+{
+    "if": {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts/fileServices"
+    },
+    "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+            "type": "Microsoft.Insights/diagnosticSettings",
+            "name": "[parameters('profileName')]",
+            "existenceCondition": {
+                "allOf": [
+                    {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
+                        "equals": "[parameters('logsEnabled')]"
+                    },
+                    {
+                        "count": {
+                            "field": "Microsoft.Insights/diagnosticSettings/metrics[*]",
+                            "where": {
+                                "allOf": [
+                                    {
+                                        "field": "Microsoft.Insights/diagnosticSettings/metrics[*].category",
+                                        "equals": "Transaction"
+                                    },
+                                    {
+                                        "field": "Microsoft.Insights/diagnosticSettings/metrics[*].enabled",
+                                        "equals": true
+                                    }
+                                ]
+                            }
+                        },
+                        "equals": 1
+                    },
+                    {
+                        "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+                        "equals": "[parameters('logAnalytics')]"
+                    }
+                ]
+            },
+            "roleDefinitionIds": [
+                "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa",
+                "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+            ],
+            "deployment": {
+                "properties": {
+                    "mode": "incremental",
+                    "template": {
+                        "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "parameters": {
+                            "resourceName": {
+                                "type": "string"
+                            },
+                            "location": {
+                                "type": "string"
+                            },
+                            "logAnalytics": {
+                                "type": "string"
+                            },
+                            "metricsEnabled": {
+                                "type": "string"
+                            },
+                            "logsEnabled": {
+                                "type": "string"
+                            },
+                            "profileName": {
+                                "type": "string"
+                            }
+                        },
+                        "variables": {},
+                        "resources": [
+                            {
+                                "type": "Microsoft.Storage/storageAccounts/fileServices/providers/diagnosticSettings",
+                                "apiVersion": "2017-05-01-preview",
+                                "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+                                "location": "[parameters('location')]",
+                                "dependsOn": [],
+                                "properties": {
+                                    "workspaceId": "[parameters('logAnalytics')]",
+                                    "metrics": [
+                                        {
+                                            "category": "Transaction",
+                                            "enabled": "[parameters('metricsEnabled')]"
+                                        }
+                                    ],
+                                    "logs": [
+                                        {
+                                            "category": "StorageRead",
+                                            "enabled": "[parameters('logsEnabled')]"
+                                        },
+                                        {
+                                            "category": "StorageWrite",
+                                            "enabled": "[parameters('logsEnabled')]"
+                                        },
+                                        {
+                                            "category": "StorageDelete",
+                                            "enabled": "[parameters('logsEnabled')]"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "outputs": {}
+                    },
+                    "parameters": {
+                        "location": {
+                            "value": "[field('location')]"
+                        },
+                        "resourceName": {
+                            "value": "[field('fullName')]"
+                        },
+                        "logAnalytics": {
+                            "value": "[parameters('logAnalytics')]"
+                        },
+                        "metricsEnabled": {
+                            "value": "[parameters('metricsEnabled')]"
+                        },
+                        "logsEnabled": {
+                            "value": "[parameters('logsEnabled')]"
+                        },
+                        "profileName": {
+                            "value": "[parameters('profileName')]"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
