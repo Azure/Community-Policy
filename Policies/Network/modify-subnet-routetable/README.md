@@ -74,7 +74,7 @@ $assignment
 ```sh
 az policy definition create \
     --name 'modify-subnet-routetable' \
-    --display-name 'Adds the default route table to subnets.' \
+    --display-name 'Adds the default route table to subnets' \
     --description 'Adds the default route table to subnets. Other route tables are replaced with the default route table.' \
     --rules 'https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Network/modify-subnet-routetable/azurepolicy.rules.json' \
     --params 'https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Network/modify-subnet-routetable/azurepolicy.parameters.json' \
