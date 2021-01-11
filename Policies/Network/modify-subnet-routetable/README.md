@@ -44,23 +44,23 @@ $definition
 $policyParameterObject = @{
     "routeTableSettings" = @{
         "northeurope" = @{
-            "resourceGroupName"="ne-network",
+            "resourceGroupName"="ne-network";
             "routeTableName"="ne-default-routetable"
         }; 
         "westeurope" = @{
-            "resourceGroupName"="we-network",
+            "resourceGroupName"="we-network";
             "routeTableName"="we-default-routetable"
         }; 
         "disabled" = @{
-            "resourceGroupName"="",
+            "resourceGroupName"="";
             "routeTableName"=""
         }
     }
 }
 
 $assignment = New-AzPolicyAssignment `
-    -Name <assignmentname> ` 
-    -Scope <scope> `  
+    -Name <assignmentname> `
+    -Scope <scope> `
     -PolicyDefinition $definition `
     -AssignIdentity `
     -Location <location> `
@@ -102,4 +102,4 @@ az policy assignment create --name <assignmentname> --scope <scope> --policy 'mo
 ```
 
 ## Notes
-Route tables are location-specific resources, so depending on the location of the VNet you need a different route table (e.g. North Europe, West Europe). For example, you cannot assign a route table in North Europe to a VNet's subnet located in West Europe. While multiple policy assignments could do the trick, it is desirable to reduce the amount of policy assignments to improve manageability. Passing route table settings as a parameter object enables the usage of location-specific settings within the policy definition, e.g. ```parameters('routeTableSettings')[field('location')].routeTableName``` with ```field('location')``` being the location where the route table is located (e.g. North Europe, West Europe). Long story short, instead of doing _n_ policy assignments with _n_ being the amount of locations or Azure region, you need just one single policy assignment. Pretty neat isn't it.
+Route tables are location-specific resources, so depending on the location or Azure region of the VNet you need a different route table (e.g. North Europe, West Europe). For example, you cannot add a route table located in North Europe to a VNet's subnet located in West Europe. While this policy definition could be simplified and assigned once per location, reducing the amount of policy assignments improves manageability (e.g. reviewing audit results). Passing route table settings as a parameter object enables the usage of location-specific settings within the policy definition, e.g. ```parameters('routeTableSettings')[field('location')].routeTableName``` with ```field('location')``` being the location where the VNet's subnet is located (e.g. North Europe, West Europe). Long story short, instead of doing _n_ policy assignments with _n_ being the amount of locations, you just need one single policy assignment. Pretty neat isn't it.
