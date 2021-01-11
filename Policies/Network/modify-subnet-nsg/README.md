@@ -26,7 +26,7 @@ Sample parameter ```networkSecurityGroupSettings```, which can be used during po
 }
 ```
 
-> Obviously, the location (e.g. ```northeurope```) is unknown during policy assignment and cannot be retrieved by ```[parameters('networkSecurityGroupSettings')[field('location')]``` in the policy definition. Hence, adding a ```disabled``` value to the parameter object is required to pass the validation during policy assignment.
+> Obviously, the location (e.g. ```northeurope```) is unknown during policy assignment and cannot be retrieved by ```parameters('networkSecurityGroupSettings')[field('location')]``` in the policy definition. Hence, adding a ```disabled``` value to the parameter object is required to pass the validation during policy assignment.
 
 ## Try with PowerShell
 
@@ -102,4 +102,4 @@ az policy assignment create --name <assignmentname> --scope <scope> --policy 'mo
 ```
 
 ## Notes
-Network security groups are location-specific resources, so depending on the location or Azure region of the VNet you need a different network security group (e.g. North Europe, West Europe). For example, you cannot add a network security group located in North Europe to a VNet's subnet located in West Europe. While this policy definition could be simplified and assigned once per location, reducing the amount of policy assignments improves manageability (e.g. reviewing audit results). Passing network security group settings as a parameter object enables the usage of location-specific settings within the policy definition, e.g. ```parameters('networkSecurityGroupSettings')[field('location')].networkSecurityGroupName``` with ```field('location')``` being the location where the VNet's subnet is located (e.g. North Europe, West Europe). Long story short, instead of doing _n_ policy assignments with _n_ being the amount of locations, you just need one single policy assignment. Pretty neat isn't it.
+Network security groups are location-specific resources, so depending on the location or Azure region of the VNet you need a different network security group (e.g. North Europe, West Europe). For example, you cannot add a network security group located in North Europe to a VNet's subnet located in West Europe. While this policy definition could be simplified and assigned once per location, reducing the amount of policy assignments improves manageability (e.g. reviewing audit results). Passing network security group settings as a parameter object enables the usage of location-specific settings within the policy definition, e.g. ```[parameters('networkSecurityGroupSettings')[field('location')].networkSecurityGroupName]``` with ```field('location')``` being the location where the VNet's subnet is located (e.g. North Europe, West Europe). Long story short, instead of doing _n_ policy assignments with _n_ being the amount of locations, you just need one single policy assignment. Pretty neat isn't it.
