@@ -1,18 +1,18 @@
 {
     "properties": {
-        "displayName": "Adds the default route table to subnets",
-        "description": "Adds the default route table to subnets. Other route tables are replaced with the default route table.",
+        "displayName": "Adds the default network security group to subnets in case there is none.",
+        "description": "Adds the default network security group to subnets in case there is none. Nothing happens when another network security group is already associated with the subnet.",
         "policyType": "Custom",
         "mode": "All",
         "metadata": {
             "category": "Network"
         },
         "parameters": {
-            "routeTableSettings": {
+            "networkSecurityGroupSettings": {
                 "type": "Object",
                 "metadata": {
-                    "displayName": "Route Table Settings",
-                    "description": "Location-specific settings for route tables."
+                    "displayName": "Network Security Group Settings",
+                    "description": "Location-specific settings for network security groups."
                 }
             }
         },
@@ -24,8 +24,8 @@
                         "equals": "Microsoft.Network/virtualNetworks/subnets"
                     },
                     {
-                        "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",
-                        "notEquals": "[concat(subscription().id, '/resourceGroups/', parameters('routeTableSettings')[field('location')].resourceGroupName, '/providers/Microsoft.Network/routeTables/', parameters('routeTableSettings')[field('location')].routeTableName)]"
+                        "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.id",
+                        "exists": "false"
                     }
                 ]
             },
@@ -38,9 +38,9 @@
                     "conflictEffect": "audit",
                     "operations": [
                         {
-                            "operation": "addOrReplace",
-                            "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",
-                            "value": "[concat(subscription().id, '/resourceGroups/', parameters('routeTableSettings')[field('location')].resourceGroupName, '/providers/Microsoft.Network/routeTables/', parameters('routeTableSettings')[field('location')].routeTableName)]"
+                            "operation": "add",
+                            "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.id",
+                            "value": "[concat(subscription().id, '/resourceGroups/', parameters('networkSecurityGroupSettings')[field('location')].resourceGroupName, '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupSettings')[field('location')].networkSecurityGroupName)]"
                         }
                     ]
                 }

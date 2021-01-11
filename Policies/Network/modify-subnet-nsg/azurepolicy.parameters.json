@@ -1,9 +1,9 @@
 {
-    "routeTableSettings": {
+    "networkSecurityGroupSettings": {
         "type": "Object",
         "metadata": {
-            "displayName": "Route Table Settings",
-            "description": "Location-specific settings for route tables."
+            "displayName": "Network Security Group Settings",
+            "description": "Location-specific settings for network security groups."
         }
     }
 }

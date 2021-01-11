@@ -6,8 +6,8 @@
                 "equals": "Microsoft.Network/virtualNetworks/subnets"
             },
             {
-                "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",
-                "notEquals": "[concat(subscription().id, '/resourceGroups/', parameters('routeTableSettings')[field('location')].resourceGroupName, '/providers/Microsoft.Network/routeTables/', parameters('routeTableSettings')[field('location')].routeTableName)]"
+                "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.id",
+                "exists": "false"
             }
         ]
     },
@@ -20,9 +20,9 @@
             "conflictEffect": "audit",
             "operations": [
                 {
-                    "operation": "addOrReplace",
-                    "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",
-                    "value": "[concat(subscription().id, '/resourceGroups/', parameters('routeTableSettings')[field('location')].resourceGroupName, '/providers/Microsoft.Network/routeTables/', parameters('routeTableSettings')[field('location')].routeTableName)]"
+                    "operation": "add",
+                    "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.id",
+                    "value": "[concat(subscription().id, '/resourceGroups/', parameters('networkSecurityGroupSettings')[field('location')].resourceGroupName, '/providers/Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupSettings')[field('location')].networkSecurityGroupName)]"
                 }
             ]
         }
