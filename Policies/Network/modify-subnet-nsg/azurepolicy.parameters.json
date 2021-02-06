@@ -1,0 +1,9 @@
+{
+    "networkSecurityGroupSettings": {
+        "type": "Object",
+        "metadata": {
+            "displayName": "Network Security Group Settings",
+            "description": "Location-specific settings for network security groups."
+        }
+    }
+}
