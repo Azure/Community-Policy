@@ -1,0 +1,204 @@
+{
+    "mode": "All",
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/privateEndpoints"
+                },
+                {
+                    "anyOf": [
+                        {
+                            "field": "[concat('tags[', parameters('environmentTagName'), ']')]",
+                            "equals": "[parameters('environmentProductionTagValue')]"
+                        },
+                        {
+                            "field": "[concat('tags[', parameters('environmentTagName'), ']')]",
+                            "equals": "[parameters('environmentNonProductionTagValue')]"
+                        }
+                    ]
+                }
+            ]
+        },
+        "then": {
+            "effect": "DeployIfNotExists",
+            "details": {
+                "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+                "roleDefinitionIds": [
+                    "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+                ],
+                "existenceCondition": {
+                    "anyOf": [
+                        {
+                            "value": "[string(field('Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId'))]",
+                            "contains": "[concat('/subscriptions/', parameters('dnsZoneProductionSubscriptionId'), '/resourceGroups/', parameters('dnsZoneProductionResourceGroupName'), '/providers/Microsoft.Network/privateDnsZones/')]"
+                        },
+                        {
+                            "value": "[string(field('Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId'))]",
+                            "contains": "[concat('/subscriptions/', parameters('dnsZoneNonProductionSubscriptionId'), '/resourceGroups/', parameters('dnsZoneNonProductionResourceGroupName'), '/providers/Microsoft.Network/privateDnsZones/')]"
+                        }
+                    ]
+                },
+                "deployment": {
+                    "properties": {
+                        "mode": "incremental",
+                        "template": {
+                            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                            "contentVersion": "1.0.0.0",
+                            "parameters": {
+                                "privateEndpointName": {
+                                    "type": "String"
+                                },
+                                "groupId": {
+                                    "type": "Array"
+                                },
+                                "location": {
+                                    "type": "String"
+                                },
+                                "dnsZoneProductionSubscriptionId": {
+                                    "type": "String"
+                                },
+                                "dnsZoneProductionResourceGroupName": {
+                                    "type": "String"
+                                },
+                                "dnsZoneNonProductionSubscriptionId": {
+                                    "type": "String"
+                                },
+                                "dnsZoneNonProductionResourceGroupName": {
+                                    "type": "String"
+                                },
+                                "environmentTagValue": {
+                                    "type": "String"
+                                },
+                                "environmentProductionTagValue": {
+                                    "type": "String"
+                                }
+                            },
+                            "variables": {
+                                "pvtendpointdnsgroupname": "[concat(parameters('privateEndpointName'),'/default')]",
+                                "groupIdMap": {
+                                    "sqlServer": "privatelink.database.windows.net",
+                                    "blob": "privatelink.blob.core.windows.net",
+                                    "blob_secondary": "privatelink.blob.core.windows.ne",
+                                    "table": "table.core.windows.net",
+                                    "table_secondary": "table.core.windows.net",
+                                    "queue": "privatelink.queue.core.windows.net",
+                                    "queue_secondary": "privatelink.queue.core.windows.net",
+                                    "file": "privatelink.file.core.windows.net",
+                                    "file_secondary": "privatelink.file.core.windows.net",
+                                    "web": "privatelink.web.core.windows.net",
+                                    "web_secondary": "privatelink.web.core.windows.net"
+                                },
+                                "productionZoneID": "[concat('/subscriptions/', parameters('dnsZoneProductionSubscriptionId'), '/resourceGroups/', parameters('dnsZoneProductionResourceGroupName'), '/providers/Microsoft.Network/privateDnsZones/', variables('groupIdMap')[parameters('groupId')[0]])]",
+                                "nonProductionZoneID": "[concat('/subscriptions/', parameters('dnsZoneNonProductionSubscriptionId'), '/resourceGroups/', parameters('dnsZoneNonProductionResourceGroupName'), '/providers/Microsoft.Network/privateDnsZones/', variables('groupIdMap')[parameters('groupId')[0]])]"
+                            },
+                            "resources": [
+                                {
+                                    "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+                                    "apiVersion": "2020-05-01",
+                                    "name": "[variables('pvtendpointdnsgroupname')]",
+                                    "location": "[parameters('location')]",
+                                    "properties": {
+                                        "copy": [
+                                            {
+                                                "name": "privateDnsZoneConfigs",
+                                                "count": "[length(parameters('groupId'))]",
+                                                "input": {
+                                                    "name": "[concat('config', copyindex('privateDnsZoneConfigs',1))]",
+                                                    "properties": {
+                                                        "privateDnsZoneId": "[if(equals(parameters('environmentTagValue'), parameters('environmentProductionTagValue')), concat('/subscriptions/', parameters('dnsZoneProductionSubscriptionId'), '/resourceGroups/', parameters('dnsZoneProductionResourceGroupName'), '/providers/Microsoft.Network/privateDnsZones/', variables('groupIdMap')[parameters('groupId')[copyIndex('privateDnsZoneConfigs')]]), concat('/subscriptions/', parameters('dnsZoneNonProductionSubscriptionId'), '/resourceGroups/', parameters('dnsZoneNonProductionResourceGroupName'), '/providers/Microsoft.Network/privateDnsZones/', variables('groupIdMap')[parameters('groupId')[copyIndex('privateDnsZoneConfigs')]]))]"
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        "parameters": {
+                            "privateEndpointName": {
+                                "value": "[field('name')]"
+                            },
+                            "groupId": {
+                                "value": "[field('Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].groupIds[*]')]"
+                            },
+                            "location": {
+                                "value": "[field('location')]"
+                            },
+                            "environmentTagValue": {
+                                "value": "[field(concat('tags[', parameters('environmentTagName'), ']'))]"
+                            },
+                            "environmentProductionTagValue": {
+                                "value": "[parameters('environmentProductionTagValue')]"
+                            },
+                            "dnsZoneProductionSubscriptionId": {
+                                "value": "[parameters('dnsZoneProductionSubscriptionId')]"
+                            },
+                            "dnsZoneProductionResourceGroupName": {
+                                "value": "[parameters('dnsZoneProductionResourceGroupName')]"
+                            },
+                            "dnsZoneNonProductionSubscriptionId": {
+                                "value": "[parameters('dnsZoneProductionSubscriptionId')]"
+                            },
+                            "dnsZoneNonProductionResourceGroupName": {
+                                "value": "[parameters('dnsZoneProductionResourceGroupName')]"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "parameters": {
+        "dnsZoneProductionSubscriptionId": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Production DNS Zones Subscription ID",
+                "description": "The ID of the subscription where the production DNS Zones reside"
+            }
+        },
+        "dnsZoneProductionResourceGroupName": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Production DNS Zones Resource Group Name",
+                "description": "Name of the resource group where all of the production DNS Zones reside"
+            }
+        },
+        "dnsZoneNonProductionSubscriptionId": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Non-Production DNS Zones Subscription ID",
+                "description": "The ID of the subscription where the non-production DNS Zones reside"
+            }
+        },
+        "dnsZoneNonProductionResourceGroupName": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Non-Production DNS Zones Resource Group Name",
+                "description": "Name of the resource group where all of the non-production DNS Zones reside"
+            }
+        },
+        "environmentTagName": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Environment Tag Name",
+                "description": "This is the name of the tag that will be used to identify the environment type"
+            }
+        },
+        "environmentProductionTagValue": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Production Tag Value",
+                "description": "The tag value that will be assigned to production resources"
+            }
+        },
+        "environmentNonProductionTagValue": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Non-Production Tag Value",
+                "description": "The tag value that will be assigned to non-production resources"
+            }
+        }
+    }
+}
