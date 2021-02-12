@@ -1,0 +1,34 @@
+{
+    "mode": "Indexed",
+    "policyRule": {
+      "if": {
+        "field": "[concat('tags[', parameters('tagName'), ']')]",
+        "exists": "false"
+      },
+      "then": {
+        "effect": "modify",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "operations": [
+            {
+              "operation": "add",
+              "field": "[concat('tags[', parameters('tagName'), ']')]",
+              "value": "[concat(substring(utcNow(),5,2), '/', substring(utcNow(),8,2), '/', substring(utcNow(),0,4))]"
+            }
+          ]
+        }
+      }
+    },
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "defaultValue": "DateCreated",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag, such as 'Date'"
+        }
+      }
+    }
+  }

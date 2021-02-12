@@ -1,0 +1,10 @@
+{
+    "tagName": {
+      "type": "String",
+      "defaultValue": "DateCreated",
+      "metadata": {
+        "displayName": "Tag Name",
+        "description": "Name of the tag, such as 'DateCreated'"
+      }
+    }
+  }
