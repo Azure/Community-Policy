@@ -59,9 +59,7 @@
                             "storageAccountId": "/subscriptions/ba1f7dcc-89de-4858-9f8b-b2ad61c895b5/resourceGroups/PLS/providers/Microsoft.Storage/storageAccounts/plsguestdiag",
                             "existingdiagnosticsStorageAccountName": "[last(split(parameters('storageAccountId'), '/'))]",
                             "wadlogs": "<WadCfg> <DiagnosticMonitorConfiguration overallQuotaInMB=\"5120\" xmlns=\"http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration\"> <DiagnosticInfrastructureLogs scheduledTransferLogLevelFilter=\"Error\"/> <WindowsEventLog scheduledTransferPeriod=\"PT1M\" > <DataSource name=\"Security!*[System[(band(Keywords,13510798882111488))]]\" /> <DataSource name=\"System!*[System[(Level=1 or Level=2 or Level=3)]]\" /></WindowsEventLog>",
-                            "wadperfcounters1": "<PerformanceCounters scheduledTransferPeriod= \"PT1M\">",
-                            "wadperfcounters2": "",
-                            "wadcfgxstart": "[concat(variables('wadlogs'), variables('wadperfcounters1'), variables('wadperfcounters2'), '<Metrics resourceId=\"')]",
+                            "wadcfgxstart": "[concat(variables('wadlogs'), '<Metrics resourceId=\"')]",
                             "wadmetricsresourceid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name , '/providers/', 'Microsoft.Compute/virtualMachines/')]",
                             "wadcfgxend": "\"><MetricAggregation scheduledTransferPeriod=\"PT1H\"/><MetricAggregation scheduledTransferPeriod=\"PT1M\"/></Metrics></DiagnosticMonitorConfiguration></WadCfg>"
                         },
