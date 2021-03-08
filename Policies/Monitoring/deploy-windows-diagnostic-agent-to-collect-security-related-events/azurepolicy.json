@@ -65,6 +65,9 @@
                                     },
                                     "storageAccountId": {
                                         "type": "string"
+                                    },
+                                    "vmId": {
+                                        "type": "string"
                                     }
                                 },
                                 "variables": {
@@ -72,18 +75,15 @@
                                     "vmExtensionPublisher": "Microsoft.Azure.Diagnostics",
                                     "vmExtensionType": "IaaSDiagnostics",
                                     "vmExtensionTypeHandlerVersion": "1.5",
-                                    "existingdiagnosticsStorageAccountName": "[last(split(parameters('storageAccountId'), '/'))]",
-                                    "wadlogs": "<WadCfg> <DiagnosticMonitorConfiguration overallQuotaInMB=\"5120\" xmlns=\"http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration\"> <DiagnosticInfrastructureLogs scheduledTransferLogLevelFilter=\"Error\"/> <WindowsEventLog scheduledTransferPeriod=\"PT1M\" > <DataSource name=\"Security!*[System[(band(Keywords,13510798882111488))]]\" /> <DataSource name=\"System!*[System[(Level=1 or Level=2 or Level=3)]]\" /></WindowsEventLog>",
-                                    "wadcfgxstart": "[concat(variables('wadlogs'), '<Metrics resourceId=\"')]",
-                                    "wadmetricsresourceid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name , '/providers/', 'Microsoft.Compute/virtualMachines/')]",
-                                    "wadcfgxend": "\"><MetricAggregation scheduledTransferPeriod=\"PT1H\"/><MetricAggregation scheduledTransferPeriod=\"PT1M\"/></Metrics></DiagnosticMonitorConfiguration></WadCfg>"
+                                    "storageAccountId": "/subscriptions/ba1f7dcc-89de-4858-9f8b-b2ad61c895b5/resourceGroups/PLS/providers/Microsoft.Storage/storageAccounts/plsguestdiag",
+                                    "existingdiagnosticsStorageAccountName": "[last(split(parameters('storageAccountId'), '/'))]"
                                 },
                                 "resources": [
                                     {
                                         "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
                                         "type": "Microsoft.Compute/virtualMachines/extensions",
                                         "location": "[parameters('location')]",
-                                        "apiVersion": "2020-06-01",
+                                        "apiVersion": "2018-06-01",
                                         "properties": {
                                             "publisher": "[variables('vmExtensionPublisher')]",
                                             "type": "[variables('vmExtensionType')]",
@@ -91,7 +91,44 @@
                                             "autoUpgradeMinorVersion": true,
                                             "settings": {
                                                 "StorageAccount": "[variables('existingdiagnosticsStorageAccountName')]",
-                                                "xmlCfg": "[base64(concat(variables('wadcfgxstart'), variables('wadmetricsresourceid'), parameters('vmName'), variables('wadcfgxend')))]"
+                                                "WadCfg": {
+                                                    "DiagnosticMonitorConfiguration": {
+                                                        "overallQuotaInMB": 5120,
+                                                        "Metrics": {
+                                                            "resourceId": "/subscriptions/ba1f7dcc-89de-4858-9f8b-b2ad61c895b5/resourceGroups/PLS/providers/Microsoft.Compute/virtualMachines/PLS",
+                                                            "MetricAggregation": [
+                                                                {
+                                                                    "scheduledTransferPeriod": "PT1H"
+                                                                },
+                                                                {
+                                                                    "scheduledTransferPeriod": "PT1M"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "DiagnosticInfrastructureLogs": {
+                                                            "scheduledTransferLogLevelFilter": "Error",
+                                                            "scheduledTransferPeriod": "PT1M"
+                                                        },
+                                                        "PerformanceCounters": {
+                                                            "scheduledTransferPeriod": "PT1M",
+                                                            "PerformanceCounterConfiguration": []
+                                                        },
+                                                        "WindowsEventLog": {
+                                                            "scheduledTransferPeriod": "PT1M",
+                                                            "DataSource": [
+                                                                {
+                                                                    "name": "System!*[System[(Level=1 or Level=2 or Level=3)]]"
+                                                                },
+                                                                {
+                                                                    "name": "Security!*[System[(band(Keywords,13510798882111488))]]"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "Directories": {
+                                                            "scheduledTransferPeriod": "PT1M"
+                                                        }
+                                                    }
+                                                }
                                             },
                                             "protectedSettings": {
                                                 "storageAccountName": "[variables('existingdiagnosticsStorageAccountName')]",
@@ -117,6 +154,9 @@
                                 },
                                 "storageAccountId": {
                                     "value": "[parameters('storageAccountId')]"
+                                },
+                                "vmId": {
+                                    "value": "[field('id')]"
                                 }
                             }
                         }
