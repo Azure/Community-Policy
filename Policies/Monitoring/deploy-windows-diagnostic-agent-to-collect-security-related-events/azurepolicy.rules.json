@@ -56,7 +56,6 @@
                             "vmExtensionPublisher": "Microsoft.Azure.Diagnostics",
                             "vmExtensionType": "IaaSDiagnostics",
                             "vmExtensionTypeHandlerVersion": "1.5",
-                            "storageAccountId": "/subscriptions/ba1f7dcc-89de-4858-9f8b-b2ad61c895b5/resourceGroups/PLS/providers/Microsoft.Storage/storageAccounts/plsguestdiag",
                             "existingdiagnosticsStorageAccountName": "[last(split(parameters('storageAccountId'), '/'))]",
                             "wadlogs": "<WadCfg> <DiagnosticMonitorConfiguration overallQuotaInMB=\"5120\" xmlns=\"http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration\"> <DiagnosticInfrastructureLogs scheduledTransferLogLevelFilter=\"Error\"/> <WindowsEventLog scheduledTransferPeriod=\"PT1M\" > <DataSource name=\"Security!*[System[(band(Keywords,13510798882111488))]]\" /> <DataSource name=\"System!*[System[(Level=1 or Level=2 or Level=3)]]\" /></WindowsEventLog>",
                             "wadcfgxstart": "[concat(variables('wadlogs'), '<Metrics resourceId=\"')]",
@@ -75,7 +74,7 @@
                                     "typeHandlerVersion": "[variables('vmExtensionTypeHandlerVersion')]",
                                     "autoUpgradeMinorVersion": true,
                                     "settings": {
-                                        "StorageAccount": "plsguestdiag",
+                                        "StorageAccount": "[variables('existingdiagnosticsStorageAccountName')]",
                                         "xmlCfg": "[base64(concat(variables('wadcfgxstart'), variables('wadmetricsresourceid'), parameters('vmName'), variables('wadcfgxend')))]"
                                     },
                                     "protectedSettings": {
