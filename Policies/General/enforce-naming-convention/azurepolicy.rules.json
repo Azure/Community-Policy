@@ -1,0 +1,55 @@
+{
+    "if": {
+      "anyOf": [
+        {
+          "count": {
+            "value": [
+              "vm",
+              "vnet",
+              "kv",
+              "sql"
+            ],
+            "name": "pattern",
+            "where": {
+              "value": "[split(field('name'), '-')[0]]",
+              "like": "[current('pattern')]"
+            }
+          },
+          "notEquals": 1
+        },
+        {
+          "count": {
+            "value": [
+              "dev",
+              "test",
+              "prod"
+            ],
+            "name": "pattern",
+            "where": {
+              "value": "[split(field('name'), '-')[1]]",
+              "like": "[current('pattern')]"
+            }
+          },
+          "notEquals": 1
+        },
+        {
+          "count": {
+            "value": [
+              "centralus",
+              "eastus",
+              "westus"
+            ],
+            "name": "pattern",
+            "where": {
+              "value": "[split(field('name'), '-')[2]]",
+              "like": "[current('pattern')]"
+            }
+          },
+          "notEquals": 1
+        }
+      ]
+    },
+    "then": {
+      "effect": "deny"
+    }
+  }
