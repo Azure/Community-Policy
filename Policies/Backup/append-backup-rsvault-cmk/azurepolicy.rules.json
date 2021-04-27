@@ -1,0 +1,41 @@
+ {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.RecoveryServices/vaults"
+        },
+        {
+          "field": "Microsoft.RecoveryServices/vaults/encryption",
+          "exists": "false"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]",
+      "details": [
+        {
+          "field": "Microsoft.RecoveryServices/vaults/encryption.keyVaultProperties.keyUri",
+          "value": "[parameters('keyUri')]"
+        },
+        {
+          "field": "Microsoft.RecoveryServices/vaults/encryption.kekIdentity.userAssignedIdentity",
+          "value": "[parameters('userAssignedIdentity')]"
+        },
+        {
+          "field": "Microsoft.RecoveryServices/vaults/encryption.infrastructureEncryption",
+          "value": "[parameters('infrastructureEncryption')]"
+        },
+        {
+          "field": "identity.type",
+          "value": "UserAssigned"
+        },
+        {
+          "field": "identity.userAssignedIdentities",
+          "value": {
+            "[parameters('userAssignedIdentity')]": {}
+          }
+        }
+      ]
+    }
+  }

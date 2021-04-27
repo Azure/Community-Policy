@@ -1,0 +1,48 @@
+{
+   "displayName": "Enforce 1.2 as Minimum TLS Version for SQL Server",
+   "policyType": "Custom",
+   "mode": "All",
+   "description": "Will set the Minimum TLS Version for a SQL Server to 1.2 or deny creation (when older API versions are used for deployment)",
+   "metadata": {
+      "category": "SQL"
+   },
+   "parameters": {},
+   "policyRule": {
+      "if": {
+         "allOf": [
+            {
+               "field": "type",
+               "equals": "Microsoft.Sql/servers"
+            },
+            {
+               "anyOf": [
+                  {
+                     "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                     "exists": "false"
+                  },
+                  {
+                     "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                     "notEquals": "1.2"
+                  }
+               ]
+            }
+         ]
+      },
+      "then": {
+         "effect": "modify",
+         "details": {
+            "roleDefinitionIds": [
+               "/providers/microsoft.authorization/roleDefinitions/056cd41c-7e88-42e1-933e-88ba6a50c9c3"
+            ],
+            "conflictEffect": "deny",
+            "operations": [
+               {
+                  "operation": "addOrReplace",
+                  "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                  "value": "1.2"
+               }
+            ]
+         }
+      }
+   }
+}
