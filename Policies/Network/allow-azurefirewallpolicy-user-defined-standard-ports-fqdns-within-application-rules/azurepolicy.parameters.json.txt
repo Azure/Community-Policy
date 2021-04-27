@@ -1,0 +1,36 @@
+{
+    "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+    },
+    "priority": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Priority",
+          "description": "Validate Azure firewall application rule priority. (Example: 999)."
+        }
+    },
+    "allowedFQDNs": {
+        "type": "Array",
+        "metadata": {
+	        "displayName": "Allowed FQDNs",
+          "description": "Provide target FQDNs (including wildcards) to allow. Example: [{'allowedFQDNs':['microsoft.com','*.servicebus.windows.net'],'ports':['443']}] )."
+	    }
+    },
+    "allowedPorts": {
+        "type": "Array",
+        "metadata": {
+	        "displayName": "Allowed Ports",
+          "description": "Provide destination ports to to allow (Example : ['443','80'] )."
+	    }
+     }
+}

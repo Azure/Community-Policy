@@ -1,0 +1,72 @@
+{
+    "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/firewallPolicies/ruleCollectionGroups"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyFilterRuleCollection.rules[*].ruleType",
+                    "equals": "NetworkRule"
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].priority",
+                        "lessOrEquals": "[parameters('priority')]"
+                      },
+                      {
+                        "count": {
+                          "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyFilterRuleCollection.rules[*]",
+                          "where": {
+                            "count": {
+                              "value": "[parameters('allowedRules')]",
+                              "name": "allowedRule",
+                              "where": {
+                                "allOf": [
+                                  {
+                                    "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyFilterRuleCollection.rules[*].NetworkRule.destinationPorts[*]",
+                                    "in": "[array(current('allowedRule').destinationPorts)]"
+                                  },
+                                  {
+                                    "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyFilterRuleCollection.rules[*].NetworkRule.ipProtocols[*]",
+                                    "in": "[array(current('allowedRule').protocols)]"
+                                  },
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "value": "[current('allowedRule').enforceDestinationAddresses]",
+                                        "equals": false
+                                      },
+                                      {
+                                        "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyFilterRuleCollection.rules[*].NetworkRule.destinationAddresses[*]",
+                                        "in": "[array(current('allowedRule').destinationAddresses)]"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            "equals": 0
+                          }
+                        },
+                        "greater": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "greater": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+    }    
+}
