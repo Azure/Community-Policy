@@ -1,15 +1,6 @@
 ﻿{
     "properties": {
-      "displayName": "jls-sqlmi-v2",
-      "policyType": "Custom",
       "mode": "All",
-      "metadata": {
-        "createdBy": "77acb525-98e2-4bc6-8a06-5db905455559",
-        "createdOn": "2021-05-06T19:21:27.8809259Z",
-        "updatedBy": null,
-        "updatedOn": null,
-        "category": "jason"
-      },
       "parameters": {},
       "policyRule": {
         "if": {
@@ -64,8 +55,5 @@
           }
         }
       }
-    },
-    "id": "/subscriptions/0dd72e9e-c3c8-4e00-a5f1-a197bc0f2a3d/providers/Microsoft.Authorization/policyDefinitions/4cd9a7f0-4f17-4908-96d4-74cd9846d104",
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "4cd9a7f0-4f17-4908-96d4-74cd9846d104"
+    }
   }
