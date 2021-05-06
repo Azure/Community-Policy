@@ -87,7 +87,7 @@
                 "DoNotEnforce",
                 "deployIfNotExists"
             ],
-            "defaultValue": "deployIfNotExists
+            "defaultValue": "deployIfNotExists"
        },
        "priority": {
            "type": "Integer",
