@@ -8,7 +8,7 @@
         "equals": "Microsoft.Network/networkSecurityGroups"  
       },
       "then": {
-        "effect": "deployIfNotExists",
+        "effect": "[parameters('effect')]",
         "details": {
           "type": "Microsoft.Network/networkSecurityGroups/securityRules",
           "roleDefinitionIds": [
@@ -36,6 +36,9 @@
               "parameters": {
                 "nsgName": {
                   "value": "[field('name')]"
+                },
+                "priority": {
+                    "value": "[parameters('priority')]"
                 }
               },
               "template": {
@@ -44,6 +47,9 @@
                 "parameters": {
                   "nsgName": {
                     "type": "string"
+                  },
+                  "priority": {
+                    "type": "Integer"
                   }
                 },
                 "resources": [
@@ -59,7 +65,7 @@
                       "sourceAddressPrefix": "*",
                       "destinationAddressPrefix": "*",
                       "access": "Deny",
-                      "priority": 100,
+                      "priority": "[parameters('priority')]",
                       "direction": "Inbound"
                     }
                   }
@@ -71,5 +77,24 @@
       } 
     },
     "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+                "DoNotEnforce",
+                "deployIfNotExists"
+            ],
+            "defaultValue": "deployIfNotExists
+       },
+       "priority": {
+           "type": "Integer",
+           "metadata": {
+              "displayName": "priority",
+              "description": "Priority for the deny RDP security rule (Example 100)."
+            }
+       }
     }
 }
