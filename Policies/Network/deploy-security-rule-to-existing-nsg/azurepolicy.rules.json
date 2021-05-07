@@ -1,0 +1,72 @@
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Network/networkSecurityGroups"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+          ],
+          "existenceCondition": {
+            "allof": [
+              {
+                "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+                "equals": "Deny"
+              },
+              {
+                "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+                "equals": "Inbound"
+              },
+              {
+                "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange",
+                "equals": "3389"
+              }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "nsgName": {
+                  "value": "[field('name')]"
+                },
+                "priority": {
+                  "value": "[parameters('priority')]"
+                }
+              },
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "nsgName": {
+                    "type": "string"
+                  },
+                  "priority": {
+                    "type": "int"
+                  }
+                },
+                "resources": [
+                  {
+                    "name": "[concat(parameters('nsgName'),'/Port_3389_Deny')]",
+                    "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+                    "apiVersion": "2019-11-01",
+                    "properties": {
+                      "description": "Deny RDP",
+                      "protocol": "*",
+                      "sourcePortRange": "*",
+                      "destinationPortRange": "3389",
+                      "sourceAddressPrefix": "*",
+                      "destinationAddressPrefix": "*",
+                      "access": "Deny",
+                      "priority": "[parameters('priority')]",
+                      "direction": "Inbound"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
