@@ -2,12 +2,12 @@
 
 This policy audits that the `vNetRouteAllEnabled` ARM property is set to true, forcing all traffic that originates in an App Service to be routed via [VNet Integration].
 
-> ℹ `vNetRouteAllEnabled` property has the same effect as creating an App Setting `WEBSITE_VNET_ROUTE_ALL=1`, however policy will only take effect if the property has been set using ARM.
+> ℹ `vNetRouteAllEnabled` property has the same effect as creating an App Setting `WEBSITE_VNET_ROUTE_ALL=1`, however policy will only take effect if the `vNetRouteAllEnabled` property has been set using ARM.
 
 For this policy to take effect:
 
-1. App Service must be deployed using an ARM API Version >= `2019-04-01`
-1. App Service (`Microsoft.Web/sites`) property `siteConfig` > `vnetRouteAllEnabled` must be set to `true` using an ARM template, e.g.
+1. App Service must be deployed using an ARM API Version `>=` `2019-04-01`
+1. App Service (`Microsoft.Web/sites`) property `siteConfig > vnetRouteAllEnabled` must be set to `true` using an ARM template, e.g.
 
 ```json
 "resources": [
