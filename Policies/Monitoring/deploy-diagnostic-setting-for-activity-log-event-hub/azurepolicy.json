@@ -51,7 +51,7 @@
                 "ExistenceCondition": {
                     "allOf": [
                         {
-                            "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+                            "field": "Microsoft.Insights/diagnosticSettings/eventHubAuthorizationRuleId",
                             "equals": "[parameters('eventHubRuleId')]"
                         },
                         {
