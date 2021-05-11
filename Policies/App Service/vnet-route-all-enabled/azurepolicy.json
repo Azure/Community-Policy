@@ -1,0 +1,28 @@
+{
+  "properties": {
+    "displayName": "Audit App Service vnetRouteAllEnabled",
+    "policyType": "Custom",
+    "description": "Audits that vnetRouteAllEnabled is true, ensuring all traffic originating from App is routed through VNet integration",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "Web App"
+    },
+    "parameters": {},
+    "policyRule": {
+      "if": {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+      },
+      "then": {
+        "effect": "auditIfNotExists",
+        "details": {
+          "type": "Microsoft.Web/sites/config",
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/config/vnetRouteAllEnabled",
+            "equals": true
+          }
+        }
+      }
+    }
+  }
+}
