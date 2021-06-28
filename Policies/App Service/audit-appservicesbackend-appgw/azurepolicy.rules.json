@@ -1,0 +1,23 @@
+{
+  "if": {
+    "field": "type",
+    "in": ["Microsoft.Web/sites"]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Network/applicationGateways",
+      "existenceScope": "subscription",
+      "existenceCondition": {
+        "count": {
+          "field": "Microsoft.Network/applicationGateways/backendAddressPools[*].backendAddresses[*]",
+          "where": {
+            "field": "Microsoft.Network/applicationGateways/backendAddressPools[*].backendAddresses[*].fqdn",
+            "like": "[concat(field('name'),'.','*')]"
+          }
+        },
+        "greaterOrEquals": 1
+      }
+    }
+  }
+}
