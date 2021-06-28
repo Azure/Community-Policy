@@ -1,0 +1,60 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "key-vault-firewall-settings-v1",
+    "properties": {
+        "displayName": "Key vault - Firewall Settings DENY v1",
+        "policyType": "Custom",
+        "mode": "All",
+        "description": "This Azure Policy denies the deployment of an Azure Key Vault when the 'Allow access from' setting is not set to 'Private endpoints and selected networks' or when the Firewall does contain any IP addresses outside of the approved ones.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Key Vault"
+        },
+        "parameters": {
+            "allowedAddressRanges": {
+                "type": "Array",
+                "metadata": {
+                    "description": "The list of IP Addresses or IP Address Ranges that are allowed for the Firewall Setting on the Key Vault",
+                    "displayName": "Allowed Address Ranges"
+                }
+            }
+        },
+        "PolicyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.KeyVault/vaults"
+                    },
+                    {
+                        "anyOf": [
+                            {
+                                "allOf": [
+                                    {
+                                        "count": {
+                                            "field": "Microsoft.KeyVault/vaults/networkAcls.ipRules[*]"
+                                        },
+                                        "greater": 0
+                                    },
+                                    {
+                                        "not": {
+                                            "field": "Microsoft.KeyVault/vaults/networkAcls.ipRules[*].value",
+                                            "in": "[parameters('allowedAddressRanges')]"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "field": "Microsoft.KeyVault/vaults/networkAcls.defaultAction",
+                                "equals": "Allow"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "effect": "Deny"
+            }
+        }
+    }
+}
