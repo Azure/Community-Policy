@@ -1,0 +1,10 @@
+{
+  "effect": {
+    "type": "string",
+    "metadata": {
+      "description": "Policy effect either disabled or auditIfNotExists"
+    },
+    "defaultValue": "auditIfNotExists",
+    "allowedValues": ["auditIfNotExists", "disabled"]
+  }
+}
