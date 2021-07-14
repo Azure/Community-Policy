@@ -1,6 +1,4 @@
 {
-    "displayName": "Deny NSG rule inbound from internet - Network Security Group Rules",
-    "description": "This Policy will detect if an NSG rule would allow a port or set of ports to be accessed from outside of an IP whitelist. This will check Service Tags as well as Port Ranges. Example, if you specify port 22 in the parameter for this Policy, and only allow communications from 10.0.0.0/8, and someone creates a rule that allows ports 20-30 inbound from 20.x.x.x, this would be denied as 22 falls within that port range and 20.x.x.x is not on the IP whitelist. This Policy is part of a set of policies. Both must be applied for this to cover all possible ways an NSG rule can be created.",
     "mode": "All",
     "policyRule": {
         "if": {
@@ -64,7 +62,7 @@
                         "where": {
                             "anyOf": [
                                 {
-                                    "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange')), bool('false'), if(contains(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange')), '*'), bool('true'), and(greaterOrEquals(int(current('destinationPort')), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'))), 4)), '-')))), lessOrEquals(int(current('destinationPort')), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'))), 4)), '-')))))))]",
+                                    "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange')), bool('false'), if(contains(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '*'), bool('true'), and(greaterOrEquals(int(current('destinationPort')), int(first(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))), lessOrEquals(int(current('destinationPort')), int(last(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))))))]",
                                     "equals": true
                                 },
                                 {
@@ -103,7 +101,7 @@
             "defaultValue": "Audit"
         },
         "destinationPort": {
-            "type": "Integer",
+            "type": "Array",
             "metadata": {
                 "displayName": "destinationPort",
                 "description": null
