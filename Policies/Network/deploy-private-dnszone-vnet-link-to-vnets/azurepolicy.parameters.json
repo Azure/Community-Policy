@@ -1,0 +1,18 @@
+{
+  "virtualNetworkResourceId": {
+    "defaultValue": [],
+    "metadata": {
+      "description": "Resource Ids of a vNet to link. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Network/virtualNetworks/{virtual network name}",
+      "displayName": "Vnet Resource IDs"
+    },
+    "type": "array"
+  },
+  "registrationEnabled": {
+    "defaultValue": false,
+    "metadata": {
+      "description": "Enables automatic DNS registration in the zone for the linked vNet.",
+      "displayName": "Enable Registration"
+    },
+    "type": "Boolean"
+  }
+}
