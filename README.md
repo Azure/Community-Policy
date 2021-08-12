@@ -78,10 +78,10 @@ If you are encountering livesite issues or difficulties in implementing new poli
 - Azure PowerShell
   - [Policy](https://docs.microsoft.com/powershell/module/az.resources/#policies)
 - REST API
-  - [Events](https://docs.microsoft.com/rest/api/policy-insights/policyevents)
-  - [States](https://docs.microsoft.com/rest/api/policy-insights/policystates)
-  - [Assignments](https://docs.microsoft.com/rest/api/resources/policyassignments)
-  - [Policy Definitions](https://docs.microsoft.com/rest/api/resources/policydefinitions)
-  - [Initiative Definitions](https://docs.microsoft.com/rest/api/resources/policysetdefinitions)
-  - [Policy Tracked Resources](https://docs.microsoft.com/rest/api/policy-insights/policytrackedresources)
-  - [Remediations](https://docs.microsoft.com/rest/api/policy-insights/remediations)
+  - [Events](https://docs.microsoft.com/en-us/rest/api/policy/policy-events)
+  - [States](https://docs.microsoft.com/en-us/rest/api/policy/policy-states)
+  - [Assignments](https://docs.microsoft.com/en-us/rest/api/policy/policy-assignments)
+  - [Policy Definitions](https://docs.microsoft.com/en-us/rest/api/policy/policy-definitions)
+  - [Policy Set Definitions](https://docs.microsoft.com/en-us/rest/api/policy/policy-set-definitions)
+  - [Policy Tracked Resources](https://docs.microsoft.com/en-us/rest/api/policy/policy-tracked-resources)
+  - [Remediations](https://docs.microsoft.com/en-us/rest/api/policy/remediations)
