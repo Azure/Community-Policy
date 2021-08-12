@@ -1,0 +1,83 @@
+{
+    "mode": "All",
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/routeTables"
+                }      
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]",
+            "details": {
+                "roleDefinitionIds": [
+                  "/providers/microsoft.authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+                ],
+                "conflictEffect": "audit",
+                "operations": [
+                  {
+                    "operation": "addOrReplace",
+                    "field": "Microsoft.Network/routeTables/routes[*].addressPrefix",
+                    "value": "[parameters('addressPrefix')]"
+                       
+                  },
+                  {
+                      "operation": "addOrReplace",
+                      "field": "Microsoft.Network/routeTables/routes[*].nextHopType",
+                      "value": "[parameters('nextHopType')]"
+                  },
+                  {
+                      "operation": "addOrReplace",
+                      "field": "Microsoft.Network/routeTables/routes[*].nextHopIpAddress",
+                      "value": "[parameters('nextHopIpAddress')]"
+                  }
+
+                ]
+              }
+        }
+    },
+    "parameters": {
+        "addressPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "The destination IP address range in CIDR notation that this Policy checks for within the UDR. Example: 0.0.0.0/0 to check for the presence of a default route.",
+                "displayName": "Address Prefix"
+            }
+        },
+        "nextHopType": {
+            "type": "string",
+            "metadata": {
+                "description": "The next hope type that the policy checks for within the inspected route. The value can be Virtual Network, Virtual Network Gateway, Internet, Virtual Appliance, or None.",
+                "displayName": "Next Hop Type"
+            },
+            "allowedValues": [
+                "VnetLocal",
+                "VirtualNetworkGateway",
+                "Internet",
+                "VirtualAppliance",
+                "None"
+            ]
+        },
+        "nextHopIpAddress": {
+            "type": "string",
+            "metadata": {
+                "description": "The IP address packets should be forwarded to.",
+                "displayName": "Next Hop IP Address"
+            }
+        },
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+                "Disabled",
+                "Modify"
+            ],
+            "defaultValue": "Modify"
+        }
+    }
+}
