@@ -1,0 +1,43 @@
+{
+    "datadogApiKey": {
+        "type": "String",
+        "metadata": {
+            "displayName": "DatadogApiKey",
+            "description": "Datadog API Key from https://app.datadoghq.com/account/settings#api."
+        }
+    },
+    "datadogSite": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Datadog site",
+            "description": "Select Datadog site from dropdown list",
+            "assignPermissions": true
+        },
+        "allowedValues": [
+            "datadoghq.com",
+            "datadoghq.eu",
+            "us3.datadoghq.com",
+            "ddog-gov.com"
+        ]
+    },
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effects",
+            "description": "Enable or disable the execution of the Policy."
+        },
+        "allowedValues": [
+            "DeployIfNotExists",
+            "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+    },
+    "targetRegions": {
+        "type": "Array",
+        "metadata": {
+            "displayName": "Target Regions",
+            "description": "This dictates which regions should be connected to this Datadog site.",
+            "strongType": "location"
+        }
+    }
+}

@@ -1,0 +1,152 @@
+{
+    "displayName": "Deploy Datadog VM Extension for Linux VMs.",
+    "mode": "Indexed",
+    "description": "This policy deploys Datadog VM Extensions on Linux VMs in specific regions, and connects to the selected Datadog site.",
+    "metadata": {
+        "category": "Compute"
+    },
+    "parameters": {
+        "datadogApiKey": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Datadog Api Key",
+                "description": "Datadog API Key from https://app.datadoghq.com/account/settings#api."
+            }
+        },
+        "datadogSite": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Datadog Site",
+                "description": "Select Datadog site from dropdown list",
+                "assignPermissions": true
+            },
+            "allowedValues": [
+                "datadoghq.com",
+                "datadoghq.eu",
+                "us3.datadoghq.com",
+                "ddog-gov.com"
+            ]
+        },
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effects",
+                "description": "Enable or disable the execution of the Policy."
+            },
+            "allowedValues": [
+                "DeployIfNotExists",
+                "Disabled"
+            ],
+            "defaultValue": "DeployIfNotExists"
+        },
+        "targetRegions": {
+            "type": "Array",
+            "metadata": {
+                "displayName": "Target Regions",
+                "description": "This dictates which regions should be connected to this Datadog site.",
+                "strongType": "location"
+            }
+        }
+    },
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "microsoft.compute/virtualmachines"
+                },
+                {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+                    "equals": "Linux"
+                },
+                {
+                    "field": "location",
+                    "In": "[parameters('targetRegions')]"
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]",
+            "details": {
+                "type": "Microsoft.Compute/virtualMachines/extensions",
+                "existenceCondition": {
+                    "allOf": [
+                        {
+                            "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                            "equals": "DatadogLinuxAgent"
+                        },
+                        {
+                            "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+                            "equals": "Datadog.Agent"
+                        }
+                    ]
+                },
+                "roleDefinitionIds": [
+                    "/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+                ],
+                "deployment": {
+                    "properties": {
+                        "mode": "incremental",
+                        "template": {
+                            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                            "contentVersion": "1.0.0.0",
+                            "parameters": {
+                                "vmName": {
+                                    "type": "string"
+                                },
+                                "location": {
+                                    "type": "string"
+                                },
+                                "api_key": {
+                                    "type": "string"
+                                },
+                                "site": {
+                                    "type": "string"
+                                }
+                            },
+                            "resources": [
+                                {
+                                    "name": "[concat(parameters('vmName'),'/DatadogAgent')]",
+                                    "type": "Microsoft.Compute/virtualMachines/extensions",
+                                    "location": "[parameters('location')]",
+                                    "apiVersion": "2021-03-01",
+                                    "properties": {
+                                        "publisher": "Datadog.Agent",
+                                        "type": "DatadogLinuxAgent",
+                                        "typeHandlerVersion": "1.1",
+                                        "settings": {
+                                            "site" : "[parameters('site')]"
+                                        },
+                                        "protectedSettings": {
+                                            "api_key": "[parameters('api_key')]"
+                                        }
+                                    }
+                                }
+                            ],
+                            "outputs": {
+                                "policy": {
+                                    "type": "string",
+                                    "value": "[concat('Enabled Datadog Agent for Linux VM', ': ', parameters('vmName'))]"
+                                }
+                            }
+                        },
+                        "parameters": {
+                            "vmName": {
+                                "value": "[field('name')]"
+                            },
+                            "location": {
+                                "value": "[field('location')]"
+                            },
+                            "api_key": {
+                                "value": "[parameters('datadogApiKey')]"
+                            },
+                            "site": {
+                                "value": "[parameters('datadogSite')]"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
