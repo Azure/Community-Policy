@@ -29,8 +29,7 @@
                 "details": {
                     "type": "Microsoft.Insights/diagnosticSettings",
                     "roleDefinitionIds": [
-                        "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa",
-                        "/providers/microsoft.authorization/roleDefinitions/f526a384-b230-433a-b45c-95f59c4a2dec"
+                        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
                     ],
                     "existenceCondition": {
                         "allOf": [
@@ -43,8 +42,8 @@
                                 "equals": "True"
                             },
                             {
-                                "field": "Microsoft.Insights/diagnosticSettings/eventHubAuthorizationRuleId",
-                                "equals": "[parameters('eventHubRuleId')]"
+                                "field": "Microsoft.Insights/diagnosticSettings/eventHubName",
+                                "equals": "[parameters('eventHubName')]"
                             }
                         ]
                     },
@@ -62,6 +61,9 @@
                                         "type": "string"
                                     },
                                     "resourceName": {
+                                        "type": "string"
+                                    },
+                                    "eventHubName": {
                                         "type": "string"
                                     },
                                     "eventHubRuleId": {
@@ -93,6 +95,7 @@
                                         "location": "[parameters('location')]",
                                         "dependsOn": [],
                                         "properties": {
+                                            "eventHubName": "[parameters('eventHubName')]",
                                             "eventHubAuthorizationRuleId": "[parameters('eventHubRuleId')]",
                                             "metrics": [
                                                 {
@@ -129,6 +132,7 @@
                                         "location": "[parameters('location')]",
                                         "dependsOn": [],
                                         "properties": {
+                                            "eventHubName": "[parameters('eventHubName')]",
                                             "eventHubAuthorizationRuleId": "[parameters('eventHubRuleId')]",
                                             "metrics": [
                                                 {
@@ -165,6 +169,7 @@
                                         "location": "[parameters('location')]",
                                         "dependsOn": [],
                                         "properties": {
+                                            "eventHubName": "[parameters('eventHubName')]",
                                             "eventHubAuthorizationRuleId": "[parameters('eventHubRuleId')]",
                                             "metrics": [
                                                 {
@@ -201,6 +206,7 @@
                                         "location": "[parameters('location')]",
                                         "dependsOn": [],
                                         "properties": {
+                                            "eventHubName": "[parameters('eventHubName')]",
                                             "eventHubAuthorizationRuleId": "[parameters('eventHubRuleId')]",
                                             "metrics": [
                                                 {
@@ -237,6 +243,7 @@
                                         "location": "[parameters('location')]",
                                         "dependsOn": [],
                                         "properties": {
+                                            "eventHubName": "[parameters('eventHubName')]",
                                             "eventHubAuthorizationRuleId": "[parameters('eventHubRuleId')]",
                                             "metrics": [
                                                 {
@@ -257,6 +264,9 @@
                             "parameters": {
                                 "diagnosticsSettingNameToUse": {
                                     "value": "[parameters('diagnosticsSettingNameToUse')]"
+                                },
+                                "eventHubName": {
+                                    "value": "[parameters('eventHubName')]"
                                 },
                                 "eventHubRuleId": {
                                     "value": "[parameters('eventHubRuleId')]"
@@ -289,6 +299,15 @@
             }
         },
         "parameters": {
+            "eventHubName": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "EventHub Name",
+                    "description": "The event hub for Azure Diagnostics",
+                    "strongType": "Microsoft.EventHub/Namespaces/EventHubs",
+                    "assignPermissions": true
+                }
+            },
             "eventHubRuleId": {
                 "type": "String",
                 "metadata": {
