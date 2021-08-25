@@ -1,0 +1,153 @@
+{
+    "displayName": "Deploy Datadog VM Extension for Windows VMs.",
+    "mode": "Indexed",
+    "description": "This policy deploys Datadog VM Extensions on Windows VMs in specific regions, and connects to the selected Datadog site.",
+    "metadata": {
+        "category": "Compute"
+    },
+    "parameters": {
+        "datadogApiKey": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Datadog Api Key",
+                "description": "Datadog API Key from https://app.datadoghq.com/account/settings#api."
+            }
+        },
+        "datadogSite": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Datadog Site",
+                "description": "Select Datadog site from dropdown list",
+                "assignPermissions": true
+            },
+            "allowedValues": [
+                "datadoghq.com",
+                "datadoghq.eu",
+                "us3.datadoghq.com",
+                "ddog-gov.com"
+            ]
+        },
+        "effect": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Effects",
+                "description": "Enable or disable the execution of the Policy."
+            },
+            "allowedValues": [
+                "DeployIfNotExists",
+                "Disabled"
+            ],
+            "defaultValue": "DeployIfNotExists"
+        },
+        "targetRegions": {
+            "type": "array",
+            "metadata": {
+                "displayName": "Target Regions",
+                "description": "This dictates which regions should be connected to this Datadog site.",
+                "strongType": "location"
+            }
+        }
+    },
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachines"
+                },
+                {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+                    "equals": "Windows"
+                },
+                {
+                    "field": "location",
+                    "In": "[parameters('targetRegions')]"
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]",
+            "details": {
+                "type": "Microsoft.Compute/virtualMachines/extensions",
+                "existenceCondition": {
+                    "allOf": [
+                        {
+                            "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                            "equals": "DatadogWindowsAgent"
+                        },
+                        {
+                            "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+                            "equals": "Datadog.Agent"
+                        }
+                    ]
+                },
+                "roleDefinitionIds": [
+                    "/providers/Microsoft.Authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
+                ],
+                "deployment": {
+                    "properties": {
+                        "mode": "incremental",
+                        "template": {
+                            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                            "contentVersion": "1.0.0.0",
+                            "parameters": {
+                                "vmName": {
+                                    "type": "string"
+                                },
+                                "location": {
+                                    "type": "string"
+                                },
+                                "api_key": {
+                                    "type": "secureString"
+                                },
+                                "site": {
+                                    "type": "string"
+                                }
+                            },
+                            "resources": [
+                                {
+                                    "name": "[concat(parameters('vmName'),'/DatadogAgent')]",
+                                    "type": "Microsoft.Compute/virtualMachines/extensions",
+                                    "location": "[parameters('location')]",
+                                    "apiVersion": "2021-03-01",
+                                    "properties": {
+                                        "publisher": "Datadog.Agent",
+                                        "type": "DatadogWindowsAgent",
+                                        "typeHandlerVersion": "1.1",
+                                        "autoUpgradeMinorVersion":	true,
+                                        "settings": {
+                                            "site" : "[parameters('site')]"
+                                        },
+                                        "protectedSettings": {
+                                            "api_key": "[parameters('api_key')]"
+                                        }
+                                    }
+                                }
+                            ],
+                            "outputs": {
+                                "policy": {
+                                    "type": "string",
+                                    "value": "[concat('Enabled Datadog Agent for Windows VM', ': ', parameters('vmName'))]"
+                                }
+                            }
+                        },
+                        "parameters": {
+                            "vmName": {
+                                "value": "[field('name')]"
+                            },
+                            "location": {
+                                "value": "[field('location')]"
+                            },
+                            "api_key": {
+                                "value": "[parameters('datadogApiKey')]"
+                            },
+                            "site": {
+                                "value": "[parameters('datadogSite')]"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
