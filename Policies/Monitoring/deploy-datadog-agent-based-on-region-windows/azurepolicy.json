@@ -1,7 +1,7 @@
 {
-    "displayName": "Deploy Datadog VM Extension for Linux VMs.",
+    "displayName": "Deploy Datadog VM Extension for Windows VMs.",
     "mode": "Indexed",
-    "description": "This policy deploys Datadog VM Extensions on Linux VMs in specific regions, and connects to the selected Datadog site.",
+    "description": "This policy deploys Datadog VM Extensions on Windows VMs in specific regions, and connects to the selected Datadog site.",
     "metadata": {
         "category": "Compute"
     },
@@ -57,7 +57,7 @@
                 },
                 {
                     "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
-                    "equals": "Linux"
+                    "equals": "Windows"
                 },
                 {
                     "field": "location",
@@ -73,7 +73,7 @@
                     "allOf": [
                         {
                             "field": "Microsoft.Compute/virtualMachines/extensions/type",
-                            "equals": "DatadogLinuxAgent"
+                            "equals": "DatadogWindowsAgent"
                         },
                         {
                             "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
@@ -112,7 +112,7 @@
                                     "apiVersion": "2021-03-01",
                                     "properties": {
                                         "publisher": "Datadog.Agent",
-                                        "type": "DatadogLinuxAgent",
+                                        "type": "DatadogWindowsAgent",
                                         "typeHandlerVersion": "1.1",
                                         "autoUpgradeMinorVersion":	true,
                                         "settings": {
@@ -127,7 +127,7 @@
                             "outputs": {
                                 "policy": {
                                     "type": "string",
-                                    "value": "[concat('Enabled Datadog Agent for Linux VM', ': ', parameters('vmName'))]"
+                                    "value": "[concat('Enabled Datadog Agent for Windows VM', ': ', parameters('vmName'))]"
                                 }
                             }
                         },
