@@ -1,0 +1,21 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Network/loadBalancers",
+        "field": "type"
+      },
+      {
+        "exists": true,
+        "field": "Microsoft.Network/loadBalancers/sku.tier"
+      },
+      {
+        "field": "Microsoft.Network/loadBalancers/sku.tier",
+        "notEquals": "Regional"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

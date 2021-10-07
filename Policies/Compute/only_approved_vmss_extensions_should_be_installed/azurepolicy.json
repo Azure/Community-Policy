@@ -1,0 +1,68 @@
+{
+  "Description": "This policy governs the virtual machine scale set extensions that are not approved.",
+  "DisplayName": "Only approved VMSS extensions should be installed",
+  "Metadata": {
+    "category": "Azure DNS",
+    "createdBy": "",
+    "createdOn": "2021-10-05T13:57:47.7031687Z",
+    "updatedBy": null,
+    "updatedOn": null
+  },
+  "Mode": "Indexed",
+  "Parameters": {
+    "approvedExtensions": {
+      "type": "Array",
+      "metadata": {
+        "description": "The list of approved extension types that can be installed. Example: AzureDiskEncryption",
+        "displayName": "Approved extensions"
+      }
+    },
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "description": "The effect determines what happens when the policy rule is evaluated to match",
+        "displayName": "Effect"
+      },
+      "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+      ],
+      "defaultValue": "Audit"
+    }
+  },
+  "PolicyRule": {
+    "if": {
+      "anyOf": [
+        {
+          "allOf": [
+            {
+              "equals": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+              "field": "type"
+            },
+            {
+              "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/type",
+              "notIn": "[parameters('approvedExtensions')]"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.extensionProfile.extensions[*].type",
+              "notIn": "[parameters('approvedExtensions')]"
+            },
+            {
+              "exists": true,
+              "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.extensionProfile.extensions[*].type"
+            }
+          ]
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "PolicyType": 1
+}

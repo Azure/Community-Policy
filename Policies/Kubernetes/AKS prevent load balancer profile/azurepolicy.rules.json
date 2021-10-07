@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.ContainerService/managedClusters",
+        "field": "type"
+      },
+      {
+        "exists": true,
+        "field": "Microsoft.ContainerService/managedClusters/networkProfile.loadBalancerProfile"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

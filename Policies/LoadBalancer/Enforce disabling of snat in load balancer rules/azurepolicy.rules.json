@@ -1,0 +1,23 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Network/loadBalancers",
+        "field": "type"
+      },
+      {
+        "count": {
+          "field": "Microsoft.Network/loadBalancers/loadBalancingRules[*]",
+          "where": {
+            "equals": false,
+            "field": "Microsoft.Network/loadBalancers/loadBalancingRules[*].disableOutboundSnat"
+          }
+        },
+        "greaterOrEquals": 1
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

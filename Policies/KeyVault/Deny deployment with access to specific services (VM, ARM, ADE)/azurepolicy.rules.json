@@ -1,0 +1,29 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.KeyVault/vaults",
+        "field": "type"
+      },
+      {
+        "anyOf": [
+          {
+            "equals": "true",
+            "field": "Microsoft.KeyVault/vaults/enabledForDeployment"
+          },
+          {
+            "equals": "true",
+            "field": "Microsoft.KeyVault/vaults/enabledForDiskEncryption"
+          },
+          {
+            "equals": "true",
+            "field": "Microsoft.KeyVault/vaults/enabledForTemplateDeployment"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

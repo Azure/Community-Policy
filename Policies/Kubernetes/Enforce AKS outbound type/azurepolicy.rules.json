@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.ContainerService/managedClusters",
+        "field": "type"
+      },
+      {
+        "field": "Microsoft.ContainerService/managedClusters/networkProfile.outboundType",
+        "notEquals": "[parameters('outboundType')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

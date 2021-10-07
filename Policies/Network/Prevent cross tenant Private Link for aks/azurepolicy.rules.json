@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.ContainerService/managedClusters/privateEndpointConnections",
+        "field": "type"
+      },
+      {
+        "anyOf": [
+          {
+            "exists": false,
+            "field": "Microsoft.ContainerService/managedClusters/privateEndpointConnections/privateEndpoint.id"
+          },
+          {
+            "notEquals": "[subscription().subscriptionId]",
+            "value": "[split(concat(field('Microsoft.ContainerService/managedClusters/privateEndpointConnections/privateEndpoint.id'), '//'), '/')[2]]"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Storage/storageAccounts/privateEndpointConnections",
+        "field": "type"
+      },
+      {
+        "anyOf": [
+          {
+            "exists": false,
+            "field": "Microsoft.Storage/storageAccounts/privateEndpointConnections/privateEndpoint.id"
+          },
+          {
+            "notEquals": "[subscription().subscriptionId]",
+            "value": "[split(concat(field('Microsoft.Storage/storageAccounts/privateEndpointConnections/privateEndpoint.id'), '//'), '/')[2]]"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

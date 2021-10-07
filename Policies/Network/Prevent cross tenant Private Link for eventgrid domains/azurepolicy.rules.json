@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.EventGrid/domains/privateEndpointConnections",
+        "field": "type"
+      },
+      {
+        "anyOf": [
+          {
+            "exists": false,
+            "field": "Microsoft.EventGrid/domains/privateEndpointConnections/privateEndpoint.id"
+          },
+          {
+            "notEquals": "[subscription().subscriptionId]",
+            "value": "[split(concat(field('Microsoft.EventGrid/domains/privateEndpointConnections/privateEndpoint.id'), '//'), '/')[2]]"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

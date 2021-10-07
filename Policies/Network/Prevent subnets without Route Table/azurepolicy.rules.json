@@ -1,0 +1,55 @@
+{
+  "if": {
+    "anyOf": [
+      {
+        "allOf": [
+          {
+            "equals": "Microsoft.Network/virtualNetworks/subnets",
+            "field": "type"
+          },
+          {
+            "exists": "false",
+            "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id"
+          },
+          {
+            "field": "name",
+            "notIn": [
+              "AzureFirewallManagementSubnet"
+            ]
+          }
+        ]
+      },
+      {
+        "allOf": [
+          {
+            "equals": "Microsoft.Network/virtualNetworks",
+            "field": "type"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "exists": "false",
+                    "field": "Microsoft.Network/virtualNetworks/subnets[*].routeTable.id"
+                  },
+                  {
+                    "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                    "notIn": [
+                      "AzureFirewallManagementSubnet"
+                    ]
+                  }
+                ]
+              }
+            },
+            "notEquals": 0
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

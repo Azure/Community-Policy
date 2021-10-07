@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.KeyVault/Vaults",
+        "field": "type"
+      },
+      {
+        "equals": "AzureServices",
+        "field": "Microsoft.KeyVault/Vaults/networkAcls.bypass"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

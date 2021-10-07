@@ -1,0 +1,53 @@
+{
+  "Description": "This policy enforces network plugin for AKS.",
+  "DisplayName": "Enforce AKS network plugin",
+  "Metadata": {
+    "category": "Kubernetes",
+    "createdBy": "",
+    "createdOn": "2021-10-05T08:28:15.572767Z",
+    "updatedBy": null,
+    "updatedOn": null
+  },
+  "Mode": "Indexed",
+  "Parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "description": "Enable or disable the execution of the policy",
+        "displayName": "Effect"
+      },
+      "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+      ],
+      "defaultValue": "Deny"
+    },
+    "networkPlugin": {
+      "type": "String",
+      "metadata": {
+        "description": "The network plugin used for building Kubernetes network.",
+        "displayName": "Network Plugin"
+      },
+      "defaultValue": "azure"
+    }
+  },
+  "PolicyRule": {
+    "if": {
+      "allOf": [
+        {
+          "equals": "Microsoft.ContainerService/managedClusters",
+          "field": "type"
+        },
+        {
+          "field": "Microsoft.ContainerService/managedClusters/networkProfile.networkPlugin",
+          "notEquals": "[parameters('networkPlugin')]"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "PolicyType": 1
+}

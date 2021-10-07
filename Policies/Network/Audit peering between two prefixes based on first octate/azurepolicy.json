@@ -1,0 +1,37 @@
+{
+  "Description": "This policy Audits peering between two prefixes based on first octate.",
+  "DisplayName": "Audit peering between two prefixes based on first octate",
+  "Metadata": {
+    "category": "Network",
+    "createdBy": "",
+    "createdOn": "2021-10-05T10:43:35.8575975Z",
+    "updatedBy": "",
+    "updatedOn": "2021-10-06T11:16:19.9762913Z"
+  },
+  "Mode": "All",
+  "Parameters": null,
+  "PolicyRule": {
+    "if": {
+      "allOf": [
+        {
+          "equals": "Microsoft.Network/virtualNetworks",
+          "field": "type"
+        },
+        {
+          "count": {
+            "field": "Microsoft.Network/virtualnetworks/virtualNetworkPeerings[*].remoteVirtualNetworkAddressSpace.addressPrefixes[*]",
+            "where": {
+              "equals": false,
+              "value": "[contains(string(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes[*]')),concat('\"',split(current('Microsoft.Network/virtualnetworks/virtualNetworkPeerings[*].remoteVirtualNetworkAddressSpace.addressPrefixes[*]'),'.')[0]))]"
+            }
+          },
+          "greater": 0
+        }
+      ]
+    },
+    "then": {
+      "effect": "audit"
+    }
+  },
+  "PolicyType": 1
+}

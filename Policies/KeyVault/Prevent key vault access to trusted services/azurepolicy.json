@@ -1,0 +1,45 @@
+{
+  "Description": "This policy prevents key vault access to trusted services.",
+  "DisplayName": "Prevent key vault access to trusted services",
+  "Metadata": {
+    "category": "Key Vault",
+    "createdBy": "",
+    "createdOn": "2021-10-05T11:35:32.4037681Z",
+    "updatedBy": null,
+    "updatedOn": null
+  },
+  "Mode": "Indexed",
+  "Parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "description": "Enable or disable the execution of the policy",
+        "displayName": "Effect"
+      },
+      "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+      ],
+      "defaultValue": "Deny"
+    }
+  },
+  "PolicyRule": {
+    "if": {
+      "allOf": [
+        {
+          "equals": "Microsoft.KeyVault/Vaults",
+          "field": "type"
+        },
+        {
+          "equals": "AzureServices",
+          "field": "Microsoft.KeyVault/Vaults/networkAcls.bypass"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "PolicyType": 1
+}

@@ -1,0 +1,41 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Storage/storageAccounts",
+        "field": "type"
+      },
+      {
+        "anyOf": [
+          {
+            "exists": "false",
+            "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction"
+          },
+          {
+            "equals": "Allow",
+            "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction"
+          },
+          {
+            "exists": "false",
+            "field": "Microsoft.Storage/storageAccounts/networkAcls.virtualNetworkRules"
+          },
+          {
+            "notequals": "0",
+            "value": "[length(field('Microsoft.Storage/storageAccounts/networkAcls.virtualNetworkRules'))]"
+          },
+          {
+            "exists": "false",
+            "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules"
+          },
+          {
+            "notequals": "0",
+            "value": "[length(field('Microsoft.Storage/storageAccounts/networkAcls.ipRules'))]"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

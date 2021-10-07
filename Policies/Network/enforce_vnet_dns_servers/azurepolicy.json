@@ -1,0 +1,66 @@
+{
+  "Description": "This policy prevent settings non authorized dns servers for vnets.",
+  "DisplayName": "Enforce VNET DNS servers",
+  "Metadata": {
+    "category": "Azure DNS",
+    "createdBy": "",
+    "createdOn": "2021-10-05T13:57:47.7075052Z",
+    "updatedBy": null,
+    "updatedOn": null
+  },
+  "Mode": "Indexed",
+  "Parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "description": "The effect for this policy to take. e.g. Audit",
+        "displayName": "Effect"
+      },
+      "allowedValues": [
+        "Deny",
+        "Audit",
+        "Disabled"
+      ],
+      "defaultValue": "Audit"
+    },
+    "servers": {
+      "type": "Array",
+      "metadata": {
+        "description": "The list of DNS servers to enforce exclusive existance of.",
+        "displayName": "DNS Servers list"
+      }
+    }
+  },
+  "PolicyRule": {
+    "if": {
+      "AllOf": [
+        {
+          "equals": "Microsoft.Network/virtualNetworks",
+          "field": "type"
+        },
+        {
+          "anyOf": [
+            {
+              "exists": false,
+              "field": "Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers"
+            },
+            {
+              "count": {
+                "field": "Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers[*]",
+                "where": {
+                  "field": "Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers[*]",
+                  "notIn": "[parameters('servers')]"
+                }
+              },
+              "greater": 0
+            }
+          ]
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "PolicyType": 1
+}

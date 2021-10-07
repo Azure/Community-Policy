@@ -1,0 +1,194 @@
+{
+  "if": {
+    "equals": "Microsoft.Network/networkSecurityGroups",
+    "field": "type"
+  },
+  "then": {
+    "details": {
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "parameters": {
+            "access": {
+              "value": "[parameters('access')]"
+            },
+            "description": {
+              "value": "[parameters('ruledescription')]"
+            },
+            "destinationAddressPrefix": {
+              "value": "[parameters('destinationAddressPrefix')]"
+            },
+            "destinationPortRange": {
+              "value": "[parameters('destinationPortRange')]"
+            },
+            "direction": {
+              "value": "[parameters('direction')]"
+            },
+            "nsgName": {
+              "value": "[field('name')]"
+            },
+            "priority": {
+              "value": "[parameters('priority')]"
+            },
+            "protocol": {
+              "value": "[parameters('protocol')]"
+            },
+            "rulename": {
+              "value": "[parameters('rulename')]"
+            },
+            "sourceAddressPrefix": {
+              "value": "[parameters('sourceAddressPrefix')]"
+            },
+            "sourcePortRange": {
+              "value": "[parameters('sourcePortRange')]"
+            }
+          },
+          "template": {
+            "$schema": "http://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "access": {
+                "type": "String"
+              },
+              "description": {
+                "type": "String"
+              },
+              "destinationAddressPrefix": {
+                "type": "Array"
+              },
+              "destinationPortRange": {
+                "type": "Array"
+              },
+              "direction": {
+                "type": "String"
+              },
+              "nsgName": {
+                "type": "string"
+              },
+              "priority": {
+                "type": "Integer"
+              },
+              "protocol": {
+                "type": "String"
+              },
+              "rulename": {
+                "type": "String"
+              },
+              "sourceAddressPrefix": {
+                "type": "Array"
+              },
+              "sourcePortRange": {
+                "type": "Array"
+              }
+            },
+            "resources": [
+              {
+                "apiVersion": "2019-11-01",
+                "properties": {
+                  "access": "[parameters('access')]",
+                  "description": "[parameters('description')]",
+                  "destinationAddressPrefix": "[if(equals(length(parameters('destinationAddressPrefix')),1),parameters('destinationAddressPrefix'),json('null'))]",
+                  "destinationAddressPrefixs": "[if(equals(length(parameters('destinationAddressPrefix')),1),json('null'),parameters('destinationAddressPrefix'))]",
+                  "destinationPortRange": "[if(equals(length(parameters('destinationPortRange')),1),parameters('destinationPortRange'),json('null'))]",
+                  "destinationPortRanges": "[if(equals(length(parameters('destinationPortRange')),1),json('null'),parameters('destinationPortRange'))]",
+                  "direction": "[parameters('direction')]",
+                  "priority": "[parameters('priority')]",
+                  "protocol": "[parameters('protocol')]",
+                  "sourceAddressPrefix": "[if(equals(length(parameters('sourceAddressPrefix')),1),parameters('sourceAddressPrefix'),json('null'))]",
+                  "sourceAddressPrefixs": "[if(equals(length(parameters('sourceAddressPrefix')),1),json('null'),parameters('sourceAddressPrefix'))]",
+                  "sourcePortRange": "[if(equals(length(parameters('sourcePortRange')),1),parameters('sourcePortRange'),json('null'))]",
+                  "sourcePortRanges": "[if(equals(length(parameters('sourcePortRange')),1),json('null'),parameters('sourcePortRange'))]"
+                },
+                "rulename": "[concat(parameters('nsgName'),'/',parameters('rulename'))]",
+                "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+              }
+            ]
+          }
+        }
+      },
+      "existenceCondition": {
+        "count": {
+          "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
+          "where": {
+            "allOf": [
+              {
+                "equals": "[parameters('rulename')]",
+                "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].name"
+              },
+              {
+                "equals": "[parameters('protocol')]",
+                "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].protocol"
+              },
+              {
+                "anyOf": [
+                  {
+                    "equals": true,
+                    "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRange'), parameters('sourcePortRange'))]"
+                  },
+                  {
+                    "equals": true,
+                    "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourcePortRanges'), parameters('sourcePortRange'))]"
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "equals": true,
+                    "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'), parameters('destinationPortRange'))]"
+                  },
+                  {
+                    "equals": true,
+                    "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges'), parameters('destinationPortRange'))]"
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "equals": true,
+                    "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix'), parameters('sourceAddressPrefix'))]"
+                  },
+                  {
+                    "equals": true,
+                    "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes'), parameters('sourceAddressPrefix'))]"
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "equals": true,
+                    "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefix'), parameters('destinationAddressPrefix'))]"
+                  },
+                  {
+                    "equals": true,
+                    "value": "[equals(field('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationAddressPrefixes'), parameters('destinationAddressPrefix'))]"
+                  }
+                ]
+              },
+              {
+                "equals": "[parameters('access')]",
+                "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].access"
+              },
+              {
+                "equals": "[parameters('priority')]",
+                "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].priority"
+              },
+              {
+                "equals": "[parameters('direction')]",
+                "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].direction"
+              }
+            ]
+          }
+        },
+        "notEquals": 0
+      },
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+      ],
+      "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+    },
+    "effect": "[parameters('effect')]"
+  }
+}

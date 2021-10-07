@@ -1,0 +1,45 @@
+{
+  "Description": "This policy configures container registry to prevent managed identity",
+  "DisplayName": "Container Registries prevent managed identity",
+  "Metadata": {
+    "category": "Container Registry",
+    "createdBy": "",
+    "createdOn": "2021-10-05T15:08:40.4303854Z",
+    "updatedBy": null,
+    "updatedOn": null
+  },
+  "Mode": "Indexed",
+  "Parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "description": "Enable or disable the execution of the policy",
+        "displayName": "Effect"
+      },
+      "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+      ],
+      "defaultValue": "Deny"
+    }
+  },
+  "PolicyRule": {
+    "if": {
+      "allOf": [
+        {
+          "equals": "Microsoft.ContainerRegistry/registries",
+          "field": "type"
+        },
+        {
+          "exists": "true",
+          "field": "identity.type"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "PolicyType": 1
+}

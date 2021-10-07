@@ -1,0 +1,135 @@
+{
+  "Description": "This policy prevents unauthorized images for VMs.",
+  "DisplayName": "VM use allowed Images",
+  "Metadata": {
+    "category": "Virtual Machines",
+    "createdBy": "",
+    "createdOn": "2021-10-05T10:08:32.2863292Z",
+    "updatedBy": null,
+    "updatedOn": null
+  },
+  "Mode": "All",
+  "Parameters": {
+    "allowedImageOffers": {
+      "type": "Array",
+      "metadata": {
+        "description": "Offers listed here are the only ones approved to be deployed. Use this command to get a list of Offers: Get-AzVMImageOffer -Location '' -PublisherName ''",
+        "displayName": "Allowed Image Offers"
+      },
+      "defaultValue": []
+    },
+    "allowedImagePublishers": {
+      "type": "Array",
+      "metadata": {
+        "description": "Publishers listed here are the only ones approved to be deployed. Use this command to get a list of Publishers: Get-AzVMImagePublisher -Location ''",
+        "displayName": "Allowed Image Publishers"
+      },
+      "defaultValue": []
+    },
+    "allowedImageSkus": {
+      "type": "Array",
+      "metadata": {
+        "description": "SKUs listed here are the only ones approved to be deployed. Use this command to get a list of SKUs: Get-AzVMImageSku -Location '' -PublisherName ''  -Offer ''",
+        "displayName": "Allowed Image SKUs"
+      },
+      "defaultValue": []
+    },
+    "allowedImageVersions": {
+      "type": "Array",
+      "metadata": {
+        "description": "Versions listed here are the only ones approved to be deployed. Use this command to get a list of Versions: Get-AzVMImage -Location '' -PublisherName '' -Offer '' -Skus ''",
+        "displayName": "Allowed Image Versions"
+      },
+      "defaultValue": []
+    },
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "description": "The effect for this policy to take. e.g. Audit",
+        "displayName": "Effect"
+      },
+      "allowedValues": [
+        "deny",
+        "audit",
+        "disabled"
+      ],
+      "defaultValue": "audit"
+    }
+  },
+  "PolicyRule": {
+    "if": {
+      "allOf": [
+        {
+          "equals": "Microsoft.Compute/virtualMachines",
+          "field": "type"
+        },
+        {
+          "allOf": [
+            {
+              "exists": false,
+              "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.id"
+            },
+            {
+              "not": {
+                "allOf": [
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.Compute/virtualMachines/imagePublisher",
+                        "in": "[parameters('allowedImagePublishers')]"
+                      },
+                      {
+                        "equals": 0,
+                        "value": "[length(parameters('allowedImagePublishers'))]"
+                      }
+                    ]
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.Compute/virtualMachines/imageOffer",
+                        "in": "[parameters('allowedImageOffers')]"
+                      },
+                      {
+                        "equals": 0,
+                        "value": "[length(parameters('allowedImageOffers'))]"
+                      }
+                    ]
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.Compute/virtualMachines/imageSku",
+                        "in": "[parameters('allowedImageSkus')]"
+                      },
+                      {
+                        "equals": 0,
+                        "value": "[length(parameters('allowedImageSkus'))]"
+                      }
+                    ]
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.Compute/virtualMachines/imageVersion",
+                        "in": "[parameters('allowedImageVersions')]"
+                      },
+                      {
+                        "equals": 0,
+                        "value": "[length(parameters('allowedImageVersions'))]"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "PolicyType": 1
+}

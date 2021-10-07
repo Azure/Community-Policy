@@ -1,0 +1,57 @@
+{
+  "Description": "This policy enforces outbound type for AKS.",
+  "DisplayName": "Enforce AKS outbound type",
+  "Metadata": {
+    "category": "Kubernetes",
+    "createdBy": "",
+    "createdOn": "2021-10-05T08:28:15.5563863Z",
+    "updatedBy": null,
+    "updatedOn": null
+  },
+  "Mode": "Indexed",
+  "Parameters": {
+    "OutboundType": {
+      "type": "String",
+      "metadata": {
+        "description": "The outbound (egress) routing method.",
+        "displayName": "Outbound Type"
+      },
+      "allowedValues": [
+        "loadBalancer",
+        "userDefinedRouting"
+      ],
+      "defaultValue": "userDefinedRouting"
+    },
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "description": "Enable or disable the execution of the policy",
+        "displayName": "Effect"
+      },
+      "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+      ],
+      "defaultValue": "Deny"
+    }
+  },
+  "PolicyRule": {
+    "if": {
+      "allOf": [
+        {
+          "equals": "Microsoft.ContainerService/managedClusters",
+          "field": "type"
+        },
+        {
+          "field": "Microsoft.ContainerService/managedClusters/networkProfile.outboundType",
+          "notEquals": "[parameters('outboundType')]"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "PolicyType": 1
+}

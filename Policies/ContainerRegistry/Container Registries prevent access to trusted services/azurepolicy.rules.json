@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.ContainerRegistry/registries",
+        "field": "type"
+      },
+      {
+        "anyOf": [
+          {
+            "exists": "false",
+            "field": "Microsoft.ContainerRegistry/registries/networkRuleBypassOptions"
+          },
+          {
+            "equals": "AzureServices",
+            "field": "Microsoft.ContainerRegistry/registries/networkRuleBypassOptions"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

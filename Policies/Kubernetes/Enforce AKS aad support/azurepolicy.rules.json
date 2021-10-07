@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.ContainerService/managedClusters",
+        "field": "type"
+      },
+      {
+        "exists": false,
+        "field": "Microsoft.ContainerService/managedClusters/aadProfile"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

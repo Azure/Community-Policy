@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.EventGrid/systemTopics/eventSubscriptions",
+        "field": "type"
+      },
+      {
+        "field": "Microsoft.EventGrid/systemTopics/eventSubscriptions/destination.endpointType",
+        "notequals": "StorageQueue"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

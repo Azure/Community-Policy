@@ -1,0 +1,31 @@
+{
+  "if": {
+    "AllOf": [
+      {
+        "equals": "Microsoft.Network/firewallPolicies",
+        "field": "type"
+      },
+      {
+        "anyOf": [
+          {
+            "exists": false,
+            "field": "Microsoft.Network/firewallPolicies/dnsSettings.servers"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/firewallPolicies/dnsSettings.servers[*]",
+              "where": {
+                "field": "Microsoft.Network/firewallPolicies/dnsSettings.servers[*]",
+                "notIn": "[parameters('servers')]"
+              }
+            },
+            "greater": 0
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

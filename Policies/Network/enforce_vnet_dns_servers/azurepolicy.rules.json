@@ -1,0 +1,31 @@
+{
+  "if": {
+    "AllOf": [
+      {
+        "equals": "Microsoft.Network/virtualNetworks",
+        "field": "type"
+      },
+      {
+        "anyOf": [
+          {
+            "exists": false,
+            "field": "Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers[*]",
+              "where": {
+                "field": "Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers[*]",
+                "notIn": "[parameters('servers')]"
+              }
+            },
+            "greater": 0
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
