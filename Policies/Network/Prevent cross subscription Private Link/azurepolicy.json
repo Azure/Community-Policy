@@ -41,7 +41,7 @@
                 },
                 {
                   "exists": true,
-                  "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections"
+                  "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId"
                 }
               ]
             },
@@ -53,7 +53,7 @@
                 },
                 {
                   "exists": true,
-                  "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections"
+                  "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections[*].privateLinkServiceId"
                 }
               ]
             }
