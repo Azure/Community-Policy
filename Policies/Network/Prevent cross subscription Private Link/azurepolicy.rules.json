@@ -14,8 +14,8 @@
                 "notContains": "[concat('/subscriptions/',split(field('id'),'/')[2])]"
               },
               {
-                "exists": true,
-                "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId"
+                "value": "[length(field('Microsoft.Network/privateEndpoints/privateLinkServiceConnections'))]",
+                "greater": 0
               }
             ]
           },
@@ -26,8 +26,8 @@
                 "notContains": "[concat('/subscriptions/',split(field('id'),'/')[2])]"
               },
               {
-                "exists": true,
-                "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections[*].privateLinkServiceId"
+                "value": "[length(field('Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections'))]",
+                "greater": 0
               }
             ]
           }
