@@ -29,25 +29,28 @@
                                                 "value": "[parameters('allowedIPRanges')]",
                                                 "name": "allowedIPRanges",
                                                 "where": {
-                                                    "anyOf": [
-                                                        {
-                                                            "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), bool('false'), ipRangeContains(current('allowedIPRanges'), if(or(greaterOrEquals(first(current('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), 'a'), equals(current('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix'), '*')), current('allowedIPRanges'), current('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix'))))]",
-                                                            "equals": true
-                                                        },
-                                                        {
-                                                            "count": {
-                                                                "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]",
-                                                                "where": {
-                                                                    "value": "[ipRangeContains(current('allowedIPRanges'), current('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]'))]",
-                                                                    "equals": true
-                                                                }
-                                                            },
-                                                            "notEquals": "[length(field('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]'))]"
-                                                        }
-                                                    ]
+                                                    "value": "[ipRangeContains(current('allowedIPRanges'), if(or(or(greaterOrEquals(first(current('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')), 'a'), equals(current('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix'), '*')), empty(current('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix'))), current('allowedIPRanges'), current('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix')))]",
+                                                    "equals": true
                                                 }
                                             },
-                                            "notEquals": "[length(field('Microsoft.Network/networkSecurityGroups/securityRules[*]'))]"
+                                            "equals": 0
+                                        },
+                                        {
+                                            "count": {
+                                                "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]",
+                                                "where": {
+                                                    "count": {
+                                                        "value": "[parameters('allowedIPRanges')]",
+                                                        "name": "allowedIPRanges",
+                                                        "where": {
+                                                            "value": "[ipRangeContains(current('allowedIPRanges'), if(empty(current('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')), current('allowedIPRanges'), current('Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]')))]",
+                                                            "equals": true
+                                                        }
+                                                    },
+                                                    "equals": 0
+                                                }
+                                            },
+                                            "greater": 0
                                         },
                                         {
                                             "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix",
