@@ -1,0 +1,43 @@
+{
+  "if": {
+    "anyOf": [
+      {
+        "allOf": [
+          {
+            "equals": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "field": "type"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
+              "in": "[parameters('allowedVnets')]"
+            }
+          }
+        ]
+      },
+      {
+        "allOf": [
+          {
+            "equals": "Microsoft.Network/virtualNetworks",
+            "field": "type"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id",
+              "in": "[parameters('allowedVnets')]"
+            }
+          },
+          {
+            "not": {
+              "exists": false,
+              "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

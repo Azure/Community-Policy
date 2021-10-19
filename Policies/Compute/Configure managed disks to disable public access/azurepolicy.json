@@ -1,0 +1,71 @@
+{
+  "Description": "This policy configures managed disks to disable public access.",
+  "DisplayName": "Configure managed disks to disable public access",
+  "Metadata": {
+    "category": "Compute",
+    "createdBy": "",
+    "createdOn": "2021-10-05T10:08:32.2920448Z",
+    "updatedBy": null,
+    "updatedOn": null
+  },
+  "Mode": "Indexed",
+  "Parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "description": "Enable or disable the execution of the policy",
+        "displayName": "Effect"
+      },
+      "allowedValues": [
+        "deny",
+        "audit",
+        "disabled",
+        "modify"
+      ],
+      "defaultValue": "modify"
+    },
+    "networkAccessPolicy": {
+      "type": "String",
+      "metadata": {
+        "description": "Value for networkAccessPolicy",
+        "displayName": "Value for networkAccessPolicy"
+      },
+      "allowedValues": [
+        "DenyAll",
+        "AllowPrivate"
+      ],
+      "defaultValue": "DenyAll"
+    }
+  },
+  "PolicyRule": {
+    "if": {
+      "allOf": [
+        {
+          "equals": "Microsoft.Compute/disks",
+          "field": "type"
+        },
+        {
+          "field": "Microsoft.Compute/disks/networkAccessPolicy",
+          "notEquals": "[parameters('networkAccessPolicy')]"
+        }
+      ]
+    },
+    "then": {
+      "details": {
+        "conflictEffect": "deny",
+        "operations": [
+          {
+            "field": "Microsoft.Compute/disks/networkAccessPolicy",
+            "operation": "addOrReplace",
+            "value": "[parameters('networkAccessPolicy')]"
+          }
+        ],
+        "roleDefinitionIds": [
+          "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+        ]
+      },
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "PolicyType": 1
+}

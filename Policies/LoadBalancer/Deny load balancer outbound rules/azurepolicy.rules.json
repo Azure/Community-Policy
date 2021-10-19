@@ -1,0 +1,19 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Network/loadBalancers",
+        "field": "type"
+      },
+      {
+        "count": {
+          "field": "Microsoft.Network/loadBalancers/outboundRules[*]"
+        },
+        "greater": 0
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

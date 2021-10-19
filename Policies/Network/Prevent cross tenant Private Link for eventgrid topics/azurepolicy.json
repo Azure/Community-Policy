@@ -1,0 +1,53 @@
+{
+  "Description": "This policy prevents private link between tenants for eventgrid topics.",
+  "DisplayName": "Prevent cross tenant Private Link for eventgrid topics",
+  "Metadata": {
+    "category": "Network",
+    "createdBy": "",
+    "createdOn": "2021-10-06T10:42:09.1846151Z",
+    "updatedBy": null,
+    "updatedOn": null
+  },
+  "Mode": "All",
+  "Parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "description": "The effect of the policy",
+        "displayName": "Effect"
+      },
+      "allowedValues": [
+        "audit",
+        "deny",
+        "disabled"
+      ],
+      "defaultValue": "deny"
+    }
+  },
+  "PolicyRule": {
+    "if": {
+      "allOf": [
+        {
+          "equals": "Microsoft.EventGrid/topics/privateEndpointConnections",
+          "field": "type"
+        },
+        {
+          "anyOf": [
+            {
+              "exists": false,
+              "field": "Microsoft.EventGrid/topics/privateEndpointConnections/privateEndpoint.id"
+            },
+            {
+              "notEquals": "[subscription().subscriptionId]",
+              "value": "[split(concat(field('Microsoft.EventGrid/topics/privateEndpointConnections/privateEndpoint.id'), '//'), '/')[2]]"
+            }
+          ]
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "PolicyType": 1
+}

@@ -1,0 +1,41 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Network/privateEndpoints",
+        "field": "type"
+      },
+      {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
+                "notContains": "[concat('/subscriptions/',split(field('id'),'/')[2])]"
+              },
+              {
+                "value": "[length(field('Microsoft.Network/privateEndpoints/privateLinkServiceConnections'))]",
+                "greater": 0
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections[*].privateLinkServiceId",
+                "notContains": "[concat('/subscriptions/',split(field('id'),'/')[2])]"
+              },
+              {
+                "value": "[length(field('Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections'))]",
+                "greater": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

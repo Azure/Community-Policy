@@ -1,0 +1,45 @@
+{
+  "Description": "This policy deny deployment with Azure RBAC enabled.",
+  "DisplayName": "Deny deployment with Azure RBAC enabled",
+  "Metadata": {
+    "category": "Key Vault",
+    "createdBy": "",
+    "createdOn": "2021-10-05T11:35:32.404283Z",
+    "updatedBy": null,
+    "updatedOn": null
+  },
+  "Mode": "Indexed",
+  "Parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "description": "Enable or disable the execution of the policy",
+        "displayName": "Effect"
+      },
+      "allowedValues": [
+        "audit",
+        "deny",
+        "disabled"
+      ],
+      "defaultValue": "audit"
+    }
+  },
+  "PolicyRule": {
+    "if": {
+      "allOf": [
+        {
+          "equals": "Microsoft.KeyVault/vaults",
+          "field": "type"
+        },
+        {
+          "equals": "true",
+          "field": "Microsoft.KeyVault/vaults/enableRbacAuthorization"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "PolicyType": 1
+}

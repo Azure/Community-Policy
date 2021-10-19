@@ -1,0 +1,33 @@
+{
+  "if": {
+    "anyOf": [
+      {
+        "allOf": [
+          {
+            "equals": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+            "field": "type"
+          },
+          {
+            "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/type",
+            "notIn": "[parameters('approvedExtensions')]"
+          }
+        ]
+      },
+      {
+        "allOf": [
+          {
+            "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.extensionProfile.extensions[*].type",
+            "notIn": "[parameters('approvedExtensions')]"
+          },
+          {
+            "exists": true,
+            "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.extensionProfile.extensions[*].type"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

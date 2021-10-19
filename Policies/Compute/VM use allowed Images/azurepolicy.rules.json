@@ -1,0 +1,75 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Compute/virtualMachines",
+        "field": "type"
+      },
+      {
+        "allOf": [
+          {
+            "exists": false,
+            "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.id"
+          },
+          {
+            "not": {
+              "allOf": [
+                {
+                  "anyOf": [
+                    {
+                      "field": "Microsoft.Compute/virtualMachines/imagePublisher",
+                      "in": "[parameters('allowedImagePublishers')]"
+                    },
+                    {
+                      "equals": 0,
+                      "value": "[length(parameters('allowedImagePublishers'))]"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "field": "Microsoft.Compute/virtualMachines/imageOffer",
+                      "in": "[parameters('allowedImageOffers')]"
+                    },
+                    {
+                      "equals": 0,
+                      "value": "[length(parameters('allowedImageOffers'))]"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "field": "Microsoft.Compute/virtualMachines/imageSku",
+                      "in": "[parameters('allowedImageSkus')]"
+                    },
+                    {
+                      "equals": 0,
+                      "value": "[length(parameters('allowedImageSkus'))]"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "field": "Microsoft.Compute/virtualMachines/imageVersion",
+                      "in": "[parameters('allowedImageVersions')]"
+                    },
+                    {
+                      "equals": 0,
+                      "value": "[length(parameters('allowedImageVersions'))]"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

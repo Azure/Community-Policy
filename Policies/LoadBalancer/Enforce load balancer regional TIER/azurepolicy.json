@@ -1,0 +1,49 @@
+{
+  "Description": "This policy enforces regional tier for load balancers.",
+  "DisplayName": "Enforce load balancer regional TIER",
+  "Metadata": {
+    "category": "Load Balancer",
+    "createdBy": "",
+    "createdOn": "2021-10-05T11:25:09.3515907Z",
+    "updatedBy": null,
+    "updatedOn": null
+  },
+  "Mode": "Indexed",
+  "Parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "description": "Enable or disable the execution of the policy",
+        "displayName": "Effect"
+      },
+      "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+      ],
+      "defaultValue": "Deny"
+    }
+  },
+  "PolicyRule": {
+    "if": {
+      "allOf": [
+        {
+          "equals": "Microsoft.Network/loadBalancers",
+          "field": "type"
+        },
+        {
+          "exists": true,
+          "field": "Microsoft.Network/loadBalancers/sku.tier"
+        },
+        {
+          "field": "Microsoft.Network/loadBalancers/sku.tier",
+          "notEquals": "Regional"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "PolicyType": 1
+}

@@ -1,0 +1,21 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Network/networkInterfaces",
+        "field": "type"
+      },
+      {
+        "exists": "false",
+        "field": "Microsoft.Network/networkInterfaces/networkSecurityGroup.id"
+      },
+      {
+        "exists": "true",
+        "field": "Microsoft.Network/networkInterfaces/virtualMachine.id"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

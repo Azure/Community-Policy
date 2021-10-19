@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.EventGrid/systemTopics",
+        "field": "type"
+      },
+      {
+        "field": "Microsoft.EventGrid/systemTopics/topicType",
+        "notequals": "Microsoft.Storage.StorageAccounts"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.ContainerRegistry/registries",
+        "field": "type"
+      },
+      {
+        "exists": "true",
+        "field": "identity.type"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

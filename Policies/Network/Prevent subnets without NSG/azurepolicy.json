@@ -1,0 +1,95 @@
+{
+  "Description": "This policy prevents subnets without an NSG attached to them.",
+  "DisplayName": "Prevent subnets without NSG",
+  "Metadata": {
+    "category": "Network",
+    "createdBy": "",
+    "createdOn": "2021-10-05T10:43:35.8663613Z",
+    "updatedBy": null,
+    "updatedOn": null
+  },
+  "Mode": "All",
+  "Parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "description": "The effect of the policy",
+        "displayName": "Effect"
+      },
+      "allowedValues": [
+        "audit",
+        "deny",
+        "disabled"
+      ],
+      "defaultValue": "deny"
+    }
+  },
+  "PolicyRule": {
+    "if": {
+      "anyOf": [
+        {
+          "allOf": [
+            {
+              "equals": "Microsoft.Network/virtualNetworks/subnets",
+              "field": "type"
+            },
+            {
+              "exists": "false",
+              "field": "Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.id"
+            },
+            {
+              "field": "name",
+              "notIn": [
+                "GatewaySubnet",
+                "AzureFirewallSubnet",
+                "AzureFirewallManagementSubnet"
+              ]
+            },
+            {
+              "equals": 0,
+              "value": "[length(field('Microsoft.Network/virtualNetworks/subnets/privateEndpoints[*]'))]"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "equals": "Microsoft.Network/virtualNetworks",
+              "field": "type"
+            },
+            {
+              "count": {
+                "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+                "where": {
+                  "allOf": [
+                    {
+                      "exists": "false",
+                      "field": "Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id"
+                    },
+                    {
+                      "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                      "notIn": [
+                        "GatewaySubnet",
+                        "AzureFirewallSubnet",
+                        "AzureFirewallManagementSubnet"
+                      ]
+                    },
+                    {
+                      "equals": 0,
+                      "value": "[length(field('Microsoft.Network/virtualNetworks/subnets[*].privateEndpoints[*]'))]"
+                    }
+                  ]
+                }
+              },
+              "notEquals": 0
+            }
+          ]
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "PolicyType": 1
+}

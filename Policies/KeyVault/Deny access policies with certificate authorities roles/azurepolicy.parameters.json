@@ -1,0 +1,29 @@
+{
+  "disallowed_access_policy_certificates_roles": {
+    "type": "Array",
+    "metadata": {
+      "description": "Access policy certificates roles names to disallow",
+      "displayName": "Disallowed Roles"
+    },
+    "defaultValue": [
+      "ManageIssuers",
+      "GetIssuers",
+      "ListIssuers",
+      "SetIssuers",
+      "DeleteIssuers"
+    ]
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "description": "Enable or disable the execution of the policy",
+      "displayName": "Effect"
+    },
+    "allowedValues": [
+      "Audit",
+      "Deny",
+      "Disabled"
+    ],
+    "defaultValue": "Deny"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Storage/storageAccounts",
+        "field": "type"
+      },
+      {
+        "anyOf": [
+          {
+            "equals": "true",
+            "field": "Microsoft.Storage/storageAccounts/allowBlobPublicAccess"
+          },
+          {
+            "exists": "false",
+            "field": "Microsoft.Storage/storageAccounts/allowBlobPublicAccess"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

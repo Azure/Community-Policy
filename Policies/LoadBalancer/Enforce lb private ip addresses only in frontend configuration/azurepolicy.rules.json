@@ -1,0 +1,29 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Network/loadBalancers",
+        "field": "type"
+      },
+      {
+        "anyOf": [
+          {
+            "exists": false,
+            "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].subnet"
+          },
+          {
+            "exists": true,
+            "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].publicIPAddress"
+          },
+          {
+            "exists": true,
+            "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].publicIPPrefix"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

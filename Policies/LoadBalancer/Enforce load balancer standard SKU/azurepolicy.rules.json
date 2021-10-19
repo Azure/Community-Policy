@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Network/loadBalancers",
+        "field": "type"
+      },
+      {
+        "field": "Microsoft.Network/loadBalancers/sku.name",
+        "notEquals": "Standard"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.KeyVault/Vaults",
+        "field": "type"
+      },
+      {
+        "anyOf": [
+          {
+            "exists": "false",
+            "field": "Microsoft.KeyVault/Vaults/networkAcls.defaultAction"
+          },
+          {
+            "equals": "Allow",
+            "field": "Microsoft.KeyVault/Vaults/networkAcls.defaultAction"
+          },
+          {
+            "exists": "false",
+            "field": "Microsoft.KeyVault/Vaults/networkAcls.virtualNetworkRules"
+          },
+          {
+            "notequals": "0",
+            "value": "[length(field('Microsoft.KeyVault/Vaults/networkAcls.virtualNetworkRules'))]"
+          },
+          {
+            "exists": "false",
+            "field": "Microsoft.KeyVault/Vaults/networkAcls.ipRules"
+          },
+          {
+            "notequals": "0",
+            "value": "[length(field('Microsoft.KeyVault/Vaults/networkAcls.ipRules'))]"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

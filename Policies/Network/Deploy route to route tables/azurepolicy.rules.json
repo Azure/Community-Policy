@@ -1,0 +1,75 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Network/routeTables",
+        "field": "type"
+      },
+      {
+        "count": {
+          "field": "Microsoft.Network/routeTables/routes[*]",
+          "where": {
+            "allOf": [
+              {
+                "equals": "[parameters('addressPrefix')]",
+                "field": "Microsoft.Network/routeTables/routes[*].addressPrefix"
+              },
+              {
+                "equals": "[parameters('nextHopType')]",
+                "field": "Microsoft.Network/routeTables/routes[*].nextHopType"
+              },
+              {
+                "equals": "[parameters('nextHopIpAddress')]",
+                "field": "Microsoft.Network/routeTables/routes[*].nextHopIpAddress"
+              }
+            ]
+          }
+        },
+        "equals": 0
+      },
+      {
+        "allOf": [
+          {
+            "equals": "0.0.0.0/0",
+            "value": "[parameters('addressPrefix')]"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/routeTables/subnets[*]",
+              "where": {
+                "field": "Microsoft.Network/routeTables/subnets[*].name",
+                "in": [
+                  "GatewaySubnet"
+                ]
+              }
+            },
+            "equals": 0
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "details": {
+      "conflictEffect": "deny",
+      "operations": [
+        {
+          "field": "Microsoft.Network/routeTables/routes[*]",
+          "operation": "add",
+          "value": {
+            "name": "[parameters('routename')]",
+            "properties": {
+              "addressPrefix": "[parameters('addressPrefix')]",
+              "nextHopIpAddress": "[parameters('nextHopIpAddress')]",
+              "nextHopType": "[parameters('nextHopType')]"
+            }
+          }
+        }
+      ],
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+      ]
+    },
+    "effect": "[parameters('effect')]"
+  }
+}

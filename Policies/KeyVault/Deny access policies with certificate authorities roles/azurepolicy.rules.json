@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.KeyVault/vaults",
+        "field": "type"
+      },
+      {
+        "equals": "true",
+        "value": "[greaterOrEquals(length(intersection(field('Microsoft.Keyvault/vaults/accessPolicies[*].permissions.certificates[*]'), parameters('disallowed_access_policy_certificates_roles'))), 1)]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
