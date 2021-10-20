@@ -1,19 +1,18 @@
 {
     "if": {
-        "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Compute/virtualMachines"
-            },
-            {
-                "field": "Microsoft.Compute/imagePublisher",
-                "equals": "[parameters('imagePublisher')]"
-            },
-            {
-                "field": "Microsoft.Compute/imageOffer",
-                "equals": "[parameters('imageOffer')]"
-            }
-        ]
+        "allOf": [{
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+        },
+        {
+            "field": "Microsoft.Compute/imagePublisher",
+            "in": ["MicrosoftWindowsServer", "MicrosoftWindowsDesktop"]
+        },
+        {
+            "field": "Microsoft.Compute/imageOffer",
+            "in": [ "WindowsServer", "Windows-10" ]
+        }
+    ]
     },
     "then": {
         "effect": "[parameters('effect')]",
@@ -23,7 +22,7 @@
                 "allOf": [
                     {
                         "field": "Microsoft.Compute/virtualMachines/licenseType",
-                        "equals": "[parameters('licenceType')]"
+                        "equals": "[if(equals(field('Microsoft.Compute/imagePublisher'), 'MicrosoftWindowsDesktop'), 'Windows_Client', 'Windows_Server')]"
                     }
                 ]
             },
@@ -74,7 +73,7 @@
                             "value": "[field('name')]"
                         },
                         "licenceType": {
-                            "value": "[parameters('licenceType')]"
+                            "value": "[if(equals(field('Microsoft.Compute/imagePublisher'), 'MicrosoftWindowsDesktop'), 'Windows_Client', 'Windows_Server')]"
                         }
                     }
                 }

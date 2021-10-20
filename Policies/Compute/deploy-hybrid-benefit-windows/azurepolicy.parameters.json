@@ -1,41 +1,4 @@
 {
-    "imagePublisher": {
-        "type": "string",
-        "metadata": {
-            "displayName": "Image Publisher",
-            "description": "The image publisher from https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/virtualmachines?tabs=json#imagereference."
-        },
-        "allowedValues" : [
-            "MicrosoftWindowsServer",
-            "MicrosoftWindowsDesktop"
-        ],
-        "defaultValue": "MicrosoftWindowsDesktop"
-    },
-    "imageOffer": {
-        "type": "string",
-        "metadata": {
-            "displayName": "Image Offer",
-            "description": "Specifies the offer of the platform image or marketplace image used to create the virtual machine from https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/virtualmachines?tabs=json#virtualmachineproperties."
-        },
-        "allowedValues" : [
-            "WindowsServer",
-            "Windows-10"
-        ],
-        "defaultValue": "Windows-10"
-    },
-    "licenceType": {
-        "type": "string",
-        "metadata": {
-            "displayName": "Windows License Type",
-            "description": "Windows licenseType from https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/virtualmachines?tabs=json#virtualmachineproperties."
-        },
-        "allowedValues" : [
-            "None",
-            "Windows_Client",
-            "Windows_Server"
-        ],
-        "defaultValue": "Windows_Client"
-    },
     "effect": {
         "type": "string",
         "metadata": {
