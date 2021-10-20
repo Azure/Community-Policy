@@ -1,48 +1,11 @@
 {
     "displayName": "Deploy Azure Hybrid Benefit for Windows.",
     "mode": "Indexed",
-    "description": "This policy ensures virtual machines are configured for Azure Hybrid Benefit for Windows - https://docs.microsoft.com/en-us/azure/virtual-machines/windows/hybrid-use-benefit-licensing#ways-to-use-azure-hybrid-benefit-for-windows-server.",
+    "description": "This policy ensures virtual machines are configured for Azure Hybrid Benefit for Windows Client and Server - https://docs.microsoft.com/en-us/azure/virtual-machines/windows/hybrid-use-benefit-licensing#ways-to-use-azure-hybrid-benefit-for-windows-server.",
     "metadata": {
         "category": "Compute"
     },
     "parameters": {
-        "imagePublisher": {
-            "type": "string",
-            "metadata": {
-                "displayName": "Image Publisher",
-                "description": "The image publisher from https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/virtualmachines?tabs=json#imagereference."
-            },
-            "allowedValues" : [
-                "MicrosoftWindowsServer",
-                "MicrosoftWindowsDesktop"
-            ],
-            "defaultValue": "MicrosoftWindowsDesktop"
-        },
-        "imageOffer": {
-            "type": "string",
-            "metadata": {
-                "displayName": "Image Offer",
-                "description": "Specifies the offer of the platform image or marketplace image used to create the virtual machine from https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/virtualmachines?tabs=json#virtualmachineproperties."
-            },
-            "allowedValues" : [
-                "WindowsServer",
-                "Windows-10"
-            ],
-            "defaultValue": "Windows-10"
-        },
-        "licenceType": {
-            "type": "string",
-            "metadata": {
-                "displayName": "Windows License Type",
-                "description": "Windows licenseType from https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/virtualmachines?tabs=json#virtualmachineproperties."
-            },
-            "allowedValues" : [
-                "None",
-                "Windows_Client",
-                "Windows_Server"
-            ],
-            "defaultValue": "Windows_Client"
-        },
         "effect": {
             "type": "string",
             "metadata": {
@@ -58,20 +21,19 @@
     },
     "policyRule": {
         "if": {
-            "allOf": [
-                {
-                    "field": "type",
-                    "equals": "Microsoft.Compute/virtualMachines"
-                },
-                {
-                    "field": "Microsoft.Compute/imagePublisher",
-                    "equals": "[parameters('imagePublisher')]"
-                },
-                {
-                    "field": "Microsoft.Compute/imageOffer",
-                    "equals": "[parameters('imageOffer')]"
-                }
-            ]
+            "allOf": [{
+                "field": "type",
+                "equals": "Microsoft.Compute/virtualMachines"
+            },
+            {
+                "field": "Microsoft.Compute/imagePublisher",
+                "in": ["MicrosoftWindowsServer", "MicrosoftWindowsDesktop"]
+            },
+            {
+                "field": "Microsoft.Compute/imageOffer",
+                "in": [ "WindowsServer", "Windows-10" ]
+            }
+        ]
         },
         "then": {
             "effect": "[parameters('effect')]",
@@ -81,7 +43,7 @@
                     "allOf": [
                         {
                             "field": "Microsoft.Compute/virtualMachines/licenseType",
-                            "equals": "[parameters('licenceType')]"
+                            "equals": "[if(equals(field('Microsoft.Compute/imagePublisher'), 'MicrosoftWindowsDesktop'), 'Windows_Client', 'Windows_Server')]"
                         }
                     ]
                 },
@@ -132,7 +94,7 @@
                                 "value": "[field('name')]"
                             },
                             "licenceType": {
-                                "value": "[parameters('licenceType')]"
+                                "value": "[if(equals(field('Microsoft.Compute/imagePublisher'), 'MicrosoftWindowsDesktop'), 'Windows_Client', 'Windows_Server')]"
                             }
                         }
                     }
