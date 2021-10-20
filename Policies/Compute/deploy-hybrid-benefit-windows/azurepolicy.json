@@ -1,0 +1,143 @@
+{
+    "displayName": "Deploy Azure Hybrid Benefit for Windows.",
+    "mode": "Indexed",
+    "description": "This policy ensures virtual machines are configured for Azure Hybrid Benefit for Windows - https://docs.microsoft.com/en-us/azure/virtual-machines/windows/hybrid-use-benefit-licensing#ways-to-use-azure-hybrid-benefit-for-windows-server.",
+    "metadata": {
+        "category": "Compute"
+    },
+    "parameters": {
+        "imagePublisher": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Image Publisher",
+                "description": "The image publisher from https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/virtualmachines?tabs=json#imagereference."
+            },
+            "allowedValues" : [
+                "MicrosoftWindowsServer",
+                "MicrosoftWindowsDesktop"
+            ],
+            "defaultValue": "MicrosoftWindowsDesktop"
+        },
+        "imageOffer": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Image Offer",
+                "description": "Specifies the offer of the platform image or marketplace image used to create the virtual machine from https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/virtualmachines?tabs=json#virtualmachineproperties."
+            },
+            "allowedValues" : [
+                "WindowsServer",
+                "Windows-10"
+            ],
+            "defaultValue": "Windows-10"
+        },
+        "licenceType": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Windows License Type",
+                "description": "Windows licenseType from https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/virtualmachines?tabs=json#virtualmachineproperties."
+            },
+            "allowedValues" : [
+                "None",
+                "Windows_Client",
+                "Windows_Server"
+            ],
+            "defaultValue": "Windows_Client"
+        },
+        "effect": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Effects",
+                "description": "Enable or disable the execution of the Policy."
+            },
+            "allowedValues": [
+                "DeployIfNotExists",
+                "Disabled"
+            ],
+            "defaultValue": "DeployIfNotExists"
+        }
+    },
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachines"
+                },
+                {
+                    "field": "Microsoft.Compute/imagePublisher",
+                    "equals": "[parameters('imagePublisher')]"
+                },
+                {
+                    "field": "Microsoft.Compute/imageOffer",
+                    "equals": "[parameters('imageOffer')]"
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]",
+            "details": {
+                "type": "Microsoft.Compute/virtualMachines",
+                "existenceCondition": {
+                    "allOf": [
+                        {
+                            "field": "Microsoft.Compute/virtualMachines/licenseType",
+                            "equals": "[parameters('licenceType')]"
+                        }
+                    ]
+                },
+                "roleDefinitionIds": [
+                    "/providers/Microsoft.Authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
+                ],
+                "deployment": {
+                    "properties": {
+                        "mode": "incremental",
+                        "template": {
+                            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                            "contentVersion": "1.0.0.0",
+                            "parameters": {
+                                "vmName": {
+                                    "type": "String"
+                                },
+                                "licenceType": {
+                                    "defaultValue": "None",
+                                    "type": "String",
+                                    "allowedValues" : [
+                                        "None",
+                                        "Windows_Client",
+                                        "Windows_Server"
+                                    ]
+                                }
+                            },
+                            "variables": {},
+                            "resources": [
+                                {
+                                    "type": "Microsoft.Compute/virtualMachines",
+                                    "apiVersion": "2021-03-01",
+                                    "name": "[parameters('vmName')]",
+                                    "location": "[resourceGroup().location]",
+                                    "properties": {
+                                        "licenseType": "[parameters('licenceType')]"
+                                    }
+                                }
+                            ],
+                            "outputs": {
+                                "policy": {
+                                    "type": "string",
+                                    "value": "[concat('Changed LicenseType for Windows VM', ': ', parameters('vmName'), '- ', parameters('licenceType'))]"
+                                }
+                            }
+                        },
+                        "parameters": {
+                            "vmName": {
+                                "value": "[field('name')]"
+                            },
+                            "licenceType": {
+                                "value": "[parameters('licenceType')]"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
