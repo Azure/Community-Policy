@@ -24,7 +24,7 @@ $assignment = New-AzPolicyAssignment -Name 'audit-existing-linux-vm-ssh-with-pas
 
 ```cli
 # Create the Policy Definition (Subscription scope)
-az policy definition create --name audit-existing-linux-vm-ssh-with-password --display-name "Audit existing Linux VMs that use password for SSH authentication" --description "This policy audits if a password is being used to authentication to a Linux VM" --rules https://raw.githubusercontent.com/Azure/azure-policy/master/samples/Compute/audit-existing-linux-vm-ssh-with-password/azurepolicy.rules.json --mode All
+az policy definition create --name audit-existing-linux-vm-ssh-with-password --display-name "Audit existing Linux VMs that use password for SSH authentication" --description "This policy audits if a password is being used to authentication to a Linux VM" --rules https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Compute/audit-existing-linux-vm-ssh-with-password/azurepolicy.rules.json --mode All
 
 # Create the Policy Assignment
 # Set the scope to a resource group; may also be a subscription or management group
