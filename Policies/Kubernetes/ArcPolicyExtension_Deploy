@@ -1,0 +1,146 @@
+{
+    "properties": {
+        "displayName": "Azure Arc enabled Kubernetes clusters should have Azure Policy's extension installed",
+        "mode": "All",
+        "description": "Azure Policy's extension for Azure Arc provides at-scale enforcements and safeguards on your Arc enabled Kubernetes clusters in a centralized, consistent manner. Learn more at https://aka.ms/akspolicydoc.",
+        "parameters": {
+            "effect": {
+                "type": "string",
+                "defaultValue": "AuditIfNotExists",
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "DeployIfNotExists",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Kubernetes/connectedClusters"
+                    },
+                    {
+                        "field": "Microsoft.Kubernetes/connectedClusters/connectivityStatus",
+                        "notEquals": "offline"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]",
+                "details": {
+                    "type": "Microsoft.KubernetesConfiguration/extensions",
+                    "deploymentScope": "subscription",
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.KubernetesConfiguration/extensions/extensionType",
+                                "equals": "microsoft.policyinsights"
+                            },
+                            {
+                                "field": "Microsoft.Kubernetes/connectedClusters/provisioningState",
+                                "equals": "Succeeded"
+                            }
+                        ]
+                    },
+                    "roleDefinitionIds": [
+                        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                    ],
+                    "deployment": {
+                        "location": "westeurope",
+                        "properties": {
+                            "mode": "incremental",
+                            "parameters": {
+                                "clusterRegion": {
+                                    "value": "[field('location')]"
+                                },
+                                "clusterResourceId": {
+                                    "value": "[field('id')]"
+                                }
+                            },
+                            "template": {
+                                "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {
+                                    "clusterRegion": {
+                                        "type": "string"
+                                    },
+                                    "clusterResourceId": {
+                                        "type": "string"
+                                    }
+                                },
+                                "variables": {
+                                    "subscriptionId": "[subscription().subscriptionId]"
+                                },
+                                "resources": [
+                                    {
+                                        "type": "Microsoft.Resources/deployments",
+                                        "name": "[Concat('arc-policy', '-',  uniqueString(parameters('clusterResourceId')))]",
+                                        "apiVersion": "2020-10-01",
+                                        "subscriptionId": "[variables('subscriptionId')]",
+                                        "resourceGroup": "[split(parameters('clusterResourceId'),'/')[4]]",
+                                        "properties": {
+                                            "mode": "Incremental",
+                                            "expressionEvaluationOptions": {
+                                                "scope": "inner"
+                                            },
+                                            "parameters": {
+                                                "clusterResourceId": {
+                                                    "value": "[parameters('clusterResourceId')]"
+                                                },
+                                                "clusterRegion": {
+                                                    "value": "[parameters('clusterRegion')]"
+                                                }
+                                            },
+                                            "template": {
+                                                "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                                                "contentVersion": "1.0.0.0",
+                                                "parameters": {
+                                                    "clusterResourceId": {
+                                                        "type": "string"
+                                                    },
+                                                    "clusterRegion": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "resources": [
+                                                    {
+                                                        "type": "Microsoft.KubernetesConfiguration/extensions",
+                                                        "apiVersion": "2021-09-01",
+                                                        "name": "azurepolicy",
+                                                        "location": "[parameters('clusterRegion')]",
+                                                        "identity": {
+                                                            "type": "SystemAssigned"
+                                                        },
+                                                        "properties": {
+                                                            "extensionType": "microsoft.policyinsights",
+                                                            "configurationSettings": {},
+                                                            "configurationProtectedSettings": {},
+                                                            "autoUpgradeMinorVersion": true,
+                                                            "releaseTrain": "Stable",
+                                                            "scope": {
+                                                                "Cluster": {
+                                                                    "releaseNamespace": "kube-system"
+                                                                }
+                                                            }
+                                                        },
+                                                        "scope": "[concat('Microsoft.Kubernetes/connectedClusters/', split(parameters('clusterResourceId'),'/')[8])]"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
