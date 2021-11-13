@@ -8,7 +8,7 @@
             "roleDefinitionIds": {
                 "type": "array",
                 "metadata": {
-                    "description": "The list of disallowed role definition IDs. Example: If you were to put in 8e3af657-a8ff-443c-a75c-2fe8c4bcb635 as a value then only the Owner role definition could be assigned.",
+                    "description": "The list of disallowed role definition IDs. Example: If you were to put in 8e3af657-a8ff-443c-a75c-2fe8c4bcb635 as a value then the Owner role could not be assigned.",
                     "displayName": "Not Approved Role Definitions"
                 }
             },
@@ -18,7 +18,7 @@
                     "displayName": "Exempt Principal IDs",
                     "description": "Any Principal IDs included in this list will not have this Policy applied to them."
                 },
-                "defaultvalue": "None"
+                "defaultvalue": []
             },
             "effect": {
                 "type": "String",
@@ -41,7 +41,7 @@
                         "equals": "Microsoft.Authorization/roleAssignments"
                     },
                     {
-                        "value": "[split(field('Microsoft.Authorization/roleAssignments/roleDefinitionId'),'/')[6]]",
+                        "value": "[last(split(field('Microsoft.Authorization/roleAssignments/roleDefinitionId'),'/'))]",
                         "in": "[parameters('roleDefinitionIds')]"
                     },
                     {
