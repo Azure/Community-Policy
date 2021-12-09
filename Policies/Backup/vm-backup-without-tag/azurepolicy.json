@@ -36,7 +36,15 @@
         "displayName": "Exclusion Tag Values",
         "description": "Value of the tag to use for excluding VMs from the scope of this policy (in case of multiple values, use a comma-separated list). This should be used along with the Exclusion Tag Name parameter."
       },
-      "defaultValue": [ "true", "yes" ]
+      "defaultValue": ["true", "yes"]
+    },
+    "effect": {
+      "type": "string",
+      "metadata": {
+        "displayName": "Effect"
+      },
+      "allowedValues": ["deployIfNotExists", "disabled"],
+      "defaultValue": "deployIfNotExists"
     }
   },
   "policyRule": {
@@ -71,7 +79,7 @@
       ]
     },
     "then": {
-      "effect": "deployIfNotExists",
+      "effect": "[parameters('effect')]",
       "details": {
         "roleDefinitionIds": [
           "/providers/microsoft.authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c",

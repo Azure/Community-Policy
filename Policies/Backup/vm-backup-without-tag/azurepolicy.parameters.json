@@ -34,9 +34,14 @@
       "displayName": "Exclusion Tag Values",
       "description": "Value of the tag to use for excluding VMs from the scope of this policy (in case of multiple values, use a comma-separated list). This should be used along with the Exclusion Tag Name parameter."
     },
-    "defaultValue": [
-      "true",
-      "yes"
-    ]
+    "defaultValue": ["true", "yes"]
+  },
+  "effect": {
+    "type": "string",
+    "metadata": {
+      "displayName": "Effect"
+    },
+    "allowedValues": ["deployIfNotExists", "disabled"],
+    "defaultValue": "deployIfNotExists"
   }
 }
