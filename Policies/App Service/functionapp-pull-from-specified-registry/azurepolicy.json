@@ -1,0 +1,128 @@
+{
+    "properties": {
+        "displayName": "Linux function apps should only use a specified Azure Container Registry instance",
+        "policyType": "Custom",
+        "mode": "Indexed",
+        "description": "Ensure that Linux function apps can only pull custom images from a specified container registry",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "App Service"
+        },
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "DeployIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "registryName": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Registry name",
+                    "description": "The name of the Azure Container Registry instance from which the function app is allowed to pull images."
+                }
+            },
+            "defaultRepositoryAndTag": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "DefaultRepositoryAndTag",
+                    "description": "A default image name for the application to use against the registry if this policy will deploy a remediation. A tag may optionally be specified by appending a ':' character and the tag name."
+                },
+                "defaultValue": "defaultSetByAzurePolicy"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Web/sites"
+                    },
+                    {
+                        "field": "kind",
+                        "contains": "functionapp"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]",
+                "details": {
+                    "type": "Microsoft.Web/sites/config",
+                    "name": "web",
+                    "existenceCondition": {
+                        "anyOf": [
+                            {
+                                "field": "Microsoft.Web/sites/config/linuxFxVersion",
+                                "like": "[concat('DOCKER|',parameters('registryName'), '.azurecr.io/*')]"
+                            },
+                            {
+                                "field": "Microsoft.Web/sites/config/linuxFxVersion",
+                                "notLike": "DOCKER|*"
+                            }
+                        ]
+                    },
+                    "roleDefinitionIds": [
+                        "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772"
+                    ],
+                    "deployment": {
+                        "properties": {
+                            "mode": "incremental",
+                            "parameters": {
+                                "siteName": {
+                                    "value": "[field('name')]"
+                                },
+                                "location": {
+                                    "value": "[field('location')]"
+                                },
+                                "defaultRepositoryAndTag": {
+                                    "value": "[parameters('defaultRepositoryAndTag')]"
+                                },
+                                "registryName": {
+                                    "value": "[parameters('registryName')]"
+                                }
+                            },
+                            "template": {
+                                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {
+                                    "siteName": {
+                                        "type": "string"
+                                    },
+                                    "location": {
+                                        "type": "string"
+                                    },
+                                    "registryName": {
+                                        "type": "string"
+                                    },
+                                    "defaultRepositoryAndTag": {
+                                        "type": "string"
+                                    }
+                                },
+                                "variables": {},
+                                "resources": [
+                                    {
+                                        "type": "Microsoft.Web/sites/config",
+                                        "name": "[concat(parameters('siteName'), '/web')]",
+                                        "apiVersion": "2021-02-01",
+                                        "location": "[parameters('location')]",
+                                        "tags": {},
+                                        "properties": {
+                                            "linuxFxVersion": "[concat('DOCKER|',parameters('registryName'), '.azurecr.io/', parameters('defaultRepositoryAndTag'))]"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
