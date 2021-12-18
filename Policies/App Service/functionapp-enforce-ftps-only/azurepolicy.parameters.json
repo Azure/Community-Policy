@@ -1,0 +1,23 @@
+{
+  "effect": {
+    "type": "string",
+    "defaultValue": "AuditIfNotExists",
+    "allowedValues": [
+      "AuditIfNotExists",
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    }
+  },
+  "allowFTPS": {
+    "type": "boolean",
+    "defaultValue": false,
+    "metadata": {
+      "displayName": "Allow FTPS",
+      "description": "Allow FtpsOnly as a valid configuration. FTP will still be disabled."
+    }
+  }
+}
