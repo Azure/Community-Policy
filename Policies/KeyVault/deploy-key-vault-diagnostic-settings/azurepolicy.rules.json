@@ -1,4 +1,4 @@
-"policyRule": {
+{
             "if": {
                 "field": "type",
                 "equals": "Microsoft.KeyVault/vaults"
