@@ -1,0 +1,37 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.KeyVault/vaults"
+            },
+            {
+                "anyOf": [
+                    {
+                        "allOf": [
+                            {
+                                "count": {
+                                    "field": "Microsoft.KeyVault/vaults/networkAcls.ipRules[*]"
+                                },
+                                "greater": 0
+                            },
+                            {
+                                "not": {
+                                    "field": "Microsoft.KeyVault/vaults/networkAcls.ipRules[*].value",
+                                    "in": "[parameters('allowedAddressRanges')]"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "field": "Microsoft.KeyVault/vaults/networkAcls.defaultAction",
+                        "equals": "Allow"
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('policyEffect')]"
+    }
+}
