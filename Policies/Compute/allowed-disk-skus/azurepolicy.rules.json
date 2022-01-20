@@ -6,7 +6,7 @@
                 "equals": "Microsoft.Compute/disks"
             },
             {
-                "field": "Microsoft.Compute/disk/sku.name",
+                "field": "Microsoft.Compute/disks/sku.name",
                 "NotIn": "[parameters('allowedDiskSkus')]"
             }
         ]
