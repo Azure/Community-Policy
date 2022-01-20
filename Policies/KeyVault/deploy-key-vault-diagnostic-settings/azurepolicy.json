@@ -2,7 +2,7 @@
     "type": "Microsoft.Authorization/policyDefinitions",
     "name": "key-vault-diagnostic-settings-dine",
     "properties": {
-        "displayName": "Key vault - Diagnostic Settings DINE",
+        "displayName": "Key Vault - Diagnostic Settings DINE",
         "description": "This Azure Policy creates a deployment to send all logs and metrics to a specified Log Analytics Workspace",
         "mode": "All",
         "metadata": {
