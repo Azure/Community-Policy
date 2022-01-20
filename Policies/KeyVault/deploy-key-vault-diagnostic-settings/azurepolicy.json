@@ -49,7 +49,7 @@
             "policyEffect": {
                 "type": "String",
                 "metadata": {
-                    "displayName": "Policy Effect Analytics Workspace",
+                    "displayName": "Policy Effect",
                     "description": "The Policy Effect associated with this Policy Definition"
                 }
             }
