@@ -2,7 +2,7 @@
     "type": "Microsoft.Authorization/policyDefinitions",
     "name": "key-vault-diagnostic-settings-aine",
     "properties": {
-        "displayName": "Key vault - Diagnostic Settings AINE",
+        "displayName": "Key Vault - Diagnostic Settings AINE",
         "description": "This Azure Policy creates an audit event when all logs and metrics are not send to a specified Log Analytics Workspace",
         "mode": "All",
         "metadata": {
