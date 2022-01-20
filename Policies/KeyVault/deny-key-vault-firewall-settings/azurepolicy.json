@@ -1,8 +1,8 @@
 {
     "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "key-vault-firewall-settings-v1",
+    "name": "key-vault-firewall-settings-deny",
     "properties": {
-        "displayName": "Key vault - Firewall Settings DENY v1",
+        "displayName": "Key vault - Firewall Settings DENY",
         "policyType": "Custom",
         "mode": "All",
         "description": "This Azure Policy denies the deployment of an Azure Key Vault when the 'Allow access from' setting is not set to 'Private endpoints and selected networks' or when the Firewall does contain any IP addresses outside of the approved ones.",
