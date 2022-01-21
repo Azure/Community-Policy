@@ -1,0 +1,48 @@
+{
+    "properties": {
+      "displayName": "Function apps must be deployed to an App Service Environment (ASE)",
+      "policyType": "Custom",
+      "mode": "Indexed",
+      "description": "",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "App Service"
+      },
+      "parameters": {
+        "effect": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        }
+      },
+      "policyRule": {
+        "if":  {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Web/sites"
+            },
+            {
+              "field": "kind",
+              "contains": "functionapp"
+            },
+            {
+                "field": "Microsoft.Web/sites/hostingEnvironmentProfile.id",
+                "exists": false
+            }
+          ]
+        },
+        "then": {
+          "effect": "[parameters('effect')]"
+        }
+      }
+    }
+}

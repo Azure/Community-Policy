@@ -1,0 +1,21 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Web/sites"
+      },
+      {
+        "field": "kind",
+        "contains": "functionapp"
+      },
+      {
+        "field": "Microsoft.Web/sites/clientCertEnabled",
+        "equals": false
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
