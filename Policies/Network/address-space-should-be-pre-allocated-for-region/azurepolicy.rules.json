@@ -1,0 +1,70 @@
+{
+    "if": {
+      "allOf": [
+        {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Network/virtualNetworks"
+            },
+            {
+              "field": "Microsoft.Network/virtualNetworks/addressSpace",
+              "exists": true
+            },
+            {
+              "value": "[length(field('Microsoft.Network/virtualNetworks/addressSpace'))]",
+              "greater": 0
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "value": "[length(parameters('hubSubscriptions'))]",
+              "greater": 0
+            },
+            {
+              "count": {
+                "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*]",
+                "where": {
+                  "allOf": [
+                    {
+                        "value": "[split(field('Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id'), '/')[2]]",
+                        "in": "[parameters('hubSubscriptions')]"
+                    }
+                  ]
+                }
+              },
+              "greater": 0
+            }
+          ]
+        },
+        {
+          "count": {
+            "value": "[parameters('spokeAllocations')]",
+            "name": "spokeAllocation",
+            "where": {
+              "allOf": [
+                {
+                  "value": "[subscription().displayName]",
+                  "contains": "[current('spokeAllocation').environment]"
+                },
+                {
+                  "field": "location",
+                  "equals": "[current('spokeAllocation').location]"
+                },
+                {
+                  "value": "[ipRangeContains(current('spokeAllocation').CIDR, first(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes[*]')))]",
+                  "equals": true
+                }
+              ]
+            }
+          },
+          "notequals": "[length(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes'))]"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  }
