@@ -1,0 +1,127 @@
+{
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+            "DeployIfNotExists",
+            "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+    },
+    "diagnosticsSettingNameToUse": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Setting name",
+            "description": "Name of the diagnostic settings."
+        },
+        "defaultValue": "AzureKubernetesDiagnosticsLogsToEventHub"
+    },
+    "eventHubRuleId": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Event Hub Authorization Rule Id",
+            "description": "The Event Hub authorization rule Id for Azure Diagnostics. The authorization rule needs to be at Event Hub namespace level. e.g. /subscriptions/{subscription Id}/resourceGroups/{resource group}/providers/Microsoft.EventHub/namespaces/{Event Hub namespace}/authorizationrules/{authorization rule}",
+            "strongType": "Microsoft.EventHub/Namespaces/AuthorizationRules",
+            "assignPermissions": true
+        }
+    },
+    "AllMetrics": {
+        "type": "String",
+        "metadata": {
+            "displayName": "AllMetrics - Enabled",
+            "description": "Whether to stream AllMetrics logs to the Event Hub - True or False"
+        },
+        "allowedValues": [
+            "True",
+            "False"
+        ],
+        "defaultValue": "True"
+    },
+    "kube-apiserver": {
+        "type": "String",
+        "metadata": {
+            "displayName": "kube-apiserver - Enabled",
+            "description": "Whether to stream kube-apiserver logs to the Event Hub - True or False"
+        },
+        "allowedValues": [
+            "True",
+            "False"
+        ],
+        "defaultValue": "True"
+    },
+    "kube-audit": {
+        "type": "String",
+        "metadata": {
+            "displayName": "kube-audit - Enabled",
+            "description": "Whether to stream kube-audit logs to the Event Hub - True or False"
+        },
+        "allowedValues": [
+            "True",
+            "False"
+        ],
+        "defaultValue": "True"
+    },
+    "kube-controller-manager": {
+        "type": "String",
+        "metadata": {
+            "displayName": "kube-controller-manager - Enabled",
+            "description": "Whether to stream kube-controller-manager logs to the Event Hub - True or False"
+        },
+        "allowedValues": [
+            "True",
+            "False"
+        ],
+        "defaultValue": "True"
+    },
+    "kube-scheduler": {
+        "type": "String",
+        "metadata": {
+            "displayName": "kube-scheduler - Enabled",
+            "description": "Whether to stream kube-scheduler logs to the Event Hub - True or False"
+        },
+        "allowedValues": [
+            "True",
+            "False"
+        ],
+        "defaultValue": "True"
+    },
+    "cluster-autoscaler": {
+        "type": "String",
+        "metadata": {
+            "displayName": "cluster-autoscaler - Enabled",
+            "description": "Whether to stream cluster-autoscaler logs to the Event Hub - True or False"
+        },
+        "allowedValues": [
+            "True",
+            "False"
+        ],
+        "defaultValue": "True"
+    },
+    "kube-audit-admin": {
+        "type": "String",
+        "metadata": {
+            "displayName": "kube-audit-admin - Enabled",
+            "description": "Whether to stream kube-audit-admin logs to the Event Hub - True or False"
+        },
+        "allowedValues": [
+            "True",
+            "False"
+        ],
+        "defaultValue": "True"
+    },
+    "guard": {
+        "type": "String",
+        "metadata": {
+            "displayName": "guard - Enabled",
+            "description": "Whether to stream guard logs to the Event Hub - True or False"
+        },
+        "allowedValues": [
+            "True",
+            "False"
+        ],
+        "defaultValue": "True"
+    }
+}
