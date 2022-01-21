@@ -6,7 +6,7 @@
 				"equals": "Microsoft.Authorization/roleAssignments"
 			},
 			{
-				"value": "[split(field('Microsoft.Authorization/roleAssignments/roleDefinitionId'),'/')[6]]",
+				"value": "[last(split(field('Microsoft.Authorization/roleAssignments/roleDefinitionId'),'/'))]",
 				"in": "[parameters('roleDefinitionIds')]"
 			},
 			{
