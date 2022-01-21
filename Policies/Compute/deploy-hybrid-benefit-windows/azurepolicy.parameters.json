@@ -1,0 +1,14 @@
+{
+    "effect": {
+        "type": "string",
+        "metadata": {
+            "displayName": "Effects",
+            "description": "Enable or disable the execution of the Policy."
+        },
+        "allowedValues": [
+            "DeployIfNotExists",
+            "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+    }
+}
