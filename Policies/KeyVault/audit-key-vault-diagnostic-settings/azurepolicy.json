@@ -1,0 +1,134 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "key-vault-diagnostic-settings-aine",
+    "properties": {
+        "displayName": "Key Vault - Diagnostic Settings AINE",
+        "description": "This Azure Policy creates an audit event when all logs and metrics are not send to a specified Log Analytics Workspace",
+        "mode": "All",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Key Vault"
+        },
+        "parameters": {
+            "profileName": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Profile Name",
+                    "description": "The profile name of the Diagnostic Settings"
+                }
+            },
+            "logAnalyticsWorkspace": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Log Analytics Workspace",
+                    "description": "The resource Id of the Log Analytics Workspace"
+                }
+            },
+            "metricsEnabled": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Metrics Enabled",
+                    "description": "Whether the metrics will be send to the Log Analytics Workspace or not"
+                },
+                "allowedValues": [
+                    "True",
+                    "False"
+                ]
+            },
+            "logsEnabled": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Logs Enabled",
+                    "description": "Whether the logs will be send to the Log Analytics Workspace or not"
+                },
+                "allowedValues": [
+                    "True",
+                    "False"
+                ]
+            },
+            "policyEffect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Policy Effect",
+                    "description": "The Policy Effect associated with this Policy Definition"
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "field": "type",
+                "equals": "Microsoft.KeyVault/vaults"
+            },
+            "then": {
+                "effect": "[parameters('policyEffect')]",
+                "details": {
+                    "type": "Microsoft.Insights/diagnosticSettings",
+                    "name": "[parameters('profileName')]",
+                    "evaluationDelay": "AfterProvisioning",
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "count": {
+                                    "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+                                    "where": {
+                                        "allOf": [
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                                                "equals": "[parameters('logsEnabled')]"
+                                            },
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                                                "equals": "AuditEvent"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "equals": 1
+                            },
+                            {
+                                "count": {
+                                    "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+                                    "where": {
+                                        "allOf": [
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                                                "equals": "[parameters('logsEnabled')]"
+                                            },
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                                                "equals": "AzurePolicyEvaluationDetails"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "equals": 1
+                            },
+                            {
+                                "count": {
+                                    "field": "Microsoft.Insights/diagnosticSettings/metrics[*]",
+                                    "where": {
+                                        "allOf": [
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/metrics[*].enabled",
+                                                "equals": "[parameters('metricsEnabled')]"
+                                            },
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/metrics[*].category",
+                                                "equals": "AllMetrics"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "equals": 1
+                            },
+                            {
+                                "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+                                "equals": "[parameters('logAnalyticsWorkspace')]"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

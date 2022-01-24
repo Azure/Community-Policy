@@ -1,11 +1,11 @@
 {
     "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "key-vault-firewall-settings-deny",
+    "name": "key-vault-firewall-settings-audit",
     "properties": {
-        "displayName": "Key vault - Firewall Settings DENY",
+        "displayName": "Key Vault - Firewall Settings AUDIT",
         "policyType": "Custom",
         "mode": "All",
-        "description": "This Azure Policy denies the deployment of an Azure Key Vault when the 'Allow access from' setting is not set to 'Private endpoints and selected networks' or when the Firewall does contain any IP addresses outside of the approved ones.",
+        "description": "This Azure Policy creates an audit event when the 'Allow access from' setting is not set to 'Private endpoints and selected networks' or when the Firewall does contain any IP addresses outside of the approved ones.",
         "metadata": {
             "version": "1.0.0",
             "category": "Key Vault"
@@ -24,7 +24,7 @@
                     "displayName": "Policy Effect",
                     "description": "The Policy Effect associated with this Policy Definition"
                 },
-                "defaultValue": "Deny"
+                "defaultValue": "Audit"
             }
         },
         "PolicyRule": {

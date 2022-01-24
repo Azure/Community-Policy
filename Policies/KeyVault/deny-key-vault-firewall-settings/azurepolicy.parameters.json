@@ -1,0 +1,17 @@
+{
+    "allowedAddressRanges": {
+        "type": "Array",
+        "metadata": {
+            "displayName": "Allowed Address Ranges",
+            "description": "The list of IP Addresses or IP Address Ranges that are allowed for the Firewall Setting on the Key Vault"
+        }
+    },
+    "policyEffect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Policy Effect",
+            "description": "The Policy Effect associated with this Policy Definition"
+        },
+        "defaultValue": "Deny"
+    }
+}
