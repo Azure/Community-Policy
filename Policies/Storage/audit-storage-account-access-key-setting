@@ -1,0 +1,40 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "storage-account-access-key-setting-audit",
+    "properties": {
+        "displayName": "Storage Account - Access Key Setting AUDIT",
+        "description": "This Azure Policy creates an audit event when the 'Allow storage account key access' setting is not set to 'Disabled'.",
+        "mode": "All",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Storage Account"
+        },
+        "parameters": {
+            "policyEffect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Policy Effect",
+                    "description": "The Policy Effect associated with this Policy Definition"
+                },
+                "defaultValue": "Audit"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Storage/storageAccounts"
+                    },
+                    {
+                        "field": "Microsoft.Storage/storageAccounts/allowSharedKeyAccess",
+                        "notEquals": "false"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('policyEffect')]"
+            }
+        }
+    }
+}
