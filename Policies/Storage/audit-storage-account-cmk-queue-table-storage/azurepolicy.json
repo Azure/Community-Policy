@@ -2,7 +2,7 @@
     "type": "Microsoft.Authorization/policyDefinitions",
     "name": "storage-account-cmk-queue-table-storage-audit",
     "properties": {
-        "displayName": "Storage Account - Customer Managed Keys Queue and Table Storage AUDIT v1",
+        "displayName": "Storage Account - Customer Managed Keys Queue and Table Storage AUDIT",
         "policyType": "Custom",
         "mode": "All",
         "description": "This Azure Policy creates an audit event when the 'Enable support for customer-managed keys' setting is set to 'Blobs and files only'.",
