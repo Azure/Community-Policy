@@ -3,7 +3,7 @@
     "name": "storage-account-diagnostic-settings-dine",
     "properties": {
         "displayName": "Storage Account - Diagnostic Settings DINE",
-        "description": "This Azure Policy creates a deployment to send all logs and metrics to a specified Log Analytics Workspace",
+        "description": "This Azure Policy creates a deployment to send all logs and metrics to a specified Log Analytics Workspace.",
         "mode": "All",
         "metadata": {
             "version": "1.0.0",
@@ -98,7 +98,8 @@
                 "metadata": {
                     "displayName": "Policy Effect",
                     "description": "The Policy Effect associated with this Policy Definition"
-                }
+                },
+                "defaultValue": "DeployIfNotExists"
             }
         },
         "policyRule": {
