@@ -3,7 +3,7 @@
     "name": "storage-account-diagnostic-settings-aine",
     "properties": {
         "displayName": "Storage Account - Diagnostic Settings AINE",
-        "description": "This Azure Policy creates an audit event when all logs and metrics are not send to a specified Log Analytics Workspace",
+        "description": "This Azure Policy creates an audit event when all logs and metrics are not send to a specified Log Analytics Workspace.",
         "mode": "All",
         "metadata": {
             "version": "1.0.0",
