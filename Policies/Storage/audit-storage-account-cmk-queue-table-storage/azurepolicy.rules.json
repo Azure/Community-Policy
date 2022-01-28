@@ -1,0 +1,21 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Storage/storageAccounts"
+            },
+            {
+                "field": "Microsoft.Storage/storageAccounts/encryption.services.queue.enabled",
+                "exists": "false"
+            },
+            {
+                "field": "Microsoft.Storage/storageAccounts/encryption.services.table.enabled",
+                "exists": "false"
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('policyEffect')]"
+    }
+}

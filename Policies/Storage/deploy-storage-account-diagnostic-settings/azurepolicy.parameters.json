@@ -1,0 +1,93 @@
+{
+    "profileName": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Profile Name",
+            "description": "The profile name of the Diagnostic Settings"
+        }
+    },
+    "logAnalyticsWorkspace": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Log Analytics Workspace",
+            "description": "The resource Id of the Log Analytics Workspace"
+        }
+    },
+    "servicesToDeploy": {
+        "type": "Array",
+        "metadata": {
+            "displayName": "Applicable Storage Services",
+            "description": "The list of Storage Services that need to have Diagnostic Settings enabled"
+        },
+        "allowedValues": [
+            "storageAccounts",
+            "blobServices",
+            "fileServices",
+            "tableServices",
+            "queueServices"
+        ],
+        "defaultValue": [
+            "storageAccounts",
+            "blobServices",
+            "fileServices",
+            "tableServices",
+            "queueServices"
+        ]
+    },
+    "storageDelete": {
+        "type": "String",
+        "metadata": {
+            "displayName": "StorageDelete",
+            "description": "Whether to stream StorageDelete logs to the Log Analytics Workspace"
+        },
+        "allowedValues": [
+            "True",
+            "False"
+        ],
+        "defaultValue": "True"
+    },
+    "storageWrite": {
+        "type": "String",
+        "metadata": {
+            "displayName": "StorageWrite",
+            "description": "Whether to stream StorageWrite logs to the Log Analytics Workspace"
+        },
+        "allowedValues": [
+            "True",
+            "False"
+        ],
+        "defaultValue": "True"
+    },
+    "storageRead": {
+        "type": "String",
+        "metadata": {
+            "displayName": "StorageRead",
+            "description": "Whether to stream StorageRead logs to the Log Analytics Workspace"
+        },
+        "allowedValues": [
+            "True",
+            "False"
+        ],
+        "defaultValue": "True"
+    },
+    "transaction": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Transaction",
+            "description": "Whether to stream Transaction logs to the Log Analytics Workspace"
+        },
+        "allowedValues": [
+            "True",
+            "False"
+        ],
+        "defaultValue": "True"
+    },
+    "policyEffect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Policy Effect",
+            "description": "The Policy Effect associated with this Policy Definition"
+        },
+        "defaultValue": "DeployIfNotExists"
+    }
+}
