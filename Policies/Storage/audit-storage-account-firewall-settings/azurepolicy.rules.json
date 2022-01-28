@@ -1,0 +1,35 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Storage/storageAccounts"
+            },
+            {
+                "anyOf": [
+                    {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value",
+                                "notEquals": ""
+                            },
+                            {
+                                "not": {
+                                    "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value",
+                                    "in": "[parameters('allowedAddressRanges')]"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction",
+                        "equals": "Allow"
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('policyEffect')]"
+    }
+}
