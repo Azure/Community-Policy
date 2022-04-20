@@ -1,9 +1,9 @@
 {
     "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "aab-service-bus-namespace-diagnostic-settings-fscp-dine-v1",
+    "name": "service-bus-namespace-diagnostic-settings-fscp-dine",
     "properties": {
-        "displayName": "AAB Service Bus Namespace - Diagnostic Settings FSCP DINE v1",
-        "description": "This Azure Policy deploys the Diagnostic Settings to send all relevant logs and metrics to the infra-p-oms Log Analytics Workspace",
+        "displayName": "Service Bus Namespace - Diagnostic Settings DINE",
+        "description": "This Azure Policy deploys the Diagnostic Settings to send all relevant logs and metrics to the central Log Analytics Workspace",
         "mode": "All",
         "metadata": {
             "version": "1.0.0",
