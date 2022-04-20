@@ -24,7 +24,7 @@
                     "displayName": "Profile name",
                     "description": "The diagnostic settings profile name"
                 },
-                "defaultValue": "FSCPWorkspace"
+                "defaultValue": "DeployedByPolicy"
             },
             "logAnalytics": {
                 "type": "String",
