@@ -1,0 +1,17 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.ServiceBus/namespaces/networkRuleSets"
+            },
+            {
+                "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/trustedServiceAccessEnabled",
+                "equals": "true"
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('policyEffect')]"
+    }
+}
