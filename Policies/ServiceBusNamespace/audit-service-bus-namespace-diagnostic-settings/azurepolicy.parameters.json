@@ -14,7 +14,7 @@
             "description": "The profile name of the Diagnostic Settings"
         }
     },
-    "logAnalyticsWorkspace": {
+    "logAnalytics": {
         "type": "String",
         "metadata": {
             "displayName": "Log Analytics Workspace",
