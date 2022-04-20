@@ -1,0 +1,23 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.ServiceBus/namespaces"
+            },
+            {
+                "field": "Microsoft.ServiceBus/namespaces/sku.tier",
+                "equals": "Premium"
+            },
+            {
+                "not": {
+                    "field": "Microsoft.ServiceBus/namespaces/encryption.keySource",
+                    "equals": "Microsoft.Keyvault"
+                }
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('policyEffect')]"
+    }
+}
