@@ -1,0 +1,175 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "service-bus-namespace-diagnostic-settings-fscp-aine",
+    "properties": {
+        "displayName": "Service Bus Namespace - Diagnostic Settings AINE",
+        "description": "This Azure Policy creates an audit event when all relevant logs and metrics are not sent to the infra-p-oms Log Analytics Workspace",
+        "mode": "All",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Service Bus Namespace"
+        },
+        "parameters": {
+            "policyEffect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Policy Effect",
+                    "description": "The Policy Effect associated with this Policy Definition"
+                },
+                "defaultValue": "AuditIfNotExists"
+            },
+            "profileName": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Profile name",
+                    "description": "The diagnostic settings profile name"
+                },
+                "defaultValue": "FSCPWorkspace"
+            },
+            "logAnalytics": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Log Analytics Workspace",
+                    "description": "Select Log Analytics workspace from dropdown list. If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+                    "strongType": "omsWorkspace",
+                    "assignPermissions": true
+                }
+            },
+            "metricsEnabled": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Enable metrics",
+                    "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+                },
+                "allowedValues": [
+                    "True",
+                    "False"
+                ],
+                "defaultValue": "True"
+            },
+            "logsEnabled": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Enable logs",
+                    "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                },
+                "allowedValues": [
+                    "True",
+                    "False"
+                ],
+                "defaultValue": "True"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "field": "type",
+                "equals": "Microsoft.ServiceBus/namespaces"
+            },
+            "then": {
+                "effect": "[parameters('policyEffect')]",
+                "details": {
+                    "type": "Microsoft.Insights/diagnosticSettings",
+                    "name": "[parameters('profileName')]",
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "count": {
+                                    "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+                                    "where": {
+                                        "allOf": [
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                                                "equals": "[parameters('logsEnabled')]"
+                                            },
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                                                "equals": "OperationalLogs"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "equals": 1
+                            },
+                            {
+                                "count": {
+                                    "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+                                    "where": {
+                                        "allOf": [
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                                                "equals": "[parameters('logsEnabled')]"
+                                            },
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                                                "equals": "VNetAndIPFilteringLogs"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "equals": 1
+                            },
+                            {
+                                "count": {
+                                    "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+                                    "where": {
+                                        "allOf": [
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                                                "equals": "[parameters('logsEnabled')]"
+                                            },
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                                                "equals": "RuntimeAuditLogs"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "equals": 1
+                            },
+                            {
+                                "count": {
+                                    "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+                                    "where": {
+                                        "allOf": [
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                                                "equals": "[parameters('logsEnabled')]"
+                                            },
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                                                "equals": "ApplicationMetricsLogs"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "equals": 1
+                            },
+                            {
+                                "count": {
+                                    "field": "Microsoft.Insights/diagnosticSettings/metrics[*]",
+                                    "where": {
+                                        "allOf": [
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/metrics[*].enabled",
+                                                "equals": "[parameters('metricsEnabled')]"
+                                            },
+                                            {
+                                                "field": "Microsoft.Insights/diagnosticSettings/metrics[*].category",
+                                                "equals": "AllMetrics"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "equals": 1
+                            },
+                            {
+                                "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+                                "equals": "[parameters('logAnalytics')]"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
