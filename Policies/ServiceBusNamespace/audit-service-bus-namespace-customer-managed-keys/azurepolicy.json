@@ -1,8 +1,8 @@
 {
     "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "aab-service-bus-namespace-customer-managed-keys-audit-v1",
+    "name": "service-bus-namespace-customer-managed-keys-audit",
     "properties": {
-        "displayName": "AAB Service Bus Namespace - Customer Managed Keys AUDIT v1",
+        "displayName": "Service Bus Namespace - Customer Managed Keys AUDIT",
         "description": "This Azure Policy creates an audit event when the 'Customer-managed key' setting is not enabled as this implies that a Microsoft Managed Key is used.",
         "mode": "All",
         "metadata": {
