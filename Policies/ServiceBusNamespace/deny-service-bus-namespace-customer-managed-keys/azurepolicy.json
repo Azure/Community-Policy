@@ -1,8 +1,8 @@
 {
     "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "aab-service-bus-namespace-customer-managed-keys-deny",
+    "name": "service-bus-namespace-customer-managed-keys-deny",
     "properties": {
-        "displayName": "AAB Service Bus Namespace - Customer Managed Keys DENY",
+        "displayName": "Service Bus Namespace - Customer Managed Keys DENY",
         "description": "This Azure Policy denies the deployment of a Service Bus Namespace when the 'Customer-managed key' setting is not enabled as this implies that a Microsoft Managed Key is used.",
         "mode": "All",
         "metadata": {
