@@ -1,0 +1,86 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "service-bus-namespace-firewall-settings-deny",
+    "properties": {
+        "displayName": "Service Bus Namespace - Firewall Settings DENY",
+        "policyType": "Custom",
+        "mode": "All",
+        "description": "This Azure Policy denies the deployment of a Service Bus Namespace when the 'Public network access' setting is not set to 'Disabled' or 'Selected networks', and when the PaaS Firewall does not contain the correct IP address ranges.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Service Bus Namespace"
+        },
+        "parameters": {
+            "policyEffect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Policy Effect",
+                    "description": "The Policy Effect associated with this Policy Definition"
+                },
+                "defaultValue": "Deny"
+            },
+            "allowedAddressRanges": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "Allowed Address Ranges",
+                    "description": "The list of IP Addresses or IP Address Ranges that are allowed for a Service Bus Namespace"
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "anyOf": [
+                    {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.ServiceBus/namespaces/networkRuleSets"
+                            },
+                            {
+                                "anyOf": [
+                                    {
+                                        "allOf": [
+                                            {
+                                                "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/publicNetworkAccess",
+                                                "equals": "Enabled"
+                                            },
+                                            {
+                                                "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/defaultAction",
+                                                "equals": "Allow"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "allOf": [
+                                            {
+                                                "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/defaultAction",
+                                                "equals": "Deny"
+                                            },
+                                            {
+                                                "count": {
+                                                    "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/ipRules[*]",
+                                                    "where": {
+                                                        "allOf": [
+                                                            {
+                                                                "value": "[current('Microsoft.ServiceBus/namespaces/networkRuleSets/ipRules[*].ipMask')]",
+                                                                "notIn": "[parameters('allowedAddressRanges')]"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "greater": 0
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('policyEffect')]"
+            }
+        }
+    }
+}
