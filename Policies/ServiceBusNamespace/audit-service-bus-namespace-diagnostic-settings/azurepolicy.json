@@ -1,9 +1,9 @@
 {
     "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "service-bus-namespace-diagnostic-settings-fscp-aine",
+    "name": "service-bus-namespace-diagnostic-settings-aine",
     "properties": {
         "displayName": "Service Bus Namespace - Diagnostic Settings AINE",
-        "description": "This Azure Policy creates an audit event when all relevant logs and metrics are not sent to the infra-p-oms Log Analytics Workspace",
+        "description": "This Azure Policy creates an audit event when all relevant logs and metrics are not sent to the central Log Analytics Workspace",
         "mode": "All",
         "metadata": {
             "version": "1.0.0",
@@ -24,7 +24,7 @@
                     "displayName": "Profile name",
                     "description": "The diagnostic settings profile name"
                 },
-                "defaultValue": "FSCPWorkspace"
+                "defaultValue": "DeployedByPolicy"
             },
             "logAnalytics": {
                 "type": "String",
