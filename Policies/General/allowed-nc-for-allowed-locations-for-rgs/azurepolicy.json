@@ -1,0 +1,139 @@
+{
+    "mode": "All",
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "name",
+                    "notMatch": "[concat(parameters('statePrefix'), '##-', parameters('companyPrefix'), '-...')]"
+                  },
+                  {
+                    "field": "location",
+                    "notIn": "[parameters('allowedLocations')]"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "name",
+                    "notMatch": "[concat(parameters('statePrefix2'), '##-', parameters('companyPrefix'), '-...')]"
+                  },
+                  {
+                    "field": "location",
+                    "notIn": "[parameters('allowedLocations2')]"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "name",
+                    "notMatch": "[concat(parameters('statePrefix3'), '##-', parameters('companyPrefix'), '-...')]"
+                  },
+                  {
+                    "field": "location",
+                    "notIn": "[parameters('allowedLocations3')]"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    },
+    "parameters": {
+        "companyPrefix": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Company Prefix",
+              "description": "The Company Prefix you will use through all Resource Groups"
+            },
+            "defaultValue": "DMF"
+          },
+      "allowedLocations": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed locations 1",
+          "description": "First allowed location when deploying a resource group",
+          "strongType": "location"
+        },
+        "defaultValue": [
+          "eastus"
+        ]
+      },
+      "statePrefix": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Allowed State Prefix 1",
+          "description": "The State Prefix you will allow for location 1"
+        },
+        "defaultValue": "VIR"
+      },
+      "allowedLocations2": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed locations 2",
+          "description": "Second allowed location when deploying a resource group",
+          "strongType": "location"
+        },
+        "defaultValue": [
+          "southcentralus"
+        ]
+      },
+      "statePrefix2": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Allowed State Prefix 2",
+          "description": "The State Prefix you will allow for location 2"
+        },
+        "defaultValue": "TEX"
+      },
+      "allowedLocations3": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed locations 3",
+          "description": "Third allowed location when deploying a resource group",
+          "strongType": "location"
+        },
+        "defaultValue": [
+          "westus"
+        ]
+      },
+      "statePrefix3": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Allowed State Prefix 3",
+          "description": "The State Prefix you will allow for location 3"
+        },
+        "defaultValue": "CAL"
+      }
+    }
+  }
