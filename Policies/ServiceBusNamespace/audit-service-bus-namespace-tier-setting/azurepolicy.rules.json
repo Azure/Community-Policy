@@ -1,0 +1,21 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.ServiceBus/namespaces"
+            },
+            {
+                "anyOf": [
+                    {
+                        "field": "Microsoft.ServiceBus/namespaces/sku.name",
+                        "notEquals": "Premium"
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('policyEffect')]"
+    }
+}

@@ -1,0 +1,46 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "service-bus-namespace-customer-managed-keys-deny",
+    "properties": {
+        "displayName": "Service Bus Namespace - Customer Managed Keys DENY",
+        "description": "This Azure Policy denies the deployment of a Service Bus Namespace when the 'Customer-managed key' setting is not enabled as this implies that a Microsoft Managed Key is used.",
+        "mode": "All",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Service Bus Namespace"
+        },
+        "parameters": {
+            "policyEffect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Policy Effect",
+                    "description": "The Policy Effect associated with this Policy Definition"
+                },
+                "defaultValue": "Deny"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.ServiceBus/namespaces"
+                    },
+                    {
+                        "field": "Microsoft.ServiceBus/namespaces/sku.tier",
+                        "equals": "Premium"
+                    },
+                    {
+                        "not": {
+                            "field": "Microsoft.ServiceBus/namespaces/encryption.keySource",
+                            "equals": "Microsoft.Keyvault"
+                        }
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('policyEffect')]"
+            }
+        }
+    }
+}
