@@ -1,0 +1,22 @@
+{
+    "trackingGranularityInDays": {
+        "type": "Integer",
+        "metadata": {
+            "displayName": "Tracking granularity in days",
+            "description": "The granularity of the access tracking in days. The default value is 1 day."
+        },
+        "defaultValue": 1
+    },
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "The effect of the policy: Modify or Audit."
+        },
+        "allowedValues": [
+            "Modify",
+            "Audit"
+        ],
+        "defaultValue": "Modify"
+    }
+}
