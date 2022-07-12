@@ -1,0 +1,42 @@
+{
+    "mode": "All",
+    "name": "Deny NICs joining an ASG if in a different Resource Group",
+    "description": "This policy will deny an Network Interface from joining an Application Security Group, if they are in different Resource Groups.",
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/networkInterfaces"
+                },
+                {
+                    "count": {
+                        "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].applicationSecurityGroups[*]",
+                        "where": {
+                            "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].applicationSecurityGroups[*].id",
+                            "notContains": "[resourceGroup().id]"
+                        }
+                    },
+                    "notEquals": 0
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+        }
+    },
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+                "Deny",
+                "Disabled"
+            ],
+            "defaultValue": "Deny"
+        }
+    }
+}
