@@ -19,7 +19,7 @@ Sample parameter ```effect```, which can be used during policy assignment:
 
 ```powershell
 $definition = New-AzPolicyDefinition `
-    -Name "deny-pe-if-not-in-subnet" `
+    -Name "deny-nic-asg-join-if-not-same-rg" `
     -Policy 'https://raw.githubusercontent.com/ahmadabdalla/Community-Policy/master/Policies/Network/deny-nics-joining-asg-outside-of-same-resource-group/azurepolicy.rules.json' `
     -Parameter 'https://raw.githubusercontent.com/ahmadabdalla/Community-Policy/master/Policies/Network/deny-nics-joining-asg-outside-of-same-resource-group/azurepolicy.parameters.json' `
     -Mode All
@@ -27,8 +27,7 @@ $definition = New-AzPolicyDefinition `
 $definition
 
 $policyParameterObject = @{
-    "subnetName" = "pe"
-    "exemptedGroupIds"=@("table")
+    "effect" = "deny"
 }
 
 $assignment = New-AzPolicyAssignment `
