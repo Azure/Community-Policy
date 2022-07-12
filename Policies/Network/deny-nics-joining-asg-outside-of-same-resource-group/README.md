@@ -6,7 +6,7 @@ This policy prevents users from trying to join a Virtual Machine's Network Inter
 
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#blade/Microsoft_Azure_Policy/CreatePolicyDefinitionBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FCommunity-Policy%2Fmaster%2FPolicies%2FNetwork%2Fdeny-nics-joining-asg-outside-of-same-resource-group%2Fazurepolicy.json)
 
-[![Deploy to Azure Gov](https://docs.microsoft.com/azure/governance/policy/media/deploy/deployGovbutton.png)](https://portal.azure.us/?#blade/Microsoft_Azure_Policy/CreatePolicyDefinitionBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FCommunity-Policy%2Fmaster%2FPolicies%2FNetwork%2Fdeny-nics-joining-asg-outside-of-same-resource-group%2Fazurepolicy.json)
+[![Deploy to Azure Gov](https://docs.microsoft.com/ahmadabdalla/governance/policy/media/deploy/deployGovbutton.png)](https://portal.azure.us/?#blade/Microsoft_Azure_Policy/CreatePolicyDefinitionBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FCommunity-Policy%2Fmaster%2FPolicies%2FNetwork%2Fdeny-nics-joining-asg-outside-of-same-resource-group%2Fazurepolicy.json)
 
 Sample parameter ```effect```, which can be used during policy assignment:
 ```json
@@ -20,8 +20,8 @@ Sample parameter ```effect```, which can be used during policy assignment:
 ```powershell
 $definition = New-AzPolicyDefinition `
     -Name "deny-pe-if-not-in-subnet" `
-    -Policy 'https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Network/deny-nics-joining-asg-outside-of-same-resource-group/azurepolicy.rules.json' `
-    -Parameter 'https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Network/deny-nics-joining-asg-outside-of-same-resource-group/azurepolicy.parameters.json' `
+    -Policy 'https://raw.githubusercontent.com/ahmadabdalla/Community-Policy/master/Policies/Network/deny-nics-joining-asg-outside-of-same-resource-group/azurepolicy.rules.json' `
+    -Parameter 'https://raw.githubusercontent.com/ahmadabdalla/Community-Policy/master/Policies/Network/deny-nics-joining-asg-outside-of-same-resource-group/azurepolicy.parameters.json' `
     -Mode All
 
 $definition
@@ -47,8 +47,8 @@ $assignment
 ```sh
 az policy definition create \
     --name 'deny-nics-joining-asg-outside-of-same-resource-group' \
-    --rules 'https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Network/deny-nics-joining-asg-outside-of-same-resource-group/azurepolicy.rules.json' \
-    --params 'https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Network/deny-nics-joining-asg-outside-of-same-resource-group/azurepolicy.parameters.json' \
+    --rules 'https://raw.githubusercontent.com/ahmadabdalla/Community-Policy/master/Policies/Network/deny-nics-joining-asg-outside-of-same-resource-group/azurepolicy.rules.json' \
+    --params 'https://raw.githubusercontent.com/ahmadabdalla/Community-Policy/master/Policies/Network/deny-nics-joining-asg-outside-of-same-resource-group/azurepolicy.parameters.json' \
     --mode All
 
 az policy assignment create --name <assignmentname> --scope <scope> --policy 'deny-nics-joining-asg-outside-of-same-resource-group' --location <location> --params '{"effect":{"value":"deny"}}'
