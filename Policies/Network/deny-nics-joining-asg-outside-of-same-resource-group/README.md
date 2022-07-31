@@ -4,14 +4,14 @@ This policy prevents users from trying to join a Virtual Machine's Network Inter
 
 ## Try on Portal
 
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#blade/Microsoft_Azure_Policy/CreatePolicyDefinitionBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FCommunity-Policy%2Fmaster%2FPolicies%2FNetwork%2Fdeny-nics-joining-asg-outside-of-same-resource-group%2Fazurepolicy.json)
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#blade/Microsoft_Azure_Policy/CreatePolicyDefinitionBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fahmadabdalla%2FCommunity-Policy%2Fmaster%2FPolicies%2FNetwork%2Fdeny-nics-joining-asg-outside-of-same-resource-group%2Fazurepolicy.json)
 
-[![Deploy to Azure Gov](https://docs.microsoft.com/ahmadabdalla/governance/policy/media/deploy/deployGovbutton.png)](https://portal.azure.us/?#blade/Microsoft_Azure_Policy/CreatePolicyDefinitionBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FCommunity-Policy%2Fmaster%2FPolicies%2FNetwork%2Fdeny-nics-joining-asg-outside-of-same-resource-group%2Fazurepolicy.json)
+[![Deploy to Azure Gov](https://docs.microsoft.com/azure/governance/policy/media/deploy/deployGovbutton.png)](https://portal.azure.us/?#blade/Microsoft_Azure_Policy/CreatePolicyDefinitionBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fahmadabdalla%2FCommunity-Policy%2Fmaster%2FPolicies%2FNetwork%2Fdeny-nics-joining-asg-outside-of-same-resource-group%2Fazurepolicy.json)
 
 Sample parameter ```effect```, which can be used during policy assignment:
 ```json
 {
-    "effect": "deny"
+    "effect": "Deny"
 }
 ```
 
@@ -27,7 +27,7 @@ $definition = New-AzPolicyDefinition `
 $definition
 
 $policyParameterObject = @{
-    "effect" = "deny"
+    "effect" = "Deny"
 }
 
 $assignment = New-AzPolicyAssignment `
@@ -50,5 +50,5 @@ az policy definition create \
     --params 'https://raw.githubusercontent.com/ahmadabdalla/Community-Policy/master/Policies/Network/deny-nics-joining-asg-outside-of-same-resource-group/azurepolicy.parameters.json' \
     --mode All
 
-az policy assignment create --name <assignmentname> --scope <scope> --policy 'deny-nics-joining-asg-outside-of-same-resource-group' --location <location> --params '{"effect":{"value":"deny"}}'
+az policy assignment create --name <assignmentname> --scope <scope> --policy 'deny-nics-joining-asg-outside-of-same-resource-group' --location <location> --params '{"effect":{"value":"Deny"}}'
 ```
