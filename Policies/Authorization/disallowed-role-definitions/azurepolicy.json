@@ -2,7 +2,7 @@
     "name": "disallowed-role-definitions",
     "properties": {
         "displayName": "Disallowed Role Definitions",
-        "description": "This policy defines a black list of role deifnitions that can not be used in IAM",
+        "description": "This policy defines a deny list of role deifnitions that can not be used in IAM",
         "mode": "All",
         "parameters": {
             "roleDefinitionIds": {
