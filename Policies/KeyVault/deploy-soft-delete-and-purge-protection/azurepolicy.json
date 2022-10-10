@@ -27,7 +27,7 @@
             ]
         },
         "then": {
-            "effect": "DeployIfNotExists",
+            "effect": "deployIfNotExists",
             "details": {
                 "type": "Microsoft.KeyVault/vaults",
                 "roleDefinitionIds": [
