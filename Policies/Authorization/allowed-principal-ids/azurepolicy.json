@@ -2,7 +2,7 @@
     "name": "allowed principal ids",
     "properties": {
         "displayName": "Allowed Principal Ids",
-        "description": "This policy defines a white list of Principal IDs that can be used in IAM",
+        "description": "This policy defines an allow list of Principal IDs that can be used in IAM",
         "mode": "All",
         "parameters": {
             "principalIds": {
