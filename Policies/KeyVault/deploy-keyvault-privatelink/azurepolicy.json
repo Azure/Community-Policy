@@ -57,7 +57,10 @@
 								},
 								"resourceID": {
 									"type": "string"
-								}
+								},
+                                "privateLinkName": {
+                                    "type": "string"
+                                }
 							},
 							"resources": [
 								{
