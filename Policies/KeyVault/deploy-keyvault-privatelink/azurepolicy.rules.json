@@ -1,0 +1,92 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.KeyVault/vaults"
+            },
+            {
+                "anyOf": [
+                    {
+                        "field": "Microsoft.KeyVault/vaults/privateEndpointConnections",
+                        "exists": "false"
+                    },
+                    {
+                        "count": {
+                            "field": "Microsoft.KeyVault/vaults/privateEndpointConnections[*]"
+                        },
+                        "equals": 0
+                    }
+                ]
+            }
+        ]
+    },
+    "then": {
+        "effect": "DeployIfNotExists",
+        "details": {
+            "type": "Microsoft.Network/privateEndpoints",
+            "name": "current",
+            "evaluationDelay": "AfterProvisioning",
+            "existenceCondition": {
+                "field": "Microsoft.KeyVault/vaults/privateEndpointConnections[*]",
+                "greaterOrEquals": 1
+            },
+            "roleDefinitionIds": [
+                "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7",
+                "/providers/Microsoft.Authorization/roleDefinitions/f25e0fa2-a7c8-4377-a976-54943a77a395"
+            ],
+            "deployment": {
+                "properties": {
+                    "mode": "incremental",
+                    "template": {
+                        "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "parameters": {
+                            "subnet1Name": {
+                                "type": "string"
+                            },
+                            "resourceID": {
+                                "type": "string"
+                            }
+                        },
+                        "resources": [
+                            {
+                                "type": "Microsoft.Network/privateEndpoints",
+                                "apiVersion": "2020-11-01",
+                                "name": "deploy-privateendpoint",
+                                "location": "[resourceGroup().location]",
+                                "properties": {
+                                    "subnet": {
+                                        "id": "[parameters('subnet1Name')]"
+                                    },
+                                    "privateLinkServiceConnections": [
+                                        {
+                                            "name": "[concat('pe-',parameters('privateLinkName'))]",
+                                            "properties": {
+                                                "privateLinkServiceId": "[parameters('resourceID')]",
+                                                "groupIds": [
+                                                    "vault"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "parameters": {
+                        "subnet1Name": {
+                            "value": "[parameters('subnet1Name')]"
+                        },
+                        "resourceID": {
+                            "value": "[field('id')]"
+                        },
+                        "privateLinkName": {
+                            "value": "[field('name')]"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

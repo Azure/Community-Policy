@@ -1,0 +1,8 @@
+{
+    "subnet1Name": {
+        "type": "string",
+        "metadata": {
+            "strongType": "Microsoft.Network/virtualNetworks/subnets"
+        }
+    }
+}
