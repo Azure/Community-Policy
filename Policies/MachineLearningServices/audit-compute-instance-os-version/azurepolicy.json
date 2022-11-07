@@ -1,0 +1,49 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "audit-compute-instance-os-version",
+    "properties": {
+      "displayName": "[Preview]: Audit Azure Machine Learning Compute Instances with an outdated operating system",
+      "description": "Compute instances are non-compliant if the instance has a pending operating system image update.",
+      "policyType": "Custom",
+      "mode": "All",
+      "metadata": {
+        "version": "1.0.0-preview",
+        "category": "Machine Learning",
+        "preview": true
+      },
+      "parameters": {
+        "effects": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "The effect determines what happens when the policy rule is evaluated to match."
+          },
+          "allowedValues": [
+            "Audit"
+          ],
+          "defaultValue": "Audit"
+        }
+      },
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.MachineLearningServices/workspaces/computes"
+            },
+            {
+              "field": "Microsoft.MachineLearningServices/workspaces/computes/computeType",
+              "equals": "ComputeInstance"
+            },
+            {
+              "field": "Microsoft.MachineLearningServices/workspaces/computes/osImageMetadata.isLatestOsImageVersion",
+              "equals": "false"
+            }
+          ]
+        },
+        "then": {
+          "effect": "[parameters('effects')]"
+        }
+      }
+    }
+  }
