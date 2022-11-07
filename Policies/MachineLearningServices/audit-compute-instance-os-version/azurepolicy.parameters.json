@@ -1,13 +1,13 @@
 {
-"effects": {
-  "type": "String",
-  "metadata": {
-    "displayName": "Effect",
-    "description": "The effect determines what happens when the policy rule is evaluated to match."
-  },
-  "allowedValues": [
-    "Audit"
-  ],
-  "defaultValue": "Audit"
-}
+  "effects": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "The effect determines what happens when the policy rule is evaluated to match."
+    },
+    "allowedValues": [
+      "Audit"
+    ],
+    "defaultValue": "Audit"
+  }
 }
