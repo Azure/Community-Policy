@@ -1,0 +1,21 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.MachineLearningServices/workspaces/computes"
+      },
+      {
+        "field": "Microsoft.MachineLearningServices/workspaces/computes/computeType",
+        "equals": "ComputeInstance"
+      },
+      {
+        "field": "Microsoft.MachineLearningServices/workspaces/computes/osImageMetadata.isLatestOsImageVersion",
+        "equals": "false"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effects')]"
+  }
+}
