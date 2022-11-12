@@ -1,0 +1,55 @@
+{
+    "assessmentMode": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Assessment mode",
+        "description": "Assessment mode for the machines."
+      },
+      "allowedValues": [
+        "ImageDefault",
+        "AutomaticByPlatform"
+      ],
+      "defaultValue": "AutomaticByPlatform"
+    },
+    "osType": {
+      "type": "String",
+      "metadata": {
+        "displayName": "OS type",
+        "description": "OS type for the machines."
+      },
+      "allowedValues": [
+        "Windows",
+        "Linux"
+      ],
+      "defaultValue": "Windows"
+    },
+    "locations": {
+      "type": "Array",
+      "metadata": {
+        "displayName": "Machines locations",
+        "description": "The list of locations from which machines need to be targeted.",
+        "strongType": "location"
+      },
+      "defaultValue": []
+    },
+    "tagValues": {
+      "type": "Array",
+      "metadata": {
+        "displayName": "Tags on machines",
+        "description": "The list of tags that need to matched for getting target machines (case sensitive). Example: [ {\"key\": \"tagKey1\", \"value\": \"value1\"}, {\"key\": \"tagKey2\", \"value\": \"value2\"}]."
+      },
+      "defaultValue": []
+    },
+    "tagOperator": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Tag operator",
+        "description": "Matching condition for resource tags"
+      },
+      "allowedValues": [
+        "All",
+        "Any"
+      ],
+      "defaultValue": "Any"
+    }
+  }
