@@ -42,7 +42,7 @@
           "anyOf": [
             {
               "exists": false,
-              "field": "Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers"
+              "field": "Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers[*]"
             },
             {
               "count": {
