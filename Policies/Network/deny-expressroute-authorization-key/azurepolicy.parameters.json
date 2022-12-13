@@ -1,0 +1,15 @@
+{
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Deny or Audit the use of authorization key for ExpressRoute"
+        },
+        "allowedValues": [
+            "Deny",
+            "Audit",
+            "Disabled"
+        ],
+        "defaultValue": "Deny"
+    }
+}
