@@ -1,0 +1,19 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/expressRouteCircuits"
+            },
+            {
+                "count": {
+                    "field": "Microsoft.Network/expressRouteCircuits/authorizations[*]"
+                },
+                "greaterOrEquals": 1
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}
