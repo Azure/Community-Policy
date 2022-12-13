@@ -7,7 +7,8 @@
         },
         "allowedValues": [
             "Deny",
-            "Audit"
+            "Audit",
+            "Disabled"
         ],
         "defaultValue": "Deny"
     }
