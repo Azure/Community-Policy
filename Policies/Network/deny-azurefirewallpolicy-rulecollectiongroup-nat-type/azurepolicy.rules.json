@@ -1,0 +1,23 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/firewallPolicies/ruleCollectionGroups"
+            },
+            {
+                "count": {
+                    "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*]",
+                    "where": {
+                        "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].ruleCollectionType",
+                        "equals": "FirewallPolicyNatRuleCollection"
+                    }
+                },
+                "greater": 0
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

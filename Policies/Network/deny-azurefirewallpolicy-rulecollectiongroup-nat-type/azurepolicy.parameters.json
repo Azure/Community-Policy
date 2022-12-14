@@ -1,0 +1,15 @@
+{
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Effect for the use of NAT rule collection in Azure Firewall Policy"
+        },
+        "allowedValues": [
+            "Deny",
+            "Audit",
+            "Disabled"
+        ],
+        "defaultValue": "Deny"
+    }
+}
