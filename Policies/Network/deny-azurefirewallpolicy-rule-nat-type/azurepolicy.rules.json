@@ -9,7 +9,7 @@
               "count": {
                   "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*]",
                   "where": {
-                      "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyFilterRuleCollection.rules[*].ruleType",
+                      "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyNatRuleCollection.rules[*].ruleType",
                       "equals": "NatRule"
                   }
               },
