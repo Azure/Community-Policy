@@ -2,7 +2,7 @@
   "Description": "This policy prevents unauthorized images for VMs.",
   "DisplayName": "VM use allowed Images",
   "Metadata": {
-    "category": "Virtual Machines",
+    "category": "Compute",
     "createdBy": "",
     "createdOn": "2021-10-05T10:08:32.2863292Z",
     "updatedBy": null,
