@@ -3,7 +3,7 @@
   "policyType": "Custom",
   "mode": "All",
   "metadata": {
-    "category": "Compute",
+    "category": "Compute"
   },
   "parameters": {
     "effect": {
