@@ -1,0 +1,43 @@
+{
+    "displayName": "Azure firewall policy - NAT rule",
+    "policyType": "Custom",
+    "mode": "All",
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Effect for the use of NAT rule collection in Azure Firewall Policy"
+            },
+            "allowedValues": [
+                "Deny",
+                "Audit",
+                "Disabled"
+            ],
+            "defaultValue": "Deny"
+        }
+    },
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/firewallPolicies/ruleCollectionGroups"
+                },
+                {
+                    "count": {
+                        "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*]",
+                        "where": {
+                            "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].ruleCollectionType",
+                            "equals": "FirewallPolicyNatRuleCollection"
+                        }
+                    },
+                    "greater": 0
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+        }
+    }
+}
