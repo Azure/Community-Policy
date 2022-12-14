@@ -1,5 +1,5 @@
 {
-    "displayName": "Azure firewall policy - NAT rule",
+    "displayName": "Azure firewall policy - Rule collection group of NAT type",
     "policyType": "Custom",
     "mode": "All",
     "parameters": {
