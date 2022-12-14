@@ -1,5 +1,8 @@
 {
     "mode": "Indexed",
+    "Metadata": {
+      "category": "Compute"
+    },
     "policyRule": {
       "if": {
         "allOf": [
