@@ -2,6 +2,9 @@
     "mode": "All",
     "name": "Deny changing Address Space of a Virtual Network",
     "description": "This Policy will prevent users from changing the Address Space on a VNet",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "allOf": [

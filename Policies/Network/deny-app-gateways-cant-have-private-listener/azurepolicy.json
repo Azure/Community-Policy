@@ -2,6 +2,9 @@
     "displayName": "deny-app-gateways-cant-have-private-listener",
     "policyType": "Custom",
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "allOf": [

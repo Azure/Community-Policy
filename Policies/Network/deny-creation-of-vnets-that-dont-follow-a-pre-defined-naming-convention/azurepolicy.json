@@ -2,6 +2,9 @@
     "mode": "All",
     "name": "Deny creation of VNets that don't follow a pre-defined naming convention",
     "description": "This Policy will deny the creation of VNets that do not follow a pre-defined naming convention.",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "allOf": [

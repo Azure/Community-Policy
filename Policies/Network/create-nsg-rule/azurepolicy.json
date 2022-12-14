@@ -1,83 +1,85 @@
 {
     "displayName": "Create NSG Rule",
     "description": "This policy will append a rule to an NSG during creation or update. Only works during creation of the NSG or updates to the NSG as a whole due to the way the Resource Provider works.",
+    "metadata": {
+        "category": "Network"
+    },
     "parameters": {
-      "name": {
-        "type": "String"
-      },
-      "protocol": {
-        "type": "String",
-        "allowedvalues": [
-          "TCP",
-          "UDP",
-          "ICMP",
-          "*"
-        ]
-      },
-      "access": {
-        "type": "String",
-        "allowedvalues": [
-          "Allow",
-          "Deny"
-        ]
-      },
-      "priority": {
-        "type": "String"
-      },
-      "direction": {
-        "type": "String",
-        "allowedvalues": [
-          "Inbound",
-          "Outbound"
-        ]
-      },
-      "sourcePortRanges": {
-        "type": "Array"
-      },
-      "destinationPortRanges": {
-        "type": "Array"
-      },
-      "sourceAddressPrefixes": {
-        "type": "Array"
-      },
-      "destinationAddressPrefixes": {
-        "type": "Array"
-      }
+        "name": {
+            "type": "String"
+        },
+        "protocol": {
+            "type": "String",
+            "allowedvalues": [
+                "TCP",
+                "UDP",
+                "ICMP",
+                "*"
+            ]
+        },
+        "access": {
+            "type": "String",
+            "allowedvalues": [
+                "Allow",
+                "Deny"
+            ]
+        },
+        "priority": {
+            "type": "String"
+        },
+        "direction": {
+            "type": "String",
+            "allowedvalues": [
+                "Inbound",
+                "Outbound"
+            ]
+        },
+        "sourcePortRanges": {
+            "type": "Array"
+        },
+        "destinationPortRanges": {
+            "type": "Array"
+        },
+        "sourceAddressPrefixes": {
+            "type": "Array"
+        },
+        "destinationAddressPrefixes": {
+            "type": "Array"
+        }
     },
     "policyRule": {
-      "if": {
-        "allOf": [
-          {
-            "field": "type",
-            "equals": "Microsoft.Network/networkSecurityGroups"
-          }
-        ]
-      },
-      "then": {
-        "effect": "append",
-        "details": [
-          {
-            "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
-            "value": {
-              "name": "[parameters('name')]",
-              "properties": {
-                "protocol": "[parameters('protocol')]",
-                "sourcePortRange": "[if(equals(length(parameters('sourcePortRanges')), 1), first(parameters('sourcePortRanges')), '')]",
-                "destinationPortRange": "[if(equals(length(parameters('destinationPortRanges')), 1), first(parameters('destinationPortRanges')), '')]",
-                "sourceAddressPrefix": "[if(equals(length(parameters('sourceAddressPrefixes')), 1), first(parameters('sourceAddressPrefixes')), '')]",
-                "destinationAddressPrefix": "[if(equals(length(parameters('destinationAddressPrefixes')), 1), first(parameters('destinationAddressPrefixes')), '')]",
-                "access": "[parameters('access')]",
-                "priority": "[parameters('priority')]",
-                "direction": "[parameters('direction')]",
-                "sourcePortRanges": "[if(greater(length(parameters('sourcePortRanges')), 1), parameters('sourcePortRanges'), take(parameters('sourcePortRanges'),0))]",
-                "destinationPortRanges": "[if(greater(length(parameters('destinationPortRanges')), 1), parameters('destinationPortRanges'), take(parameters('destinationPortRanges'),0))]",
-                "sourceAddressPrefixes": "[if(greater(length(parameters('sourceAddressPrefixes')), 1), parameters('sourceAddressPrefixes'), take(parameters('sourceAddressPrefixes'),0))]",
-                "destinationAddressPrefixes": "[if(greater(length(parameters('destinationAddressPrefixes')), 1), parameters('destinationAddressPrefixes'), take(parameters('destinationAddressPrefixes'),0))]"
-              }
-            }
-          }
-        ]
-      }
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/networkSecurityGroups"
+                }
+            ]
+        },
+        "then": {
+            "effect": "append",
+            "details": [
+                {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
+                    "value": {
+                        "name": "[parameters('name')]",
+                        "properties": {
+                            "protocol": "[parameters('protocol')]",
+                            "sourcePortRange": "[if(equals(length(parameters('sourcePortRanges')), 1), first(parameters('sourcePortRanges')), '')]",
+                            "destinationPortRange": "[if(equals(length(parameters('destinationPortRanges')), 1), first(parameters('destinationPortRanges')), '')]",
+                            "sourceAddressPrefix": "[if(equals(length(parameters('sourceAddressPrefixes')), 1), first(parameters('sourceAddressPrefixes')), '')]",
+                            "destinationAddressPrefix": "[if(equals(length(parameters('destinationAddressPrefixes')), 1), first(parameters('destinationAddressPrefixes')), '')]",
+                            "access": "[parameters('access')]",
+                            "priority": "[parameters('priority')]",
+                            "direction": "[parameters('direction')]",
+                            "sourcePortRanges": "[if(greater(length(parameters('sourcePortRanges')), 1), parameters('sourcePortRanges'), take(parameters('sourcePortRanges'),0))]",
+                            "destinationPortRanges": "[if(greater(length(parameters('destinationPortRanges')), 1), parameters('destinationPortRanges'), take(parameters('destinationPortRanges'),0))]",
+                            "sourceAddressPrefixes": "[if(greater(length(parameters('sourceAddressPrefixes')), 1), parameters('sourceAddressPrefixes'), take(parameters('sourceAddressPrefixes'),0))]",
+                            "destinationAddressPrefixes": "[if(greater(length(parameters('destinationAddressPrefixes')), 1), parameters('destinationAddressPrefixes'), take(parameters('destinationAddressPrefixes'),0))]"
+                        }
+                    }
+                }
+            ]
+        }
     }
-  }
-  
+}

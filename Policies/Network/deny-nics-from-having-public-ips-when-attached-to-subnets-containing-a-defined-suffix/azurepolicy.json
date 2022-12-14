@@ -1,7 +1,10 @@
 {
     "mode": "All",
     "displayName": "Deny NICs from having public Ips when attached to subnets containing a defined suffix",
-    "description": "If a NIC is in a subnet that has the suffix defined in this Policy then a user will be unable to attach a public IP to that NIC.",
+    "escription": "If a NIC is in a subnet that has the suffix defined in this Policy then a user will be unable to attach a public IP to that NIC.",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "allOf": [

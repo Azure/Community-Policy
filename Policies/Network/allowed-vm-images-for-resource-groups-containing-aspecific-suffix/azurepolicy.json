@@ -2,6 +2,9 @@
     "displayName": "Allowed VM Images for Resource Groups containing a specific Suffix",
     "description": "This Policy will prevent VM images not listed by this Policy from being deployed to Resource Groups containing a suffix that you define here.",
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "allOf": [

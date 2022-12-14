@@ -1,69 +1,69 @@
 {
-  "Description": "This policy prevents private link between subscriptions.",
-  "DisplayName": "Prevent cross subscription Private Link",
-  "Metadata": {
-    "category": "Network",
-    "createdBy": "",
-    "createdOn": "2021-10-05T10:43:35.8421302Z",
-    "updatedBy": null,
-    "updatedOn": null
-  },
-  "Mode": "All",
-  "Parameters": {
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "description": "The effect of the policy",
-        "displayName": "Effect"
-      },
-      "allowedValues": [
-        "audit",
-        "deny",
-        "disabled"
-      ],
-      "defaultValue": "deny"
-    }
-  },
-  "PolicyRule": {
-    "if": {
-      "allOf": [
-        {
-          "equals": "Microsoft.Network/privateEndpoints",
-          "field": "type"
-        },
-        {
-          "anyOf": [
-            {
-              "allOf": [
-                {
-                  "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
-                  "notContains": "[concat('/subscriptions/',split(field('id'),'/')[2])]"
-                },
-                {
-									"value": "[length(field('Microsoft.Network/privateEndpoints/privateLinkServiceConnections'))]",
-  								"greater": 0
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections[*].privateLinkServiceId",
-                  "notContains": "[concat('/subscriptions/',split(field('id'),'/')[2])]"
-                },
-                {
-                  "value": "[length(field('Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections'))]",
-  								"greater": 0
-                }
-              ]
-            }
-          ]
-        }
-      ]
+    "Description": "This policy prevents private link between subscriptions.",
+    "DisplayName": "Prevent cross subscription Private Link",
+    "Metadata": {
+        "category": "Network",
+        "createdBy": "",
+        "createdOn": "2021-10-05T10:43:35.8421302Z",
+        "updatedBy": null,
+        "updatedOn": null
     },
-    "then": {
-      "effect": "[parameters('effect')]"
-    }
-  },
-  "PolicyType": 1
+    "Mode": "All",
+    "Parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "description": "The effect of the policy",
+                "displayName": "Effect"
+            },
+            "allowedValues": [
+                "audit",
+                "deny",
+                "disabled"
+            ],
+            "defaultValue": "deny"
+        }
+    },
+    "PolicyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "equals": "Microsoft.Network/privateEndpoints",
+                    "field": "type"
+                },
+                {
+                    "anyOf": [
+                        {
+                            "allOf": [
+                                {
+                                    "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
+                                    "notContains": "[concat('/subscriptions/',split(field('id'),'/')[2])]"
+                                },
+                                {
+                                    "value": "[length(field('Microsoft.Network/privateEndpoints/privateLinkServiceConnections'))]",
+                                    "greater": 0
+                                }
+                            ]
+                        },
+                        {
+                            "allOf": [
+                                {
+                                    "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections[*].privateLinkServiceId",
+                                    "notContains": "[concat('/subscriptions/',split(field('id'),'/')[2])]"
+                                },
+                                {
+                                    "value": "[length(field('Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections'))]",
+                                    "greater": 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+        }
+    },
+    "PolicyType": 1
 }

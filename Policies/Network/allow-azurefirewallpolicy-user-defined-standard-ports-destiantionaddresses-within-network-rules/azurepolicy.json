@@ -2,6 +2,9 @@
     "displayName": "Azure firewall policy should only allow user defined standard ports and FQDNs within network rules",
     "description": "Enforce usage of user defined standard ports, protocols and destination addresses. This is a common requirement in many regulatory and industry compliance standards.",     
     "mode": "All",
+    "metadata": {
+      "category": "Network"
+    },
     "policyRule": {
       "if": {
         "allOf": [

@@ -2,6 +2,9 @@
     "displayName": "deny-app-gateway-only-allowed-in-approved-subnet",
     "policyType": "Custom",
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "allOf": [

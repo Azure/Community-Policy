@@ -2,6 +2,9 @@
     "displayName": "Subnets must have an NSG and that NSG must have the same suffix as the subnet",
     "description": "This Policy requires that all subnets have an NSG and that the provisioned NSG shares the same suffix as it's attached Subnet.",
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
     "parameters": {
         "exceptionList": {
             "type": "Array",

@@ -2,6 +2,9 @@
     "mode": "All",
     "name": "Deny Service Endpoints on Subnets Based on Naming Convention",
     "description": "This Policy will deny the enablement of Service Endpoints on subnets that contain the string you define in the Policy. This will also prevent PaaS resources such as Azure Storage from being able to add this subnet to their firewall allowed list.",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "anyOf": [

@@ -1,49 +1,49 @@
 {
-  "Description": "This policy prevents NIC attached to a vm to not have an NSG.",
-  "DisplayName": "Virtual Machine NIC must have NSG",
-  "Metadata": {
-    "category": "Network",
-    "createdBy": "",
-    "createdOn": "2021-10-05T10:43:35.8399441Z",
-    "updatedBy": null,
-    "updatedOn": null
-  },
-  "Mode": "Indexed",
-  "Parameters": {
-    "effect": {
-      "type": "string",
-      "metadata": {
-        "description": "set the execution effect of the policy",
-        "displayName": "Effect"
-      },
-      "allowedValues": [
-        "deny",
-        "audit",
-        "disabled"
-      ],
-      "defaultValue": "deny"
-    }
-  },
-  "PolicyRule": {
-    "if": {
-      "allOf": [
-        {
-          "equals": "Microsoft.Network/networkInterfaces",
-          "field": "type"
-        },
-        {
-          "exists": "false",
-          "field": "Microsoft.Network/networkInterfaces/networkSecurityGroup.id"
-        },
-        {
-          "exists": "true",
-          "field": "Microsoft.Network/networkInterfaces/virtualMachine.id"
-        }
-      ]
+    "Description": "This policy prevents NIC attached to a vm to not have an NSG.",
+    "DisplayName": "Virtual Machine NIC must have NSG",
+    "Metadata": {
+        "category": "Network",
+        "createdBy": "",
+        "createdOn": "2021-10-05T10:43:35.8399441Z",
+        "updatedBy": null,
+        "updatedOn": null
     },
-    "then": {
-      "effect": "[parameters('effect')]"
-    }
-  },
-  "PolicyType": 1
+    "Mode": "Indexed",
+    "Parameters": {
+        "effect": {
+            "type": "string",
+            "metadata": {
+                "description": "set the execution effect of the policy",
+                "displayName": "Effect"
+            },
+            "allowedValues": [
+                "deny",
+                "audit",
+                "disabled"
+            ],
+            "defaultValue": "deny"
+        }
+    },
+    "PolicyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "equals": "Microsoft.Network/networkInterfaces",
+                    "field": "type"
+                },
+                {
+                    "exists": "false",
+                    "field": "Microsoft.Network/networkInterfaces/networkSecurityGroup.id"
+                },
+                {
+                    "exists": "true",
+                    "field": "Microsoft.Network/networkInterfaces/virtualMachine.id"
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+        }
+    },
+    "PolicyType": 1
 }

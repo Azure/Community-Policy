@@ -2,6 +2,9 @@
     "mode": "All",
     "name": "Deny subnets missing suffix",
     "description": "This Policy will deny the creation of subnets that do not contain one of the suffixes defined within this Policy.",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "anyOf": [

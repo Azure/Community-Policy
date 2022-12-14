@@ -3,6 +3,9 @@
     "displayName": "NSG rule ports without IP source",
     "policyType": "Custom",
     "mode": "All",
+    "metadata": {
+      "category": "Network"
+    },
     "parameters": {
       "ipAddresses": {
         "type": "Array",

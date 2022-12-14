@@ -1,6 +1,9 @@
 {
     "displayName": "Block NSG Creations and Updates",
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
     "parameters": {},
     "policyRule": {
         "if": {

@@ -1,6 +1,9 @@
 {
     "displayName": "VMs not in a specific subnet cannot be part of a backend pool",
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "allOf": [

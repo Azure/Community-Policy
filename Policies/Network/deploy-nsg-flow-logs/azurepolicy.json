@@ -2,6 +2,9 @@
     "displayName": "Deploy NSG Flow Logs to Target Region",
     "description": "This Policy will deploy NSG Flow Logs for a target region. You'll need to do a unique assignment of this Policy for each region you wish to enable NSG Flow Logs in. NSG Flow Logs require that the Storage Account used for logging be in the same region as the NSG you're enabling Flow Logs on.",
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "allOf": [

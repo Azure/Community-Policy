@@ -2,6 +2,9 @@
     "mode": "All",
     "name": "Deny subnet delegation on subnets containing a key word",
     "description": "This Policy will deny users from enabling subnet delegation on subnets containing a pre-defined key word.",
+    "metadata": {
+        "category": "Network"
+    },
     "parameters": {
         "subnetNamingConvention": {
             "type": "string",

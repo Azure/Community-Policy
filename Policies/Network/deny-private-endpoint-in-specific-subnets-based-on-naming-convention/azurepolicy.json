@@ -2,6 +2,9 @@
     "mode": "All",
     "name": "Deny Private Endpoints in specific subnets based on a naming convention",
     "description": "This Policy will deny the creation of Private Endpoints within subnets that contain a key word. This is useful when your subnets all follow a naming schema.",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "allOf": [

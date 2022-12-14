@@ -1,6 +1,9 @@
 {
     "displayName": "App Gateway can only have a VM's or VMSS in its backend pool.",
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
     "parameters": {
         "effect": {
             "type": "String",

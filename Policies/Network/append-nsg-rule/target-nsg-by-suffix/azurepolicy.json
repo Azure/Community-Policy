@@ -2,6 +2,9 @@
     "displayName": "Append NSG Rule",
     "description": "This Policy will append a rule to newly deployed NSGs that contain a specificied suffix.",
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
     "parameters": {
         "name": {
             "type": "String",

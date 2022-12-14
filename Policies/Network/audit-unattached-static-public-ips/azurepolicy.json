@@ -3,6 +3,9 @@
         "mode": "All",
         "displayName": "Audit unattached static Public IPs",
         "description": "Static Public IPs incur cost even when not in use. This Policy will help you detect the existence of unattached static Public IPs in the effort to help drive down cost.",
+        "metadata": {
+            "category": "Network"
+        },
         "policyRule": {
             "if": {
                 "allOf": [

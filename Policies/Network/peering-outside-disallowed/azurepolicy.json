@@ -3,6 +3,9 @@
         "mode": "All",
         "displayName": "Vnet peering disallowed outside subscription",
         "description": "No network peering can be associated to networks outside the current subscription.",
+        "metadata": {
+            "category": "Network"
+        },
         "policyRule": {
             "if": {
                 "allOf": [

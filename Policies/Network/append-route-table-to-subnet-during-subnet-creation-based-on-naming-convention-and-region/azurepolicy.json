@@ -1,6 +1,9 @@
 {
     "displayName": "Newly created subnets will be assigned a Route Table",
     "description": "This policy applies a specific Route Table to every newly created Subnet. This Policy will look for the existence of a keyword in a subnet name to apply the Policy. This policy must partner with the policy 'append-route-table-to-subnet-during-vnet-creation-based-on-naming-convention' in order to fully work. Additionally this policy is parameterized to be able to target all regions where a route table exists.",
+    "metadata": {
+        "category": "Network"
+    },
     "parameters": {
         "targetedNamingConvention": {
             "type": "String",

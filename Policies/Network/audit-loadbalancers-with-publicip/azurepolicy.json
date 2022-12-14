@@ -1,6 +1,9 @@
 {
     "type": "Microsoft.Authorization/policyDefinitions",
     "name": "audit-loadbalancers-with-publicip",
+    "metadata": {
+        "category": "Network"
+    },
     "properties": {
         "displayName": "Audit loadbalancers with public ip",
         "description": "This policy audits if loadbalancers exists with public ip.",

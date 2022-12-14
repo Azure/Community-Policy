@@ -1,108 +1,108 @@
 {
-  "description": "Create Private DNS Zone Virtual Network Link to Virtual Networks if not available",
-  "displayName": "Create Private DNS Zone Virtual Network Link to Virtual Networks if not available",
-  "metadata": {
-    "category": "Network"
-  },
-  "mode": "All",
-  "name": "create-dnsZone-vnet-integration-to-vnets",
-  "parameters": {
-    "virtualNetworkResourceId": {
-      "defaultValue": [],
-      "metadata": {
-        "description": "Resource Ids of a vNet to link. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Network/virtualNetworks/{virtual network name}",
-        "displayName": "Vnet Resource IDs"
-      },
-      "type": "array"
+    "description": "Create Private DNS Zone Virtual Network Link to Virtual Networks if not available",
+    "displayName": "Create Private DNS Zone Virtual Network Link to Virtual Networks if not available",
+    "metadata": {
+        "category": "Network"
     },
-    "registrationEnabled": {
-      "defaultValue": false,
-      "metadata": {
-        "description": "Enables automatic DNS registration in the zone for the linked vNet.",
-        "displayName": "Enable Registration"
-      },
-      "type": "Boolean"
-    }
-  },
-  "policyRule": {
-    "if": {
-      "allOf": [
-        {
-          "equals": "Microsoft.Network/privateDnsZones",
-          "field": "type"
+    "mode": "All",
+    "name": "create-dnsZone-vnet-integration-to-vnets",
+    "parameters": {
+        "virtualNetworkResourceId": {
+            "defaultValue": [],
+            "metadata": {
+                "description": "Resource Ids of a vNet to link. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Network/virtualNetworks/{virtual network name}",
+                "displayName": "Vnet Resource IDs"
+            },
+            "type": "array"
+        },
+        "registrationEnabled": {
+            "defaultValue": false,
+            "metadata": {
+                "description": "Enables automatic DNS registration in the zone for the linked vNet.",
+                "displayName": "Enable Registration"
+            },
+            "type": "Boolean"
         }
-      ]
     },
-    "then": {
-      "details": {
-        "existenceCondition": {
-          "allOf": [
-            {
-              "equals": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
-              "field": "type"
-            },
-            {
-              "in": "[parameters('virtualNetworkResourceId')]",
-              "field": "Microsoft.Network/privateDnsZones/virtualNetworkLinks/virtualNetwork.id"
-            }
-          ]
-        },
-        "deployment": {
-          "properties": {
-            "mode": "incremental",
-            "parameters": {
-              "privateDnsZoneName": {
-                "value": "[field('name')]"
-              },
-              "virtualNetworkResourceId": {
-                "value": "[parameters('virtualNetworkResourceId')]"
-              },
-              "registrationEnabled": {
-                "value": "[parameters('registrationEnabled')]"
-              }
-            },
-            "template": {
-              "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-              "contentVersion": "1.0.0.0",
-              "parameters": {
-                "privateDnsZoneName": {
-                  "type": "String"
-                },
-                "virtualNetworkResourceId": {
-                  "type": "array"
-                },
-                "registrationEnabled": {
-                  "type": "bool"
-                }
-              },
-              "resources": [
+    "policyRule": {
+        "if": {
+            "allOf": [
                 {
-                  "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
-                  "apiVersion": "2018-09-01",
-                  "name": "[concat(parameters('privateDnsZoneName'),'/',concat(parameters('privateDnsZoneName'),'-', last(split(parameters('virtualNetworkResourceId')[copyIndex()],'/'))))]",
-                  "location": "global",
-                  "copy": {
-                    "name": "vnetlink-counter",
-                    "count": "[length(parameters('virtualNetworkResourceId'))]"
-                  },
-                  "properties": {
-                    "registrationEnabled": "[parameters('registrationEnabled')]",
-                    "virtualNetwork": {
-                      "id": "[parameters('virtualNetworkResourceId')[copyIndex()]]"
-                    }
-                  }
+                    "equals": "Microsoft.Network/privateDnsZones",
+                    "field": "type"
                 }
-              ]
-            }
-          }
+            ]
         },
-        "roleDefinitionIds": [
-          "/providers/microsoft.authorization/roleDefinitions/b12aa53e-6015-4669-85d0-8515ebb3ae7f"
-        ],
-        "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
-      },
-      "effect": "deployIfNotExists"
-    }
-  },
-  "policyType": "Custom"
+        "then": {
+            "details": {
+                "existenceCondition": {
+                    "allOf": [
+                        {
+                            "equals": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+                            "field": "type"
+                        },
+                        {
+                            "in": "[parameters('virtualNetworkResourceId')]",
+                            "field": "Microsoft.Network/privateDnsZones/virtualNetworkLinks/virtualNetwork.id"
+                        }
+                    ]
+                },
+                "deployment": {
+                    "properties": {
+                        "mode": "incremental",
+                        "parameters": {
+                            "privateDnsZoneName": {
+                                "value": "[field('name')]"
+                            },
+                            "virtualNetworkResourceId": {
+                                "value": "[parameters('virtualNetworkResourceId')]"
+                            },
+                            "registrationEnabled": {
+                                "value": "[parameters('registrationEnabled')]"
+                            }
+                        },
+                        "template": {
+                            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                            "contentVersion": "1.0.0.0",
+                            "parameters": {
+                                "privateDnsZoneName": {
+                                    "type": "String"
+                                },
+                                "virtualNetworkResourceId": {
+                                    "type": "array"
+                                },
+                                "registrationEnabled": {
+                                    "type": "bool"
+                                }
+                            },
+                            "resources": [
+                                {
+                                    "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+                                    "apiVersion": "2018-09-01",
+                                    "name": "[concat(parameters('privateDnsZoneName'),'/',concat(parameters('privateDnsZoneName'),'-', last(split(parameters('virtualNetworkResourceId')[copyIndex()],'/'))))]",
+                                    "location": "global",
+                                    "copy": {
+                                        "name": "vnetlink-counter",
+                                        "count": "[length(parameters('virtualNetworkResourceId'))]"
+                                    },
+                                    "properties": {
+                                        "registrationEnabled": "[parameters('registrationEnabled')]",
+                                        "virtualNetwork": {
+                                            "id": "[parameters('virtualNetworkResourceId')[copyIndex()]]"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                "roleDefinitionIds": [
+                    "/providers/microsoft.authorization/roleDefinitions/b12aa53e-6015-4669-85d0-8515ebb3ae7f"
+                ],
+                "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+            },
+            "effect": "deployIfNotExists"
+        }
+    },
+    "policyType": "Custom"
 }

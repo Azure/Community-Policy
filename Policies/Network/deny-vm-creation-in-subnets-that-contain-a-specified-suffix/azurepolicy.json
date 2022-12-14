@@ -2,6 +2,9 @@
     "displayName": "Deny VM creation in subnets that contain specified suffix",
     "description": "This policy will deny the creation of VMs in subnets that contain a certain suffix.",
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "allOf": [

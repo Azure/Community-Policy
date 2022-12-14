@@ -1,5 +1,8 @@
 {
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "anyOf": [

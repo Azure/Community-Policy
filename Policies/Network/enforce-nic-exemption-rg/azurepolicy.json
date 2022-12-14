@@ -2,6 +2,9 @@
     "displayName": "VMs in Resource Groups containing suffix must have NICs in Resource Groups with same suffix",
     "description": "This Policy will require that VMs deployed into Resource Groups with a certain suffix also have their NICs deployed into Resource Groups with that same suffix.",
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "anyOf": [

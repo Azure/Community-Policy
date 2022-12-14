@@ -3,6 +3,9 @@
         "mode": "All",
         "displayName": "VNet Peering is only allowed to approved VNets.",
         "description": "If you try to peer to a VNet that's not on the list of approved VNets then the action will be denied.",
+        "metadata": {
+            "category": "Network"
+        },
         "parameters": {
             "allowedVnets": {
                 "type": "array",

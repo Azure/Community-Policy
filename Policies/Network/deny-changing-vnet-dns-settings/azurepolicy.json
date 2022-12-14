@@ -2,6 +2,9 @@
     "mode": "All",
     "name": "Deny changing VNet DNS settings from pre-defined value",
     "description": "This Policy will prevent users from changing DNS settings on a VNet",
+    "metadata": {
+        "category": "Network"
+    },
     "policyRule": {
         "if": {
             "allOf": [
