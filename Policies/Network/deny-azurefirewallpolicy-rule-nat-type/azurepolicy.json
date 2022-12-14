@@ -1,6 +1,7 @@
 {
   "displayName": "Azure firewall policy - NAT rule",
   "policyType": "Custom",
+  "description": "NAT rules allows the Azure Firewall to act as an ingress. This should be reviewed and managed by the network security team.",
   "mode": "All",
   "parameters": {
       "effect": {
