@@ -1,0 +1,41 @@
+{
+    "displayName": "Non-geo replicated Microsoft SQL databases",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "This policy audits non-geo replicated Microsoft SQL databases, Note that the property looked at does not exists on the primary database which might provide false-positives.",
+    "metadata": {
+        "version": "1.0.0",
+        "category": "SQL"
+    },
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+                "Audit",
+                "Disabled"
+            ],
+            "defaultValue": "Audit"
+        }
+    },
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Sql/servers/databases"
+                },
+                {
+                    "field": "Microsoft.Sql/servers/databases/secondaryType",
+                    "equals": "Geo"
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+          }
+    }
+}

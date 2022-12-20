@@ -1,0 +1,41 @@
+{
+    "displayName": "Geo replicated Microsoft SQL databases",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "This policy audits geo replicated Microsoft SQL databases",
+    "metadata": {
+        "version": "1.0.0",
+        "category": "SQL"
+    },
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "allowedValues": [
+                "Audit",
+                "Disabled"
+            ],
+            "defaultValue": "Audit"
+        }
+    },
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Sql/servers/databases"
+                },
+                {
+                    "field": "Microsoft.Sql/servers/databases/secondaryType",
+                    "notEquals": "Geo"
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+          }
+    }
+}

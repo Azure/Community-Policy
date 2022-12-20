@@ -1,0 +1,17 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Sql/servers/databases"
+            },
+            {
+                "field": "Microsoft.Sql/servers/databases/secondaryType",
+                "equals": "Geo"
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+      }
+}
