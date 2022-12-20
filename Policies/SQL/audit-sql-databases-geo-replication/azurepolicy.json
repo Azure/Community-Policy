@@ -2,7 +2,7 @@
     "displayName": "Geo replicated Microsoft SQL databases",
     "policyType": "Custom",
     "mode": "Indexed",
-    "description": "This policy audits geo replicated Microsoft SQL databases",
+    "description": "This policy audits geo replicated Microsoft SQL databases. This will only list the stand-by geo-redundant database as compliant and the primary as non-compliant, please note that this is a false-positive.",
     "metadata": {
         "version": "1.0.0",
         "category": "SQL"
