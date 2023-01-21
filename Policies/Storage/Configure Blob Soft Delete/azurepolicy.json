@@ -1,0 +1,87 @@
+{
+	"properties": {
+		"displayName": "Configure blob soft delete on a storage account",
+      "description": "Blob soft delete protects an individual blob, snapshot, or version from accidental deletes or overwrites by maintaining the deleted data in the system for a specified period of time. During the retention period, you can restore a soft-deleted object to its state at the time it was deleted. After the retention period has expired, the object is permanently deleted. https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview",
+		"policyType": "Custom",
+		"mode": "All",
+		"metadata": {
+			"version": "1.0.0",
+			"category": "Storage"
+		},
+		"parameters": {
+			"effect": {
+				"type": "String",
+				"metadata": {
+					"displayName": "Effect",
+					"description": "The effect determines what happens when the policy rule is evaluated to match"
+				},
+				"allowedValues": [
+					"Modify",
+					"Disabled"
+				],
+				"defaultValue": "Modify"
+			},
+			"retentionInDays": {
+				"type": "Integer",
+				"metadata": {
+					"displayName": "Retention in Days",
+					"description": "How long should deleted resources be retained for. Minimum value is 1 day, maximum is 365 days."
+				},
+				"minValue": 1,
+				"maxValue": 365,
+				"defaultValue": 1
+			}
+		},
+		"policyRule": {
+			"if": {
+				"allOf": [
+					{
+						"field": "type",
+						"equals": "Microsoft.Storage/storageAccounts/blobServices"
+					},
+					{
+						"anyOf": [
+							{
+								"allOf": [
+									{
+										"value": "[requestContext().apiVersion]",
+										"less": "2022-05-01"
+									},
+									{
+										"field": "Microsoft.Storage/storageAccounts/blobServices/deleteRetentionPolicy.enabled",
+										"equals": false
+									}
+								]
+							},
+							{
+								"field": "Microsoft.Storage/storageAccounts/blobServices/deleteRetentionPolicy.enabled",
+								"equals": false
+							}
+						]
+					}
+				]
+			},
+			"then": {
+				"effect": "[parameters('effect')]",
+				"details": {
+					"conflictEffect": "audit",
+					"roleDefinitionIds": [
+						"/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab"
+					],
+					"operations": [
+						{
+							"operation": "addOrReplace",
+							"field": "Microsoft.Storage/storageAccounts/blobServices/deleteRetentionPolicy.enabled",
+							"value": true
+						},
+						{
+							"operation": "addOrReplace",
+							"field": "Microsoft.Storage/storageAccounts/blobServices/deleteRetentionPolicy.days",
+							"value": "[parameters('retentionInDays')]"
+						}
+					]
+				}
+			}
+		}
+	}
+}
