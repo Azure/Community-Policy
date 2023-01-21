@@ -1,0 +1,43 @@
+{
+   "policyType": "Custom",
+   "mode": "All",
+   "displayName": "Deny permanent delete for soft deleted items",
+   "description": "Permanent delete enables you to permanently delete a soft-deleted snapshot or blob version before the retention period ends. https://docs.microsoft.com/rest/api/storageservices/delete-blob?WT.mc_id=Portal-Microsoft_Azure_Storage#remarks",
+   "policyRule": {
+     "if": {
+       "allOf": [
+         {
+           "field": "type",
+           "equals": "Microsoft.Storage/storageAccounts/blobServices"
+         },
+         {
+           "field": "Microsoft.Storage/storageAccounts/blobServices/deleteRetentionPolicy.allowPermanentDelete",
+           "equals": true
+         }
+       ]
+     },
+     "then": {
+       "effect": "[parameters('effect')]"
+     }
+   },
+   "metadata": {
+     "Version": "1.0.0",
+     "Category": "Storage"
+   },
+   "parameters": {
+     "effect": {
+       "type": "String",
+       "allowedValues": [
+         "Audit",
+         "Disabled",
+         "Deny"
+       ],
+       "defaultValue": "Deny",
+       "metadata": {
+         "displayName": "Effect",
+         "description": "Enable or disable the execution of the policy"
+       }
+     }
+   },
+   "type": "Microsoft.Authorization/policyDefinitions"
+ }

@@ -1,0 +1,17 @@
+{
+   "if": {
+     "allOf": [
+       {
+         "field": "type",
+         "equals": "Microsoft.Storage/storageAccounts/blobServices"
+       },
+       {
+         "field": "Microsoft.Storage/storageAccounts/blobServices/deleteRetentionPolicy.allowPermanentDelete",
+         "equals": true
+       }
+     ]
+   },
+   "then": {
+     "effect": "[parameters('effect')]"
+   }
+ }
