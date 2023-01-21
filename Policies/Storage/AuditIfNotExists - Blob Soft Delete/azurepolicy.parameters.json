@@ -1,0 +1,14 @@
+{
+   "effect": {
+     "type": "String",
+     "allowedValues": [
+       "AuditIfNotExists",
+       "Disabled"
+     ],
+     "defaultValue": "AuditIfNotExists",
+     "metadata": {
+       "displayName": "Effect",
+       "description": "Enable or disable the execution of the policy"
+     }
+   }
+ }

@@ -1,0 +1,17 @@
+{
+   "if": {
+         "field": "type",
+         "equals": "Microsoft.Storage/storageAccounts"
+   },
+   "then": {
+     "effect": "[parameters('effect')]",
+     "details": {
+       "type": "Microsoft.Storage/storageAccounts/blobServices",
+       "name": "default",
+       "existenceCondition": {
+         "field": "Microsoft.Storage/storageAccounts/blobServices/default.deleteRetentionPolicy.enabled",
+         "equals": true
+       }
+    }
+   }
+ }

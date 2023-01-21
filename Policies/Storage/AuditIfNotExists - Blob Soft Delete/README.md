@@ -1,0 +1,3 @@
+AuditIfNotExists makes it possible to see the storage accounts in the Resource Compliance tab rather than just seeing the 'default' BlobService configuration.
+
+Blob soft delete protects an individual blob, snapshot, or version from accidental deletes or overwrites by maintaining the deleted data in the system for a specified period of time. During the retention period, you can restore a soft-deleted object to its state at the time it was deleted. After the retention period has expired, the object is permanently deleted. https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview
