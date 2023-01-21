@@ -1,0 +1,22 @@
+{
+   "effect": {
+     "type": "String",
+     "metadata": {
+       "displayName": "Effect",
+       "description": "Enable or disable the execution of the policy"
+     },
+     "allowedValues": [
+       "Disabled",
+       "DeployIfNotExists"
+     ],
+     "defaultValue": "DeployIfNotExists"
+   },
+   "retentionInDays": {
+     "type": "Integer",
+     "metadata": {
+       "displayName": "Retention in Days",
+       "description": "How long should deleted resources be retained for. Minimum value is 1 day, maximum is 365 days."
+     },
+     "defaultValue": 1
+   }
+ }
