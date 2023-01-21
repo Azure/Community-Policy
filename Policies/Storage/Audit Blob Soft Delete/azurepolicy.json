@@ -1,0 +1,43 @@
+{
+   "policyType": "Custom",
+   "mode": "All",
+   "displayName": "Storage Accounts should have blob soft delete enabled",
+   "description": "Blob soft delete protects an individual blob, snapshot, or version from accidental deletes or overwrites by maintaining the deleted data in the system for a specified period of time. During the retention period, you can restore a soft-deleted object to its state at the time it was deleted. After the retention period has expired, the object is permanently deleted. https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview",
+   "policyRule": {
+     "if": {
+       "allOf": [
+         {
+           "field": "type",
+           "equals": "Microsoft.Storage/storageAccounts/blobServices"
+         },
+         {
+           "field": "Microsoft.Storage/storageAccounts/blobServices/deleteRetentionPolicy.enabled",
+           "equals": false
+         }
+       ]
+     },
+     "then": {
+       "effect": "[parameters('effect')]"
+     }
+   },
+   "metadata": {
+     "Version": "1.0.0",
+     "Category": "Storage"
+   },
+   "parameters": {
+     "effect": {
+       "type": "String",
+       "allowedValues": [
+         "Audit",
+         "Disabled",
+         "Deny"
+       ],
+       "defaultValue": "Audit",
+       "metadata": {
+         "displayName": "Effect",
+         "description": "Enable or disable the execution of the policy"
+       }
+     }
+   },
+   "type": "Microsoft.Authorization/policyDefinitions"
+ }
