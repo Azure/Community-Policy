@@ -1,0 +1,42 @@
+{
+   "policyType": "Custom",
+   "mode": "All",
+   "displayName": "Storage Accounts should have container soft delete enabled",
+   "description": "Container soft delete protects your data from being accidentally or erroneously modified or deleted. When container soft delete is enabled for a storage account, a container and its contents may be recovered after it has been deleted, within a retention period that you specify. For more details about container soft delete, see https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-container-overview.",
+   "policyRule": {
+     "if": {
+           "field": "type",
+           "equals": "Microsoft.Storage/storageAccounts"
+     },
+     "then": {
+       "effect": "[parameters('effect')]",
+       "details": {
+         "type": "Microsoft.Storage/storageAccounts/blobServices",
+         "name": "default",
+         "existenceCondition": {
+           "field": "Microsoft.Storage/storageAccounts/blobServices/default.containerDeleteRetentionPolicy.enabled",
+           "equals": true
+         }
+      }
+     }
+   },
+   "metadata": {
+     "Version": "1.0.0",
+     "Category": "Storage"
+   },
+   "parameters": {
+     "effect": {
+       "type": "String",
+       "allowedValues": [
+         "AuditIfNotExists",
+         "Disabled"
+       ],
+       "defaultValue": "AuditIfNotExists",
+       "metadata": {
+         "displayName": "Effect",
+         "description": "Enable or disable the execution of the policy"
+       }
+     }
+   },
+   "type": "Microsoft.Authorization/policyDefinitions"
+ }
