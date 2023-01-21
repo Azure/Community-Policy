@@ -1,0 +1,42 @@
+{
+   "policyType": "Custom",
+   "mode": "All",
+   "displayName": "Audit-Storage-Container-SoftDelete",
+   "policyRule": {
+     "if": {
+       "allOf": [
+         {
+           "field": "type",
+           "equals": "Microsoft.Storage/storageAccounts/blobServices"
+         },
+         {
+           "field": "Microsoft.Storage/storageAccounts/blobServices/containerDeleteRetentionPolicy.enabled",
+           "equals": false
+         }
+       ]
+     },
+     "then": {
+       "effect": "[parameters('effect')]"
+     }
+   },
+   "metadata": {
+     "Version": "1.0.0",
+     "Category": "Storage"
+   },
+   "parameters": {
+     "effect": {
+       "type": "String",
+       "allowedValues": [
+         "Audit",
+         "Disabled",
+         "Deny"
+       ],
+       "defaultValue": "Audit",
+       "metadata": {
+         "displayName": "Effect",
+         "description": "Enable or disable the execution of the policy"
+       }
+     }
+   },
+   "type": "Microsoft.Authorization/policyDefinitions"
+ }
