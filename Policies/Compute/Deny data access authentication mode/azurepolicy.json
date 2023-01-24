@@ -1,0 +1,46 @@
+{
+   "policyType": "Custom",
+   "mode": "All",
+   "displayName": "Deny data access authentication mode",
+   "policyRule": {
+     "if": {
+       "allOf": [
+         {
+           "field": "type",
+           "equals": "Microsoft.Compute/disks"
+         },
+         {
+           "field": "Microsoft.Compute/disks/dataAccessAuthMode",
+           "equals": "AzureActiveDirectory"
+         }
+       ]
+     },
+     "then": {
+       "effect": "[parameters('effect')]"
+     }
+   },
+   "metadata": {
+     "Version": "1.0.0",
+     "Category": "Compute",
+     "createdBy": "6288a9ae-ec6d-4916-b00d-a7cfa46afd43",
+     "createdOn": "2023-01-23T16:32:01.7910375Z",
+     "updatedBy": null,
+     "updatedOn": null
+   },
+   "parameters": {
+     "effect": {
+       "type": "String",
+       "allowedValues": [
+         "Audit",
+         "Disabled",
+         "Deny"
+       ],
+       "defaultValue": "Deny",
+       "metadata": {
+         "displayName": "Effect",
+         "description": "Enable or disable the execution of the policy"
+       }
+     }
+   },
+   "type": "Microsoft.Authorization/policyDefinitions"
+ }
