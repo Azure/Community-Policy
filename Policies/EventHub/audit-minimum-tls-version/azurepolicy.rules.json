@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.EventHub/namespaces"
+      },
+      {
+        "anyOf": [
+          {
+            "field": "Microsoft.EventHub/namespaces/minimumTlsVersion",
+            "notEquals": "[parameters('minimumTlsVersion')]"
+          },
+          {
+            "field": "Microsoft.EventHub/namespaces/minimumTlsVersion",
+            "exists": "false"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
