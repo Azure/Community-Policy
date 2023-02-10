@@ -1,0 +1,53 @@
+{
+  "if": {
+      "allOf": [
+          {
+              "field": "type",
+              "equals": "microsoft.network/publicIpAddresses"
+          },
+          {
+              "field": "Microsoft.Network/publicIPAddresses/sku.name",
+              "notEquals": "Basic"
+          },
+          {
+              "anyOf": [
+                  {
+                      "field": "Microsoft.Network/publicIPAddresses/natGateway",
+                      "exists": false
+                  },
+                  {
+                      "value": "[equals(length(field('Microsoft.Network/publicIPAddresses/natGateway')), 0)]",
+                      "equals": true
+                  }
+              ]
+          },
+          {
+              "anyOf": [
+                  {
+                      "field": "Microsoft.Network/publicIPAddresses/ipConfiguration",
+                      "exists": false
+                  },
+                  {
+                      "value": "[equals(length(field('Microsoft.Network/publicIPAddresses/ipConfiguration')), 0)]",
+                      "equals": true
+                  }
+              ]
+          },
+          {
+              "anyOf": [
+                  {
+                      "field": "Microsoft.Network/publicIPAddresses/publicIPPrefix",
+                      "exists": false
+                  },
+                  {
+                      "value": "[equals(length(field('Microsoft.Network/publicIPAddresses/publicIPPrefix')), 0)]",
+                      "equals": true
+                  }
+              ]
+          }
+      ]
+  },
+  "then": {
+      "effect": "[parameters('effect')]"
+  }
+}
