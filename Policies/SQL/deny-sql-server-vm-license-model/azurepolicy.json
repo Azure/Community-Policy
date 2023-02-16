@@ -1,0 +1,25 @@
+{
+    "properties": {
+      "displayName": "DENY-SQLVM-LicenseType",
+      "policyType": "Custom",
+      "mode": "All",
+      "parameters": {},
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
+            },
+            {
+              "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/sqlServerLicenseType",
+              "notEquals": "[parameters('licenseModel')]"
+            }
+          ]
+        },
+        "then": {
+          "effect": "deny"
+        }
+      }
+    }
+  }

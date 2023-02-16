@@ -1,0 +1,15 @@
+{
+    "licenseModel": {
+        "type": "String",
+        "metadata": {
+          "displayName": "License Model",
+          "description": "Choose the License Model for your SQL Server Virtual Machine"
+        },
+        "allowedValues": [
+          "AHUB",
+          "DR",
+          "PAYG"
+        ],
+        "defaultValue": "PAYG"
+      }
+}
