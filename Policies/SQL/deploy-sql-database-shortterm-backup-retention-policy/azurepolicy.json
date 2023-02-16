@@ -11,7 +11,7 @@
         "parameters": {
             "Effect": {
                 "type": "string",
-                "defaultValue": "DeployIfNotExists",
+                "defaultValue": "AuditIfNotExists",
                 "allowedValues": [
                     "AuditIfNotExists",
                     "DeployIfNotExists",

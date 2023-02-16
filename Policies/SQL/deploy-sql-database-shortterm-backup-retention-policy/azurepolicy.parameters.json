@@ -1,5 +1,5 @@
 {
-    "SqlDBBackupRetention.PolicyEffect": {
+    "Effect": {
         "type": "string",
         "defaultValue": "DeployIfNotExists",
         "allowedValues": [
@@ -8,7 +8,7 @@
             "Disabled"
         ],
         "metadata": {
-            "displayName": "SqlDBBackupRetention.PolicyEffect",
+            "displayName": "PolicyEffect",
             "description": "Enable or disable the execution of the policy"
         }
     },

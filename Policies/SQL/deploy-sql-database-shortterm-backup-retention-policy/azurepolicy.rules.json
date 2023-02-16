@@ -12,7 +12,7 @@
         ]
     },
     "then": {
-        "effect": "[parameters('SqlDBBackupRetention.PolicyEffect')]",
+        "effect": "[parameters('Effect')]",
         "details": {
             "type": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies",
             "name": "default",
