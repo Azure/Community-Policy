@@ -1,0 +1,16 @@
+{
+	"publisher": {
+		"type": "String",
+		"metadata": {
+			"description": "The publisher of the extension",
+			"displayName": "Extension Publisher"
+		}
+	},
+	"type": {
+		"type": "String",
+		"metadata": {
+			"description": "The type of the extension",
+			"displayName": "Extension Type"
+		}
+	}
+}
