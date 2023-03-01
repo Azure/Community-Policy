@@ -1,9 +1,10 @@
 {
+    "name": "Require SQL VM License Models",
     "properties": {
-      "displayName": "DENY-SQLVM-LicenseType",
+      "displayName": "Require SQL VM License Models",
+      "description": "Require SQL Server Virtual Machines to leverage a specific License Model",
       "policyType": "Custom",
       "mode": "All",
-      "parameters": {},
       "policyRule": {
         "if": {
           "allOf": [
@@ -13,12 +14,40 @@
             },
             {
               "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/sqlServerLicenseType",
-              "notEquals": "[parameters('licenseModel')]"
+              "notIn": "[parameters('licenseModel')]"
             }
           ]
         },
         "then": {
-          "effect": "deny"
+          "effect": "[parameters('effect')]"
+        }
+      },
+      "parameters": {
+        "licenseModel": {
+          "type": "Array",
+          "metadata": {
+            "displayName": "License Model",
+            "description": "A list of acceptable License Models for your SQL Server Virtual Machine"
+          },
+          "allowedValues": [
+            "AHUB",
+            "DR",
+            "PAYG"
+          ],
+          "defaultValue": "PAYG"
+        },
+        "effect": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Audit, Deny, or Disable the listed License Models."
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
         }
       }
     }
