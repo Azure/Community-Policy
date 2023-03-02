@@ -30,7 +30,9 @@
           "description": "Deny the use of TempDB leveraging the listed drive."
         },
         "allowedValues": [
-          "Deny"
+          "Audit",
+          "Deny",
+          "Disabled"
         ],
         "defaultValue": "Deny"
       },
