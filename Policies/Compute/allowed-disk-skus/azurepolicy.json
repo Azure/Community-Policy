@@ -34,9 +34,9 @@
                     "NotIn": "[parameters('allowedDiskSkus')]"
                 }
             ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
         }
-    },
-    "then": {
-        "effect": "[parameters('effect')]"
     }
 }

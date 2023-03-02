@@ -1,2 +1,0 @@
-# Unused Public IP addresses driving cost should be avoided
-Optimize cost by detecting unused but chargeable resources. Leverage this Policy definition as a cost control to reveal orphaned Public IP addresses that are driving cost.
