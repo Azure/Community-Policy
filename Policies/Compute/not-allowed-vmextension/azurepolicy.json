@@ -1,0 +1,36 @@
+{
+    "properties": {
+        "displayName": "Not allowed VM Extensions",
+        "description": "This policy governs which VM extensions that are explicitly denied.",
+        "parameters": {
+            "notAllowedExtensions": {
+                "type": "Array",
+                "metadata": {
+                    "description": "The list of extensions that will be denied. Example: BGInfo, CustomScriptExtension, JsonAADDomainExtension, VMAccessAgent.",
+                    "displayName": "Denied extension"
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Compute/virtualMachines/extensions"
+                    },
+                    {
+                        "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+                        "equals": "Microsoft.Compute"
+                    },
+                    {
+                        "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                        "in": "[parameters('notAllowedExtensions')]"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "deny"
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+	"listOfAllowedSKUs": {
+		"type": "Array",
+		"metadata": {
+			"description": "The list of SKUs that can be specified for virtual network gateways.",
+			"displayName": "Allowed SKUs"
+		}
+	},
+	"gatewayType": {
+		"type": "String",
+		"allowedValues": [
+			"Vpn",
+			"ExpressRoute"
+		],
+		"metadata": {
+			"displayName": "Gateway Type"
+		}
+	}
+}

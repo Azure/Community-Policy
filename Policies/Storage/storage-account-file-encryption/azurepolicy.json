@@ -1,0 +1,25 @@
+{
+    "properties": {
+        "mode": "All",
+        "parameters": {},
+        "displayName": "Ensure storage file encryption",
+        "description": "Ensures file encryption for storage accounts",
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Storage/storageAccounts"
+                    },
+                    {
+                        "field": "Microsoft.Storage/storageAccounts/enableFileEncryption",
+                        "equals": "false"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "deny"
+            }
+        }
+    }
+}

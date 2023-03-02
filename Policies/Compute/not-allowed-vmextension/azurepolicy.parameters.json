@@ -1,0 +1,9 @@
+{
+	"notAllowedExtensions": {
+		"type": "Array",
+		"metadata": {
+			"description": "The list of extensions that will be denied. Example: BGInfo, CustomScriptExtension, JsonAADDomainExtension, VMAccessAgent.",
+			"displayName": "Denied extension"
+		}
+	}
+}
