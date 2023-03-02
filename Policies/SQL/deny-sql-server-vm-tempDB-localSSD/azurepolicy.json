@@ -1,0 +1,49 @@
+{
+  "name": "e2a32c12-5fed-4eb6-b2bd-348dacd13b7a",
+  "properties": {
+    "displayName": "Deny SQL VM TempDB LocalSSD",
+    "description": "Denies a SQL Server VM's TempDB from using Local SSD (D: Drive).",
+    "policyType": "Custom",
+    "mode": "All",
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
+          },
+          {
+            "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/storageConfigurationSettings.sqlTempDbSettings.defaultFilePath",
+            "like": "[parameters('drive')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny the use of TempDB leveraging the listed drive."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      },
+      "drive": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Drive",
+          "description": "Selects the specific disk drive to deny. Normally, Local SSD is under the D: drive"
+        },
+        "defaultValue": "D:*"
+      }
+    }
+  }
+}
