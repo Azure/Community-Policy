@@ -23,7 +23,7 @@
         }
       },
       "parameters": {
-        "sqlConnectivitySetting": {
+        "sqlConnectivitySettings": {
           "type": "Array",
           "metadata": {
             "displayName": "SQL Connectivity Settings",
