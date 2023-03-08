@@ -77,7 +77,7 @@
                             "resources": [
                                 {
                                     "type": "Microsoft.Resources/resourceGroups",
-                                    "apiVersion": "2020-10-01",
+                                    "apiVersion": "2022-09-01",
                                     "name": "[parameters('resourceGroupName')]",
                                     "location": "eastus",
                                     "properties": {}
@@ -85,20 +85,74 @@
                                 {
                                     "type": "Microsoft.Resources/deployments",
                                     "apiVersion": "2020-10-01",
-                                    "name": "alertAndActionGroupDeployment",
+                                    "name": "deployServiceHealthAlert",
                                     "resourceGroup": "[parameters('resourceGroupName')]",
-                                    "dependsOn": [
-                                        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('resourceGroupName'))]"
-                                    ],
                                     "properties": {
+                                        "expressionEvaluationOptions": {
+                                            "scope": "inner"
+                                        },
                                         "mode": "Incremental",
+                                        "parameters": {
+                                            "actionGroupName": {
+                                                "value": "[parameters('actionGroupName')]"
+                                            },
+                                            "actionGroupShortName": {
+                                                "value": "[parameters('actionGroupShortName')]"
+                                            },
+                                            "emailAddress": {
+                                                "value": "[parameters('emailAddress')]"
+                                            },
+                                            "activityLogAlertName": {
+                                                "value": "[parameters('activityLogAlertName')]"
+                                            }
+                                        },
                                         "template": {
                                             "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
                                             "contentVersion": "1.0.0.0",
+                                            "metadata": {
+                                                "_generator": {
+                                                    "name": "bicep",
+                                                    "version": "0.15.31.15270",
+                                                    "templateHash": "16246302498083135283"
+                                                }
+                                            },
+                                            "parameters": {
+                                                "actionGroupName": {
+                                                    "type": "string",
+                                                    "defaultValue": "serviceHealthActionGroup",
+                                                    "minLength": 1,
+                                                    "metadata": {
+                                                        "description": "Name for the Action group."
+                                                    }
+                                                },
+                                                "actionGroupShortName": {
+                                                    "type": "string",
+                                                    "defaultValue": "serviceAG",
+                                                    "maxLength": 12,
+                                                    "minLength": 1,
+                                                    "metadata": {
+                                                        "description": "Short name for the Action group."
+                                                    }
+                                                },
+                                                "emailAddress": {
+                                                    "type": "string",
+                                                    "metadata": {
+                                                        "description": "Email address."
+                                                    }
+                                                },
+                                                "activityLogAlertName": {
+                                                    "type": "string",
+                                                    "defaultValue": "serviceHealthAlert",
+                                                    "minLength": 1,
+                                                    "metadata": {
+                                                        "description": "Name for the Activity log alert."
+                                                    }
+                                                }
+                                            },
                                             "resources": [
                                                 {
                                                     "type": "Microsoft.Insights/actionGroups",
-                                                    "apiVersion": "2019-06-01",
+                                                    "apiVersion": "2022-06-01",
                                                     "name": "[parameters('actionGroupName')]",
                                                     "location": "Global",
                                                     "properties": {
@@ -117,9 +171,6 @@
                                                     "apiVersion": "2020-10-01",
                                                     "name": "[parameters('activityLogAlertName')]",
                                                     "location": "Global",
-                                                    "dependsOn": [
-                                                        "[parameters('actionGroupName')]"
-                                                    ],
                                                     "properties": {
                                                         "enabled": true,
                                                         "scopes": [
@@ -130,10 +181,6 @@
                                                                 {
                                                                     "field": "category",
                                                                     "equals": "ServiceHealth"
-                                                                },
-                                                                {
-                                                                    "field": "properties.incidentType",
-                                                                    "equals": "Incident"
                                                                 }
                                                             ]
                                                         },
@@ -144,11 +191,17 @@
                                                                 }
                                                             ]
                                                         }
-                                                    }
+                                                    },
+                                                    "dependsOn": [
+                                                        "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+                                                    ]
                                                 }
                                             ]
                                         }
-                                    }
+                                    },
+                                    "dependsOn": [
+                                        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('resourceGroupName'))]"
+                                    ]
                                 }
                             ]
                         },
