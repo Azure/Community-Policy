@@ -74,7 +74,10 @@ Effects come in groupings expressed as `allowedValues` arrays in JSON. **Do not 
 
 ### Require `roleDefinitionIds`
 
-Effects `Modify` and `DeployIfNotExists` require a list of `DeployIfNotExists` under details.
+Effects `Modify` and `DeployIfNotExists` require a list of `roleDefinitionIds` under details. See:
+
+- <https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects#deployifnotexists-properties>
+- <https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects#modify-properties>
 
 ## README.md (optional)
 
