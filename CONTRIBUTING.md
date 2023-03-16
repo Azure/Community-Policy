@@ -33,7 +33,7 @@ Every Azure Policy sample and its associated files must be contained in its own 
     - PowerShell/CLI example to create the Policy Definition and Assignment, using the **azurepolicy.rules.json** and **azurepolicy.parameters.json**
 - Images used in the README.md must be placed in a folder called **images**.
 
-### Required elements
+## Required elements
 
 Every Policy and Policy Set (Initiative) Definition should include an element:
 
