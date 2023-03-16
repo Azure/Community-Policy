@@ -57,17 +57,19 @@ The effect **must** be parameterized.
 - `allowedValues` and `defaultValue` are required.
 - Effect parameter values must be PascalCase (do not use camelCase ever)
 
-Effects come in groupings expressed as allowedValues arrays in JSON. **Do not use any other combinations**.
+Effects come in groupings expressed as `allowedValues` arrays in JSON. **Do not use any other combinations**.
 
-- `"Append", "Deny", "Audit", "Disabled"`
-- `"Append", "Disabled"`
-- `"Modify", "Audit", "Disabled"`
-- `"Modify", "Disabled"`
-- `"Deny", "Audit", "Disabled"`
-- `"Audit", "Disabled"` - use only when Deny is not possible
-- `"DeployIfNotExists", "AuditIfNotExists", "Disabled"`
-- `"AuditIfNotExists", "Disabled"`
-- `"DenyAction", "Disabled"`
+| `"allowedValues"` | `"defaultValue"` |
+| :---------------- | :--------------- |
+| `"Append", "Deny", "Audit", "Disabled"` | `Append` |
+| `"Append", "Disabled"` | `Append` |
+| `"Modify", "Deny", "Audit", "Disabled"` | `Modify` |
+| `"Modify", "Disabled"` | `Modify` |
+| `"Deny", "Audit", "Disabled"` | `Audit` |
+| `"Audit", "Disabled"` <br/> use only when Deny is not possible | `Audit` |
+| `"DeployIfNotExists", "AuditIfNotExists", "Disabled"` | `AuditIfNotExists` or <br/> `DeployIfNotExists` |
+| `"AuditIfNotExists", "Disabled"` | `AuditIfNotExists` |
+| `"DenyAction", "Disabled"` | `DenyAction` |
 
 ## README.md (optional)
 
