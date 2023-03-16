@@ -41,7 +41,7 @@ Every Policy and Policy Set (Initiative) Definition should include an element:
 - `version` - in `metadata`; use semantic versioning.
 - `category` - in `metadata`, must be one of the categories in the built-in Policies and Policy Sets.
 
-## Parameter definitions
+### Parameter definitions
 
 - Parameter name **must** be camelCase; e.g.: `effect`, `eventHubName`, ...
 - Provide `allowedValues` when it is a known set of legal values.
@@ -62,14 +62,19 @@ Effects come in groupings expressed as `allowedValues` arrays in JSON. **Do not 
 | `"allowedValues"` | `"defaultValue"` |
 | :---------------- | :--------------- |
 | `"Append", "Deny", "Audit", "Disabled"` | `Append` |
-| `"Append", "Disabled"` | `Append` |
+| `"Append", "Audit", "Disabled"` <br/> Use only when Deny is not possible | `Append` |
 | `"Modify", "Deny", "Audit", "Disabled"` | `Modify` |
-| `"Modify", "Disabled"` | `Modify` |
+| `"Modify", "Audit", "Disabled"` <br/> Use only when Deny is not possible | `Modify` |
 | `"Deny", "Audit", "Disabled"` | `Audit` |
-| `"Audit", "Disabled"` <br/> use only when Deny is not possible | `Audit` |
+| `"Audit", "Disabled"` <br/> Use only when Deny is not possible | `Audit` |
 | `"DeployIfNotExists", "AuditIfNotExists", "Disabled"` | `AuditIfNotExists` or <br/> `DeployIfNotExists` |
 | `"AuditIfNotExists", "Disabled"` | `AuditIfNotExists` |
 | `"DenyAction", "Disabled"` | `DenyAction` |
+| `"Manual", "Disabled"` | `Manual` |
+
+### Require `roleDefinitionIds`
+
+Effects `Modify` and `DeployIfNotExists` require a list of `DeployIfNotExists` under details.
 
 ## README.md (optional)
 
