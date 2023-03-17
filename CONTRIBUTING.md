@@ -13,7 +13,7 @@ The examples will include instructions for [Azure portal](https://portal.azure.c
 
 ## Contribution guide
 
-To make sure your Azure Policy sample is added to this repository, please follow these guidelines. Any Azure Policy sample that is out of compliance will be added to the **blacklist** and not be merged.
+To make sure your Azure Policy sample is added to this repository, please follow these guidelines. Any Azure Policy sample that is out of compliance will be added to the **deny-list** and not be merged.
 
 ## Files, folders and naming conventions
 
@@ -33,7 +33,51 @@ Every Azure Policy sample and its associated files must be contained in its own 
     - PowerShell/CLI example to create the Policy Definition and Assignment, using the **azurepolicy.rules.json** and **azurepolicy.parameters.json**
 - Images used in the README.md must be placed in a folder called **images**.
 
+## Required elements
 
+Every Policy and Policy Set (Initiative) Definition should include an element:
+
+- `name` - not under `properties` is a GUID, enables updates to a Policy without declaring it a new Policy or Policy Set.
+- `version` - in `metadata`; use semantic versioning.
+- `category` - in `metadata`, must be one of the categories in the built-in Policies and Policy Sets.
+
+### Parameter definitions
+
+- Parameter name **must** be camelCase; e.g.: `effect`, `eventHubName`, ...
+- Provide `allowedValues` when it is a known set of legal values.
+- Provide a `defaultValue` whenever possible.
+- Provide a `displayName` for each parameter.
+
+### Parameterized `effect`
+
+The effect **must** be parameterized.
+
+- In Policy definitions always use the name `effect`
+- In Policy Set (Initiative) definition pass all `effect` parameters on as Policy Set parameters. You must create unique names. Try to follow a standard pattern which indicates the Policy within the Policy Set is used, such as, `effect-policyName_or_policyDisplayName`. We are not requiring a specific pattern as long as there is consistency.
+- `allowedValues` and `defaultValue` are required.
+- Effect parameter values must be PascalCase (do not use camelCase ever)
+
+Effects come in groupings expressed as `allowedValues` arrays in JSON. **Do not use any other combinations**.
+
+| `"allowedValues"` | `"defaultValue"` |
+| :---------------- | :--------------- |
+| `"Append", "Deny", "Audit", "Disabled"` | `Append` |
+| `"Append", "Audit", "Disabled"` <br/> Use only when Deny is not possible | `Append` |
+| `"Modify", "Deny", "Audit", "Disabled"` | `Modify` |
+| `"Modify", "Audit", "Disabled"` <br/> Use only when Deny is not possible | `Modify` |
+| `"Deny", "Audit", "Disabled"` | `Audit` |
+| `"Audit", "Disabled"` <br/> Use only when Deny is not possible | `Audit` |
+| `"DeployIfNotExists", "AuditIfNotExists", "Disabled"` | `AuditIfNotExists` or <br/> `DeployIfNotExists` |
+| `"AuditIfNotExists", "Disabled"` | `AuditIfNotExists` |
+| `"DenyAction", "Disabled"` | `DenyAction` |
+| `"Manual", "Disabled"` | `Manual` |
+
+### Require `roleDefinitionIds`
+
+Effects `Modify` and `DeployIfNotExists` require a list of `roleDefinitionIds` under details. See:
+
+- <https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects#deployifnotexists-properties>
+- <https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects#modify-properties>
 
 ## README.md (optional)
 
@@ -44,6 +88,5 @@ The README.md describes your policy. A good description helps other community me
 - SDK examples (Azure PowerShell, Azure CLI) for creating definition, defining parameters (if any), and assigning
 - *Optional: Prerequisites
 - *Optional: Notes
-
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
