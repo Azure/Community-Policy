@@ -10,5 +10,8 @@
                 "in": "[parameters('blockedDiskSkus')]"
             }
         ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
     }
 }
