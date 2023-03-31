@@ -14,7 +14,7 @@
             },
             {
               "field": "SqlVirtualMachine/sqlVirtualMachines/autoBackupSettings.enable",
-              "equals": "[parameters('keyVaultIntegrationSetting')]"
+              "equals": "[parameters('autoBackupSetting')]"
             }
           ]
         },
