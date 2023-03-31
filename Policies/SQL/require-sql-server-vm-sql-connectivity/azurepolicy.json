@@ -14,7 +14,7 @@
             },
             {
               "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/serverConfigurationsManagementSettings.sqlConnectivityUpdateSettings.connectivityType",
-              "notIn": "[parameters('sqlConnectivitySetting')]"
+              "notIn": "[parameters('sqlConnectivitySettings')]"
             }
           ]
         },
