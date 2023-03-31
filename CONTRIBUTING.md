@@ -48,7 +48,7 @@ Every Policy and Policy Set (Initiative) Definition **must** include:
 - `name` - not under `properties` **must** be a GUID, enables updates to a Policy without declaring it a new Policy or Policy Set.
 - Nested `properties` structure with only the `name` outside.
 - `displayName` for the Policy is required
-- `displayName` for `parameters`
+- `displayName` for `parameters` is required
 - `version` - in `metadata`; use semantic versioning.
 - `category` - in `metadata`, must be one of the categories in the built-in Policies and Policy Sets.
 
@@ -58,7 +58,7 @@ Do not include system generated properties:
 - `properties.policyType`
 - `properties.metadata`
   - `createdOn`
-  - `createdOn`
+  - `createdBy`
   - `updatedOn`
   - `updatedBy`
 
