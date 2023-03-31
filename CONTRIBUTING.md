@@ -33,13 +33,34 @@ Every Azure Policy sample and its associated files must be contained in its own 
     - PowerShell/CLI example to create the Policy Definition and Assignment, using the **azurepolicy.rules.json** and **azurepolicy.parameters.json**
 - Images used in the README.md must be placed in a folder called **images**.
 
+## Pull requests
+
+PR **must:**
+
+- Contain a single Policy (with 4 files)
+- Requests for changes must be answered within 30 days
+  - PR will be deleted after this time
+
 ## Required elements
 
-Every Policy and Policy Set (Initiative) Definition should include an element:
+Every Policy and Policy Set (Initiative) Definition **must** include:
 
-- `name` - not under `properties` is a GUID, enables updates to a Policy without declaring it a new Policy or Policy Set.
+- `name` - not under `properties` **must** be a GUID, enables updates to a Policy without declaring it a new Policy or Policy Set.
+- Nested `properties` structure with only the `name` outside.
+- `displayName` for the Policy is required
+- `displayName` for `parameters` is required
 - `version` - in `metadata`; use semantic versioning.
 - `category` - in `metadata`, must be one of the categories in the built-in Policies and Policy Sets.
+
+Do not include system generated properties:
+
+- `type` (outside of `properties`)
+- `properties.policyType`
+- `properties.metadata`
+  - `createdOn`
+  - `createdBy`
+  - `updatedOn`
+  - `updatedBy`
 
 ### Parameter definitions
 
@@ -90,3 +111,9 @@ The README.md describes your policy. A good description helps other community me
 - *Optional: Notes
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## Helpful resources
+
+- [AzAdvertizer](https://www.azadvertizer.net/index.html)
+- [Enterprise Azure Policy As Code](https://aka.ms/epac)
+
