@@ -1,5 +1,8 @@
 {
     "mode": "All",
+    "Metadata": {
+        "category": "Compute"
+    },
     "parameters": {
         "allowedDiskSkus": {
             "type": "Array",

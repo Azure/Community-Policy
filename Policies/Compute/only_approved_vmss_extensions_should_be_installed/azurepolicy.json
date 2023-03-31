@@ -2,7 +2,7 @@
   "Description": "This policy governs the virtual machine scale set extensions that are not approved.",
   "DisplayName": "Only approved VMSS extensions should be installed",
   "Metadata": {
-    "category": "Azure DNS",
+    "category": "Compute",
     "createdBy": "",
     "createdOn": "2021-10-05T13:57:47.7031687Z",
     "updatedBy": null,
