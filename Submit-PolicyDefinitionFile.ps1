@@ -1,5 +1,43 @@
 #Requires -PSEdition Core
 
+<#
+.SYNOPSIS
+
+Validates and repairs Azure Policy definitions.
+
+.DESCRIPTION
+
+Takes in a complete Policy definition file
+Checks required elements
+Splits the file into the required three files
+
+.PARAMETER fileName
+Specifies the file name ro process. Positional parameter 0. Mandatory.
+
+.PARAMETER outputDirectory
+Specifies the output directory. If not supplied puts the output in the same directory and overwrites the input file. Positional parameter 1. Optional.
+
+.PARAMETER skipFileSplitting
+Switch parameter to skip creating the <filename>.parameters.json and <filename>.rules.json files. Optional.
+
+.INPUTS
+
+None. You cannot pipe objects to Submit-PolicyDefinitionFile.
+
+.OUTPUTS
+
+None.
+
+.EXAMPLE
+
+Submit-PolicyDefinitionFile.ps1 -fileName "azurepolicy.json"
+
+.EXAMPLE
+
+Submit-PolicyDefinitionFile.ps1 "azurepolicy.json" -skipFileSplitting
+
+#>
+
 param(
     [parameter(Mandatory = $true, Position = 0)] $fileName,
     [parameter(Mandatory = $false, Position = 1)] [string] $outputDirectory = $null,
@@ -60,18 +98,40 @@ if (!$description) {
     Write-Error "description not found."
 }
 
-$version = $properties.version
+
+# Temporary until versions available
+$metadataVersion = "1.0.0"
+$metadata = $properties.metadata
+if ($metadata) {
+    $metadataVersion = $metadata.version
+    if (!$metadata.version) {
+        $null = $metadata.Add("version", $metadataVersion)
+        Write-Warning "metadata version not found. Defaulting to $($metadataVersion)"
+    }
+    else {
+        $metadataVersion = $metadata.version
+    }
+}
+else {
+    $null = $properties.Add("metadata", @{
+            version = $metadataVersion
+        }
+    )
+    Write-Warning "metadata version not found. Defaulting to $($metadataVersion)"
+}
+
+# $version = $properties.version
 # if (!$version) {
 #     if ($properties.metadata.version) {
 #         $version = $properties.metadata.version
 #         Write-Warning "version not found. Using version from metadata $($version)"
 #     }
 #     else {
-#         Write-Warning "version not found. Defaulting to $($version)"
 #         $version = "1.0.0"
 #         Write-Warning "version not found. Defaulting to $($version)"
 #     }
 # }
+
 
 $mode = $properties.mode
 if (!$mode) {
@@ -201,6 +261,7 @@ if ($allowedValues) {
         }
     }
 }
+
 if ($allowedValuesSet) {
     # Check if the default value is valid
     $setDefaultValues = $allowedValuesSet.defaultValues
@@ -219,7 +280,7 @@ else {
                 $setAllowedValues = $set.allowedValues
                 $setDefaultValues = $set.defaultValues
                 if (!($defaultValue -and $setDefaultValues -ccontains $defaultValue)) {
-                    $effectParameter.defaultValue = $setAllowedValues.defaultValue
+                    $effectParameter.defaultValue = $set.defaultValue
                 }
                 $effectParameter.allowedValues = $setAllowedValues
                 $found = $true
@@ -291,15 +352,16 @@ if (!([string]::IsNullOrEmpty($outputDirectory))) {
         New-Item -ItemType Directory -Path $folderPath -Force
     }
 }
+
+$baseName = $file.BaseName
 if ($skipFileSplitting) {
-    $baseName = $file.BaseName
     $fullPath = "$($folderPath)/$($baseName).json"
     $newDefinitionJson | Out-File -FilePath $fullPath -Encoding utf8 -Force
 }
 else {
     $newParameters = $properties.parameters
     $newPolicyRule = $properties.policyRule
-    $basePath = "$($folderPath)/azurepolicy"
+    $basePath = "$($folderPath)/$baseName"
     $newDefinitionJson | Out-File -FilePath "$($basePath).json" -Encoding utf8 -Force
     $newParameters | ConvertTo-Json -Depth 100 | Out-File -FilePath "$($basePath).parameters.json" -Encoding utf8 -Force
     $newPolicyRule | ConvertTo-Json -Depth 100 | Out-File -FilePath "$($basePath).rules.json" -Encoding utf8 -Force
