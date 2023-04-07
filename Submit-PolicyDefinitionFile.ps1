@@ -34,7 +34,7 @@ Submit-PolicyDefinitionFile.ps1 -fileName "azurepolicy.json"
 
 .EXAMPLE
 
-Submit-PolicyDefinitionFile.ps1 "azurepolicy.json" -skipFileSplitting
+Submit-PolicyDefinitionFile.ps1 azurepolicy.json output-folder -skipFileSplitting
 
 #>
 
