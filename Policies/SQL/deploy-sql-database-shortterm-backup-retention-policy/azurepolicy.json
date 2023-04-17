@@ -1,0 +1,101 @@
+{
+    "properties": {
+        "displayName": "SQL DB Backup Retention",
+        "policyType": "custom",
+        "mode": "Indexed",
+        "description": "This policy modifies any Azure SQL Database to ensure a minimum number of retention days for short-term backups.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "SQL"
+        },
+        "parameters": {
+            "Effect": {
+                "type": "string",
+                "defaultValue": "AuditIfNotExists",
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "DeployIfNotExists",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "PolicyEffect",
+                    "description": "Enable or disable the execution of the policy"
+                }
+            },
+            "SqlDBBackupRetention.RetentionDays": {
+                "type": "integer",
+                "defaultValue": 7,
+                "metadata": {
+                    "displayName": "SqlDBBackupRetention.RetentionDays",
+                    "description": "Minimum number of days for short-term backup retention"
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Sql/servers/databases"
+                    },
+                    {
+                        "field": "name",
+                        "notEquals": "master"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('Effect')]",
+                "details": {
+                    "type": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies",
+                    "name": "default",
+                    "evaluationDelay": "AfterProvisioning",
+                    "roleDefinitionIds": [
+                        "/providers/microsoft.authorization/roleDefinitions/9b7fa17d-e63e-47b0-bb0a-15c516ac86ec",
+                        "/providers/Microsoft.Authorization/roleDefinitions/056cd41c-7e88-42e1-933e-88ba6a50c9c3"
+                    ],
+                    "existenceCondition": {
+                        "field": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies/retentionDays",
+                        "greaterOrEquals": "[parameters('SqlDBBackupRetention.RetentionDays')]"
+                    },
+                    "deployment": {
+                        "properties": {
+                            "mode": "incremental",
+                            "template": {
+                                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {
+                                    "fullDbName": {
+                                        "type": "string"
+                                    },
+                                    "retentionDays": {
+                                        "type": "int"
+                                    }
+                                },
+                                "resources": [
+                                    {
+                                        "type": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies",
+                                        "name": "[concat(parameters('fullDbName'), '/default')]",
+                                        "apiVersion": "2017-10-01-preview",
+                                        "properties": {
+                                            "retentionDays": "[parameters('retentionDays')]"
+                                        }
+                                    }
+                                ]
+                            },
+                            "parameters": {
+                                "fullDbName": {
+                                    "value": "[field('fullName')]"
+                                },
+                                "retentionDays": {
+                                    "value": "[parameters('SqlDBBackupRetention.RetentionDays')]"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "type": "Microsoft.Authorization/policyDefinitions"
+}
