@@ -1,0 +1,67 @@
+{
+    "name": "9ba776a9-7d8a-4071-a8c9-13da22f34595",
+    "properties": {
+        "Description": "This policy restricts private link between subscriptions.",
+        "DisplayName": "Restrict cross subscription Private Link",
+        "Metadata": {
+            "category": "Network"
+        },
+        "Mode": "All",
+        "Parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "description": "The effect of the policy",
+                    "displayName": "Effect"
+                },
+                "allowedValues": [
+                    "audit",
+                    "deny",
+                    "disabled"
+                ],
+                "defaultValue": "deny"
+            }
+        },
+        "PolicyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "equals": "Microsoft.Network/privateEndpoints",
+                        "field": "type"
+                    },
+                    {
+                        "anyOf": [
+                            {
+                                "allOf": [
+                                    {
+                                        "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
+                                        "notContains": "[concat('/subscriptions/',split(field('id'),'/')[2])]"
+                                    },
+                                    {
+                                        "value": "[length(field('Microsoft.Network/privateEndpoints/privateLinkServiceConnections'))]",
+                                        "greater": 0
+                                    }
+                                ]
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections[*].privateLinkServiceId",
+                                        "notContains": "[concat('/subscriptions/',split(field('id'),'/')[2])]"
+                                    },
+                                    {
+                                        "value": "[length(field('Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections'))]",
+                                        "greater": 0
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
+        }
+    }
+}
