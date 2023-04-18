@@ -1,50 +1,52 @@
 {
-  "displayName": "Network Security Groups - Allowed inbound rules with any as source.",
-  "policyType": "Custom",
-  "mode": "All",
-  "description": "This policy audits/denies the creation of inbound security rules with the source \"Any\" with allow access action.",
-  "metadata": {
-    "version": "1.0.0",
-    "category": "Network"
-  },
-  "parameters": {
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Effect",
-        "description": "Deny or Audit the use of Any for inbound security rules in Network Security Groups."
-      },
-      "allowedValues": [
-        "Deny",
-        "Audit",
-        "Disabled"
-      ],
-      "defaultValue": "Deny"
-    }
-  },
-  "policyRule": {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
-        },
-        {
-          "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
-          "equals": "*"
-        },
-        {
-          "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
-          "equals": "Allow"
-        },
-        {
-          "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
-          "equals": "Inbound"
-        }
-      ]
+  "name": "efa5ffc1-e9b5-4311-a4cb-e8d695cb19ae",
+  "properties": {
+    "displayName": "Network Security Groups - Allowed inbound rules with any as source.",
+    "mode": "All",
+    "description": "This policy restricts the creation of inbound security rules with the source \"Any\" with allow access action.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
     },
-    "then": {
-      "effect": "deny"
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny or Audit the use of Any for inbound security rules in Network Security Groups."
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
+            "equals": "*"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+            "equals": "Allow"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+            "equals": "Inbound"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
   }
 }
