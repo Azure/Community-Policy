@@ -10,6 +10,6 @@
         "Audit",
         "Disabled"
       ],
-      "defaultValue": "Deny"
+      "defaultValue": "Audit"
     }
   }
