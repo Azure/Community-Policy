@@ -1,0 +1,21 @@
+{
+  "policyType": "Custom",
+  "mode": "All",
+  "displayName": "Manual Policy per subscription",
+  "policyRule": {
+    "if": {
+      "field": "type",
+      "equals": "Microsoft.Resources/subscriptions"
+    },
+    "then": {
+      "effect": "manual",
+      "details": {
+        "defaultState": "Unknown"
+      }
+    }
+  },
+  "parameters": {},
+  "id": "/providers/Microsoft.Management/managementGroups/XXX/providers/Microsoft.Authorization/policyDefinitions/manualattestsubscriptions",
+  "name": "manualattestsubscriptions",
+  "type": "Microsoft.Authorization/policyDefinitions"
+}

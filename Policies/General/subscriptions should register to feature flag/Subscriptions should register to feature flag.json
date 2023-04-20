@@ -1,0 +1,53 @@
+{
+  "policyType": "Custom",
+  "mode": "All",
+  "displayName": "Azure subscriptions should register to feature flag",
+  "policyRule": {
+    "if": {
+      "field": "type",
+      "equals": "Microsoft.Resources/subscriptions"
+    },
+    "then": {
+      "effect": "deployIfNotExists",
+      "details": {
+        "type": "Microsoft.Features/featureProviders/subscriptionFeatureRegistrations",
+        "name": "[INSERT Feature Flag name ex: Microsoft.Sql/AzureSQLDatabaseBlockGeoRedundantBackupStorage ]", 
+        "existenceCondition": {
+          "field": "Microsoft.Features/featureProviders/subscriptionFeatureRegistrations/state",
+          "equals": "Registered"
+        },
+        "deploymentScope": "subscription",
+        "roleDefinitionIds": [
+          "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+        ],
+        "deployment": {
+          "location": "West Central US",
+          "properties": {
+            "mode": "incremental",
+            "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": {},
+              "resources": [
+                {
+                  "type": "[INSERT Feature Flag name ex: Microsoft.Sql/AzureSQLDatabaseBlockGeoRedundantBackupStorage]",
+                  "apiVersion": "2021-07-01",
+                  "name": "[INSERT Feature Flag name ex: Microsoft.Sql/AzureSQLDatabaseBlockGeoRedundantBackupStorage ]",
+                  "properties": {
+                    "featureName": "[INSERT Feature Flag name ex: AzureSQLDatabaseBlockGeoRedundantBackupStorage ]",
+                    "providerNamespace": "[INSERT Feature Flag namespace ex: Microsoft.Sql ]",
+                    "state": "Registered"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "parameters": {},
+  "id": "/providers/Microsoft.Management/managementGroups/XXXX/providers/Microsoft.Authorization/policyDefinitions/subscriptionFeatureRegistration",
+  "name": "subscriptionFeatureRegistration",
+  "type": "Microsoft.Authorization/policyDefinitions"
+}

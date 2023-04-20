@@ -1,0 +1,23 @@
+{
+  "policyType": "Custom",
+  "mode": "Indexed",
+  "displayName": "Deny deletion of storage account",
+  "policyRule": {
+    "if": {
+      "field": "type",
+      "equals": "Microsoft.Storage/storageAccounts"
+    },
+    "then": {
+      "effect": "DenyAction",
+      "details": {
+        "actionNames": [
+          "delete"
+        ]
+      }
+    }
+  },
+  "parameters": {},
+  "id": "/subscriptions/XX/providers/Microsoft.Authorization/policyDefinitions/denydeletionofstorageaccounts",
+  "name": "denydeletionofstorageaccounts",
+  "type": "Microsoft.Authorization/policyDefinitions"
+}
