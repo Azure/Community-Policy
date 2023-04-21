@@ -1,10 +1,6 @@
 # Community Policy repo - Contribution guide
 
-This repository contains custom policies contributed by the community. The following information is relevant to get started with contributing to this repository.
-
-- [**Contribution guide**](/README.md#Contributing). Describes the minimal guidelines for contributing.
-- [**Git tutorial**](https://guides.github.com/activities/hello-world/). Step by step to get you started with Git.
-- [**Useful Tools**](/1-contribution-guide/useful-tools.md#useful-tools). Useful resources and tools for Azure development.
+This repository contains custom policies contributed by the community.
 
 **Note:** To make sure your Azure Policy sample is added to this repository, please follow these guidelines. Any Azure Policy contribution PR will be **rejected** and not be merged.
 
@@ -19,8 +15,6 @@ Every Azure Policy sample and its associated files must be contained in its own 
   - **azurepolicy.json** - The JSON that describes the policy, including parameters and the rules.
   - **azurepolicy.rules.json** - The JSON that describes the policy rules only.
   - **azurepolicy.parameters.json** - The JSON that describes the parameters only, for the policy.
-
-
 
 ## Pull requests
 
@@ -110,3 +104,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 - [AzAdvertizer](https://www.azadvertizer.net/index.html)
 - [Enterprise Azure Policy As Code](https://aka.ms/epac)
+- [Git tutorial](https://guides.github.com/activities/hello-world/)
