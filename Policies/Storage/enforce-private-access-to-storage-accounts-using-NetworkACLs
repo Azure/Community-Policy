@@ -1,5 +1,26 @@
 {
-   "mode":"Indexed",
+   "description": "Audit storage accounts with unrestricted network access",
+   "displayName": "Audit storage accounts with unrestricted network access",
+   "metadata": {
+      "category": "Storage",
+      "version": "2.0.0"
+   },
+   "mode":"All",
+   "parameters": {
+      "effect": {
+         "type": "String",
+         "metadata": {
+            "displayName": "storage.UnrestrictedNetworkAccess_audit",
+            "description": "Audit storage accounts with unrestricted network access"
+         },
+         "allowedValues": [
+            "Audit",
+            "disabled",
+            "Deny"
+         ],
+         "defaultValue": "Audit"
+      }
+   },
    "policyRule":{
       "if":{
          "allOf":[
@@ -22,7 +43,7 @@
          ]
       },
       "then":{
-         "effect":"deny"
+         "effect": "[parameters('effect')]"
       }
    },
    "parameters":{
