@@ -1,0 +1,15 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "storage.UnrestrictedNetworkAccess_audit",
+      "description": "Audit storage accounts with unrestricted network access"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}
