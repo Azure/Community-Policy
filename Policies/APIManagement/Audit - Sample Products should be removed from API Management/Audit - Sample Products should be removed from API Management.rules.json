@@ -1,0 +1,17 @@
+{
+  "if": {
+    "anyOf": [
+      {
+        "field": "Microsoft.ApiManagement/service/products/displayName",
+        "equals": "Starter"
+      },
+      {
+        "field": "Microsoft.ApiManagement/service/products/displayName",
+        "equals": "Unlimited"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

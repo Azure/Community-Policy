@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.ApiManagement/service"
+      },
+      {
+        "field": "Microsoft.ApiManagement/service/virtualNetworkType",
+        "notEquals": "Internal"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
