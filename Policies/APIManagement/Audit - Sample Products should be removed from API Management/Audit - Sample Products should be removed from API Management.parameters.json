@@ -1,0 +1,14 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect of policy",
+      "description": "Audit, disable"
+    },
+    "allowedValues": [
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}
