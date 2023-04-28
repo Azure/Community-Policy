@@ -1,0 +1,118 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "apiVersion": "2021-06-01",
+    "name": "[guid('Deploy or audit for a specific role assignment at the subscription scope', '1.0.0')]",
+    "properties": {
+        "description": "This policy will validate that a specific role assignment exists or not. It can either audit for the role assignment or deploy it if it does not exist.",
+        "displayName": "Deploy or audit for a specific role assignment at the subscription scope",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Authorization"
+        },
+        "mode": "All",
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Policy Effect",
+                    "description": "Sets the effect of the Policy. Useful for when the Policy is part of an initiative."
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "DeployIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "principalId": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Principal Id",
+                    "description": "The principalId of the user, group, or SPN, that must be granted the role assignment"
+                }
+            },
+            "roleDefinitionId": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Role Definition Id",
+                    "description": "The role definition Id that must be granted to the principalId. Just the GUID is required."
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "field": "type",
+                "equals": "Microsoft.Resources/subscriptions"
+            },
+            "then": {
+                "effect": "[parameters('effect')]",
+                "details": {
+                    "type": "Microsoft.Authorization/roleAssignments",
+                    "ExistenceScope": "subscription",
+                    "DeploymentScope": "subscription",
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Authorization/roleAssignments/principalId",
+                                "equals": "[parameters('principalId')]"
+                            },
+                            {
+                                "field": "Microsoft.Authorization/roleAssignments/roleDefinitionId",
+                                "equals": "[parameters('roleDefinitionId')]"
+                            }
+                        ]
+                    },
+                    "roleDefinitionIds": [
+                        "/providers/microsoft.authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+                    ],
+                    "deployment": {
+                        "location": "westus2",
+                        "properties": {
+                            "mode": "incremental",
+                            "template": {
+                                "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {
+                                    "principalId": {
+                                        "type": "string",
+                                        "metadata": {
+                                            "description": "principalId of the user that will be given contributor access to the resourceGroup"
+                                        }
+                                    },
+                                    "roleDefinitionId": {
+                                        "type": "string",
+                                        "metadata": {
+                                            "description": "roleDefinition to apply to the resourceGroup - default is contributor"
+                                        }
+                                    }
+                                },
+                                "variables": {
+                                    "roleAssignmentName": "[guid(parameters('principalId'), parameters('roleDefinitionId'))]"
+                                },
+                                "resources": [
+                                    {
+                                        "type": "Microsoft.Authorization/roleAssignments",
+                                        "apiVersion": "2022-04-01",
+                                        "name": "[variables('roleAssignmentName')]",
+                                        "properties": {
+                                            "principalId": "[parameters('principalId')]",
+                                            "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', parameters('roleDefinitionId'))]"
+                                        }
+                                    }
+                                ]
+                            },
+                            "parameters": {
+                                "principalId": {
+                                    "value": "[parameters('principalId')]"
+                                },
+                                "roleDefinitionId": {
+                                    "value": "[parameters('roleDefinitionId')]"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
