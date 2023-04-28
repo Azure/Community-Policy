@@ -1,0 +1,21 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/privateDnsZones"
+      }
+    ]
+  },
+  "then": {
+    "effect": "DenyAction",
+    "details": {
+      "actionNames": [
+        "delete"
+      ],
+      "cascadeBehaviors": {
+        "resourceGroup": "allow"
+      }
+    }
+  }
+}

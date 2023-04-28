@@ -1,0 +1,31 @@
+{
+    "properties": {
+      "displayName": "Prevent Deletion of Private DNS Zone",
+      "description": "This policy prevents the deletion of private DNS zones while still allowing the child record sets and records to be deleted.",
+      "policyType": "Custom",
+      "mode": "Indexed",
+      "parameters": {},
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Network/privateDnsZones"
+            }
+          ]
+        },
+        "then": {
+          "effect": "DenyAction",
+          "details": {
+            "actionNames": [
+              "delete"
+            ],
+            "cascadeBehaviors": {
+              "resourceGroup": "allow"
+            }
+          }
+        }
+      }
+    }
+  }
+  
