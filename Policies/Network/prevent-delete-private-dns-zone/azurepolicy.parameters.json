@@ -1,0 +1,14 @@
+{
+    "effect": {
+        "type": "String",
+        "metadata": {
+        "description": "The effect of the policy",
+        "displayName": "Effect"
+        },
+        "allowedValues": [
+        "DenyAction",
+        "Disabled"
+        ],
+        "defaultValue": "DenyAction"
+    }
+}
