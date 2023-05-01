@@ -1,31 +1,50 @@
 {
-    "properties": {
-      "displayName": "Prevent Deletion of Private DNS Zone",
-      "description": "This policy prevents the deletion of private DNS zones while still allowing the child record sets and records to be deleted.",
-      "policyType": "Custom",
-      "mode": "Indexed",
-      "parameters": {},
-      "policyRule": {
-        "if": {
-          "allOf": [
-            {
-              "field": "type",
-              "equals": "Microsoft.Network/privateDnsZones"
-            }
-          ]
+  "name": "1d8e4e4a-4d91-4c41-a07e-ee87f6e1d2f2",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Prevent Deletion of Private DNS Zone",
+    "description": "This policy prevents the deletion of private DNS zones while still allowing the child record sets and records to be deleted.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Networking"
+    },
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "Parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "description": "The effect of the policy",
+          "displayName": "Effect"
         },
-        "then": {
-          "effect": "DenyAction",
-          "details": {
-            "actionNames": [
-              "delete"
-            ],
-            "cascadeBehaviors": {
-              "resourceGroup": "allow"
-            }
+        "allowedValues": [
+          "DenyAction",
+          "Disabled"
+        ],
+        "defaultValue": "DenyAction"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/privateDnsZones"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "actionNames": [
+            "delete"
+          ],
+          "cascadeBehaviors": {
+            "resourceGroup": "allow"
           }
         }
       }
     }
   }
+}
   

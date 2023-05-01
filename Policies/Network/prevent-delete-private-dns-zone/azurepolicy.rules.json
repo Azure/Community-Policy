@@ -8,7 +8,7 @@
     ]
   },
   "then": {
-    "effect": "DenyAction",
+    "effect": "[parameters('effect')]",
     "details": {
       "actionNames": [
         "delete"
