@@ -8,3 +8,11 @@
             "category": "Monitoring"
         },
         "mode": "Indexed",
+        "parameters": {},
+        "policyRule": {
+            "then": {
+                "effect": "DeployIfNotExists"
+            }
+        }
+    }
+}

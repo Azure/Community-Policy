@@ -2,9 +2,10 @@
     "name": "bb03b2b0-3941-4f8a-be67-37025dda0d76",
     "properties": {
         "description": "Test description.",
-        "displayName": "Sample display name",
+        "displayName": "Sample display name is very long indeed .......................................................................................................................................................",
         "metadata": {
-            "version": "1.9.9"
+            "version": "1.9.9",
+            "category": "Monitoring"
         },
         "mode": "Indexed",
         "parameters": {
