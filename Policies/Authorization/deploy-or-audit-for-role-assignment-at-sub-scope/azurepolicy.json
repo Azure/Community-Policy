@@ -1,7 +1,7 @@
 {
     "type": "Microsoft.Authorization/policyDefinitions",
     "apiVersion": "2021-06-01",
-    "name": "[guid('Deploy or audit for a specific role assignment at the subscription scope', '1.0.0')]",
+    "name": "920965ec-47a1-4db9-b85c-8612be3a081f",
     "properties": {
         "description": "This policy will validate that a specific role assignment exists or not. It can either audit for the role assignment or deploy it if it does not exist.",
         "displayName": "Deploy or audit for a specific role assignment at the subscription scope",
