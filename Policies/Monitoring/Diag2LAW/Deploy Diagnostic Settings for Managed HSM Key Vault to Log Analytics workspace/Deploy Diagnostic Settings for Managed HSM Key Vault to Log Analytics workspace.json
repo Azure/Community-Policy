@@ -1,5 +1,5 @@
 {
-  "name": "8edaf2b5-dcb7-4b8a-8cf9-6fce65292e07",
+  "name": "b6605cc6-41df-4d84-b7b1-c7e9a8826e84",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Deploy Diagnostic Settings for Managed HSM Key Vault to Log Analytics workspace",
@@ -51,17 +51,27 @@
         ],
         "defaultValue": "True"
       },
-      "logsEnabled": {
+      "auditCategoryGroup": {
         "type": "String",
         "metadata": {
-          "displayName": "Enable logs",
-          "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+          "displayName": "Category Group - audit",
+          "description": "Diagnostic category group - audit."
         },
         "allowedValues": [
-          "True",
-          "False"
+          "audit"
         ],
-        "defaultValue": "True"
+        "defaultValue": "audit"
+      },
+      "allLogsCategoryGroup": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Category Group - allLogs",
+          "description": "Diagnostic category group - allLogs."
+        },
+        "allowedValues": [
+          "allLogs"
+        ],
+        "defaultValue": "allLogs"
       }
     },
     "policyRule": {
@@ -77,12 +87,40 @@
           "existenceCondition": {
             "allOf": [
               {
-                "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
-                "equals": "true"
+                "count": {
+                  "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+                  "where": {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                        "equals": "[equals(parameters('auditCategoryGroup'), 'audit')]"
+                      },
+                      {
+                        "field": "microsoft.insights/diagnosticSettings/logs[*].categoryGroup",
+                        "equals": "audit"
+                      }
+                    ]
+                  }
+                },
+                "equals": 1
               },
               {
-                "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
-                "equals": "true"
+                "count": {
+                  "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+                  "where": {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                        "equals": "[equals(parameters('allLogsCategoryGroup'), 'allLogs')]"
+                      },
+                      {
+                        "field": "microsoft.insights/diagnosticSettings/logs[*].categoryGroup",
+                        "equals": "allLogs"
+                      }
+                    ]
+                  }
+                },
+                "equals": 1
               },
               {
                 "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
@@ -91,8 +129,8 @@
             ]
           },
           "roleDefinitionIds": [
-            "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa",
-            "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+            "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293",
+            "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa"
           ],
           "deployment": {
             "properties": {
@@ -116,14 +154,17 @@
                   "metricsEnabled": {
                     "type": "String"
                   },
-                  "logsEnabled": {
+                  "auditCategoryGroup": {
+                    "type": "String"
+                  },
+                  "allLogsCategoryGroup": {
                     "type": "String"
                   }
                 },
                 "variables": {},
                 "resources": [
                   {
-                    "type": "Microsoft.Network/applicationInsights/providers/diagnosticSettings",
+                    "type": "Microsoft.KeyVault/managedHSMs/providers/diagnosticSettings",
                     "apiVersion": "2021-05-01-preview",
                     "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
                     "location": "[parameters('location')]",
@@ -143,14 +184,23 @@
                       ],
                       "logs": [
                         {
-                          "category": "AuditEvent",
-                          "enabled": "[parameters('logsEnabled')]"
+                          "categoryGroup": "audit",
+                          "enabled": "[equals(parameters('auditCategoryGroup'), 'audit')]"
+                        },
+                        {
+                          "categoryGroup": "allLogs",
+                          "enabled": "[equals(parameters('allLogsCategoryGroup'), 'allLogs')]"
                         }
                       ]
                     }
                   }
                 ],
-                "outputs": {}
+                "outputs": {
+                  "policy": {
+                    "type": "string",
+                    "value": "[concat('Diagnostic setting ', parameters('profileName'), ' for type Managed HSMs (Microsoft.KeyVault/managedHSMs), resourceName ', parameters('resourceName'), ' to Log Analytics workspace ', parameters('logAnalytics'),' configured')]"
+                  }
+                }
               },
               "parameters": {
                 "logAnalytics": {
@@ -168,8 +218,11 @@
                 "metricsEnabled": {
                   "value": "[parameters('metricsEnabled')]"
                 },
-                "logsEnabled": {
-                  "value": "[parameters('logsEnabled')]"
+                "auditCategoryGroup": {
+                  "value": "[parameters('auditCategoryGroup')]"
+                },
+                "allLogsCategoryGroup": {
+                  "value": "[parameters('allLogsCategoryGroup')]"
                 }
               }
             }
