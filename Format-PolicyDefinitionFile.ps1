@@ -145,10 +145,6 @@ if (!$metadata.category) {
     }
     $metadata.category = $category
 }
-elseif ($category.Length -gt 0 -and $metadata.category -ne $category) {
-    $null = $warningMessages.Add("Field category in metadata ($($metadata.category)) is different from parameter category. Fix using parameter category $category instead.")
-    $metadata.category = $category
-}
 
 $mode = $properties.mode
 if (!$mode) {
