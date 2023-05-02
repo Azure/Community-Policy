@@ -14,7 +14,7 @@
         "delete"
       ],
       "cascadeBehaviors": {
-        "resourceGroup": "allow"
+        "resourceGroup": "deny"
       }
     }
   }
