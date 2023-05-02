@@ -129,8 +129,8 @@
             ]
           },
           "roleDefinitionIds": [
-            "/providers/microsoft.authorization/roleDefinitions/f526a384-b230-433a-b45c-95f59c4a2dec",
-            "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+            "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293",
+            "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa"
           ],
           "deployment": {
             "properties": {
