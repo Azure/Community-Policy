@@ -4,15 +4,15 @@
         "description": "Test description.",
         "displayName": "Sample display name",
         "metadata": {
-            "version": "1.9.9"
+            "version": "1.9.9",
+            "category": "Monitoring"
         },
         "mode": "Indexed",
         "parameters": {
             "effect": {
-                "type": "String",
+                "type": "StringyType",
                 "metadata": {
-                    "displayName": "Effect",
-                    "description": "Enable or disable the execution of the policy"
+                    "displayName": "Effectish"
                 },
                 "allowedValues": [
                     "DeployIfNotExists",

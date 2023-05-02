@@ -18,7 +18,7 @@ Every Azure Policy sample and its associated files must be contained in its own 
 
 ## Pull requests
 
-We created a validation script found [here](Submit-PolicyDefinitionFile.ps1). It is a PowerShell script that:
+We created a validation script found [here](Format-PolicyDefinitionFile.ps1). It is a PowerShell script that:
 
 - Takes in a single complete Policy definition file. It ignores the `.rules` and `.parameters` files.
 - Checks required elements
