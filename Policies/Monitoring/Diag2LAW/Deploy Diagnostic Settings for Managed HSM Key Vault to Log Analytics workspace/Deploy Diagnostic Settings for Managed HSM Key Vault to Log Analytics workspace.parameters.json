@@ -40,16 +40,26 @@
     ],
     "defaultValue": "True"
   },
-  "logsEnabled": {
+  "auditCategoryGroup": {
     "type": "String",
     "metadata": {
-      "displayName": "Enable logs",
-      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+      "displayName": "Category Group - audit",
+      "description": "Diagnostic category group - audit."
     },
     "allowedValues": [
-      "True",
-      "False"
+      "audit"
     ],
-    "defaultValue": "True"
+    "defaultValue": "audit"
+  },
+  "allLogsCategoryGroup": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Category Group - allLogs",
+      "description": "Diagnostic category group - allLogs."
+    },
+    "allowedValues": [
+      "allLogs"
+    ],
+    "defaultValue": "allLogs"
   }
 }
