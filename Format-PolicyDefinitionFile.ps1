@@ -1,5 +1,3 @@
-#Requires -PSEdition Core
-
 <#
 .SYNOPSIS
 
@@ -13,41 +11,38 @@ Fixes some errors with a warning
 Splits the file into the required three files
 
 .PARAMETER fileName
-Specifies the file name ro process. Positional parameter 0. Mandatory.
+Input file name. Default is azurepolicy.json.
 
 .PARAMETER outputDirectory
-Specifies the output directory. If not supplied puts the output in the same directory and overwrites the input file. Positional parameter 1. Optional.
+Output directory. Default is output.
 
-.PARAMETER validateOnly
-Switch parameter to validate only without rewriting the file. Optional.
+.PARAMETER category
+Category of the Policy definition. Default is empty indicating to preserve the existing category in metadata.
 
-.PARAMETER skipFileSplitting
-Switch parameter to skip creating the <filename>.parameters.json and <filename>.rules.json files. Optional.
-
-.INPUTS
-
-None. You cannot pipe objects to Format-PolicyDefinitionFile.
-
-.OUTPUTS
-
-None.
+.PARAMETER action
+Mode of operation. Default is standard.
+- split: Validates and repairs (formats) Azure Policy definitions, writing the output to the output directory as 3 files azurepolicy.json, azurepolicy.parameters.json, azurepolicy.rules.json.
+- nosplit: Validates and repairs (formats) Azure Policy definitions, writing the output to the output directory as a single file with the same name as the input file.
+- validate: Validates Azure Policy definitions without writing re-formatted Policy to the output directory.
 
 .EXAMPLE
-
-Format-PolicyDefinitionFile.ps1 -fileName "<policy-directory>/azurepolicy.json"
-
-.EXAMPLE
-
-Format-PolicyDefinitionFile.ps1 <policy-directory>/azurepolicy.json output-folder -skipFileSplitting
 
 #>
 
 [CmdletBinding()]
 param(
-    [parameter(Mandatory = $true, Position = 0)] $fileName,
-    [parameter(Mandatory = $false, Position = 1)] [string] $outputDirectory = "output",
-    [switch] $validateOnly,
-    [switch] $skipFileSplitting
+    [parameter(Mandatory = $false, Position = 0)]
+    [string] $fileName = "azurepolicy.json",
+
+    [parameter(Mandatory = $false, Position = 1)]
+    [string] $outputDirectory = "output",
+
+    [parameter(Mandatory = $false)]
+    [string] $category = "",
+
+    [parameter(Mandatory = $false)]
+    [ValidateSet("split", "nosplit", "validate")]
+    $action = "split"
 )
 
 $errorMessages = [System.Collections.ArrayList]::new()
@@ -89,38 +84,18 @@ if ($name) {
         $oldName = $name
         $name = (New-Guid).Guid
         if ($oldName.Length -gt 64) {
-            if ($validateOnly) {
-                $null = $errorMessages.Add("Policy name is too long. Must be 64 characters or less.")
-                $null = $errorMessages.Add("Policy name not a GUID. Use generated GUID '$name' as the name.")
-            }
-            else {
-                $null = $warningMessages.Add("Policy name is too long. Must be 64 characters or less.")
-                $null = $warningMessages.Add("Policy name not a GUID. Using generated GUID '$name' as the name.")
-            }
+            $null = $warningMessages.Add("Policy name is too long. Must be 64 characters or less.")
+            $null = $warningMessages.Add("Policy name not a GUID. Fix using generated GUID '$name' as the name.")
         }
         else {
-            if ($validateOnly) {
-                $null = $errorMessages.Add("Policy name '$oldName' not a GUID. Use generated GUID '$name' as the name.")
-            }
-            else {
-                $null = $warningMessages.Add("Policy name '$oldName' not a GUID. Using generated GUID '$name' as the name.")
-            }
+            $null = $warningMessages.Add("Policy name '$oldName' not a GUID. Fix using generated GUID '$name' as the name.")
         }
     }
 }
 else {
     $name = (New-Guid).Guid
-    if ($validateOnly) {
-        $null = $errorMessages.Add("Policy name missing, must be a GUID. Use generated GUID '$name' as the name.")
-    }
-    else {
-        $null = $warningMessages.Add("Policy name missing. Using generated GUID '$name' as the name.")
-    }
+    $null = $warningMessages.Add("Policy name missing, must be a GUID. Fix using generated GUID '$name' as the name.")
 }
-if ($oldNname.Length -gt 64) {
-    $null = $errorMessages.Add("Policy name is too long. Must be 64 characters or less.")
-}
-
 $displayName = $properties.displayName
 if (!$displayName) {
     $null = $errorMessages.Add("Policy displayName not found.")
@@ -137,23 +112,18 @@ elseif ($description.Length -gt 512) {
     $null = $errorMessages.Add("Policy description is too long. Must be 512 characters or less.")
 }
 
-if ($null -eq $properties.metadata) {
-    $null = $properties.Add("metadata", @{})
+$metadata = @{}
+if ($properties.metadata) {
+    $metadata = $properties.metadata
 }
-$metadata = $properties.metadata
 
 # Temporary until versions available
 if (!$metadata.version) {
-    $null = $metadata.Add("version", "1.0.0")
-    if ($validateOnly) {
-        $null = $errorMessages.Add("Policy metadata version not found. Add a metadata version (1.0.0).")
-    }
-    else {
-        $null = $warningMessages.Add("Policy metadata version not found. Defaulting to 1.0.0.")
-    }
+    $metadata.version = "1.0.0"
+    $null = $warningMessages.Add("Policy metadata version not found. Fix using 1.0.0.")
 }
-$metadataVersion = $metadata.version
 
+# $metadataVersion = $metadata.version
 # $version = $properties.version
 # if (!$version) {
 #     if ($metadata.version) {
@@ -167,25 +137,23 @@ $metadataVersion = $metadata.version
 # }
 
 if (!$metadata.category) {
-    $category = $file.Directory.Parent.Name
-    if ($validateOnly) {
-        $null = $errorMessages.Add("Field category not found in metadata. Add a metadata category ($category).")
+    if ($category.Length -gt 0) {
+        $null = $warningMessages.Add("Field category not found in metadata. Fix using parameter category $category instead.")
     }
     else {
-        $null = $warningMessages.Add("Field category not found in metadata. Using parent directory name $category instead.")
+        $null = $errorMessages.Add("Field category not found in metadata.")
     }
-    $metadata.Add("Field category", $category)
+    $metadata.category = $category
+}
+elseif ($category.Length -gt 0 -and $metadata.category -ne $category) {
+    $null = $warningMessages.Add("Field category in metadata ($($metadata.category)) is different from parameter category. Fix using parameter category $category instead.")
+    $metadata.category = $category
 }
 
 $mode = $properties.mode
 if (!$mode) {
     $mode = "All"
-    if ($validateOnly) {
-        $null = $errorMessages.Add("Policy mode not found. Add a mode (All, Indexed).")
-    }
-    else {
-        $null = $warningMessages.Add("Policy mode not found. Defaulting to $mode.")
-    }
+    $null = $warningMessages.Add("Policy mode not found. Fix using 'All'.")
 }
 
 # analyze effect in then clause
@@ -252,10 +220,9 @@ $allowedValuesSets = @(
     }
 )
 
-$parameters = $properties.parameters
-if (!$parameters) {
-    $parameters = @{}
-    $properties.Add("parameters", $parameters)
+$parameters = @{}
+if ($properties.parameters) {
+    $parameters = $properties.parameters
 }
 $effect = $properties.policyRule.then.effect
 if (!$effect) {
@@ -266,12 +233,7 @@ else {
         $value1 = $effect.Replace("[parameters('", "")
         $parameterName = $value1.Replace("')]", "")
         if ($parameterName -cne "effect") {
-            if ($validateOnly) {
-                $null = $errorMessages.Add("Policy effect is not correctly parameterized. Change $effect to [parameters('effect')] and rename the parameter to effect.")
-            }
-            else {
-                $null = $warningMessages.Add("Policy effect is not correctly parameterized. Changeing $effect to [parameters('effect')] and renameing the parameter to effect.")
-            }
+            $null = $warningMessages.Add("Policy effect is not correctly parameterized. Fix by changeing '$effect' to [parameters('effect')] and renameing the parameter to effect.")
             $effect = "[parameters('effect')]"
             $currentEffectParameter = $parameters.$parameterName
             if (!$currentEffectParameter) {
@@ -310,56 +272,35 @@ else {
                     allowedValues = $allowedValues
                     defaultValue  = $defaultValue
                 })
-            if ($validateOnly) {
-                $null = $errorMessages.Add("Policy effect $effect is hard coded. Change $effect to [parameters('effect')] and add the parameter effect.")
-            }
-            else {
-                $null = $warningMessages.Add("Policy effect $effect is hard coded. Changeing $effect to [parameters('effect')] and adding the parameter effect.")
-            }
+            $null = $warningMessages.Add("Policy effect $effect is hard coded. Fix by changeing $effect to [parameters('effect')] and adding the parameter effect.")
         }
         else {
             $null = $errorMessages.Add("Policy effect $effect is hard coded and value is not recogized as valid. Change $effect to [parameters('effect')] and add the parameter effect.")
         }
     }
+
     if ($parameters.effect) {
         # orevious check/fixes suceeded; find allowed values set
         $effectParameter = $properties.parameters.effect
         if ($effectParameter.type -cne "String") {
-            if ($validateOnly) {
-                $null = $errorMessages.Add("Policy parameter effect is not of type String. Change the type to String.")
-            }
-            else {
-                $null = $warningMessages.Add("Policy parameter effect is not of type String. Changeing the type to String.")
-            }
+            $null = $warningMessages.Add("Policy parameter effect is not of type String. Fix by changeing the type to String.")
         }
         if ($effectParameter.metadata) {
             $effectParameterMetadata = $effectParameter.metadata
             if ($effectParameterMetadata.displayName -ne "Effect") {
-                if ($validateOnly) {
-                    $null = $errorMessages.Add("Policy parameter effect does not have metadata with displayName Effect. Change the displayName to Effect.")
-                }
-                else {
-                    $null = $warningMessages.Add("Policy parameter effect does not have metadata with displayName Effect. Changeing the displayName to Effect.")
-                    $effectParameterMetadata.displayName = "Effect"
-                }
+                $null = $warningMessages.Add("Policy parameter effect does not have metadata with displayName Effect. Fix by changeing the displayName to Effect.")
+                $effectParameterMetadata.displayName = "Effect"
             }
             if (!($effectParameterMetadata.description)) {
-                if (!$validateOnly) {
-                    $null = $warningMessages.Add("Policy parameter effect does not have metadata with description. Adding metadata with description 'Enable or disable the execution of the policy'.")
-                    $effectParameterMetadata.description = "Enable or disable the execution of the policy"
-                }
+                $null = $warningMessages.Add("Policy parameter effect does not have metadata with description. Fix by adding metadata with description 'Enable or disable the execution of the policy'.")
+                $effectParameterMetadata.description = "Enable or disable the execution of the policy"
             }
         }
         else {
-            if ($validateOnly) {
-                $null = $errorMessages.Add("Policy parameter effect does not have metadata. Add metadata with the displayName Effect and description 'Enable or disable the execution of the policy'.")
-            }
-            else {
-                $null = $warningMessages.Add("Policy parameter effect does not have metadata. Adding metadata.")
-                $effectParameter.metadata = @{
-                    displayName = "Effect"
-                    description = "Enable or disable the execution of the policy"
-                }
+            $null = $warningMessages.Add("Policy parameter effect does not have metadata. Fix by adding metadata.")
+            $effectParameter.metadata = @{
+                displayName = "Effect"
+                description = "Enable or disable the execution of the policy"
             }
         }
         $allowedValues = $effectParameter.allowedValues
@@ -416,20 +357,10 @@ else {
             if ($found) {
                 $effectParameter.allowedValues = $allowedValuesSet.allowedValues
                 if ($allowedValues) {
-                    if ($validateOnly) {
-                        $null = $errorMessages.Add("Invalid allowedValues $(ConvertTo-Json $allowedValues -Compress); use $(ConvertTo-Json $effectParameter.allowedValues -Compress)")
-                    }
-                    else {
-                        $null = $warningMessages.Add("Invalid allowedValues $(ConvertTo-Json $allowedValues -Compress); fixed with allowedValues=$(ConvertTo-Json $effectParameter.allowedValues -Compress)")
-                    }
+                    $null = $warningMessages.Add("Invalid allowedValues $(ConvertTo-Json $allowedValues -Compress); fix with allowedValues=$(ConvertTo-Json $effectParameter.allowedValues -Compress)")
                 }
                 else {
-                    if ($validateOnly) {
-                        $null = $errorMessages.Add("Missing allowedValues; use $(ConvertTo-Json $effectParameter.allowedValues -Compress)")
-                    }
-                    else {
-                        $null = $warningMessages.Add("Missing allowedValues; fixed allowedValues=$(ConvertTo-Json $effectParameter.allowedValues -Compress)")
-                    }
+                    $null = $warningMessages.Add("Missing allowedValues; fix with allowedValues=$(ConvertTo-Json $effectParameter.allowedValues -Compress)")
                 }
             }
             else {
@@ -446,79 +377,51 @@ else {
             if ($defaultValue) {
                 if ($setDefaultValues -cnotcontains $defaultValue) {
                     $effectParameter.defaultValue = $allowedValuesSet.defaultValue
-                    if ($validateOnly) {
-                        $null = $errorMessages.Add("Invalid defaultValue $($defaultValue) for effect parameter; use defaultValue=$($effectParameter.defaultValue)")
-                    }
-                    else {
-                        $null = $warningMessages.Add("Invalid defaultValue $($defaultValue) for effect parameter; fixed defaultValue=$($effectParameter.defaultValue)")
-                    }
+                    $null = $warningMessages.Add("Invalid defaultValue $($defaultValue) for effect parameter; fix with defaultValue=$($effectParameter.defaultValue)")
                 }
             }
             else {
                 $effectParameter.defaultValue = $allowedValuesSet.defaultValue
-                if ($validateOnly) {
-                    $null = $errorMessages.Add("Missing defaultValue for effect parameter; use defaultValue=$($effectParameter.defaultValue)")
-                }
-                else {
-                    $null = $warningMessages.Add("Missing defaultValue for effect parameter; fixed defaultValue=$($effectParameter.defaultValue)")
-                }
+                $null = $warningMessages.Add("Missing defaultValue for effect parameter; fix with defaultValue=$($effectParameter.defaultValue)")
             }
         }
     }
 }
 
 if ($properties.policyType) {
-    if ($validateOnly) {
-        $null = $errorMessages.Add("policyType ($($properties.policyType)) is not allowed, remove it from the definition.")
-    }
-    else {
-        $null = $warningMessages.Add("policyType ($($properties.policyType)) is not allowed, removing it from the definition.")
-    }
+    $null = $warningMessages.Add("policyType ($($properties.policyType)) is not allowed, fix by removing it from the definition.")
     $properties.Remove("policyType")
 }
-
-if ($properties.metadata.createdBy) {
-    if ($validateOnly) {
-        $null = $errorMessages.Add("createdBy ($($properties.metadata.createdBy)) is not allowed, remove it from the definition.")
-    }
-    else {
-        $null = $warningMessages.Add("createdBy ($($properties.metadata.createdBy)) is not allowed, removing it from the definition.")
-    }
-    $properties.metadata.Remove("createdBy")
+if ($metadata.createdBy) {
+    $null = $warningMessages.Add("createdBy ($($metadata.createdBy)) is not allowed, fix by removing it from the definition.")
+    $metadata.Remove("createdBy")
 }
-if ($properties.metadata.createdOn) {
-    if ($validateOnly) {
-        $null = $errorMessages.Add("createdOn ($($properties.metadata.createdOn)) is not allowed, remove it from the definition.")
-    }
-    else {
-        $null = $warningMessages.Add("createdOn ($($properties.metadata.createdOn)) is not allowed, removing it from the definition.")
-    }
-    $properties.metadata.Remove("createdOn")
+if ($metadata.createdOn) {
+    $null = $warningMessages.Add("createdOn ($($metadata.createdOn)) is not allowed, fix by removing it from the definition.")
+    $metadata.Remove("createdOn")
 }
-if ($properties.metadata.updatedBy) {
-    if ($validateOnly) {
-        $null = $errorMessages.Add("updatedBy ($($properties.metadata.updatedBy)) is not allowed, remove it from the definition.")
-    }
-    else {
-        $null = $warningMessages.Add("updatedBy ($($properties.metadata.updatedBy)) is not allowed, removing it from the definition.")
-    }
-    $properties.metadata.Remove("updatedBy")
+if ($metadata.updatedBy) {
+    $null = $warningMessages.Add("updatedBy ($($metadata.updatedBy)) is not allowed, fix by removing it from the definition.")
+    $metadata.Remove("updatedBy")
 }
-if ($properties.metadata.updatedOn) {
-    if ($validateOnly) {
-        $null = $errorMessages.Add("updatedOn ($($properties.metadata.updatedOn)) is not allowed, remove it from the definition.")
-    }
-    else {
-        $null = $warningMessages.Add("updatedOn ($($properties.metadata.updatedOn)) is not allowed, removing it from the definition.")
-    }
-    $properties.metadata.Remove("updatedOn")
+if ($metadata.updatedOn) {
+    $null = $warningMessages.Add("updatedOn ($($metadata.updatedOn)) is not allowed, fix by removing it from the definition.")
+    $metadata.Remove("updatedOn")
 }
 
-if ($validateOnly) {
+if ($action -eq "validate") {
     # validate only, no need to write the file
-    if ($errorMessages.Count -gt 0) {
-        $messagesString = ($errorMessages.ToArray()) -join "`n    "
-        throw "'$($file.FullName)' failed validation:`n    $messagesString"
+    if ($errorMessages.Count -gt 0 -or $warningMessages.Count -gt 0) {
+        $messagesString = "'$($file.FullName)' failed validation:"
+        if ($errorMessages.Count -gt 0) {
+            $messagesString += "`n    Hard errors:`n        "
+            $messagesString += (($errorMessages.ToArray()) -join "`n        ")
+        }
+        if ($warningMessages.Count -gt 0) {
+            $messagesString += "`n    Auto-fixes available:`n        "
+            $messagesString += (($warningMessages.ToArray()) -join "`n        ")
+        }
+        throw $messagesString
     }
     else {
         Write-Host "'$($file.FullName)' is valid." -ForegroundColor Blue
@@ -526,21 +429,22 @@ if ($validateOnly) {
 }
 else {
     if ($errorMessages.Count -gt 0) {
-        $messagesString = "'$($file.FullName)' failed validation:`n    Errors:`n        "
+        $messagesString = "'$($file.FullName)' failed validation:"
+        $messagesString += "`n    Hard errors:`n        "
         $messagesString += (($errorMessages.ToArray()) -join "`n        ")
         if ($warningMessages.Count -gt 0) {
-            $messagesString += "`n    Warnings and fixes:`n        "
+            $messagesString += "`n    Auto-fixes available:`n        "
             $messagesString += (($warningMessages.ToArray()) -join "`n        ")
         }
         throw $messagesString
     }
     elseif ($warningMessages.Count -gt 0) {
-        $messagesString = "'$($file.FullName)' is valid with warnings and fixes; writing fixed file(s):`n    "
+        $messagesString = "'$($file.FullName)' has auto-fix warnings:`n    "
         $messagesString += (($warningMessages.ToArray()) -join "`n    ")
         Write-Host $messagesString -ForegroundColor Yellow
     }
     else {
-        Write-Host "'$($file.FullName)' is valid; writing file(s)" -ForegroundColor Blue
+        Write-Host "'$($file.FullName)' is valid." -ForegroundColor Blue
     }
 
     # create new structure
@@ -550,10 +454,10 @@ else {
         properties = [ordered]@{
             displayName = $displayName
             description = $description
-            metadata    = $properties.metadata
+            metadata    = $metadata
             # version     = $version
-            mode        = $properties.mode
-            parameters  = $properties.parameters
+            mode        = $mode
+            parameters  = $parameters
             policyRule  = [ordered]@{
                 if   = $properties.policyRule.if
                 then = $properties.policyRule.then
@@ -573,11 +477,12 @@ else {
     }
 
     $baseName = $file.BaseName
-    if ($skipFileSplitting) {
+    if ($action -eq "nosplit") {
         $fullPath = "$($folderPath)/$($baseName).json"
         $newDefinitionJson | Out-File -FilePath $fullPath -Encoding utf8 -Force
     }
     else {
+        # $action -eq "split"
         $newParameters = $properties.parameters
         $newPolicyRule = $properties.policyRule
         $basePath = "$($folderPath)/$baseName"
