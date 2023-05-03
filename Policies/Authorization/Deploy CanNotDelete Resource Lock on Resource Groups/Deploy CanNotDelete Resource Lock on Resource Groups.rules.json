@@ -1,0 +1,47 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+      },
+      {
+        "field": "name",
+        "in": "[parameters('rgNames')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Authorization/locks",
+      "existenceCondition": {
+        "field": "Microsoft.Authorization/locks/level",
+        "equals": "CanNotDelete"
+      },
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/18d7d88d-d35e-4fb5-a5c3-7773c20a72d9"
+      ],
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+            "contentVersion": "1.0.0.0",
+            "resources": [
+              {
+                "type": "Microsoft.Authorization/locks",
+                "apiVersion": "2020-05-01",
+                "name": "DenyDelete",
+                "properties": {
+                  "level": "CanNotDelete",
+                  "notes": "Prevents deletion of resource group."
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
