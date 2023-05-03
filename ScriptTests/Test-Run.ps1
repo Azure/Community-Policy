@@ -41,7 +41,7 @@ Get-ChildItem -Path .\*.json | ForEach-Object {
     #Get the file name
     $fileName = $_.Name
     try {
-        . ..\Format-PolicyDefinitionFile.ps1 -fileName $fileName -outputDirectory ./output/one-file -skipFileSplitting
+        . ..\Format-PolicyDefinitionFile.ps1 -fileName $fileName -outputDirectory ./output/one-file -action "nosplit"
     }   
     catch {
         # supress the exception
@@ -57,7 +57,7 @@ Get-ChildItem -Path .\*.json | ForEach-Object {
     #Get the file name
     $fileName = $_.Name
     try {
-        . ..\Format-PolicyDefinitionFile.ps1 -fileName $fileName -validateOnly
+        . ..\Format-PolicyDefinitionFile.ps1 -fileName $fileName -action "validate"
     }   
     catch {
         # supress the exception
