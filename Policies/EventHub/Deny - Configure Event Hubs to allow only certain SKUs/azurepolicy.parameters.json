@@ -1,0 +1,26 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "Audit",
+      "Disabled",
+      "Deny"
+    ],
+    "defaultValue": "Deny"
+  },
+  "allowedSkuNames": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed SKU Names",
+      "description": "Specifies the allowed SKU names."
+    },
+    "defaultValue": [
+      "Standard",
+      "Premium"
+    ]
+  }
+}
