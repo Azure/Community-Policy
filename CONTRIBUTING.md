@@ -18,7 +18,16 @@ Every Azure Policy sample and its associated files must be contained in its own 
 
 ## Pull requests
 
-We created a validation script found [here](Format-PolicyDefinitionFile.ps1). It is a PowerShell script that:
+Pull requests **must:**
+
+- Contain a single Policy in a folder by itself with 3 files: `azurepolicy.json`, `azurepolicy.rules.json`, and `azurepolicy.parameters.json`.
+- Requests for changes must be answered within 10 days. If no response is received, the PR will be closed.
+
+We created validation and re-formatting scripts located in the Scripts folder:
+
+- [Out-FormattedPolicyDefinitionToThreeFiles.ps1](Scripts/Out-FormattedPolicyDefinitionToThreeFiles.ps1).
+
+It is a set PowerShell script that:
 
 - Takes in a single complete Policy definition file. It ignores the `.rules` and `.parameters` files.
 - Checks required elements
@@ -27,10 +36,11 @@ We created a validation script found [here](Format-PolicyDefinitionFile.ps1). It
 
 You must run this before any PR. In a future release this will be automatically executed for each Pull Request; [see Issue 282](https://github.com/Azure/Community-Policy/issues/282).
 
-PR **must:**
+We also have scripts to:
 
-- Contain a single Policy (with 3 files)
-- Requests for changes must be answered within 10 days. If no response is received, the PR will be closed.
+- Only validate the file: [Confirm-PolicyDefinitionIsValid.ps1](Scripts/Confirm-PolicyDefinitionIsValid.ps1)
+- Write only one file: [Out-FormattedPolicyDefinitionToOneFile.ps1](Scripts/Out-FormattedPolicyDefinitionToOneFile.ps1)
+
 
 ## Required elements
 
@@ -41,6 +51,7 @@ Every Policy and Policy Set (Initiative) Definition **must** include:
   - `type` **must** be `"Microsoft.Authorization/policyDefinitions"`
 - Nested `properties` structure with only the `name` outside.
   - `displayName` for the Policy is required
+  - `description` is required
   - `displayName` for `parameters` is required
   - `version` - in `metadata`; use semantic versioning.
   - `category` - in `metadata`, must be one of the categories in the built-in Policies and Policy Sets, indicating the Azure Service.
