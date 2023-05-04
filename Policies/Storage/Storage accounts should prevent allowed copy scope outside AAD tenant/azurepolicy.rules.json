@@ -1,0 +1,20 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      {
+        "field": "Microsoft.Storage/storageAccounts/allowedCopyScope",
+        "notIn": [
+          "AAD",
+          "PrivateLink"
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

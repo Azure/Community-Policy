@@ -1,0 +1,53 @@
+{
+  "name": "46216ffa-c25f-4b02-b725-bd6988988008",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "enforce-StorageAccount-NamingConvention",
+    "description": "The purpose of this policy is to deny the creation of storage accounts that do not meet the set naming convention listed in CAF.",
+    "metadata": {
+      "category": "Storage",
+      "version": null
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "name",
+            "notContains": "st"
+          },
+          {
+            "field": "name",
+            "notContains": "stdiag"
+          },
+          {
+            "field": "name",
+            "notContains": "share"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

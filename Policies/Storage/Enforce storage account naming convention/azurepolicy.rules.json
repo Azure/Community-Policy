@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      {
+        "field": "name",
+        "notContains": "st"
+      },
+      {
+        "field": "name",
+        "notContains": "stdiag"
+      },
+      {
+        "field": "name",
+        "notContains": "share"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

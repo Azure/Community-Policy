@@ -1,0 +1,15 @@
+{
+  "effect": {
+    "type": "String",
+    "allowedValues": [
+      "Audit",
+      "Disabled",
+      "Deny"
+    ],
+    "defaultValue": "Audit",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    }
+  }
+}
