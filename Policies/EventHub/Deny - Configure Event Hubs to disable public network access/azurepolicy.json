@@ -1,0 +1,45 @@
+{
+  "name": "f6006471-31cf-4887-a7cb-42724faed672",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny - Configure Event Hubs to disable public network access",
+    "description": "The policy denies accessing the resource through public network. Only private endpoints are supported.",
+    "metadata": {
+      "category": "Event Hub",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.EventHub/namespaces"
+          },
+          {
+            "field": "Microsoft.EventHub/namespaces/publicNetworkAccess",
+            "notEquals": "Disabled"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

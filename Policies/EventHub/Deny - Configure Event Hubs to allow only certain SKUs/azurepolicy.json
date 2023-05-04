@@ -1,0 +1,56 @@
+{
+  "name": "33e7e8f1-ea02-4dd0-911d-0fbe0d54d427",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny - Configure Event Hubs to allow only certain SKUs",
+    "description": "The policy denies the Basic SKU because one can only create private endpoint connections with Standard or Premium SKU.",
+    "metadata": {
+      "category": "Event Hub",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ],
+        "defaultValue": "Deny"
+      },
+      "allowedSkuNames": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed SKU Names",
+          "description": "Specifies the allowed SKU names."
+        },
+        "defaultValue": [
+          "Standard",
+          "Premium"
+        ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.EventHub/namespaces"
+          },
+          {
+            "field": "Microsoft.EventHub/namespaces/sku.name",
+            "notIn": "[parameters('allowedSkuNames')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
