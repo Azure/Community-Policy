@@ -4,7 +4,7 @@
         "description": "Test description.",
         "displayName": "Sample display name",
         "metadata": {
-            "version": "1.9.9"
+            "category": "Monitoring"
         },
         "mode": "Indexed",
         "parameters": {
@@ -23,6 +23,10 @@
             }
         },
         "policyRule": {
+            "if": {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+            },
             "then": {
                 "effect": "[parameters('effect')]"
             }

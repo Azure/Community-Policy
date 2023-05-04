@@ -12,11 +12,14 @@
             "metadata": {
                 "displayName": "Effect",
                 "description": "Enable or disable the execution of the policy"
-            },
-            "defaultValue": "Disabled"
+            }
         }
     },
     "policyRule": {
+        "if": {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+        },
         "then": {
             "effect": "[parameters('effect')]"
         }

@@ -9,23 +9,26 @@
         },
         "mode": "Indexed",
         "parameters": {
-            "effect": {
-                "type": "StringyType",
+            "effectTwo": {
+                "type": "String",
                 "metadata": {
-                    "displayName": "Effect",
+                    "displayName": "effect Three",
                     "description": "Enable or disable the execution of the policy"
                 },
                 "allowedValues": [
                     "DeployIfNotExists",
-                    "AuditIfNotExists",
                     "Disabled"
                 ],
                 "defaultValue": "DeployIfNotExists"
             }
         },
         "policyRule": {
+            "if": {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+            },
             "then": {
-                "effect": "[parameters('effect')]"
+                "effect": "[parameters('effectTwo')]"
             }
         }
     }

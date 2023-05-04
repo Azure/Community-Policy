@@ -1,5 +1,5 @@
 {
-    "name": "Very long Policy name .........................................................................................................................",
+    "name": "Sample name",
     "properties": {
         "description": "Test description.",
         "displayName": "Sample display name",
@@ -24,6 +24,10 @@
             }
         },
         "policyRule": {
+            "if": {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+            },
             "then": {
                 "effect": "[parameters('effect')]"
             }

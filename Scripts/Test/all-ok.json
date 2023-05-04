@@ -24,6 +24,10 @@
          }
       },
       "policyRule": {
+         "if": {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+         },
          "then": {
             "effect": "[parameters('effect')]"
          }

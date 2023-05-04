@@ -1,8 +1,7 @@
 {
-    "name": "bb03b2b0-3941-4f8a-be67-37025dda0d76",
+    "name": "Sample name",
     "properties": {
         "description": "Test description.",
-        "displayName": "Sample display name is very long indeed .......................................................................................................................................................",
         "metadata": {
             "version": "1.9.9",
             "category": "Monitoring"
@@ -24,6 +23,10 @@
             }
         },
         "policyRule": {
+            "if": {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+            },
             "then": {
                 "effect": "[parameters('effect')]"
             }
