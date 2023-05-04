@@ -1,4 +1,5 @@
 {
+    "name": "bb03b2b0-3941-4f8a-be67-37025dda0d76",
     "properties": {
         "description": "Test description.",
         "displayName": "Sample display name",
@@ -20,11 +21,6 @@
                     "Disabled"
                 ],
                 "defaultValue": "DeployIfNotExists"
-            }
-        },
-        "policyRule": {
-            "then": {
-                "effect": "[parameters('effect')]"
             }
         }
     }

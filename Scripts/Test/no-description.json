@@ -1,7 +1,6 @@
 {
     "name": "bb03b2b0-3941-4f8a-be67-37025dda0d76",
     "properties": {
-        "description": "Test description.",
         "displayName": "Sample display name",
         "metadata": {
             "version": "1.9.9",
@@ -9,18 +8,27 @@
         },
         "mode": "Indexed",
         "parameters": {
-            "effectTwo": {
+            "effect": {
                 "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
                 "allowedValues": [
                     "DeployIfNotExists",
+                    "AuditIfNotExists",
                     "Disabled"
                 ],
                 "defaultValue": "DeployIfNotExists"
             }
         },
         "policyRule": {
+            "if": {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+            },
             "then": {
-                "effect": "[parameters('effectTwo')]"
+                "effect": "[parameters('effect')]"
             }
         }
     }
