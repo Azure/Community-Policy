@@ -1,0 +1,22 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the audit policy"
+    },
+    "allowedValues": [
+      "Audit",
+      "Deny",
+      "Disabled"
+    ],
+    "defaultValue": "Deny"
+  },
+  "maxExpirationDays": {
+    "type": "integer",
+    "defaultValue": 182,
+    "metadata": {
+      "description": "Days from current datetime that a policy exemption date can maximum be. Time is UTC. 182 is approx. 6 months."
+    }
+  }
+}

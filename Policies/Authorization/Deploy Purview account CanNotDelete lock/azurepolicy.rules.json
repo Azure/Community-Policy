@@ -1,0 +1,58 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Purview/accounts"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Authorization/locks",
+      "name": "AutoLock",
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/18d7d88d-d35e-4fb5-a5c3-7773c20a72d9",
+        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+      ],
+      "existenceCondition": {
+        "field": "Microsoft.Authorization/locks/level",
+        "equals": "CanNotDelete"
+      },
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "lockScope": {
+                "type": "string"
+              },
+              "assignmentId": {
+                "type": "string"
+              }
+            },
+            "resources": [
+              {
+                "name": "AutoLock",
+                "type": "Microsoft.Authorization/locks",
+                "apiVersion": "2020-05-01",
+                "scope": "[parameters('lockScope')]",
+                "properties": {
+                  "level": "CanNotDelete",
+                  "notes": "[concat('This lock was deployed automatically by Azure Policy to prevent the resource from accidental deletion. AssignmentId: ', parameters('assignmentId'))]"
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "lockScope": {
+              "value": "[concat(field('type'),'/', field('name'))]"
+            },
+            "assignmentId": {
+              "value": "[policy().assignmentId]"
+            }
+          }
+        }
+      }
+    }
+  }
+}

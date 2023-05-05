@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Compute/disks"
+      },
+      {
+        "field": "Microsoft.Compute/disks/encryption.type",
+        "notEquals": "EncryptionAtRestWithCustomerKey"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
