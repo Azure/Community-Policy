@@ -1,0 +1,24 @@
+{
+  "effect": {
+    "type": "String",
+    "allowedValues": [
+      "Modify",
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Modify",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "The effect determines what happens when the policy rule is evaluated to match"
+    }
+  },
+  "retentionInDays": {
+    "type": "Integer",
+    "defaultValue": 1,
+    "metadata": {
+      "displayName": "Retention in Days",
+      "description": "How long should deleted resources be retained for. Minimum value is 1 day, maximum is 365 days."
+    }
+  }
+}

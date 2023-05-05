@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      {
+        "anyOf": [
+          {
+            "field": "Microsoft.Storage/storageAccounts/encryption.keySource",
+            "notEquals": "Microsoft.KeyVault"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/encryption.keyvaultproperties.keyvaulturi",
+            "notLike": "https://*.managedhsm.azure.net/"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

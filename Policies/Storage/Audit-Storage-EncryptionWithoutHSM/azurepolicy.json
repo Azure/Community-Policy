@@ -1,0 +1,52 @@
+{
+  "name": "2d73bbb0-525d-4781-a604-432508ddffae",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit-Storage-EncryptionWithoutHSM",
+    "description": "Audit effect will be executed on Storage Accounts in scope, where Storage Account encryption is not configured via CMK from Managed HSM.",
+    "metadata": {
+      "category": "Storage",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Desired effect."
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Storage/storageAccounts/encryption.keySource",
+                "notEquals": "Microsoft.KeyVault"
+              },
+              {
+                "field": "Microsoft.Storage/storageAccounts/encryption.keyvaultproperties.keyvaulturi",
+                "notLike": "https://*.managedhsm.azure.net/"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
