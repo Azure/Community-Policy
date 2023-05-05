@@ -468,4 +468,4 @@ function Format-PolicyDefinition {
             return $newDefinition
         }
     }
-}cls
+}
