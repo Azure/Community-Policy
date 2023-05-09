@@ -1,0 +1,55 @@
+{
+  "name": "f6c977b4-af4f-4769-9f25-57dbbb5f402d",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny inbound DNAT on Azure Firewalls",
+    "description": "Deny inbound DNAT on Azure Firewalls",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/firewallPolicies/ruleCollectionGroups"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyFilterRuleCollection.rules[*].ruleType",
+                    "equals": "NatRule"
+                  }
+                ]
+              }
+            },
+            "greater": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "defaultRoute": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Default route to add into UDR",
+      "description": "Policy will deploy a default route table to a vnet"
+    }
+  },
+  "vnetRegion": {
+    "type": "String",
+    "metadata": {
+      "displayName": "VNet Region",
+      "description": "Regional VNet hub location",
+      "strongType": "location"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}

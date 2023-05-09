@@ -1,0 +1,13 @@
+{
+  "if": {
+    "anyOf": [
+      {
+        "source": "action",
+        "like": "Microsoft.Network/routeTables/*"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
