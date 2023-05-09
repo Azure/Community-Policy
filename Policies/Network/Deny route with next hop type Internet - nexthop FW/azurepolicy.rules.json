@@ -1,0 +1,47 @@
+{
+  "if": {
+    "anyOf": [
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/routeTables"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/routeTables/routes[*]",
+              "where": {
+                "field": "Microsoft.Network/routeTables/routes[*].nextHopType",
+                "equals": "Internet"
+              }
+            },
+            "greater": 0
+          },
+          {
+            "field": "Microsoft.Network/routeTables/subnets[*].id",
+            "notContains": "AzureFirewallSubnet"
+          }
+        ]
+      },
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/routeTables/routes"
+          },
+          {
+            "field": "Microsoft.Network/routeTables/routes/nextHopType",
+            "equals": "Internet"
+          },
+          {
+            "field": "Microsoft.Network/routeTables/subnets[*].id",
+            "notContains": "AzureFirewallSubnet"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
