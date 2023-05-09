@@ -1,0 +1,49 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+      },
+      {
+        "not": {
+          "field": "[concat('tags[', parameters('TagOfExclusion'), ']')]",
+          "equals": "[parameters('TagValue')]"
+        }
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Authorization/locks",
+      "existenceCondition": {
+        "field": "Microsoft.Authorization/locks/level",
+        "equals": "CanNotDelete"
+      },
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "resources": [
+              {
+                "name": "Auto locked by policy",
+                "type": "Microsoft.Authorization/locks",
+                "apiVersion": "2020-05-01",
+                "properties": {
+                  "level": "CanNotDelete",
+                  "notes": "This lock was deployed automatically by Azure Policy to prevent the resource group and its containing resources from accidental deletion."
+                }
+              }
+            ]
+          }
+        }
+      },
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/35b50af1-b556-492f-8595-cbf5cb531055"
+      ]
+    }
+  }
+}
