@@ -1,0 +1,31 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "The effect determines what happens when the policy rule is evaluated to match"
+    },
+    "allowedValues": [
+      "AuditIfNotExists",
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists"
+  },
+  "TagOfExclusion": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag of environment to exclude",
+      "description": "If there is a need to exclude RGs from the audit based on a tag, you can do so. In this field, define which tag you want to check for it's value."
+    },
+    "defaultValue": "Environment"
+  },
+  "TagValue": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Value of the tag for exclusion",
+      "description": "If you decided to configure an exclusion, you need to configure a specific value of the tag you defined. Put the tag value for exclusion in this field"
+    },
+    "defaultValue": "dv"
+  }
+}
