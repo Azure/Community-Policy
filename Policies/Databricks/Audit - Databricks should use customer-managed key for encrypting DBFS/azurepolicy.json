@@ -1,0 +1,52 @@
+{
+  "name": "b76cbbfe-4af8-44ad-ac54-c460d0907796",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit - Databricks should use customer-managed key for encrypting DBFS",
+    "description": "Customer-managed key should be used to encrypt DBFS in Databricks service. The policy marks a resource Noncompliant if the prepareEncryption value is not set to true. The resource is also marked Noncompliant when the keySource value does not exist.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Azure Databricks"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Databricks/workspaces"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Databricks/workspaces/parameters.prepareEncryption.value",
+                "equals": false
+              },
+              {
+                "field": "Microsoft.Databricks/workspaces/parameters.encryption.value.keySource",
+                "exists": false
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

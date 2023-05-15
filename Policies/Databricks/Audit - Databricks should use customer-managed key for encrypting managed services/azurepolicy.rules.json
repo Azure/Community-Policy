@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Databricks/workspaces"
+      },
+      {
+        "field": "Microsoft.Databricks/workspaces/encryption.entities.managedServices.keySource",
+        "exists": false
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
