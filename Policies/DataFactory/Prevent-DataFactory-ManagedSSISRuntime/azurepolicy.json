@@ -2,8 +2,8 @@
   "name": "67a1def3-5e6d-4d07-adc0-e929bba328a6",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "Deny-DataFactory-ManagedSSISRuntime",
-    "description": "Deny creation of Managed SSIS runtime for Azure Data Factory",
+    "displayName": "Prevent-DataFactory-ManagedSSISRuntime",
+    "description": "Prevent creation of Managed SSIS runtime for Azure Data Factory",
     "metadata": {
       "category": "Data Factory",
       "version": "1.0.0"
