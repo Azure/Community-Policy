@@ -2,8 +2,8 @@
   "name": "63b4e328-7369-4a72-a5ad-0884d7fb1d04",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "Deny Windows VM or VMSS without BYOL",
-    "description": "The policy checks if VMs or VM Scale Sets based on Microsoft operation system is using BYOL for Azure Hybrid Benefit. The decision if VM is based on Microsoft OS or not is based on the following policy:\n[Preview]: Azure Security agent should be installed on your Windows virtual machines - Microsoft Azure\nhttps://portal.azure.com/#view/Microsoft_Azure_Policy/PolicyDetailBlade/definitionId/%2Fproviders%2FMicrosoft.Authorization%2FpolicyDefinitions%2Fbb2c6c6d-14bc-4443-bef3-c6be0adc6076",
+    "displayName": "Prevent deployment of Windows VM or VMSS without BYOL",
+    "description": "The policy checks if VMs or VM Scale Sets based on Microsoft operation system is using BYOL for Azure Hybrid Benefit. The decision, if VM is based on Microsoft OS or not, is based on the following policy:\n[Preview]: Azure Security agent should be installed on your Windows virtual machines - Microsoft Azure\nhttps://portal.azure.com/#view/Microsoft_Azure_Policy/PolicyDetailBlade/definitionId/%2Fproviders%2FMicrosoft.Authorization%2FpolicyDefinitions%2Fbb2c6c6d-14bc-4443-bef3-c6be0adc6076",
     "metadata": {
       "category": "Compute",
       "version": "1.0.0"
