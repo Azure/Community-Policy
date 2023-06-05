@@ -1,8 +1,8 @@
 {
+    "type": "Microsoft.Authorization/policyDefinitions",
     "name": "c4f50e79-ce44-4b76-b4e1-58330703e842",
     "properties": {
         "displayName": "Permit only approved types of Cognitive Services",
-        "policyType": "Custom",
         "mode": "All",
         "description": "This policy permits only certain types of Cognitive Services resources to be deployed.",
         "metadata": {
