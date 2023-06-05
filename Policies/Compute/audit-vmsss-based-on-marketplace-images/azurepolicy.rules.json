@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Compute/VirtualMachineScaleSets"
+      },
+      {
+        "field": "Microsoft.Compute/VirtualMachineScaleSets/osDisk.createOption",
+        "equals": "FromImage"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
