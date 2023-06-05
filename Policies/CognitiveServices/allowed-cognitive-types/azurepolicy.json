@@ -1,0 +1,92 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "apiVersion": "2021-06-01",
+    "name": "c4f50e79-ce44-4b76-b4e1-58330703e842",
+    "properties": {
+        "displayName": "Only approved types Cognitive Services resources",
+        "policyType": "Custom",
+        "mode": "All",
+        "description": "This policy permits only certain types of Cognitive Services resources to be deployed.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Cognitive Services"
+        },
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "defaultValue": "Audit"
+                },
+            "listOfAllowedKind": {
+                "type": "Array",
+                "metadata": {
+                    "description": "The list of Cognitive Services resources that can be deployed.",
+                    "displayName": "Allowed Cognitive Services resources"
+                },
+                "allowedValues": [
+                    "Academic",
+                    "AnomalyDetector",
+                    "Bing.Autosuggest",
+                    "Bing.Autosuggest.v7",
+                    "Bing.CustomSearch",
+                    "Bing.Search",
+                    "Bing.Search.v7",
+                    "Bing.Speech",
+                    "Bing.SpellCheck",
+                    "Bing.SpellCheck.v7",
+                    "CognitiveServices",
+                    "ComputerVision",
+                    "ContentModerator",
+                    "CustomSpeech",
+                    "CustomVision.Prediction",
+                    "CustomVision.Training",
+                    "Emotion",
+                    "Face",
+                    "FormRecognizer",
+                    "ImmersiveReader",
+                    "LUIS",
+                    "LUIS.Authoring",
+                    "MetricsAdvisor",
+                    "OpenAI",
+                    "Personalizer",
+                    "QnAMaker",
+                    "Recommendations",
+                    "SpeakerRecognition",
+                    "Speech",
+                    "SpeechServices",
+                    "SpeechTranslation",
+                    "TextAnalytics",
+                    "TextTranslation",
+                    "WebLM"
+                ]
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.CognitiveServices/accounts"
+                },
+                {
+                    "not": {
+                        "field": "kind",
+                        "in": "[parameters('listOfAllowedKind')]"
+                    }
+                }
+                ]
+            },
+                "then": {
+                "effect": "[parameters('effect')]" 
+            }
+        }
+    }
+}
