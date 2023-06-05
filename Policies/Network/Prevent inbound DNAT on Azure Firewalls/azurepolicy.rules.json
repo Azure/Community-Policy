@@ -1,0 +1,27 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/firewallPolicies/ruleCollectionGroups"
+      },
+      {
+        "count": {
+          "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*]",
+          "where": {
+            "allOf": [
+              {
+                "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyFilterRuleCollection.rules[*].ruleType",
+                "equals": "NatRule"
+              }
+            ]
+          }
+        },
+        "greater": 0
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
