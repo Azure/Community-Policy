@@ -48,10 +48,12 @@ $newDefinition = Format-PolicyDefinition -fileName $fileName -category $category
 if ($null -ne $newDefinition) {
     $newDefinitionJson = $newDefinition | ConvertTo-Json -Depth 100
 
+    $newDisplayName = $newDefinition.properties.displayName
+
     $file = Get-Item -Path $fileName
     $folderPath = $file.DirectoryName
     if (!([string]::IsNullOrEmpty($outputDirectory))) {
-        $folderPath = $outputDirectory
+        $folderPath = ($outputDirectory + "\" + $newDisplayName)
         #create the directory if it doesn't exist
         if (!(Test-Path $folderPath)) {
             $null = (New-Item -ItemType Directory -Path $folderPath -Force -InformationAction SilentlyContinue)
