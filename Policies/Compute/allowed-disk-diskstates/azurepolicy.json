@@ -1,53 +1,58 @@
 {
-    "displayName": "Allowed Disk states for Azure Disks",
-    "mode": "Indexed",
-    "description": "This policy audits or blocks certain disk states for Azure Disks. https://learn.microsoft.com/en-us/rest/api/compute/disks/get?tabs=HTTP#diskstate",
-    "Metadata": {
-        "category": "Compute"
-    },
-    "parameters": {
-        "effect": {
-            "type": "string",
-            "metadata": {
-                "displayName": "Effects",
-                "description": "Enable or disable the execution of the Policy"
-            },
-            "allowedValues": [
-                "Audit",
-                "Deny",
-                "Disabled"
-            ],
-            "defaultValue": "Audit"
+    "name": "d1379bd4-3422-453f-896a-b7ae8333aa7f",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "properties": {
+        "displayName": "Allowed Disk states for Azure Disks",
+        "mode": "Indexed",
+        "description": "This policy audits or blocks certain disk states for Azure Disks. https://learn.microsoft.com/en-us/rest/api/compute/disks/get?tabs=HTTP#diskstate",
+        "metaData": {
+            "category": "Compute",
+            "version": "1.0.0"
         },
-        "disallowedState": {
-            "type": "array",
-            "metadata": {
-                "displayName": "Disallowed disk state",
-                "description": "Controls what disk states are disallowed. Described at https://learn.microsoft.com/en-us/rest/api/compute/disks/get?tabs=HTTP#diskstate"
+        "parameters": {
+            "effect": {
+                "type": "string",
+                "metaData": {
+                    "displayName": "Policy effect",
+                    "description": "Audit or deny the execution of the Policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "defaultValue": "Audit"
             },
-            "allowedValues": [
-                "ActiveSAS",
-                "ActiveSASFrozen",
-                "ActiveUpload",
-                "Attached",
-                "Frozen",
-                "ReadyToUpload",
-                "Reserved",
-                "Unattached"
-            ],
-            "defaultValue": [
-                "ActiveSAS",
-                "ActiveSASFrozen"
-            ]
-        }
-    },
-    "policyRule": {
-        "if": {
-            "field": "Microsoft.Compute/disks/diskState",
-            "in": "[parameters('disallowedState')]"
+            "disallowedState": {
+                "type": "array",
+                "metaData": {
+                    "displayName": "Disallowed disk state",
+                    "description": "Controls what disk states are disallowed. Described at https://learn.microsoft.com/en-us/rest/api/compute/disks/get?tabs=HTTP#diskstate"
+                },
+                "allowedValues": [
+                    "ActiveSAS",
+                    "ActiveSASFrozen",
+                    "ActiveUpload",
+                    "Attached",
+                    "Frozen",
+                    "ReadyToUpload",
+                    "Reserved",
+                    "Unattached"
+                ],
+                "defaultValue": [
+                    "ActiveSAS",
+                    "ActiveSASFrozen"
+                ]
+            }
         },
-        "then": {
-            "effect": "[parameters('effect')]"
+        "policyRule": {
+            "if": {
+                "field": "Microsoft.Compute/disks/diskState",
+                "in": "[parameters('disallowedState')]"
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
         }
     }
 }

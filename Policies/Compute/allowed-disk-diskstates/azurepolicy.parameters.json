@@ -1,9 +1,9 @@
 {
     "effect": {
         "type": "string",
-        "metadata": {
-            "displayName": "Effects",
-            "description": "Enable or disable the execution of the Policy"
+        "metaData": {
+            "displayName": "Policy effect",
+            "description": "Audit or deny the execution of the Policy"
         },
         "allowedValues": [
             "Audit",
@@ -14,7 +14,7 @@
     },
     "disallowedState": {
         "type": "array",
-        "metadata": {
+        "metaData": {
             "displayName": "Disallowed disk state",
             "description": "Controls what disk states are disallowed. Described at https://learn.microsoft.com/en-us/rest/api/compute/disks/get?tabs=HTTP#diskstate"
         },
