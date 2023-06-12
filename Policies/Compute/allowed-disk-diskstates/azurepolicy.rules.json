@@ -1,0 +1,9 @@
+{
+    "if": {
+        "field": "Microsoft.Compute/disks/diskState",
+        "in": "[parameters('disallowedState')]"
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

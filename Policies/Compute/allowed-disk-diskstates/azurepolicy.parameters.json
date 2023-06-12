@@ -1,0 +1,36 @@
+{
+    "effect": {
+        "type": "string",
+        "metaData": {
+            "displayName": "Policy effect",
+            "description": "Audit or deny the execution of the Policy"
+        },
+        "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+        ],
+        "defaultValue": "Audit"
+    },
+    "disallowedState": {
+        "type": "array",
+        "metaData": {
+            "displayName": "Disallowed disk state",
+            "description": "Controls what disk states are disallowed. Described at https://learn.microsoft.com/en-us/rest/api/compute/disks/get?tabs=HTTP#diskstate"
+        },
+        "allowedValues": [
+            "ActiveSAS",
+            "ActiveSASFrozen",
+            "ActiveUpload",
+            "Attached",
+            "Frozen",
+            "ReadyToUpload",
+            "Reserved",
+            "Unattached"
+        ],
+        "defaultValue": [
+            "ActiveSAS",
+            "ActiveSASFrozen"
+        ]
+    }
+}
