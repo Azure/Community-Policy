@@ -1,0 +1,53 @@
+{
+    "displayName": "Allowed Disk states for Snapshots",
+    "mode": "Indexed",
+    "description": "This policy audits or blocks certain disk states for Azure Snapshots. https://learn.microsoft.com/en-us/rest/api/compute/snapshots/get?tabs=HTTP#diskstate",
+    "Metadata": {
+        "category": "Compute"
+    },
+    "parameters": {
+        "effect": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Effects",
+                "description": "Enable or disable the execution of the Policy"
+            },
+            "allowedValues": [
+                "Audit",
+                "Deny",
+                "Disabled"
+            ],
+            "defaultValue": "Audit"
+        },
+        "disallowedState": {
+            "type": "array",
+            "metadata": {
+                "displayName": "Disallowed disk state",
+                "description": "Controls what disk states are disallowed. Described at https://learn.microsoft.com/en-us/rest/api/compute/snapshots/get?tabs=HTTP#diskstate"
+            },
+            "allowedValues": [
+                "ActiveSAS",
+                "ActiveSASFrozen",
+                "ActiveUpload",
+                "Attached",
+                "Frozen",
+                "ReadyToUpload",
+                "Reserved",
+                "Unattached"
+            ],
+            "defaultValue": [
+                "ActiveSAS",
+                "ActiveSASFrozen"
+            ]
+        }
+    },
+    "policyRule": {
+        "if": {
+            "field": "Microsoft.Compute/snapshots/diskState",
+            "in": "[parameters('disallowedState')]"
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+        }
+    }
+}
