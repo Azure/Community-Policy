@@ -1,0 +1,58 @@
+{
+  "name": "440c5bbb-38b3-4ade-bbef-9e2eaea8a46e",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "metadata": {
+    "version": "1.0.0",
+    "category": "Storage",
+    "preview": true
+  },
+  "properties": {
+    "displayName": "Audit storage accounts with unrestricted network access",
+    "description": "Audit storage accounts with unrestricted network access",
+    "metadata": {
+      "category": "Storage",
+      "version": "2.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit storage accounts with unrestricted network access"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction",
+                "exists": "false"
+              },
+              {
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction",
+                "equals": "Allow"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

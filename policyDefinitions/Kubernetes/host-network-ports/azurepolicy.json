@@ -1,0 +1,89 @@
+{
+  "properties": {
+    "displayName": "Control whether a Pod may use the Host Network, and allow Host Ports in a Kubernetes Cluster",
+    "policyType": "Custom",
+    "mode": "Microsoft.Kubernetes.Data",
+    "description": "This policy controls whether pod may use the host network, and allows host ports in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Kubernetes",
+      "preview": true
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+        },
+        "defaultValue": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc"
+        ]
+      },
+      "allowHostNetwork": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Allow Host Network Usage",
+          "description": "Set this value to true if pod is allowed to use host network otherwise false"
+        },
+        "defaultValue": false
+      },
+      "maxPort": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Maximum Host Port Value",
+          "description": "Maximum Host Port that pods are allowed to use on a Kubernetes cluster"
+        },
+        "defaultValue": 0
+      },
+      "minPort": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Minimum Host Port Value",
+          "description": "Minimum Host Port that pods are allowed to use on a Kubernetes cluster"
+        },
+        "defaultValue": 0
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "AKS Engine",
+          "Microsoft.Kubernetes/connectedClusters",
+          "Microsoft.ContainerService/managedClusters"
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/host-network-ports/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/host-network-ports/constraint.yaml",
+          "values": {
+            "excludedNamespaces": "[parameters('excludedNamespaces')]",
+            "allowHostNetwork": "[parameters('allowHostNetwork')]",
+            "minPort": "[parameters('minPort')]",
+            "maxPort": "[parameters('maxPort')]"
+          }
+        }
+      }
+    }
+  },
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "b6816ed8-f276-474c-a630-de28813533c7"
+}
