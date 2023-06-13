@@ -1,0 +1,71 @@
+{
+  "properties": {
+    "displayName": "Ensure disallowed capabilities are not used in Kubernetes Cluster",
+    "policyType": "Custom",
+    "mode": "Microsoft.Kubernetes.Data",
+    "description": "This policy ensures specified security capabilities are not used inside a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Kubernetes",
+      "preview": true
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+        },
+        "defaultValue": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc"
+        ]
+      },
+      "disallowedCapabilities": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Blocked capabilities",
+          "description": "List of capabilities that containers are not able to use"
+        },
+        "defaultValue": []
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "AKS Engine",
+          "Microsoft.Kubernetes/connectedClusters",
+          "Microsoft.ContainerService/managedClusters"
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/container-disallowed-capabilities/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/container-disallowed-capabilities/constraint.yaml",
+          "values": {
+            "excludedNamespaces": "[parameters('excludedNamespaces')]",
+            "disallowedCapabilities": "[parameters('disallowedCapabilities')]"
+          }
+        }
+      }
+    }
+  },
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "67a37245-1d51-40e2-afbf-cdb3c6145caa"
+}
