@@ -3,10 +3,7 @@
   "DisplayName": "Storage accounts should be have minimal TLS version 1.2",
   "Metadata": {
     "category": "Storage",
-    "createdBy": "",
-    "createdOn": "2021-10-05T10:41:13.2019269Z",
-    "updatedBy": null,
-    "updatedOn": null
+    "version": "1.0.0"
   },
   "Mode": "Indexed",
   "Parameters": {
@@ -61,6 +58,5 @@
     "then": {
       "effect": "[parameters('effect')]"
     }
-  },
-  "PolicyType": 1
+  }
 }

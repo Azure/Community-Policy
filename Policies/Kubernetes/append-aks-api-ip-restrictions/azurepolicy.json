@@ -1,0 +1,35 @@
+{
+    "properties": {
+        "displayName": "Append AKS API IP Restrictions",
+        "mode": "Indexed",
+        "description": "This policy will restrict access to the AKS API server as documented here: https://docs.microsoft.com/en-us/azure/aks/api-server-authorized-ip-ranges",
+        "metadata": {
+            "category": "Kubernetes",
+            "version": "1.0.0"
+        },
+        "parameters": {
+            "listOfAllowedIps": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "Allowed IP's",
+                    "description": "A list of IP's that are allowed to access the AKS API server."
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "field": "type",
+                "equals": "Microsoft.ContainerService/managedClusters"
+            },
+            "then": {
+                "effect": "append",
+                "details": [
+                    {
+                        "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges",
+                        "value": "[parameters('listOfAllowedIps')]"
+                    }
+                ]
+            }
+        }
+    }
+}
