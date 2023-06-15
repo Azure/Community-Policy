@@ -1,4 +1,4 @@
-function Validate-PolicyDefinition {
+function Confirm-PolicyPropertyDefinition {
     [CmdletBinding()]
     param (
         [parameter(Mandatory)]
@@ -50,6 +50,7 @@ function Validate-PolicyDefinition {
         }
     }
     process {
+        $newPolicyDefinitionFileNeeded = $false
         if (!(Test-Path -Path $filePath)) {
             throw "The filepath '$filepath' is invalid."
         }
@@ -59,26 +60,31 @@ function Validate-PolicyDefinition {
             throw "'$($fileInfo.FullName)' is not valid JSON."
         }
         $policyDefinition = $content | ConvertFrom-Json -Depth 100 -AsHashtable
-        Write-Verbose "Processing policy '$($fileInfo.Directory.Name)' in '$($fileInfo.Directory.Parent)'"
+        Write-Verbose "Processing policy '$($fileInfo.Directory.Name)' in '$($fileInfo.Directory.Parent)'" -Verbose
         if (!$policyDefinition.properties) {
             Write-Verbose "The definition does not contain properties, assuming that the full definition is only wrapping properties."
             $policyDefinition = @{ properties = $policyDefinition }
+            $newPolicyDefinitionFileNeeded = $true
         }
         switch ($policyDefinition) {
-            { !$_.properties['displayName'] } {
+            { !$_.properties.Keys.contains('displayName') } {
                 Write-verbose 'Does not include displayName, Setting to directory name.'
                 $_.properties.Add('displayName', $($fileinfo.Directory.Name)) | Out-Null
+                $newPolicyDefinitionFileNeeded = $true
             }
-            { !$_.properties['description'] } {
+            { !$_.properties.Keys.contains('description') } {
                 Write-verbose 'Does not include description, setting to a default value.'
                 $_.properties.Add('description', "Policy description.") | Out-Null
+                $newPolicyDefinitionFileNeeded = $true
             }
-            { !$_.properties['mode'] } {
+            { !$_.properties.Keys.contains('mode') } {
                 Write-verbose 'Does not include mode, defaulting to indexed.'
                 $_.properties.add('mode', "indexed") | Out-Null
+                $newPolicyDefinitionFileNeeded = $true
             }
-            { !$_.properties['metaData'] } {
-                if ($_.properties['metadata']) {
+            { !$_.properties.Keys.contains('metaData') } {
+                if ($_.properties.Keys.contains('metadata')) {
+                    $newPolicyDefinitionFileNeeded = $true
                     Write-verbose "Metadata is named incorrectly, updating to metaData."
                     $currentMetaData = $_.properties['metadata']
                     if ($currentMetaData.keys -contains 'category' -and $currentMetaData.keys -contains 'version') {
@@ -104,6 +110,7 @@ function Validate-PolicyDefinition {
                     $_.properties.remove('metadata') | Out-Null
                 }
                 else {
+                    $newPolicyDefinitionFileNeeded = $true
                     Write-verbose "Does not include metaData nor metadata, defaulting to version 1.0.0 and category '$($fileinfo.Directory.Parent.name)'."
                     $_.properties.add('metaData',
                         @{
@@ -113,13 +120,28 @@ function Validate-PolicyDefinition {
                 }
 
             }
-            { !$_.properties['parameters'] } {
-                throw 'parameters is missing!'
-                $_.add('parameters', "indexed") | Out-Null
+            { !$_.properties['parameters'] -or $null -eq $_.properties['parameters'] } {
+                if ($_.properties.Keys.contains('Parameters')) {
+                    $newPolicyDefinitionFileNeeded = $true
+                    Write-verbose "Parameters is named incorrectly, updating to parameters."
+                    $currentParameters = $_.properties['Parameters']
+                    $_.properties.add('parameters', $currentParameters) | Out-Null
+                    $_.properties.remove('Parameters') | Out-Null
+                } elseif ($null -eq $_.properties['parameters']) {
+                    $_.properties.remove('parameters') | Out-Null
+                    $_.properties.add('parameters', @{}) | Out-Null
+                } else {
+                    $_.properties.add('parameters', @{}) | Out-Null
+                }
             }
             { !$_.properties['policyRule'] } {
+                $newPolicyDefinitionFileNeeded = $true
                 if ($_.properties['policyrule']) {
                     $_.properties.add('policyRule', $_.properties['policyrule']) | Out-Null
+                    $_.properties.remove('policyrule') | Out-Null
+                } elseif ($_.properties['PolicyRule']) {
+                    $_.properties.add('policyRule', $_.properties['PolicyRule']) | Out-Null
+                    $_.properties.remove('PolicyRule') | Out-Null
                 }
                 else {
                     throw 'policyRule is missing!'
@@ -127,11 +149,13 @@ function Validate-PolicyDefinition {
             }
         }
         if ($policyDefinition.properties['parameters'].Keys -notcontains 'effect') {
+            $newPolicyDefinitionFileNeeded = $true
             Write-verbose "Missing effect in parameters, adding it."
             $currentEffect = $policyDefinition.properties['policyRule']['then']['effect']
             Write-Verbose "Current effect is set to: '$currentEffect', will update the parameter 'effect' accordingly."
-            $currentParameters = $policyDefinition.properties['parameters']
-            $currentParameters.add('effect', @{
+            if ($null -eq $policyDefinition.properties['parameters'].Keys) {
+                $policyDefinition.properties.remove('parameters') | Out-Null
+                $policyDefinition.properties.Add('parameters',@{'effect' = @{
                     "type"          = "string"
                     "metaData"      = @{
                         "displayName" = "Policy effect"
@@ -140,11 +164,25 @@ function Validate-PolicyDefinition {
                     "allowedValues" = $allowedValuesSets["$($currentEffect.Tolower())"].allowedValues
                     "defaultValue"  = $allowedValuesSets["$($currentEffect.Tolower())"].defaultValue
                 
-                })
+                }}) | Out-Null
+            } else {
+                $currentParameters = $policyDefinition.properties['parameters']
+                $currentParameters.add('effect', @{
+                        "type"          = "string"
+                        "metaData"      = @{
+                            "displayName" = "Policy effect"
+                            "description" = $allowedValuesSets["$($currentEffect.Tolower())"].description
+                        }
+                        "allowedValues" = $allowedValuesSets["$($currentEffect.Tolower())"].allowedValues
+                        "defaultValue"  = $allowedValuesSets["$($currentEffect.Tolower())"].defaultValue
+                    
+                    })
+            }
         
             # throw '"effect" needs to be part of the parameter set. Please read the guidelines at https://github.com/Azure/Community-Policy/blob/main/CONTRIBUTING.md'
         }
         if ($policyDefinition.properties['policyRule']['then']['effect'] -ne '[parameters(''effect'')]') {
+            $newPolicyDefinitionFileNeeded = $true
             Write-Verbose "Parameterizing the effect."
             $currentPolicyRuleThen = $policyDefinition.properties['policyRule']['then']
             $policyDefinition.properties['policyRule'].remove('then') | Out-Null
@@ -160,6 +198,7 @@ function Validate-PolicyDefinition {
         }
         if ($policyDefinition.properties['metaData']) {
             if ($policyDefinition.properties['metaData'].Keys.Count -gt 2) {
+                $newPolicyDefinitionFileNeeded = $true
                 Write-verbose "Stripping away unneeded meta data keys"
                 $unneededKeys = $policyDefinition.properties['metaData'].Keys | Where-Object { $_ -notin @('version', 'category') }
                 $unneededKeys | ForEach-Object {
@@ -168,24 +207,26 @@ function Validate-PolicyDefinition {
                 }
             }
         }
-        $SortedPolicy = @{
-            "name"       = $policyDefinition.name
-            "type"       = $policyDefinition.type
-            "properties" = [ordered]@{
-                "displayName" = $policyDefinition.properties['displayName']
-                "mode"        = $policyDefinition.properties['mode']
-                "description" = $policyDefinition.properties['description']
-                "metaData"    = $policyDefinition.properties['metaData']
-                "parameters"  = $policyDefinition.properties['parameters']
-                "policyRule"  = $policyDefinition.properties['policyRule']
+        if ($newPolicyDefinitionFileNeeded) {
+            $SortedPolicy = [ordered]@{
+                "name"       = $policyDefinition.name
+                "type"       = $policyDefinition.type
+                "properties" = [ordered]@{
+                    "displayName" = $policyDefinition.properties['displayName']
+                    "mode"        = $policyDefinition.properties['mode']
+                    "description" = $policyDefinition.properties['description']
+                    "metaData"    = $policyDefinition.properties['metaData']
+                    "parameters"  = $policyDefinition.properties['parameters']
+                    "policyRule"  = $policyDefinition.properties['policyRule']
+                }
             }
+            New-item -Path $filePath -ItemType File -Value "$($SortedPolicy | ConvertTo-Json -depth 100)`n" -Force | Out-Null
+            Write-Verbose "New Azure Policy restructed at '$filePath'" -Verbose
         }
-        New-item -Path $filePath -ItemType File -Value $($SortedPolicy | ConvertTo-Json -depth 100) -Force | Out-Null
-        Write-Verbose "New Azure Policy restructed at '$filePath'" -Verbose
     }
 }
 
-function Fix-PolicyDefinition {
+function Confirm-PolicyDefinition {
     [CmdletBinding()]
     param(
         [parameter(Mandatory)]
@@ -211,23 +252,17 @@ function Fix-PolicyDefinition {
     else {
         Write-verbose 'Definition does not include properties, will verify the json object if it''s a valid policy.'
         try {
-            Format-PolicyDefinition -fileName $filePath -category $category -WarningAction 'Stop'
+            ./Scripts\Format-PolicyDefinition.ps1 -fileName $filePath -category $category -WarningAction 'Stop'
         }
         catch {
             Throw 'Failed check, Fix manually as the Policy is not complete.'
         }
         $definition = @{
-            'name'       = { 
-                if ($definition.Keys -contains 'name') { $definition['name'] } else { $(new-guid).Guid }
-            }
             'properties' = $definition
-            'type'       = { 
-                if ($definition.Keys -contains 'type') { $definition['type'] } else { "Microsoft.Authorization/policyDefinitions" } 
-            }
         }
     }
     # analyze structure
-    if (@('name', 'type', 'properties') -notin $definition.Keys) {
+    if ($definition.Keys.Count -ne 3 -or ('name' -notin $definition.Keys -and 'properties' -notin $definition.Keys -and 'type' -notin $definition.Keys)) {
         Write-Warning "$filePath does not convene to the proper structure, it only has '$($definition.keys -join ',')'" 
         switch ($definition) {
             { !$_['name'] } {
@@ -256,15 +291,62 @@ function Fix-PolicyDefinition {
             }
         }
         New-item -Path $filePath -ItemType File -Value $([ordered]@{
-            'name' = $definition.name
-            'type' = $definition.type
-            'properties' = $definition.properties
-        } | ConvertTo-Json -depth 100) -Force | Out-Null
+                'name'       = $definition.name
+                'type'       = $definition.type
+                'properties' = $definition.properties
+            } | ConvertTo-Json -depth 100) -Force | Out-Null
         Write-Verbose "New Azure Policy restructed at '$filePath'" -Verbose
     }
 }
 
-Get-ChildItem -Path .\Policies -Recurse -File | Where-Object {$_.Name -in @('azurepolicy.json')} | ForEach-Object {
-    Fix-PolicyDefinition -filePath $_.FullName
-    Validate-PolicyDefinition -filePath $_.FullName
+function New-PolicyDefinitionSupportFiles {
+    [CmdletBinding()]
+    param(
+        [parameter(Mandatory)]
+        [string] $filePath
+    )
+
+    process {
+        if (!(Test-Path -Path $filePath)) {
+            throw "The filepath '$filepath' is invalid."
+        }
+        $fileInfo = Get-ChildItem -Path $filePath -File
+        $parentFolder = $fileInfo.Directory.FullName
+        $policyRuleFilePath = "$parentFolder/azurepolicy.rules.json"
+        $policyParameterFilePath = "$parentFolder/azurepolicy.parameters.json"
+        $content = Get-Content -Path $filePath -Raw
+        if (!(Test-Json $content -ErrorAction SilentlyContinue)) {
+            throw "'$($fileInfo.FullName)' is not valid JSON."
+        }
+        $policyDefinition = $content | ConvertFrom-Json -Depth 100 -AsHashtable
+
+        if (Test-path -Path "$policyRuleFilePath") {
+            $currentPolicyRule = Get-Content -Path $policyRuleFilePath -Raw
+            # Check if policyRule file is equal to policyRule defined in definition. 
+            if ($($policyDefinition.properties['policyRule'] | ConvertTo-Json -depth 100) -ne "$($currentPolicyRule)" ) {
+                New-item -Path "$policyRuleFilePath" -ItemType File -Value "$($policyDefinition.properties['policyRule'] | ConvertTo-Json -Depth 100)`n" -Force | Out-Null
+            }
+        }
+        else {
+            New-item -Path "$policyRuleFilePath" -ItemType File -Value "$($policyDefinition.properties['policyRule'] | ConvertTo-Json -Depth 100)`n" -Force | Out-Null
+        }
+
+        if (Test-path -Path "$policyParameterFilePath") {
+            $currentParameterRule = Get-Content -Path $policyParameterFilePath -Raw
+            # Check if parameters file is equal to parameters defined in definition. 
+            if ($($policyDefinition.properties['parameters']) -ne "$($currentParameterRule | ConvertFrom-Json -depth 100)`n" ) {
+                New-item -Path "$policyParameterFilePath" -ItemType File -Value "$($policyDefinition.properties['parameters'] | ConvertTo-Json -Depth 100)`n" -Force | Out-Null
+            }
+        }
+        else {
+            New-item -Path "$policyParameterFilePath" -ItemType File -Value "$($policyDefinition.properties['parameters'] | ConvertTo-Json -Depth 100)`n" -Force | Out-Null
+        }
+        
+    }
+}
+
+Get-ChildItem -Path .\Policies -Recurse -File | Where-Object { $_.Name -in @('azurepolicy.json') } | ForEach-Object {
+    Confirm-PolicyDefinition -filePath $_.FullName
+    Confirm-PolicyPropertyDefinition -filePath $_.FullName
+    New-PolicyDefinitionSupportFiles -filePath $_.FullName
 }
