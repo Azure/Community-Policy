@@ -1,13 +1,29 @@
 {
+  "name": "5613822e-4a88-42eb-9b75-f885d893868c",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Enforce SSL on all DB for MySQL instances",
-    "policyType": "Custom",
-    "description": "This policy ensures SSL is enforced on all DB for MySQL instances",
     "mode": "Indexed",
-    "metadata": {
-      "category": "DB for MySQL"
+    "description": "This policy ensures SSL is enforced on all DB for MySQL instances",
+    "metaData": {
+      "category": "DB for MySQL",
+      "version": "1.0.0"
     },
-    "parameters": {},
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
     "policyRule": {
       "if": {
         "allOf": [
@@ -22,7 +38,7 @@
         ]
       },
       "then": {
-        "effect": "deny"
+        "effect": "[parameters('effect')]"
       }
     }
   }

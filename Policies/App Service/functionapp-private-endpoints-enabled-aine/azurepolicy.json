@@ -1,50 +1,51 @@
 {
-    "properties": {
-        "displayName": "Function apps must have private endpoints enabled",
-        "policyType": "Custom",
-        "mode": "Indexed",
-        "description": "A private endpoint connection enables private connectivity to your function app via a private IP address inside a virtual network. This configuration improves your security posture and supports Azure networking tools and scenarios.",
+  "name": "3e59d354-b692-44f5-a6a6-db05fc77f68e",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Function apps must have private endpoints enabled",
+    "mode": "Indexed",
+    "description": "A private endpoint connection enables private connectivity to your function app via a private IP address inside a virtual network. This configuration improves your security posture and supports Azure networking tools and scenarios.",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "App Service"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
         "metadata": {
-            "category": "App Service",
-            "version": "1.0.0"
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
         },
-        "parameters": {
-            "effect": {
-                "type": "String",
-                "metadata": {
-                    "displayName": "Effect",
-                    "description": "Enable or disable the execution of the policy"
-                },
-                "allowedValues": [
-                    "AuditIfNotExists",
-                    "Disabled"
-                ],
-                "defaultValue": "AuditIfNotExists"
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Web/sites"
-                    },
-                    {
-                        "field": "kind",
-                        "contains": "functionapp"
-                    }
-                ]
-            },
-            "then": {
-                "effect": "[parameters('effect')]",
-                "details": {
-                    "type": "Microsoft.Web/sites/privateEndpointConnections",
-                    "existenceCondition": {
-                        "field": "Microsoft.Web/sites/privateEndpointConnections/privateLinkServiceConnectionState.status",
-                        "equals": "Approved"
-                    }
-                }
-            }
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "kind",
+            "contains": "functionapp"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Web/sites/privateEndpointConnections",
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/privateEndpointConnections/privateLinkServiceConnectionState.status",
+            "equals": "Approved"
+          }
         }
+      }
     }
+  }
 }

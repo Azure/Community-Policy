@@ -1,26 +1,26 @@
 {
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Effect",
-        "description": "Enable or disable the execution of the policy"
-      },
-      "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
-      ],
-      "defaultValue": "AuditIfNotExists"
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
     },
-    "logsEnabled": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Enable logs",
-        "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
-      },
-      "allowedValues": [
-        "True",
-        "False"
-      ],
-      "defaultValue": "True"
-    }
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists"
+  },
+  "logsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enable logs",
+      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+    },
+    "allowedValues": [
+      "True",
+      "False"
+    ],
+    "defaultValue": "True"
   }
+}

@@ -1,1 +1,15 @@
-{}
+{
+  "effect": {
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
+}

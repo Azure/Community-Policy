@@ -1,44 +1,59 @@
 {
-    "properties": {
-        "displayName": "Audit enabling of diagnostic logs in Event Hub",
-        "mode": "Indexed",
-        "description": "Audit enabling of logs and retain them up to a year. This enables recreation of activity trails for investigation purposes when a security incident occurs or your network is compromised",
+  "name": "3bc07a74-04c5-4cbc-8d81-4db9ad024f41",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit enabling of diagnostic logs in Event Hub",
+    "mode": "Indexed",
+    "description": "Audit enabling of logs and retain them up to a year. This enables recreation of activity trails for investigation purposes when a security incident occurs or your network is compromised",
+    "metaData": {
+      "category": "Event Hub",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "requiredRetentionDays": {
+        "type": "String",
+        "defaultValue": "365",
         "metadata": {
-            "category": "Event Hub"
-        },
-        "parameters": { 
-            "requiredRetentionDays": {
-              "type": "String",
-              "defaultValue": "365",
-              "metadata": {
-                "displayName": "Required retention (days)",
-                "description": "The required diagnostic logs retention in days"
-              }         
-            }
-        },
-        "policyRule": {
-            "if": {
-              "field": "type",
-              "equals": "Microsoft.EventHub/namespaces"
-            },
-            "then": {
-              "effect": "AuditIfNotExists",
-              "details":{
-                "type": "Microsoft.Insights/diagnosticSettings",
-                "existenceCondition": {
-                  "allOf": [
-                    {
-                      "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.enabled",
-                      "equals": "true"
-                    },
-                    {
-                      "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.days",
-                      "equals": "[parameters('requiredRetentionDays')]"
-                    }
-                  ]
-                }
-              }
-            }
+          "displayName": "Required retention (days)",
+          "description": "The required diagnostic logs retention in days"
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.EventHub/namespaces"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/diagnosticSettings",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.enabled",
+                "equals": "true"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.days",
+                "equals": "[parameters('requiredRetentionDays')]"
+              }
+            ]
+          }
+        }
+      }
     }
+  }
 }

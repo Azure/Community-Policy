@@ -1,34 +1,44 @@
 {
-  "mode": "Indexed",
-  "policyRule": {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "equals": "Microsoft.Web/sites"
-        },
-        {
-          "field": "Microsoft.Web/sites/siteConfig.alwaysOn",
-          "equals": "false"
-        }
-      ]
+  "name": "866b0198-b61d-48d4-998d-5973fb6c3b0c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "web-app-always-on-deny",
+    "mode": "Indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "web-app-always-on",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "[parameters('effect')]"
-    }
-  },
-  "parameters": {
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Effect",
-        "description": "Enable or disable the execution of the policy"
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "Microsoft.Web/sites/siteConfig.alwaysOn",
+            "equals": "false"
+          }
+        ]
       },
-      "allowedValues": [
-        "Deny",
-        "Disabled"
-      ],
-      "defaultValue": "Deny"
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
   }
 }

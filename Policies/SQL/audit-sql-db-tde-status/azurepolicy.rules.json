@@ -1,33 +1,33 @@
 {
-   "if": {
-      "allOf": [
-         {
-            "field": "type",
-            "equals": "Microsoft.Sql/servers/databases"
-         },
-         {
-            "field": "name",
-            "notEquals": "master"
-         }
-      ]
-   },
-   "then": {
-      "effect": "[parameters('effect')]",
-      "details": {
-         "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
-         "name": "current",
-         "existenceCondition": {
-            "anyOf": [
-               {
-                 "field": "Microsoft.Sql/transparentDataEncryption.status",
-                 "equals": "enabled"
-               },
-               {
-                 "field": "Microsoft.Sql/servers/databases/transparentDataEncryption/state",
-                 "equals": "enabled"
-               }
-           ]
-         }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Sql/servers/databases"
+      },
+      {
+        "field": "name",
+        "notEquals": "master"
       }
-   }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+      "name": "current",
+      "existenceCondition": {
+        "anyOf": [
+          {
+            "field": "Microsoft.Sql/transparentDataEncryption.status",
+            "equals": "enabled"
+          },
+          {
+            "field": "Microsoft.Sql/servers/databases/transparentDataEncryption/state",
+            "equals": "enabled"
+          }
+        ]
+      }
+    }
+  }
 }

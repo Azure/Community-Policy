@@ -1,16 +1,28 @@
 {
-   "startIpAddress": {
-      "type": "string",
-      "metadata": {
-         "displayName": "Start IP Address",
-         "description": "The beginning of the IP address range. Example: 1.23.191.10"
-      }
-   },
-   "endIpAddress": {
-      "type": "string",
-      "metadata": {
-         "displayName": "End IP Address",
-         "description": "The end of the IP address range. Example: 1.23.191.50"
-      }
-   }
+  "startIpAddress": {
+    "type": "string",
+    "metadata": {
+      "displayName": "Start IP Address",
+      "description": "The beginning of the IP address range. Example: 1.23.191.10"
+    }
+  },
+  "endIpAddress": {
+    "type": "string",
+    "metadata": {
+      "displayName": "End IP Address",
+      "description": "The end of the IP address range. Example: 1.23.191.50"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

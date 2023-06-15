@@ -1,43 +1,57 @@
 {
-    "name": {
-      "type": "String"
-    },
-    "protocol": {
-      "type": "String",
-      "allowedvalues": [
-        "TCP",
-        "UDP",
-        "ICMP",
-        "*"
-      ]
-    },
-    "access": {
-      "type": "String",
-      "allowedvalues": [
-        "Allow",
-        "Deny"
-      ]
-    },
-    "priority": {
-      "type": "String"
-    },
-    "direction": {
-      "type": "String",
-      "allowedvalues": [
-        "Inbound",
-        "Outbound"
-      ]
-    },
-    "sourcePortRanges": {
-      "type": "Array"
-    },
-    "destinationPortRanges": {
-      "type": "Array"
-    },
-    "sourceAddressPrefixes": {
-      "type": "Array"
-    },
-    "destinationAddressPrefixes": {
-      "type": "Array"
+  "name": {
+    "type": "String"
+  },
+  "protocol": {
+    "type": "String",
+    "allowedvalues": [
+      "TCP",
+      "UDP",
+      "ICMP",
+      "*"
+    ]
+  },
+  "access": {
+    "type": "String",
+    "allowedvalues": [
+      "Allow",
+      "Deny"
+    ]
+  },
+  "priority": {
+    "type": "String"
+  },
+  "direction": {
+    "type": "String",
+    "allowedvalues": [
+      "Inbound",
+      "Outbound"
+    ]
+  },
+  "sourcePortRanges": {
+    "type": "Array"
+  },
+  "destinationPortRanges": {
+    "type": "Array"
+  },
+  "sourceAddressPrefixes": {
+    "type": "Array"
+  },
+  "destinationAddressPrefixes": {
+    "type": "Array"
+  },
+  "effect": {
+    "allowedValues": [
+      "Append",
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Append",
+    "type": "string",
+    "metaData": {
+      "description": "Append, Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
     }
   }
+}

@@ -1,9 +1,22 @@
 {
-    "listOfAllowedCollations": {
-      "type": "Array",
-      "metadata": {
-        "displayName": "Allowed Collation Names",
-        "description": "A list of approved collations, example: Latin1_General_BIN;SQL_Latin1_General_CP1_CI_AS"
-      }
+  "listOfAllowedCollations": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed Collation Names",
+      "description": "A list of approved collations, example: Latin1_General_BIN;SQL_Latin1_General_CP1_CI_AS"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
     }
   }
+}

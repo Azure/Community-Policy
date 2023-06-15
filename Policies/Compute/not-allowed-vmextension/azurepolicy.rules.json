@@ -1,30 +1,29 @@
 {
-	"if": {
-	  "allOf": [
-		 {
-			"field": "type",
-			"equals": "Microsoft.Compute/virtualMachines/extensions"
-		 },
-		 {
-			"field": "Microsoft.Compute/virtualMachines/extensions/type",
-			"in": "[parameters('notAllowedExtensions')]"
-		 },
-		 {
-			"anyOf": [
-			  {
-				 "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
-				 "equals": "Microsoft.Azure.AzureDefenderForServers"
-			  },
-			  {
-				 "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
-				 "equals": "Microsoft.Compute"
-			  }
-			]
-		 }
-	  ]
-	},
-	"then": {
-	  "effect": "[parameters('effect')]"
-	}
- }
- 
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Compute/virtualMachines/extensions"
+      },
+      {
+        "field": "Microsoft.Compute/virtualMachines/extensions/type",
+        "in": "[parameters('notAllowedExtensions')]"
+      },
+      {
+        "anyOf": [
+          {
+            "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+            "equals": "Microsoft.Azure.AzureDefenderForServers"
+          },
+          {
+            "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+            "equals": "Microsoft.Compute"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

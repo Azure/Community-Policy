@@ -1,55 +1,55 @@
 {
-    "if": {
-        "anyOf": [
-            {
+  "if": {
+    "anyOf": [
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ServiceBus/namespaces/networkRuleSets"
+          },
+          {
+            "anyOf": [
+              {
                 "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.ServiceBus/namespaces/networkRuleSets"
-                    },
-                    {
-                        "anyOf": [
-                            {
-                                "allOf": [
-                                    {
-                                        "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/publicNetworkAccess",
-                                        "equals": "Enabled"
-                                    },
-                                    {
-                                        "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/defaultAction",
-                                        "equals": "Allow"
-                                    }
-                                ]
-                            },
-                            {
-                                "allOf": [
-                                    {
-                                        "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/defaultAction",
-                                        "equals": "Deny"
-                                    },
-                                    {
-                                        "count": {
-                                            "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/ipRules[*]",
-                                            "where": {
-                                                "allOf": [
-                                                    {
-                                                        "value": "[current('Microsoft.ServiceBus/namespaces/networkRuleSets/ipRules[*].ipMask')]",
-                                                        "notIn": "[parameters('allowedAddressRanges')]"
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        "greater": 0
-                                    }
-                                ]
-                            }
-                        ]
-                    }
+                  {
+                    "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/publicNetworkAccess",
+                    "equals": "Enabled"
+                  },
+                  {
+                    "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/defaultAction",
+                    "equals": "Allow"
+                  }
                 ]
-            }
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/defaultAction",
+                    "equals": "Deny"
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/ipRules[*]",
+                      "where": {
+                        "allOf": [
+                          {
+                            "value": "[current('Microsoft.ServiceBus/namespaces/networkRuleSets/ipRules[*].ipMask')]",
+                            "notIn": "[parameters('allowedAddressRanges')]"
+                          }
+                        ]
+                      }
+                    },
+                    "greater": 0
+                  }
+                ]
+              }
+            ]
+          }
         ]
-    },
-    "then": {
-        "effect": "[parameters('policyEffect')]"
-    }
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

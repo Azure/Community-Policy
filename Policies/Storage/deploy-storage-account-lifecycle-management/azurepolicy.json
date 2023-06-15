@@ -1,165 +1,168 @@
 {
+  "name": "14161b5c-9b42-4202-b71b-455727d09a56",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "Deploy a Data Lifecycle Management policy for Storage Accounts",
-    "description": "Configure the deployment of one Data Lifecycle Management (DLM) policy for each storage account in the scope with a given lifecycle policy name.",
-    "policyType": "Custom",
     "mode": "All",
-    "metadata": {
-        "category": "Storage",
-        "version": "1.0.0"
+    "description": "Configure the deployment of one Data Lifecycle Management (DLM) policy for each storage account in the scope with a given lifecycle policy name.",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "Storage"
     },
     "parameters": {
-        "lifecyclePolicyName": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Lifecycle Policy Name",
-                "description": "The name of the lifecycle policy to deploy. The default value is 'optimizeCostDemo'."
-            },
-            "defaultValue": "optimizeCostDemo"
+      "lifecyclePolicyName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Lifecycle Policy Name",
+          "description": "The name of the lifecycle policy to deploy. The default value is 'optimizeCostDemo'."
         },
-        "LATCool": {
-            "type": "Integer",
-            "metadata": {
-                "displayName": "Last time accessed before moving to cool.",
-                "description": "Last time accessed blob to move to cool tier in days. The default value is 30 days."
-            },
-            "defaultValue": 30
+        "defaultValue": "optimizeCostDemo"
+      },
+      "LATCool": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Last time accessed before moving to cool.",
+          "description": "Last time accessed blob to move to cool tier in days. The default value is 30 days."
         },
-        "LATArchive": {
-            "type": "Integer",
-            "metadata": {
-                "displayName": "Last time accessed before archiving.",
-                "description": "Last time accessed blob to move to archive tier in days. The default value is 180 days."
-            },
-            "defaultValue": 180
+        "defaultValue": 30
+      },
+      "LATArchive": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Last time accessed before archiving.",
+          "description": "Last time accessed blob to move to archive tier in days. The default value is 180 days."
         },
-        "effect": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Effect",
-                "description": "The effect of the policy: DeployIfNotExists or Audit. The default value is DeployIfNotExists."
-            },
-            "allowedValues": [
-                "DeployIfNotExists",
-                "Audit"
-            ],
-            "defaultValue": "DeployIfNotExists"
-        }
+        "defaultValue": 180
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "The effect of the policy: DeployIfNotExists or Audit. The default value is DeployIfNotExists."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Audit"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
     },
     "policyRule": {
-        "if": {
-            "field": "type",
-            "equals": "Microsoft.Storage/storageAccounts"
-        },
-        "then": {
-            "effect": "[parameters('effect')]",
-            "details": {
-                "type": "Microsoft.Storage/storageAccounts/managementPolicies",
-                "name": "default",
-                "existenceCondition": {
-                    "count": {
-                        "field": "Microsoft.Storage/storageAccounts/managementPolicies/policy.rules[*]",
-                        "where": {
-                            "value": "[current('Microsoft.Storage/storageAccounts/managementPolicies/policy.rules[*].name')]",
-                            "equals": "[parameters('lifecyclePolicyName')]"
-                        }
-                    },
-                    "greater": 0
-                },
-                "roleDefinitionIds": [
-                    "/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab"
-                ],
-                "evaluationDelay": "AfterProvisioning",
-                "deployment": {
-                    "properties": {
-                        "mode": "Incremental",
-                        "template": {
-                            "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                            "contentVersion": "1.0.0.0",
-                            "parameters": {
-                                "storageAccountName": {
-                                    "defaultValue": "stalifecycle1",
-                                    "type": "String"
-                                },
-                                "lifecyclePolicyName": {
-                                    "defaultValue": "optimizeCostDemo",
-                                    "type": "String"
-                                },
-                                "LATCool": {
-                                    "defaultValue": 30,
-                                    "type": "Int",
-                                    "metadata": {
-                                        "description": "Days since last blob access before moving to cool tier"
-                                    }
-                                },
-                                "LATArchive": {
-                                    "defaultValue": 180,
-                                    "type": "Int",
-                                    "metadata": {
-                                        "description": "Days since last blob access before moving to archive tier"
-                                    }
-                                }
-                            },
-                            "resources": [
-                                {
-                                    "type": "Microsoft.Storage/storageAccounts/managementPolicies",
-                                    "apiVersion": "2021-08-01",
-                                    "name": "[concat(parameters('storageAccountName'), '/default')]",
-                                    "properties": {
-                                        "policy": {
-                                            "rules": [
-                                                {
-                                                    "name": "[parameters('lifecyclePolicyName')]",
-                                                    "enabled": true,
-                                                    "type": "Lifecycle",
-                                                    "definition": {
-                                                        "filters": {
-                                                            "blobTypes": [
-                                                                "blockBlob"
-                                                            ]
-                                                        },
-                                                        "actions": {
-                                                            "baseBlob": {
-                                                                "tierToCool": {
-                                                                    "daysAfterLastAccessTimeGreaterThan": "[parameters('LATCool')]"
-                                                                },
-                                                                "tierToArchive": {
-                                                                    "daysAfterLastAccessTimeGreaterThan": "[parameters('LATArchive')]"
-                                                                },
-                                                                "delete": {
-                                                                    "daysAfterLastAccessTimeGreaterThan": 2555
-                                                                }
-                                                            },
-                                                            "snapshot": {
-                                                                "delete": {
-                                                                    "daysAfterCreationGreaterThan": 90
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        },
-                        "parameters": {
-                            "storageAccountName": {
-                                "value": "[field('name')]"
-                            },
-                            "LATCool": {
-                                "value": "[parameters('LATCool')]"
-                            },
-                            "LATArchive": {
-                                "value": "[parameters('LATArchive')]"
-                            },
-                            "lifecyclePolicyName": {
-                                "value": "[parameters('lifecyclePolicyName')]"
-                            }
-                        }
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Storage/storageAccounts/managementPolicies",
+          "name": "default",
+          "existenceCondition": {
+            "count": {
+              "field": "Microsoft.Storage/storageAccounts/managementPolicies/policy.rules[*]",
+              "where": {
+                "value": "[current('Microsoft.Storage/storageAccounts/managementPolicies/policy.rules[*].name')]",
+                "equals": "[parameters('lifecyclePolicyName')]"
+              }
+            },
+            "greater": 0
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab"
+          ],
+          "evaluationDelay": "AfterProvisioning",
+          "deployment": {
+            "properties": {
+              "mode": "Incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "storageAccountName": {
+                    "defaultValue": "stalifecycle1",
+                    "type": "String"
+                  },
+                  "lifecyclePolicyName": {
+                    "defaultValue": "optimizeCostDemo",
+                    "type": "String"
+                  },
+                  "LATCool": {
+                    "defaultValue": 30,
+                    "type": "Int",
+                    "metadata": {
+                      "description": "Days since last blob access before moving to cool tier"
                     }
+                  },
+                  "LATArchive": {
+                    "defaultValue": 180,
+                    "type": "Int",
+                    "metadata": {
+                      "description": "Days since last blob access before moving to archive tier"
+                    }
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.Storage/storageAccounts/managementPolicies",
+                    "apiVersion": "2021-08-01",
+                    "name": "[concat(parameters('storageAccountName'), '/default')]",
+                    "properties": {
+                      "policy": {
+                        "rules": [
+                          {
+                            "name": "[parameters('lifecyclePolicyName')]",
+                            "enabled": true,
+                            "type": "Lifecycle",
+                            "definition": {
+                              "filters": {
+                                "blobTypes": [
+                                  "blockBlob"
+                                ]
+                              },
+                              "actions": {
+                                "baseBlob": {
+                                  "tierToCool": {
+                                    "daysAfterLastAccessTimeGreaterThan": "[parameters('LATCool')]"
+                                  },
+                                  "tierToArchive": {
+                                    "daysAfterLastAccessTimeGreaterThan": "[parameters('LATArchive')]"
+                                  },
+                                  "delete": {
+                                    "daysAfterLastAccessTimeGreaterThan": 2555
+                                  }
+                                },
+                                "snapshot": {
+                                  "delete": {
+                                    "daysAfterCreationGreaterThan": 90
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "storageAccountName": {
+                  "value": "[field('name')]"
+                },
+                "LATCool": {
+                  "value": "[parameters('LATCool')]"
+                },
+                "LATArchive": {
+                  "value": "[parameters('LATArchive')]"
+                },
+                "lifecyclePolicyName": {
+                  "value": "[parameters('lifecyclePolicyName')]"
                 }
+              }
             }
+          }
         }
+      }
     }
+  }
 }

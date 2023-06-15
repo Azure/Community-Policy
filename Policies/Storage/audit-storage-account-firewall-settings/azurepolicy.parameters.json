@@ -1,17 +1,26 @@
 {
-    "allowedAddressRanges": {
-        "type": "Array",
-        "metadata": {
-            "displayName": "Allowed Address Ranges",
-            "description": "The list of IP Addresses or IP Address Ranges that are allowed for the Firewall Setting on the Storage Account"
-        }
-    },
-    "policyEffect": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Policy Effect",
-            "description": "The Policy Effect associated with this Policy Definition"
-        },
-        "defaultValue": "Audit"
+  "allowedAddressRanges": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed Address Ranges",
+      "description": "The list of IP Addresses or IP Address Ranges that are allowed for the Firewall Setting on the Storage Account"
     }
+  },
+  "policyEffect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Policy Effect",
+      "description": "The Policy Effect associated with this Policy Definition"
+    },
+    "defaultValue": "Audit"
+  },
+  "effect": {
+    "allowedValues": null,
+    "defaultValue": null,
+    "type": "string",
+    "metaData": {
+      "description": null,
+      "displayName": "Policy effect"
+    }
+  }
 }

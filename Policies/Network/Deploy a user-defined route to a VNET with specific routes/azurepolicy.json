@@ -3,12 +3,12 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Deploy a user-defined route to a VNET with specific routes.",
+    "mode": "Indexed",
     "description": "Deploy a user-defined route to a VNET with routes from spoke to hub firewall. This policy must be assigned for each region you plan to use.",
-    "metadata": {
+    "metaData": {
       "version": "1.0.0",
       "category": "Network"
     },
-    "mode": "Indexed",
     "parameters": {
       "defaultRoute": {
         "type": "String",

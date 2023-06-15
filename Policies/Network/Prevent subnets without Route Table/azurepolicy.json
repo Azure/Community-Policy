@@ -1,83 +1,83 @@
 {
-  "Description": "This policy prevents subnets without a UDR attached to them.",
-  "DisplayName": "Prevent subnets without Route Table",
-  "Metadata": {
-    "category": "Network",
-    "createdBy": "",
-    "createdOn": "2021-10-05T10:43:35.8351372Z",
-    "updatedBy": null,
-    "updatedOn": null
-  },
-  "Mode": "All",
-  "Parameters": {
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "description": "The effect of the policy",
-        "displayName": "Effect"
-      },
-      "allowedValues": [
-        "audit",
-        "deny",
-        "disabled"
-      ],
-      "defaultValue": "deny"
-    }
-  },
-  "PolicyRule": {
-    "if": {
-      "anyOf": [
-        {
-          "allOf": [
-            {
-              "equals": "Microsoft.Network/virtualNetworks/subnets",
-              "field": "type"
-            },
-            {
-              "exists": "false",
-              "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id"
-            },
-            {
-              "field": "name",
-              "notIn": [
-                "AzureFirewallManagementSubnet"
-              ]
-            }
-          ]
-        },
-        {
-          "allOf": [
-            {
-              "equals": "Microsoft.Network/virtualNetworks",
-              "field": "type"
-            },
-            {
-              "count": {
-                "field": "Microsoft.Network/virtualNetworks/subnets[*]",
-                "where": {
-                  "allOf": [
-                    {
-                      "exists": "false",
-                      "field": "Microsoft.Network/virtualNetworks/subnets[*].routeTable.id"
-                    },
-                    {
-                      "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
-                      "notIn": [
-                        "AzureFirewallManagementSubnet"
-                      ]
-                    }
-                  ]
-                }
-              },
-              "notEquals": 0
-            }
-          ]
-        }
-      ]
+  "name": "5e63a2bc-be10-4169-b10c-4863b88344e4",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Prevent subnets without Route Table",
+    "mode": "indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "[parameters('effect')]"
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "description": "The effect of the policy",
+          "displayName": "Effect"
+        },
+        "allowedValues": [
+          "audit",
+          "deny",
+          "disabled"
+        ],
+        "defaultValue": "deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "equals": "Microsoft.Network/virtualNetworks/subnets",
+                "field": "type"
+              },
+              {
+                "exists": "false",
+                "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id"
+              },
+              {
+                "field": "name",
+                "notIn": [
+                  "AzureFirewallManagementSubnet"
+                ]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "equals": "Microsoft.Network/virtualNetworks",
+                "field": "type"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+                  "where": {
+                    "allOf": [
+                      {
+                        "exists": "false",
+                        "field": "Microsoft.Network/virtualNetworks/subnets[*].routeTable.id"
+                      },
+                      {
+                        "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                        "notIn": [
+                          "AzureFirewallManagementSubnet"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "notEquals": 0
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
-  },
-  "PolicyType": 1
+  }
 }

@@ -1,60 +1,65 @@
 {
-    "name": "allowed-role-definitions-for-specific-principal-ids",
-    "properties": {
-        "displayName": "Allowed Role Definitions For Specific Principal IDs",
-        "description": "This policy defines an allow list of role definitions that can be assigned to specific Principal IDs in IAM. This is useful in the example where you don't want an SPN having it's rights elevated.",
-        "mode": "All",
-        "parameters": {
-            "roleDefinitionIds": {
-                "type": "array",
-                "metadata": {
-                    "description": "The list of allowed role definition IDs. Example: If you were to put in 8e3af657-a8ff-443c-a75c-2fe8c4bcb635 as a value then only the Owner role definition could be assigned.",
-                    "displayName": "Approved Role Definitions"
-                }
-            },
-            "targetedPrincipalIDs": {
-                "type": "array",
-                "metadata": {
-                    "displayName": "Targeted Principal IDs",
-                    "description": "Any Principal IDs included in this list will have this Policy applied to them."
-                },
-                "defaultvalue": "None"
-            },
-            "effect": {
-                "type": "String",
-                "metadata": {
-                    "displayName": "Effect",
-                    "description": "Enable or disable the execution of the policy."
-                },
-                "allowedValues": [
-                    "Deny",
-                    "Disabled"
-                ],
-                "defaultValue": "Deny"
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Authorization/roleAssignments"
-                    },
-                    {
-                        "not": {
-                            "value": "[split(field('Microsoft.Authorization/roleAssignments/roleDefinitionId'),'roleDefinitions/')[1]]",
-                            "in": "[parameters('roleDefinitionIds')]"
-                        }
-                    },
-                    {
-                        "field": "Microsoft.Authorization/roleAssignments/principalId",
-                        "in": "[parameters('targetedPrincipalIDs')]"
-                    }
-                ]
-            },
-            "then": {
-                "effect": "[parameters('effect')]"
-            }
+  "name": "allowed-role-definitions-for-specific-principal-ids",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Allowed Role Definitions For Specific Principal IDs",
+    "mode": "All",
+    "description": "This policy defines an allow list of role definitions that can be assigned to specific Principal IDs in IAM. This is useful in the example where you don't want an SPN having it's rights elevated.",
+    "metaData": {
+      "category": "Authorization",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "roleDefinitionIds": {
+        "type": "array",
+        "metadata": {
+          "description": "The list of allowed role definition IDs. Example: If you were to put in 8e3af657-a8ff-443c-a75c-2fe8c4bcb635 as a value then only the Owner role definition could be assigned.",
+          "displayName": "Approved Role Definitions"
         }
+      },
+      "targetedPrincipalIDs": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Targeted Principal IDs",
+          "description": "Any Principal IDs included in this list will have this Policy applied to them."
+        },
+        "defaultvalue": "None"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Authorization/roleAssignments"
+          },
+          {
+            "not": {
+              "value": "[split(field('Microsoft.Authorization/roleAssignments/roleDefinitionId'),'roleDefinitions/')[1]]",
+              "in": "[parameters('roleDefinitionIds')]"
+            }
+          },
+          {
+            "field": "Microsoft.Authorization/roleAssignments/principalId",
+            "in": "[parameters('targetedPrincipalIDs')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

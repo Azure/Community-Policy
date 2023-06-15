@@ -1,31 +1,50 @@
 {
-   "properties": {
-      "displayName": "Audit SQL Server virtual network rule",
-      "description": "Audits the existence of a rule that enables traffic from a SQL Server to a specific subnet.",
-      "parameters": {
-         "subnetId": {
-            "type": "string",
-            "metadata": {
-               "displayName": "Subnet ID",
-               "description": "The resource ID of the virtual network subnet that should have a rule enabled. Example: /subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet"
-            }
-         }
+  "name": "a97c2086-1de8-408d-a988-347d4edc705f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit SQL Server virtual network rule",
+    "mode": "indexed",
+    "description": "Audits the existence of a rule that enables traffic from a SQL Server to a specific subnet.",
+    "metaData": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "subnetId": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Subnet ID",
+          "description": "The resource ID of the virtual network subnet that should have a rule enabled. Example: /subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet"
+        }
       },
-      "policyRule": {
-         "if": {
-            "field": "type",
-            "equals": "Microsoft.Sql/servers"
-         },
-         "then": {
-            "effect": "AuditIfNotExists",
-            "details": {
-               "type": "Microsoft.Sql/servers/virtualNetworkRules",
-               "existenceCondition": {
-                  "field": "Microsoft.Sql/servers/virtualNetworkRules/virtualNetworkSubnetId",
-                  "equals": "[parameters('subnetId')]"
-               }
-            }
-         }
+      "effect": {
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
       }
-   }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Sql/servers"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Sql/servers/virtualNetworkRules",
+          "existenceCondition": {
+            "field": "Microsoft.Sql/servers/virtualNetworkRules/virtualNetworkSubnetId",
+            "equals": "[parameters('subnetId')]"
+          }
+        }
+      }
+    }
+  }
 }

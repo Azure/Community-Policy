@@ -1,9 +1,22 @@
 {
-    "requiredSuffix": {
-        "type": "Array",
-        "metadata": {
-            "displayName": "Required Suffixes",
-            "description": "Assessment is performed as such: 'exameple-subnet-suffix', would be split by '-' and the last value would be returned. That would be the word 'suffix' in this example. If that word was not defined in this list the creation of that subnet would be denied."
-        }
+  "requiredSuffix": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Required Suffixes",
+      "description": "Assessment is performed as such: 'exameple-subnet-suffix', would be split by '-' and the last value would be returned. That would be the word 'suffix' in this example. If that word was not defined in this list the creation of that subnet would be denied."
     }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

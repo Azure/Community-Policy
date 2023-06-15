@@ -1,41 +1,61 @@
 {
-    "properties": {
-        "mode": "All",
-        "parameters": {},
-        "displayName": "Ensure https traffic only for storage account",
-        "description": "Ensure https traffic only for storage account",
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Storage/storageAccounts"
-                    },
-                    {
-                        "anyOf": [
-                            {
-                                "allOf": [
-                                    {
-                                        "value": "[requestContext().apiVersion]",
-                                        "less": "2019-04-01"
-                                    },
-                                    {
-                                        "field": "Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly",
-                                        "exists": "false"
-                                    }
-                                ]
-                            },
-                            {
-                                "field": "Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly",
-                                "equals": "false"
-                            }
-                        ]
-                    }
-                ]
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "name": "fcc2d979-fc85-4be3-8492-808fe60e926c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Ensure https traffic only for storage account",
+    "mode": "All",
+    "description": "Ensure https traffic only for storage account",
+    "metaData": {
+      "category": "Storage",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "anyOf": [
+              {
+                "allOf": [
+                  {
+                    "value": "[requestContext().apiVersion]",
+                    "less": "2019-04-01"
+                  },
+                  {
+                    "field": "Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly",
+                    "exists": "false"
+                  }
+                ]
+              },
+              {
+                "field": "Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly",
+                "equals": "false"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

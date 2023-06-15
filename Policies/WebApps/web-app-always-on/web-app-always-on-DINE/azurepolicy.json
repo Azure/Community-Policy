@@ -1,65 +1,89 @@
 {
-  "mode": "Indexed",
-  "policyRule": {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "equals": "Microsoft.Web/sites"
-        }
-      ]
+  "name": "85d73c7a-b255-4553-be4c-d174a2d77179",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "web-app-always-on-DINE",
+    "mode": "Indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "web-app-always-on",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "deployIfNotExists",
-      "details": {
-        "type": "Microsoft.Web/sites/config",
-        "roleDefinitionIds": [
-          "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
         ],
-        "existenceCondition": {
-          "field": "Microsoft.Web/sites/config/web.alwaysOn",
-          "equals": "true"
-        },
-        "deployment": {
-          "properties": {
-            "mode": "incremental",
-            "template": {
-              "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-              "contentVersion": "1.0.0.0",
-              "parameters": {
-                "appName": {
-                  "type": "string"
+        "defaultValue": "DeployIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Web/sites/config",
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/config/web.alwaysOn",
+            "equals": "true"
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "appName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  }
                 },
-                "location": {
-                  "type": "string"
-                }
-              },
-              "resources": [
-                {
-                  "name": "[parameters('appName')]",
-                  "type": "Microsoft.Web/sites",
-                  "apiVersion": "2016-08-01",
-                  "location": "[parameters('location')]",
-                  "properties": {
-                    "siteConfig": {
-                      "alwaysOn": "true"
+                "resources": [
+                  {
+                    "name": "[parameters('appName')]",
+                    "type": "Microsoft.Web/sites",
+                    "apiVersion": "2016-08-01",
+                    "location": "[parameters('location')]",
+                    "properties": {
+                      "siteConfig": {
+                        "alwaysOn": "true"
+                      }
                     }
                   }
-                }
-              ]
-            },
-            "parameters": {
-              "appName": {
-                "value": "[field('name')]"
+                ]
               },
-              "location": {
-                "value": "[field('location')]"
+              "parameters": {
+                "appName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                }
               }
             }
           }
         }
       }
     }
-  },
-  "parameters": {}
+  }
 }

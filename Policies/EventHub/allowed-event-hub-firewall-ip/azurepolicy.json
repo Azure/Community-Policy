@@ -1,8 +1,14 @@
 {
+  "name": "e6050a30-0403-486b-8043-2c14cff4e357",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Event Hub firewall should only allow certain IPs",
-    "description": "This policy allows only restricted IPs for Event hub firewall",
     "mode": "All",
+    "description": "This policy allows only restricted IPs for Event hub firewall",
+    "metaData": {
+      "category": "EventHub",
+      "version": "1.0.0"
+    },
     "parameters": {
       "allowedIps": {
         "type": "Array",
@@ -11,6 +17,19 @@
           "description": "List of IPs allowed for event hub firewall"
         },
         "defaultValue": []
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
       }
     },
     "policyRule": {
@@ -37,7 +56,7 @@
         ]
       },
       "then": {
-        "effect": "deny"
+        "effect": "[parameters('effect')]"
       }
     }
   }

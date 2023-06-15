@@ -8,6 +8,7 @@
     ]
   },
   "then": {
+    "effect": "[parameters('effect')]",
     "details": {
       "existenceCondition": {
         "allOf": [
@@ -74,7 +75,6 @@
         "/providers/microsoft.authorization/roleDefinitions/b12aa53e-6015-4669-85d0-8515ebb3ae7f"
       ],
       "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
-    },
-    "effect": "deployIfNotExists"
+    }
   }
 }

@@ -1,16 +1,16 @@
 {
-    "if":{
-       "field":"type",
-       "in":"[parameters('resourceTypes')]"
-    },
-    "then":{
-       "details":{
-          "existenceCondition":{
-             "field":"Microsoft.Authorization/locks/level",
-             "in":"[parameters('lockLevel')]"
-          },
-          "type":"Microsoft.Authorization/locks"
-       },
-       "effect":"auditIfNotExists"
+  "if": {
+    "field": "type",
+    "in": "[parameters('resourceTypes')]"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "existenceCondition": {
+        "field": "Microsoft.Authorization/locks/level",
+        "in": "[parameters('lockLevel')]"
+      },
+      "type": "Microsoft.Authorization/locks"
     }
+  }
 }

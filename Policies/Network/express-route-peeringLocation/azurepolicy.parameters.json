@@ -1,10 +1,23 @@
 {
-	"listOfLocations": {
-		"type": "Array",
-		"metadata": {
-			"description": "The list of peering locations that can be specified for express route.",
-			"displayName": "Allowed Peering Locations",
-			"strongType": "Location"
-		}
-	}
+  "listOfLocations": {
+    "type": "Array",
+    "metadata": {
+      "description": "The list of peering locations that can be specified for express route.",
+      "displayName": "Allowed Peering Locations",
+      "strongType": "Location"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

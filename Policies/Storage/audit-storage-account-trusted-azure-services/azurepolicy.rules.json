@@ -1,21 +1,21 @@
 {
-    "if": {
-        "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Storage/storageAccounts"
-            },
-            {
-                "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
-                "exists": "true"
-            },
-            {
-                "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
-                "contains": "AzureServices"
-            }
-        ]
-    },
-    "then": {
-        "effect": "[parameters('policyEffect')]"
-    }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      {
+        "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+        "exists": "true"
+      },
+      {
+        "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+        "contains": "AzureServices"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

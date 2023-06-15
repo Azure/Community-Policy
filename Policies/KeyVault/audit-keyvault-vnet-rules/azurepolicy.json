@@ -1,37 +1,56 @@
 {
-   "properties": {
-      "displayName": "Audit if Key Vault has no virtual network rules",
-      "description": "Audits Key Vault vaults if they do not have virtual network service endpoints set up. More information on virtual network service endpoints in Key Vault is available here: https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview-vnet-service-endpoints",
-      "mode": "Indexed",
-      "parameters": {},
-      "policyRule": {
-         "if": {
-            "allOf": [
-               {
-                  "field": "type",
-                  "equals": "Microsoft.KeyVault/vaults"
-               },
-               {
-                  "anyOf": [
-                     {
-                        "field": "Microsoft.KeyVault/vaults/networkAcls.virtualNetworkRules[*].id",
-                        "exists": "false"
-                     },
-                     {
-                        "field": "Microsoft.KeyVault/vaults/networkAcls.virtualNetworkRules[*].id",
-                        "notLike": "*"
-                     },
-                     {
-                        "field": "Microsoft.KeyVault/vaults/networkAcls.defaultAction",
-                        "equals": "Allow"
-                     }
-                  ]
-               }
-            ]
-         },
-         "then": {
-            "effect": "audit"
-         }
+  "name": "70dc5d6f-2fc7-47d3-ac3c-33cd0b92972b",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit if Key Vault has no virtual network rules",
+    "mode": "Indexed",
+    "description": "Audits Key Vault vaults if they do not have virtual network service endpoints set up. More information on virtual network service endpoints in Key Vault is available here: https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview-vnet-service-endpoints",
+    "metaData": {
+      "category": "KeyVault",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "type": "string",
+        "metaData": {
+          "description": "Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
       }
-   }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.KeyVault/vaults"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.KeyVault/vaults/networkAcls.virtualNetworkRules[*].id",
+                "exists": "false"
+              },
+              {
+                "field": "Microsoft.KeyVault/vaults/networkAcls.virtualNetworkRules[*].id",
+                "notLike": "*"
+              },
+              {
+                "field": "Microsoft.KeyVault/vaults/networkAcls.defaultAction",
+                "equals": "Allow"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
 }

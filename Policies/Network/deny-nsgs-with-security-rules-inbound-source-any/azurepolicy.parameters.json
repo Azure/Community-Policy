@@ -1,15 +1,15 @@
 {
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Effect",
-        "description": "Deny or Audit the use of Any for inbound security rules in Network Security Groups."
-      },
-      "allowedValues": [
-        "Deny",
-        "Audit",
-        "Disabled"
-      ],
-      "defaultValue": "Audit"
-    }
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny or Audit the use of Any for inbound security rules in Network Security Groups."
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
   }
+}

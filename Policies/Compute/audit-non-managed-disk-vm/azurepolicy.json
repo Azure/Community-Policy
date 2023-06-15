@@ -1,7 +1,28 @@
 {
+  "name": "f3520d23-db1a-4f4a-8420-59aa73bb14e9",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName":"Create VM using Managed Disk",
-    "description":"Create VM using Managed Disk",
+    "displayName": "Create VM using Managed Disk",
+    "mode": "indexed",
+    "description": "Create VM using Managed Disk",
+    "metaData": {
+      "category": "Compute",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "type": "string",
+        "metaData": {
+          "description": "Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
     "policyRule": {
       "if": {
         "anyOf": [
@@ -40,7 +61,7 @@
         ]
       },
       "then": {
-        "effect": "audit"
+        "effect": "[parameters('effect')]"
       }
     }
   }

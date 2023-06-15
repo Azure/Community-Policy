@@ -1,13 +1,32 @@
 {
+  "name": "e0593ef8-9609-45c5-88fb-2732e659f2b7",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "NSG rule ports without IP source",
-    "policyType": "Custom",
     "mode": "All",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
     "parameters": {
       "ipAddresses": {
         "type": "Array",
         "metadata": {
           "displayname": "Destination Port Ranges"
+        }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
       }
     },
@@ -33,7 +52,7 @@
         ]
       },
       "then": {
-        "effect": "deny"
+        "effect": "[parameters('effect')]"
       }
     }
   }

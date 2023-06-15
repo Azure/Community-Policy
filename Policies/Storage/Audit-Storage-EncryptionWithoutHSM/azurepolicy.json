@@ -3,12 +3,12 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit-Storage-EncryptionWithoutHSM",
-    "description": "Audit effect will be executed on Storage Accounts in scope, where Storage Account encryption is not configured via CMK from Managed HSM.",
-    "metadata": {
-      "category": "Storage",
-      "version": "1.0.0"
-    },
     "mode": "All",
+    "description": "Audit effect will be executed on Storage Accounts in scope, where Storage Account encryption is not configured via CMK from Managed HSM.",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
     "parameters": {
       "effect": {
         "type": "String",

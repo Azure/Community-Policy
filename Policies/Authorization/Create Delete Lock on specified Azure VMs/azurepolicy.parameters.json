@@ -1,43 +1,43 @@
 {
-	"effect": {
-		"type": "String",
-		"metadata": {
-			"displayName": "Effect",
-			"description": "Enable or disable the execution of the audit policy"
-		},
-		"allowedValues": [
-			"DeployIfNotExists",
-			"AuditIfNotExists",
-			"Disabled"
-		],
-		"defaultValue": "DeployIfNotExists"
-	},
-	"lockslevel": {
-		"type": "String",
-		"metadata": {
-			"displayName": "Effect",
-			"description": "Enable a Delete Lock"
-		},
-		"allowedValues": [
-			"CanNotDelete",
-			"ReadOnly",
-			"NotSpecified"
-		],
-		"defaultValue": "CanNotDelete"
-	},
-	"vmName": {
-		"type": "Array",
-		"metadata": {
-			"displayName": "VM Names",
-			"description": "The list of VM names that should have resource locks"
-		},
-		"allowedValues": [
-			"vm-test01",
-			"vm-test02"
-		],
-		"defaultValue": [
-			"vm-test01",
-			"vm-test02"
-		]
-	}
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the audit policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  },
+  "lockslevel": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable a Delete Lock"
+    },
+    "allowedValues": [
+      "CanNotDelete",
+      "ReadOnly",
+      "NotSpecified"
+    ],
+    "defaultValue": "CanNotDelete"
+  },
+  "vmName": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "VM Names",
+      "description": "The list of VM names that should have resource locks"
+    },
+    "allowedValues": [
+      "vm-test01",
+      "vm-test02"
+    ],
+    "defaultValue": [
+      "vm-test01",
+      "vm-test02"
+    ]
+  }
 }

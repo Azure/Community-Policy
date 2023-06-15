@@ -1,104 +1,123 @@
 {
-   "properties": {
-       "mode": "all",
-       "displayName": "Deploy diagnostic setting for key vault to stream to event hub",
-       "description": "Automatically configure a diagnostic setting for key vault resources which will stream to a specified event hub namespace.",
-       "parameters": {
-           "diagnosticsSettingName": {
-               "type": "string",
-               "metadata": {
-                 "description": "Name for the diagnostic setting resource (e.g. 'SecOpsSendToEventHub')"
-               }
-           },
-           "eventHubAuthorizationRuleId": {
-               "type": "string",
-               "metadata": {
-                   "description": "Resource ID of the event hub authorization rule for the Event Hubs namespace in which the event hubs should be created and/or streamed to."
-               }
-           }
-       },
-       "policyRule": {
-           "if": {
-             "field": "type",
-             "equals": "Microsoft.KeyVault/vaults"
-           },
-           "then": {
-             "effect": "DeployIfNotExists",
-             "details": {
-               "type": "Microsoft.Insights/diagnosticSettings",
-               "roleDefinitionIds": [
-                 "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-               ],
-               "existenceCondition": {
-                  "field": "Microsoft.Insights/diagnosticSettings/eventHubAuthorizationRuleId",
-                  "equals": "[parameters('eventHubAuthorizationRuleId')]"
+  "name": "bea4583a-9db6-4455-9fae-e00ee07c4107",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deploy diagnostic setting for key vault to stream to event hub",
+    "mode": "all",
+    "description": "Automatically configure a diagnostic setting for key vault resources which will stream to a specified event hub namespace.",
+    "metaData": {
+      "category": "KeyVault",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "diagnosticsSettingName": {
+        "type": "string",
+        "metadata": {
+          "description": "Name for the diagnostic setting resource (e.g. 'SecOpsSendToEventHub')"
+        }
+      },
+      "eventHubAuthorizationRuleId": {
+        "type": "string",
+        "metadata": {
+          "description": "Resource ID of the event hub authorization rule for the Event Hubs namespace in which the event hubs should be created and/or streamed to."
+        }
+      },
+      "effect": {
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.KeyVault/vaults"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/diagnosticSettings",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "existenceCondition": {
+            "field": "Microsoft.Insights/diagnosticSettings/eventHubAuthorizationRuleId",
+            "equals": "[parameters('eventHubAuthorizationRuleId')]"
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "diagnosticsSettingName": {
+                    "type": "string"
+                  },
+                  "eventHubAuthorizationRuleId": {
+                    "type": "string"
+                  },
+                  "keyVaultName": {
+                    "type": "string"
+                  }
                 },
-               "deployment": {
-                 "properties": {
-                   "mode": "incremental",
-                   "template": {
-                     "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
-                     "contentVersion": "1.0.0.0",
-                     "parameters": {
-                       "diagnosticsSettingName": {
-                         "type": "string"
-                       },
-                       "eventHubAuthorizationRuleId": {
-                         "type": "string"
-                       },
-                       "keyVaultName": {
-                           "type": "string"
-                       }
-                     },
-                     "variables": {},
-                     "functions": [],
-                     "resources": [
-                       {
-                         "type": "Microsoft.KeyVault/vaults/providers/diagnosticSettings",
-                         "name": "[concat(parameters('keyVaultName'),'/Microsoft.Insights/', parameters('diagnosticsSettingName'))]",
-                         "apiVersion": "2017-05-01-preview",
-                         "properties": {
-                           "eventHubAuthorizationRuleId": "[parameters('eventHubAuthorizationRuleId')]",
-                           "logs": [
-                             {
-                               "category": "AuditEvent",
-                               "enabled": true,
-                               "retentionPolicy": {
-                                   "enabled": false,
-                                   "days": 0
-                                 }
-                             }
-                           ],
-                           "metrics": [
-                             {
-                               "category": "AllMetrics",
-                               "enabled": true,
-                               "retentionPolicy": {
-                                   "enabled": false,
-                                   "days": 0
-                                 }
-                             }
-                           ]
-                         }
-                       }
-                     ],
-                     "outputs": {}
-                   },
-                   "parameters": {
-                     "diagnosticsSettingName": {
-                       "value": "[parameters('diagnosticsSettingName')]"
-                     },
-                     "eventHubAuthorizationRuleId": {
-                       "value": "[parameters('eventHubAuthorizationRuleId')]"
-                     },
-                     "keyVaultName": {
-                       "value": "[field('name')]"
-                     }
-                   }
-                 }
-               }
-             }
-           }
-         }
-   }
+                "variables": {},
+                "functions": [],
+                "resources": [
+                  {
+                    "type": "Microsoft.KeyVault/vaults/providers/diagnosticSettings",
+                    "name": "[concat(parameters('keyVaultName'),'/Microsoft.Insights/', parameters('diagnosticsSettingName'))]",
+                    "apiVersion": "2017-05-01-preview",
+                    "properties": {
+                      "eventHubAuthorizationRuleId": "[parameters('eventHubAuthorizationRuleId')]",
+                      "logs": [
+                        {
+                          "category": "AuditEvent",
+                          "enabled": true,
+                          "retentionPolicy": {
+                            "enabled": false,
+                            "days": 0
+                          }
+                        }
+                      ],
+                      "metrics": [
+                        {
+                          "category": "AllMetrics",
+                          "enabled": true,
+                          "retentionPolicy": {
+                            "enabled": false,
+                            "days": 0
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "outputs": {}
+              },
+              "parameters": {
+                "diagnosticsSettingName": {
+                  "value": "[parameters('diagnosticsSettingName')]"
+                },
+                "eventHubAuthorizationRuleId": {
+                  "value": "[parameters('eventHubAuthorizationRuleId')]"
+                },
+                "keyVaultName": {
+                  "value": "[field('name')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

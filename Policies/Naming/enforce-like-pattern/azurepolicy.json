@@ -1,26 +1,45 @@
 {
-    "properties": {
-        "displayName": "Name pattern with like condition.",
-        "description": "Enforce a naming pattern on resources with the like condition.",
-        "mode": "Indexed",
-        "parameters": {
-            "namePattern": {
-                "type": "String",
-                "metadata": {
-                    "description": "Pattern to use for names. Can include wildcard (*)."
-                }
-            }
-        },
-        "policyRule": {
-            "if": {
-                "not": {
-                    "field": "name",
-                    "like": "[parameters('namePattern')]"
-                }
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "name": "1fff3d6e-b284-4f19-a722-7fd4b3f35a3c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Name pattern with like condition.",
+    "mode": "Indexed",
+    "description": "Enforce a naming pattern on resources with the like condition.",
+    "metaData": {
+      "category": "Naming",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "namePattern": {
+        "type": "String",
+        "metadata": {
+          "description": "Pattern to use for names. Can include wildcard (*)."
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "not": {
+          "field": "name",
+          "like": "[parameters('namePattern')]"
+        }
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

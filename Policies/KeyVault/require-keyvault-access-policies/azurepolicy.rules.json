@@ -7,11 +7,11 @@
       },
       {
         "field": "Microsoft.Keyvault/vaults/accessPolicies[*].objectId",
-        "notequals": "[parameters('aadObjectId')]"
+        "notEquals": "[parameters('aadObjectId')]"
       }
     ]
   },
   "then": {
-    "effect": "Audit"
+    "effect": "[parameters('effect')]"
   }
 }

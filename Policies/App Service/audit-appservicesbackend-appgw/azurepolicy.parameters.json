@@ -5,6 +5,9 @@
       "description": "Policy effect either disabled or auditIfNotExists"
     },
     "defaultValue": "auditIfNotExists",
-    "allowedValues": ["auditIfNotExists", "disabled"]
+    "allowedValues": [
+      "auditIfNotExists",
+      "disabled"
+    ]
   }
 }

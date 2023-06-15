@@ -1,28 +1,28 @@
 {
-    "sqlConnectivitySettings": {
-      "type": "Array",
-      "metadata": {
-        "displayName": "SQL Connectivity Settings",
-        "description": "A list of acceptable SQL Connectivity Settings for your SQL Server Virtual Machine"
-      },
-      "allowedValues": [
-        "LOCAL",
-        "PRIVATE",
-        "PUBLIC"
-      ],
-      "defaultValue": "PUBLIC"
+  "sqlConnectivitySettings": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "SQL Connectivity Settings",
+      "description": "A list of acceptable SQL Connectivity Settings for your SQL Server Virtual Machine"
     },
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Effect",
-        "description": "Audit, Deny, or Disable the listed SQL Connectivity setting."
-      },
-      "allowedValues": [
-        "Audit",
-        "Deny",
-        "Disabled"
-      ],
-      "defaultValue": "Audit"
-    }
+    "allowedValues": [
+      "LOCAL",
+      "PRIVATE",
+      "PUBLIC"
+    ],
+    "defaultValue": "PUBLIC"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Audit, Deny, or Disable the listed SQL Connectivity setting."
+    },
+    "allowedValues": [
+      "Audit",
+      "Deny",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
 }

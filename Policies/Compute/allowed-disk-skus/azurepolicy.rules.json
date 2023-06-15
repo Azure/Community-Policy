@@ -1,17 +1,17 @@
 {
-    "if": {
-        "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Compute/disks"
-            },
-            {
-                "field": "Microsoft.Compute/disks/sku.name",
-                "NotIn": "[parameters('allowedDiskSkus')]"
-            }
-        ]
-    },
-    "then": {
-        "effect": "[parameters('effect')]"
-    }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Compute/disks"
+      },
+      {
+        "field": "Microsoft.Compute/disks/sku.name",
+        "NotIn": "[parameters('allowedDiskSkus')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

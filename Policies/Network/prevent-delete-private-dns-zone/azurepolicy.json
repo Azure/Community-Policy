@@ -3,14 +3,13 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Prevent Deletion of Private DNS Zone",
+    "mode": "Indexed",
     "description": "This policy prevents the deletion of private DNS zones while still allowing the child record sets and records to be deleted.",
-    "metadata": {
+    "metaData": {
       "version": "1.0.0",
       "category": "Networking"
     },
-    "policyType": "Custom",
-    "mode": "Indexed",
-    "Parameters": {
+    "parameters": {
       "effect": {
         "type": "String",
         "metadata": {
@@ -47,4 +46,3 @@
     }
   }
 }
-  

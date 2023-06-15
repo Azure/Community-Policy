@@ -1,21 +1,21 @@
 {
-    "effect": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Effect",
-            "description": "Enable or disable the execution of the policy"
-        },
-        "allowedValues": [
-            "Deny",
-            "Disabled"
-        ],
-        "defaultValue": "Deny"
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
     },
-    "vnetNamingConvention": {
-        "type": "String",
-        "meatdata": {
-            "displayName": "Virtual Network Naming Convention",
-            "description": "The policy will concat this value with the provisioned resources location. Example, if you provide the value of '-example' the concat result will be like: 'eastus-example'. If the created resources name does not match this contact then Policy will deny the creation."
-        }
+    "allowedValues": [
+      "Deny",
+      "Disabled"
+    ],
+    "defaultValue": "Deny"
+  },
+  "vnetNamingConvention": {
+    "type": "String",
+    "meatdata": {
+      "displayName": "Virtual Network Naming Convention",
+      "description": "The policy will concat this value with the provisioned resources location. Example, if you provide the value of '-example' the concat result will be like: 'eastus-example'. If the created resources name does not match this contact then Policy will deny the creation."
     }
+  }
 }

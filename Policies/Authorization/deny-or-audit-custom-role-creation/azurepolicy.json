@@ -1,37 +1,45 @@
 {
+  "name": "c2415d4a-ad39-4ffe-9f3d-4541426a7eaf",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "Custom roles are not allowed",
-    "description": "This policy will audit or deny the creation of RBAC custom roles.",
     "mode": "All",
+    "description": "This policy will audit or deny the creation of RBAC custom roles.",
+    "metaData": {
+      "category": "Authorization",
+      "version": "1.0.0"
+    },
     "parameters": {
-        "effect": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Effect",
-                "description": "Enable or disable the execution of the policy"
-            },
-            "allowedValues": [
-                "Audit",
-                "Deny",
-                "Disabled"
-            ],
-            "defaultValue": "Deny"
-        }
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
     },
     "policyRule": {
-        "if": {
-            "allOf": [
-                {
-                    "field": "type",
-                    "equals": "Microsoft.Authorization/roleDefinitions"
-                },
-                {
-                    "field": "Microsoft.Authorization/roleDefinitions/type",
-                    "notEquals": "BuiltInRole"
-                }
-            ]
-        },
-        "then": {
-            "effect": "[parameters('effect')]"
-        }
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Authorization/roleDefinitions"
+          },
+          {
+            "field": "Microsoft.Authorization/roleDefinitions/type",
+            "notEquals": "BuiltInRole"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

@@ -1,36 +1,54 @@
 {
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "allowed-custom-images", 
-    "properties": {
-        "displayName": "Approved VM images",
-        "description": "This policy governs the approved VM images",
-        "parameters": {
-            "imageIds": {
-                "type": "array",
-                "metadata": {
-                    "description": "The list of approved VM images. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage' or /Subscriptions/<subscriptionId>/Providers/Microsoft.Compute/Locations/centralus/Publishers/MicrosoftWindowsServer/ArtifactTypes/VMImage/Offers/WindowsServer/Skus/2016-Datacenter/Versions/2016.127.20180510'",
-                    "displayName": "Approved VM images"
-                }
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Compute/virtualMachines"
-                    },
-                    {
-                        "not": {
-                            "field": "Microsoft.Compute/imageId",
-                            "in": "[parameters('imageIds')]"
-                        }
-                    }
-                ]
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "name": "allowed-custom-images",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Approved VM images",
+    "mode": "indexed",
+    "description": "This policy governs the approved VM images",
+    "metaData": {
+      "category": "Compute",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "imageIds": {
+        "type": "array",
+        "metadata": {
+          "description": "The list of approved VM images. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage' or /Subscriptions/<subscriptionId>/Providers/Microsoft.Compute/Locations/centralus/Publishers/MicrosoftWindowsServer/ArtifactTypes/VMImage/Offers/WindowsServer/Skus/2016-Datacenter/Versions/2016.127.20180510'",
+          "displayName": "Approved VM images"
         }
-    }   
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Compute/imageId",
+              "in": "[parameters('imageIds')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
 }

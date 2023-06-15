@@ -1,62 +1,86 @@
 {
-  "mode": "Indexed",
-  "policyRule": {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "in": "[parameters('resourceTypes')]"
-        },
-        {
-          "anyOf": [
+  "name": "cdb293d2-24ae-4b71-bd2b-61aebb2070fa",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "enforce-tag+value-to-select-types",
+    "mode": "Indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "General",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag, such as 'environment'"
+        }
+      },
+      "tagValue": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Value",
+          "description": "Value of the tag, such as 'production'"
+        }
+      },
+      "resourceTypes": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Targetted Resource Types",
+          "description": "This is an array of resource types that will be targetted by this policy"
+        }
+      },
+      "effect": {
+        "allowedValues": [
+          "Modify",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Modify",
+        "type": "string",
+        "metaData": {
+          "description": "Modify, Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "in": "[parameters('resourceTypes')]"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "exists": false
+              },
+              {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "notEquals": "[parameters('tagValue')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/{roleID}"
+          ],
+          "operations": [
             {
+              "operation": "addOrReplace",
               "field": "[concat('tags[', parameters('tagName'), ']')]",
-              "exists": false
-            },
-            {
-              "field": "[concat('tags[', parameters('tagName'), ']')]",
-              "notEquals": "[parameters('tagValue')]"
+              "value": "[parameters('tagValue')]"
             }
           ]
         }
-      ]
-    },
-    "then": {
-      "effect": "modify",
-      "details": {
-        "roleDefinitionIds": [
-          "/providers/microsoft.authorization/roleDefinitions/{roleID}"
-        ],
-        "operations": [
-          {
-            "operation": "addOrReplace",
-            "field": "[concat('tags[', parameters('tagName'), ']')]",
-            "value": "[parameters('tagValue')]"
-          }
-        ]
-      }
-    }
-  },
-  "parameters": {
-    "tagName": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Tag Name",
-        "description": "Name of the tag, such as 'environment'"
-      }
-    },
-    "tagValue": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Tag Value",
-        "description": "Value of the tag, such as 'production'"
-      }
-    },
-    "resourceTypes": {
-      "type": "Array",
-      "metadata": {
-        "displayName": "Targetted Resource Types",
-        "description": "This is an array of resource types that will be targetted by this policy"
       }
     }
   }

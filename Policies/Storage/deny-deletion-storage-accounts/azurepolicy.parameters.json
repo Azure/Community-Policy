@@ -1,0 +1,14 @@
+{
+  "effect": {
+    "allowedValues": [
+      "DenyAction",
+      "Disabled"
+    ],
+    "defaultValue": "DenyAction",
+    "type": "string",
+    "metaData": {
+      "description": "DenyAction or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
+}

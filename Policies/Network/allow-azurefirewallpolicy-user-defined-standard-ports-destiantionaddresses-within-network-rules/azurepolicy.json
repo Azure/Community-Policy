@@ -1,7 +1,43 @@
 {
+  "name": "e25ac025-4c79-49cd-9dbb-05081d2a403f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "Azure firewall policy should only allow user defined standard ports and FQDNs within network rules",
-    "description": "Enforce usage of user defined standard ports, protocols and destination addresses. This is a common requirement in many regulatory and industry compliance standards.",     
     "mode": "All",
+    "description": "Enforce usage of user defined standard ports, protocols and destination addresses. This is a common requirement in many regulatory and industry compliance standards.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "priority": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "priority",
+          "description": "Validate Azure firewall network rule priority. (Example: 999)."
+        }
+      },
+      "allowedRules": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed Rules",
+          "description": "Validate and allowed destination ports, portocols and destination addresses. Example: [{'destinationPorts':['443','1688'],'protocols':['TCP'],'enforceDestinationAddresses':false,'destinationAddresses':[]},{'destinationPorts':['123'],'protocols':['UDP'],'enforceDestinationAddresses':true,'destinationAddresses':['13.86.101.172']}]"
+        }
+      }
+    },
     "policyRule": {
       "if": {
         "allOf": [
@@ -73,34 +109,6 @@
       "then": {
         "effect": "[parameters('effect')]"
       }
-    },
-    "parameters": {
-        "effect": {
-          "type": "String",
-          "metadata": {
-             "displayName": "Effect",
-             "description": "Enable or disable the execution of the policy"
-            },
-            "allowedValues": [
-                "Deny",
-                "Audit",
-                "Disabled"
-            ],
-            "defaultValue": "Audit"
-       },
-       "priority": {
-           "type": "Integer",
-           "metadata": {
-              "displayName": "priority",
-              "description": "Validate Azure firewall network rule priority. (Example: 999)."
-            }
-       },
-       "allowedRules": {
-           "type": "Array",
-	       "metadata": {
-              "displayName": "Allowed Rules",
-              "description": "Validate and allowed destination ports, portocols and destination addresses. Example: [{'destinationPorts':['443','1688'],'protocols':['TCP'],'enforceDestinationAddresses':false,'destinationAddresses':[]},{'destinationPorts':['123'],'protocols':['UDP'],'enforceDestinationAddresses':true,'destinationAddresses':['13.86.101.172']}]"
-	        }
-        }
     }
+  }
 }

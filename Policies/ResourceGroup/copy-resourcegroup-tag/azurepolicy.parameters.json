@@ -1,9 +1,23 @@
 {
-    "tagName": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Tag Name",
-            "description": "Name of the tag, such as costCenter"
-        }
+  "tagName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag Name",
+      "description": "Name of the tag, such as costCenter"
     }
+  },
+  "effect": {
+    "allowedValues": [
+      "Append",
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Append",
+    "type": "string",
+    "metaData": {
+      "description": "Append, Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

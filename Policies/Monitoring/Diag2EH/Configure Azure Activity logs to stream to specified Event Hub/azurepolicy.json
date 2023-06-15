@@ -3,12 +3,12 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Configure Azure Activity logs to stream to specified Event Hub",
+    "mode": "All",
     "description": "Deploys the diagnostic settings for Azure Activity to stream subscriptions audit logs to an Event Hub to monitor subscription-level events. Amended built-in policy to add eventHubName-parameter to stream to a specific event hub.",
-    "metadata": {
+    "metaData": {
       "version": "1.0.0",
       "category": "Monitoring"
     },
-    "mode": "All",
     "parameters": {
       "eventHubRuleId": {
         "type": "String",

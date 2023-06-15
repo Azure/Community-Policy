@@ -1,69 +1,69 @@
 {
-  "Description": "This policy prevents setting storage public firewall as allow all or have any vnet/ip rules.",
-  "DisplayName": "Enforce storage account public firewall blocking access",
-  "Metadata": {
-    "category": "Storage",
-    "createdBy": "",
-    "createdOn": "2021-10-05T10:41:13.2053586Z",
-    "updatedBy": null,
-    "updatedOn": null
-  },
-  "Mode": "Indexed",
-  "Parameters": {
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "description": "Enable or disable the execution of the policy",
-        "displayName": "Effect"
-      },
-      "allowedValues": [
-        "Deny",
-        "Audit",
-        "Disabled"
-      ],
-      "defaultValue": "Deny"
-    }
-  },
-  "PolicyRule": {
-    "if": {
-      "allOf": [
-        {
-          "equals": "Microsoft.Storage/storageAccounts",
-          "field": "type"
-        },
-        {
-          "anyOf": [
-            {
-              "exists": "false",
-              "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction"
-            },
-            {
-              "equals": "Allow",
-              "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction"
-            },
-            {
-              "exists": "false",
-              "field": "Microsoft.Storage/storageAccounts/networkAcls.virtualNetworkRules"
-            },
-            {
-              "notequals": "0",
-              "value": "[length(field('Microsoft.Storage/storageAccounts/networkAcls.virtualNetworkRules'))]"
-            },
-            {
-              "exists": "false",
-              "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules"
-            },
-            {
-              "notequals": "0",
-              "value": "[length(field('Microsoft.Storage/storageAccounts/networkAcls.ipRules'))]"
-            }
-          ]
-        }
-      ]
+  "name": "060613ca-d6c4-4894-8659-180af22284dc",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce storage account public firewall blocking access",
+    "mode": "indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Storage",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "[parameters('effect')]"
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "description": "Enable or disable the execution of the policy",
+          "displayName": "Effect"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Storage/storageAccounts",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "exists": "false",
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction"
+              },
+              {
+                "equals": "Allow",
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction"
+              },
+              {
+                "exists": "false",
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.virtualNetworkRules"
+              },
+              {
+                "notequals": "0",
+                "value": "[length(field('Microsoft.Storage/storageAccounts/networkAcls.virtualNetworkRules'))]"
+              },
+              {
+                "exists": "false",
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules"
+              },
+              {
+                "notequals": "0",
+                "value": "[length(field('Microsoft.Storage/storageAccounts/networkAcls.ipRules'))]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
-  },
-  "PolicyType": 1
+  }
 }

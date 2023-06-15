@@ -1,5 +1,28 @@
 {
+  "name": "1b11e056-ed5a-4511-bc8d-e1447fa6e5b5",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "remote-debugging-off-for-web-apps-audit",
     "mode": "All",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "remote-debugging-off-for-web-apps",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
     "policyRule": {
       "if": {
         "allOf": [
@@ -16,19 +39,6 @@
       "then": {
         "effect": "[parameters('effect')]"
       }
-    },
-    "parameters": {
-      "effect": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Effect",
-          "description": "Enable or disable the execution of the policy"
-        },
-        "allowedValues": [
-          "Audit",
-          "Disabled"
-        ],
-        "defaultValue": "Audit"
-      }
     }
   }
+}

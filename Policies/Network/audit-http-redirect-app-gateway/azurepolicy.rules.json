@@ -1,28 +1,28 @@
 {
-    "if": {
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/applicationGateways"
+      },
+      {
+        "field": "Microsoft.Network/applicationGateways/httpListeners[*].protocol",
+        "equals": "http"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Network/applicationGateways/requestRoutingRules",
+      "existenceCondition": {
         "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Network/applicationGateways"
-            },
-            {
-                "field": "Microsoft.Network/applicationGateways/httpListeners[*].protocol",
-                "equals": "http"
-            }
+          {
+            "field": "Microsoft.Network/applicationGateways/requestRoutingRules[*].redirectConfiguration.id",
+            "exists": true
+          }
         ]
-    },
-    "then": {
-        "effect": "auditIfNotExists",
-        "details": {
-            "type": "Microsoft.Network/applicationGateways/requestRoutingRules",
-            "existenceCondition": {
-                "allOf": [
-                    {
-                        "field": "Microsoft.Network/applicationGateways/requestRoutingRules[*].redirectConfiguration.id",
-                        "exists": true
-                    }
-                ]
-            }
-        }
+      }
     }
+  }
 }

@@ -1,24 +1,24 @@
 {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
-        },
-        {
-          "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/sqlServerLicenseType",
-          "equals": "PAYG"
-        },
-        {
-          "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/sqlImageSku",
-          "in": [
-            "Standard",
-            "Enterprise"
-          ]
-        }
-      ]
-    },
-    "then": {
-      "effect": "audit"
-    }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
+      },
+      {
+        "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/sqlServerLicenseType",
+        "equals": "PAYG"
+      },
+      {
+        "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/sqlImageSku",
+        "in": [
+          "Standard",
+          "Enterprise"
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

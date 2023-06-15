@@ -1,9 +1,23 @@
 {
-    "routeTableSettings": {
-        "type": "Object",
-        "metadata": {
-            "displayName": "Route Table Settings",
-            "description": "Location-specific settings for route tables."
-        }
+  "routeTableSettings": {
+    "type": "Object",
+    "metadata": {
+      "displayName": "Route Table Settings",
+      "description": "Location-specific settings for route tables."
     }
+  },
+  "effect": {
+    "allowedValues": [
+      "Modify",
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Modify",
+    "type": "string",
+    "metaData": {
+      "description": "Modify, Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

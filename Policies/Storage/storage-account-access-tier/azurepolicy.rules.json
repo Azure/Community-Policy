@@ -1,24 +1,24 @@
 {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "equals": "Microsoft.Storage/storageAccounts"
-        },
-        {
-          "field": "kind",
-          "in": [
-            "BlobStorage",
-            "StorageV2"
-          ]
-        },
-        {
-          "field": "Microsoft.Storage/storageAccounts/accessTier",
-          "equals": "cool"
-        }
-      ]
-    },
-    "then": {
-      "effect": "deny"
-    }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      {
+        "field": "kind",
+        "in": [
+          "BlobStorage",
+          "StorageV2"
+        ]
+      },
+      {
+        "field": "Microsoft.Storage/storageAccounts/accessTier",
+        "equals": "cool"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

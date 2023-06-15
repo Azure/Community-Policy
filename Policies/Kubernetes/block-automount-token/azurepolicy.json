@@ -1,13 +1,13 @@
 {
+  "name": "f02bd6c7-5dd7-4c02-aba1-bd83d7ad26ce",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Kubernetes clusters should disable automounting API credentials",
-    "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
     "description": "Disable automounting API credentials to prevent a potentially compromised Pod resource to run API commands against Kubernetes clusters. For instructions on using this policy, please go to https://aka.ms/kubepolicydoc.",
-    "metadata": {
+    "metaData": {
       "version": "1.0.0-preview",
-      "category": "Kubernetes",
-      "preview": true
+      "category": "Kubernetes"
     },
     "parameters": {
       "effect": {

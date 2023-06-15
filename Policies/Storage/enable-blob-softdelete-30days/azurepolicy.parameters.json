@@ -1,10 +1,23 @@
 {
-    "retentionInDays": {
-        "type": "Integer",
-        "metadata": {
-          "displayName": "Retention in days",
-          "description": "This defines how long the deleted object should be retained for"
-        },
-        "defaultValue": 30
+  "retentionInDays": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "Retention in days",
+      "description": "This defines how long the deleted object should be retained for"
+    },
+    "defaultValue": 30
+  },
+  "effect": {
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
     }
+  }
 }

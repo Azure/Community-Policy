@@ -1,10 +1,22 @@
 {
-      "listOfAllowedLocations": {
-        "type": "Array",
-        "metadata": {
-          "description": "The list of locations to audit against.",
-          "strongType": "location",
-          "displayName": "Allowed locations"
-        }
-      }
+  "listOfAllowedLocations": {
+    "type": "Array",
+    "metadata": {
+      "description": "The list of locations to audit against.",
+      "strongType": "location",
+      "displayName": "Allowed locations"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit",
+    "type": "string",
+    "metaData": {
+      "description": "Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

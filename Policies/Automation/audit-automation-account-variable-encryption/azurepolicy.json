@@ -1,27 +1,44 @@
 {
-    "properties": {
-        "displayName": "Audit encryption of Automation account variables",
-        "mode": "All",
-        "description": "It is important to enable encryption of Automation account variable assets when storing sensitive data",
-        "metadata": {
-            "category": "Automation"
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                {
-                  "field": "type",
-                  "equals": "Microsoft.Automation/automationAccounts/variables"
-                },
-                {
-                  "field": "Microsoft.Automation/automationAccounts/variables/isEncrypted",
-                  "notEquals": "true"
-            }
-          ]
-        },
-        "then": {
-          "effect": "Audit"
+  "name": "b63b429c-175c-4670-b9a4-ead7ded7283c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit encryption of Automation account variables",
+    "mode": "All",
+    "description": "It is important to enable encryption of Automation account variable assets when storing sensitive data",
+    "metaData": {
+      "category": "Automation",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "type": "string",
+        "metaData": {
+          "description": "Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
       }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Automation/automationAccounts/variables"
+          },
+          {
+            "field": "Microsoft.Automation/automationAccounts/variables/isEncrypted",
+            "notEquals": "true"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

@@ -1,1 +1,14 @@
-null
+{
+  "effect": {
+    "allowedValues": [
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit",
+    "type": "string",
+    "metaData": {
+      "description": "Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
+}

@@ -1,35 +1,35 @@
 {
-    "targetedNamingConvention": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Targeted Subnet Naming Convention",
-            "description": "This determines the keyword in the subnet name that will be used to trigger the Policy"
-        }
-    },
-    "resourceGroupNamingConvention": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Route Table Resource Groups Naming Convention",
-            "description": "This is to help locate the regions route table. This concats the flagged resources region with this value. In example, if you defined this param as '-example': eastus-example."
-        }
-    },
-    "routeTableNamingConvention": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Route Table Naming Convention",
-            "description": "This is the name for your route table. This assumes the route tables in all regions have the same name. "
-        }
-    },
-    "effect": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Effects",
-            "description": "Enable or disable the execution of the Policy."
-        },
-        "allowedValues": [
-            "Append",
-            "Disabled"
-        ],
-        "defaultValue": "Append"
+  "targetedNamingConvention": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Targeted Subnet Naming Convention",
+      "description": "This determines the keyword in the subnet name that will be used to trigger the Policy"
     }
+  },
+  "resourceGroupNamingConvention": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Route Table Resource Groups Naming Convention",
+      "description": "This is to help locate the regions route table. This concats the flagged resources region with this value. In example, if you defined this param as '-example': eastus-example."
+    }
+  },
+  "routeTableNamingConvention": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Route Table Naming Convention",
+      "description": "This is the name for your route table. This assumes the route tables in all regions have the same name. "
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effects",
+      "description": "Enable or disable the execution of the Policy."
+    },
+    "allowedValues": [
+      "Append",
+      "Disabled"
+    ],
+    "defaultValue": "Append"
+  }
 }

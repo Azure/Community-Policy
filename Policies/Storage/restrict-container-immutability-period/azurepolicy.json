@@ -1,21 +1,45 @@
 {
-  "mode": "All",
-  "policyRule": {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "equals": "Microsoft.Storage/storageAccounts/blobServices/containers/immutabilityPolicies"
-        },
-        {
-          "field": "Microsoft.Storage/storageAccounts/blobServices/containers/immutabilityPolicies/default.immutabilityPeriodSinceCreationInDays",
-          "greater": 30
-        }
-      ]
+  "name": "bb73d023-a74f-49db-bb49-076ff2ec9fef",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "restrict-container-immutability-period",
+    "mode": "All",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Storage",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "deny"
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts/blobServices/containers/immutabilityPolicies"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/blobServices/containers/immutabilityPolicies/default.immutabilityPeriodSinceCreationInDays",
+            "greater": 30
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
-  },
-  "parameters": {}
+  }
 }

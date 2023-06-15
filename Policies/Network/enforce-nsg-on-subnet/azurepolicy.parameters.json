@@ -1,9 +1,22 @@
 {
-	"nsgId": {
-		"type": "String",
-		"metadata": {
-			"description": "Resource Id of the Network Security Group",
-			"displayName": "NSG Id"
-		}
-	}
+  "nsgId": {
+    "type": "String",
+    "metadata": {
+      "description": "Resource Id of the Network Security Group",
+      "displayName": "NSG Id"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

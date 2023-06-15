@@ -1,0 +1,29 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Policy Effect",
+      "description": "Sets the effect of the Policy. Useful for when the Policy is part of an initiative."
+    },
+    "allowedValues": [
+      "Audit",
+      "Deny",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  },
+  "destinationPort": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "destinationPort",
+      "description": null
+    }
+  },
+  "allowedIPRanges": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "allowedIPRanges",
+      "description": null
+    }
+  }
+}

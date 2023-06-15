@@ -1,32 +1,44 @@
 {
-    "resourceTypes":{
-       "type":"Array",
-       "metadata":{
-          "description":"Azure resource types to audit for any lock",
-          "displayName":"resourceTypes"
-       },
-       "defaultValue":[
-          "microsoft.network/expressroutecircuits",
-          "microsoft.network/expressroutegateways",
-          "microsoft.network/virtualnetworks",
-          "microsoft.network/virtualnetworkgateways",
-          "microsoft.network/vpngateways",
-          "microsoft.network/p2svpngateways"
-       ]
+  "resourceTypes": {
+    "type": "Array",
+    "metadata": {
+      "description": "Azure resource types to audit for any lock",
+      "displayName": "resourceTypes"
     },
-    "lockLevel":{
-       "type":"Array",
-       "metadata":{
-          "description":"The lock level to audit for",
-          "displayName":"lockLevel"
-       },
-       "allowedValues":[
-          "ReadOnly",
-          "CanNotDelete"
-       ],
-       "defaultValue":[
-          "ReadOnly",
-          "CanNotDelete"
-       ]
+    "defaultValue": [
+      "microsoft.network/expressroutecircuits",
+      "microsoft.network/expressroutegateways",
+      "microsoft.network/virtualnetworks",
+      "microsoft.network/virtualnetworkgateways",
+      "microsoft.network/vpngateways",
+      "microsoft.network/p2svpngateways"
+    ]
+  },
+  "lockLevel": {
+    "type": "Array",
+    "metadata": {
+      "description": "The lock level to audit for",
+      "displayName": "lockLevel"
+    },
+    "allowedValues": [
+      "ReadOnly",
+      "CanNotDelete"
+    ],
+    "defaultValue": [
+      "ReadOnly",
+      "CanNotDelete"
+    ]
+  },
+  "effect": {
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
     }
+  }
 }

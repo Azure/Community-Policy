@@ -1,9 +1,21 @@
 {
-	"listOfResourceTypes": {
-		"type": "Array",
-		"metadata": {
-			"displayName": "Resource Types",
-			"strongType": "resourceTypes"
-		}
-	}
+  "listOfResourceTypes": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Resource Types",
+      "strongType": "resourceTypes"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

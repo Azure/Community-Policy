@@ -1,7 +1,29 @@
 {
+  "name": "906dc800-b40b-4d98-b878-4c2f128628d0",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName":"Create VM using Managed Disk",
-    "description":"Create VM using Managed Disk",
+    "displayName": "Create VM using Managed Disk",
+    "mode": "indexed",
+    "description": "Create VM using Managed Disk",
+    "metaData": {
+      "category": "Compute",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
     "policyRule": {
       "if": {
         "anyOf": [
@@ -40,7 +62,7 @@
         ]
       },
       "then": {
-        "effect": "deny"
+        "effect": "[parameters('effect')]"
       }
     }
   }

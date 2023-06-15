@@ -1,39 +1,60 @@
 {
+  "name": "4772c189-b64f-4a0e-a3a1-17ccd6ca11a0",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deny-changing-address-space-on-virtual-network",
     "mode": "All",
-    "name": "Deny changing Address Space of a Virtual Network",
     "description": "This Policy will prevent users from changing the Address Space on a VNet",
-    "policyRule": {
-        "if": {
-            "allOf": [
-                {
-                    "field": "type",
-                    "equals": "Microsoft.Network/virtualNetworks"
-                },
-                {
-                    "anyOf": [
-                        {
-                            "value": "[if(empty(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes')), bool('false'), equals(length(intersection(parameters('addressSpaceSettings'), field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes'))), length(parameters('addressSpaceSettings'))))]",
-                            "equals": false
-                        },
-                        {
-                            "value": "[if(empty(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes')), bool('false'), equals(length(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes')),length(parameters('addressSpaceSettings'))))]",
-                            "equals": false
-                        }
-                    ]
-                }
-            ]
-        },
-        "then": {
-            "effect": "deny"
-        }
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
     },
     "parameters": {
-        "addressSpaceSettings": {
-            "type": "array",
-            "metadata": {
-                "displayname": "Enforced Address Space Settings",
-                "description": "Users will be unable to change the address space on a VNet from the values defined in this array."
-            }
+      "addressSpaceSettings": {
+        "type": "array",
+        "metadata": {
+          "displayname": "Enforced Address Space Settings",
+          "description": "Users will be unable to change the address space on a VNet from the values defined in this array."
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[if(empty(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes')), bool('false'), equals(length(intersection(parameters('addressSpaceSettings'), field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes'))), length(parameters('addressSpaceSettings'))))]",
+                "equals": false
+              },
+              {
+                "value": "[if(empty(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes')), bool('false'), equals(length(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes')),length(parameters('addressSpaceSettings'))))]",
+                "equals": false
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

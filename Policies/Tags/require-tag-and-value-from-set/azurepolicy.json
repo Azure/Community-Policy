@@ -1,35 +1,58 @@
 {
-  "mode": "Indexed",
-  "policyRule": {
-    "if": {
-      "not": {
-        "field": "[concat('tags[', parameters('tagName'), ']')]",
-        "in": "[parameters('tagValue')]"
-      }
+  "name": "7c7fe955-e472-4836-976f-81c332580014",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "require-tag-and-value-from-set",
+    "mode": "Indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Tags",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "deny"
-    }
-  },
-  "parameters": {
-    "tagName": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Tag Name",
-        "description": "Name of the tag, such as 'Environment'"
-      }
-    },
-    "tagValue": {
-      "type": "Array",
-      "metadata": {
-        "displayName": "Tag Value",
-        "description": "Value of the tag, such as 'Prod'"
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag, such as 'Environment'"
+        }
       },
-      "allowedValues": [
-        "Dev",
-        "Test",
-        "Prod"
-      ]
+      "tagValue": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Tag Value",
+          "description": "Value of the tag, such as 'Prod'"
+        },
+        "allowedValues": [
+          "Dev",
+          "Test",
+          "Prod"
+        ]
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "not": {
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "in": "[parameters('tagValue')]"
+        }
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
   }
 }

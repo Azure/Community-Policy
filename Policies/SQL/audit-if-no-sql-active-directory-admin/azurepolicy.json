@@ -1,21 +1,39 @@
 {
-    "properties": {
-        "displayName": "Audit If no AAD Admin",
-        "description": "Aduit If there is no AAD Admin assigned to this server",
-        "parameters": {
-           
-        },
-        "policyRule": {
-            "if": {
-                "field": "type",
-                "equals": "Microsoft.SQL/servers"
-            },
-            "then": {
-                "effect": "auditIfNotExists",
-                "details": {
-                    "type": "Microsoft.SQL/servers/administrators"
-                }
-            }
+  "name": "1096ef18-a80f-4da9-8a9c-50c6d2b69b90",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit If no AAD Admin",
+    "mode": "indexed",
+    "description": "Aduit If there is no AAD Admin assigned to this server",
+    "metaData": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.SQL/servers"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.SQL/servers/administrators"
+        }
+      }
     }
+  }
 }

@@ -1,8 +1,28 @@
 {
+  "name": "f26b2557-d626-4e4b-b645-e8d4a5d13b35",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "mode": "all",
     "displayName": "Audit Automatic Failover for CosmosDB accounts",
+    "mode": "all",
     "description": "This policy audits Automatic Failover for CosmosDB accounts",
+    "metaData": {
+      "category": "CosmosDB",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "type": "string",
+        "metaData": {
+          "description": "Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
     "policyRule": {
       "if": {
         "allOf": [
@@ -21,10 +41,8 @@
         ]
       },
       "then": {
-        "effect": "audit"
+        "effect": "[parameters('effect')]"
       }
-    },
-    "parameters": {},
-    "metadata": {}
+    }
   }
 }

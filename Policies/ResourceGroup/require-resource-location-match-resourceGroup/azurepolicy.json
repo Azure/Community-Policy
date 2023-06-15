@@ -1,25 +1,49 @@
 {
+  "name": "aeb9e177-5910-473a-b577-a2341d57c17c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "require-resource-location-match-resourceGroup",
     "mode": "Indexed",
-    "parameters": {},
-    "policyRule": {
-        "if": {
-            "allOf": [
-            {
-                "field": "location",
-                "notEquals": "[resourceGroup().location]"
-            },
-            {
-                "field": "location",
-                "notEquals": "global"
-            },
-            {
-                "field": "type",
-                "notEquals": "Microsoft.AzureActiveDirectory/b2cDirectories"
-            }
-            ]
-        },
-        "then": {
-            "effect": "deny"
+    "description": "Policy description.",
+    "metaData": {
+      "category": "ResourceGroup",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "location",
+            "notEquals": "[resourceGroup().location]"
+          },
+          {
+            "field": "location",
+            "notEquals": "global"
+          },
+          {
+            "field": "type",
+            "notEquals": "Microsoft.AzureActiveDirectory/b2cDirectories"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

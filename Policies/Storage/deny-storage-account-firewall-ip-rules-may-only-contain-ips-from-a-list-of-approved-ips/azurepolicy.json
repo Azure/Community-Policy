@@ -1,53 +1,61 @@
 {
-    "mode": "Indexed",
+  "name": "0ede2d9a-4f89-4d7e-af1b-3b039307c476",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "Storage Accounts firewall IP rules may only contain IPs from a list of approved IPs",
+    "mode": "Indexed",
     "description": "Storage Account firewalls can have IP rules. Typically we don't want to allow users to add any IP or range to the firewall, but instead, as is more typical, we want only corporate public IP space to be allowed within the firewall. This Policy can detect if an IP or range of IPs being added to the firewall on a storage account is within a list of IPs that you pass into this Policy.",
-    "policyRule": {
-        "if": {
-            "allOf": [
-                {
-                    "field": "type",
-                    "equals": "Microsoft.Storage/storageAccounts"
-                },
-                {
-                    "count": {
-                        "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*]",
-                        "where": {
-                            "count": {
-                                "value": "[parameters('allowedIps')]",
-                                "name": "approvedPrefix",
-                                "where": {
-                                    "value": "[ipRangeContains(current('approvedPrefix'), current('Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value'))]",
-                                    "equals": false
-                                }
-                            },
-                            "greater": 0
-                        }
-                    },
-                    "greater": 0
-                }
-            ]
-        },
-        "then": {
-            "effect": "[parameters('effect')]"
-        }
+    "metaData": {
+      "category": "Storage",
+      "version": "1.0.0"
     },
     "parameters": {
-        "allowedIps": {
-            "type": "Array"
+      "allowedIps": {
+        "type": "Array"
+      },
+      "effect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Policy Effect",
+          "description": "Sets the effect of the Policy. Useful for when the Policy is part of an initiative."
         },
-        "effect": {
-            "type": "string",
-            "metadata": {
-                "displayName": "Policy Effect",
-                "description": "Sets the effect of the Policy. Useful for when the Policy is part of an initiative."
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*]",
+              "where": {
+                "count": {
+                  "value": "[parameters('allowedIps')]",
+                  "name": "approvedPrefix",
+                  "where": {
+                    "value": "[ipRangeContains(current('approvedPrefix'), current('Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value'))]",
+                    "equals": false
+                  }
+                },
+                "greater": 0
+              }
             },
-            "allowedValues": [
-                "Audit",
-                "Deny",
-                "Disabled"
-            ],
-            "defaultValue": "Audit"
-        }
+            "greater": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

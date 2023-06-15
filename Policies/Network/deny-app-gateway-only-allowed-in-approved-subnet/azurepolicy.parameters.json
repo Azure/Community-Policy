@@ -1,8 +1,21 @@
 {
-    "allowedSubnetName": {
-        "type": "string",
-        "metadata": {
-            "displayName": "Name of subnet where Application Gateway is allowed to deploy."
-        }
+  "allowedSubnetName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Name of subnet where Applicaiton Gateways are allowed."
     }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

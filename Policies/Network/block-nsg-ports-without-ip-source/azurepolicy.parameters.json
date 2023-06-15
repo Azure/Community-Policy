@@ -1,8 +1,21 @@
 {
-    "ipAddresses": {
-      "type": "Array",
-      "metadata": {
-        "displayname": "Destination Port Ranges"
-      }
+  "ipAddresses": {
+    "type": "Array",
+    "metadata": {
+      "displayname": "Destination Port Ranges"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
     }
   }
+}

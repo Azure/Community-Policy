@@ -1,17 +1,17 @@
 {
-    "if": {
-        "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Security/AutoProvisioningSettings"
-            },
-            {
-                "field": "Microsoft.Security/AutoProvisioningSettings/autoProvision",
-                "equals": "On"
-            }
-        ]
-    },
-    "then": {
-        "effect": "[parameters('effect')]"
-    }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Security/AutoProvisioningSettings"
+      },
+      {
+        "field": "Microsoft.Security/AutoProvisioningSettings/autoProvision",
+        "equals": "On"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

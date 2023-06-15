@@ -1,66 +1,66 @@
 {
-  "Description": "This policy prevent settings non authorized dns servers for firewall policies.",
-  "DisplayName": "Enforce Firewall Policy DNS servers",
-  "Metadata": {
-    "category": "Azure DNS",
-    "createdBy": "",
-    "createdOn": "2021-10-05T13:57:47.6830484Z",
-    "updatedBy": null,
-    "updatedOn": null
-  },
-  "Mode": "Indexed",
-  "Parameters": {
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "description": "The effect for this policy to take. e.g. Audit",
-        "displayName": "Effect"
-      },
-      "allowedValues": [
-        "Deny",
-        "Audit",
-        "Disabled"
-      ],
-      "defaultValue": "Audit"
+  "name": "2cfd3f31-22d4-481e-b543-6a9601b077bf",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "enforce_azfw_dns_servers",
+    "mode": "indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
     },
-    "servers": {
-      "type": "Array",
-      "metadata": {
-        "description": "The list of DNS servers to enforce exclusive existance of.",
-        "displayName": "DNS Servers list"
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "description": "The effect for this policy to take. e.g. Audit",
+          "displayName": "Effect"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "servers": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of DNS servers to enforce exclusive existance of.",
+          "displayName": "DNS Servers list"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "AllOf": [
+          {
+            "equals": "Microsoft.Network/firewallPolicies",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "exists": false,
+                "field": "Microsoft.Network/firewallPolicies/dnsSettings.servers"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/firewallPolicies/dnsSettings.servers[*]",
+                  "where": {
+                    "field": "Microsoft.Network/firewallPolicies/dnsSettings.servers[*]",
+                    "notIn": "[parameters('servers')]"
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
       }
     }
-  },
-  "PolicyRule": {
-    "if": {
-      "AllOf": [
-        {
-          "equals": "Microsoft.Network/firewallPolicies",
-          "field": "type"
-        },
-        {
-          "anyOf": [
-            {
-              "exists": false,
-              "field": "Microsoft.Network/firewallPolicies/dnsSettings.servers"
-            },
-            {
-              "count": {
-                "field": "Microsoft.Network/firewallPolicies/dnsSettings.servers[*]",
-                "where": {
-                  "field": "Microsoft.Network/firewallPolicies/dnsSettings.servers[*]",
-                  "notIn": "[parameters('servers')]"
-                }
-              },
-              "greater": 0
-            }
-          ]
-        }
-      ]
-    },
-    "then": {
-      "effect": "[parameters('effect')]"
-    }
-  },
-  "PolicyType": 1
+  }
 }

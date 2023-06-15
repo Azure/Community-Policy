@@ -3,12 +3,12 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Deny - Configure Event Hubs to allow only certain SKUs",
-    "description": "The policy denies the Basic SKU because one can only create private endpoint connections with Standard or Premium SKU.",
-    "metadata": {
-      "category": "Event Hub",
-      "version": "1.0.0"
-    },
     "mode": "All",
+    "description": "The policy denies the Basic SKU because one can only create private endpoint connections with Standard or Premium SKU.",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "Event Hub"
+    },
     "parameters": {
       "effect": {
         "type": "String",

@@ -1,48 +1,67 @@
 {
-   "displayName": "Enforce 1.2 as Minimum TLS Version for SQL Server",
-   "policyType": "Custom",
-   "mode": "All",
-   "description": "Will set the Minimum TLS Version for a SQL Server to 1.2 or deny creation (when older API versions are used for deployment)",
-   "metadata": {
-      "category": "SQL"
-   },
-   "parameters": {},
-   "policyRule": {
+  "name": "748a2109-6fec-497a-8329-9a8c1a961359",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce 1.2 as Minimum TLS Version for SQL Server",
+    "mode": "All",
+    "description": "Will set the Minimum TLS Version for a SQL Server to 1.2 or deny creation (when older API versions are used for deployment)",
+    "metaData": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Modify",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Modify",
+        "type": "string",
+        "metaData": {
+          "description": "Modify, Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
       "if": {
-         "allOf": [
-            {
-               "field": "type",
-               "equals": "Microsoft.Sql/servers"
-            },
-            {
-               "anyOf": [
-                  {
-                     "field": "Microsoft.Sql/servers/minimalTlsVersion",
-                     "exists": "false"
-                  },
-                  {
-                     "field": "Microsoft.Sql/servers/minimalTlsVersion",
-                     "notEquals": "1.2"
-                  }
-               ]
-            }
-         ]
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                "exists": "false"
+              },
+              {
+                "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                "notEquals": "1.2"
+              }
+            ]
+          }
+        ]
       },
       "then": {
-         "effect": "modify",
-         "details": {
-            "roleDefinitionIds": [
-               "/providers/microsoft.authorization/roleDefinitions/056cd41c-7e88-42e1-933e-88ba6a50c9c3"
-            ],
-            "conflictEffect": "deny",
-            "operations": [
-               {
-                  "operation": "addOrReplace",
-                  "field": "Microsoft.Sql/servers/minimalTlsVersion",
-                  "value": "1.2"
-               }
-            ]
-         }
+        "effect": "[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/056cd41c-7e88-42e1-933e-88ba6a50c9c3"
+          ],
+          "conflictEffect": "deny",
+          "operations": [
+            {
+              "operation": "addOrReplace",
+              "field": "Microsoft.Sql/servers/minimalTlsVersion",
+              "value": "1.2"
+            }
+          ]
+        }
       }
-   }
+    }
+  }
 }

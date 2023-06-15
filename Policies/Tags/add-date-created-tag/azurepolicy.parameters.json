@@ -1,10 +1,24 @@
 {
-    "tagName": {
-      "type": "String",
-      "defaultValue": "DateCreated",
-      "metadata": {
-        "displayName": "Tag Name",
-        "description": "Name of the tag, such as 'DateCreated'"
-      }
+  "tagName": {
+    "type": "String",
+    "defaultValue": "DateCreated",
+    "metadata": {
+      "displayName": "Tag Name",
+      "description": "Name of the tag, such as 'Date'"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "Modify",
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Modify",
+    "type": "string",
+    "metaData": {
+      "description": "Modify, Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
     }
   }
+}

@@ -1,21 +1,21 @@
 {
-   "if": {
-      "allOf": [
-         {
-            "field": "type",
-            "equals": "Microsoft.SQL/servers/databases/transparentDataEncryption"
-         },
-         {
-            "field": "Microsoft.Sql/transparentDataEncryption.status",
-            "notEquals": "enabled"
-         },
-         {
-            "field": "Microsoft.Sql/servers/databases/transparentDataEncryption/state",
-            "notEquals": "enabled"
-         }
-      ]
-   },
-   "then": {
-      "effect": "deny"
-   }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.SQL/servers/databases/transparentDataEncryption"
+      },
+      {
+        "field": "Microsoft.Sql/transparentDataEncryption.status",
+        "notEquals": "enabled"
+      },
+      {
+        "field": "Microsoft.Sql/servers/databases/transparentDataEncryption/state",
+        "notEquals": "enabled"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

@@ -1,16 +1,29 @@
 {
-    "storageId": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Storage id",
-        "description": "A string with the storage id for the flowlogs to be sent to. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Storage/storageAccounts/{storage account name}"
-      }
-    },
-    "targetRegion": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Target Region",
-        "description": "This needs to use the name format for the region found by running 'az account list-locations' or 'Get-AzLocation'"
-      }
+  "storageId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Storage id",
+      "description": "A string with the storage id for the flowlogs to be sent to. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Storage/storageAccounts/{storage account name}"
+    }
+  },
+  "targetRegion": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Target Region",
+      "description": "This needs to use the name format for the region found by running 'az account list-locations' or 'Get-AzLocation'"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
     }
   }
+}

@@ -1,9 +1,22 @@
 {
-	"resourceGroupName": {
-		"type": "String",
-		"metadata": {
-			"displayName": "Resource Group Name",
-			"strongType": "ExistingResourceGroups"
-		}
-	}
+  "resourceGroupName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Resource Group Name",
+      "strongType": "ExistingResourceGroups"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

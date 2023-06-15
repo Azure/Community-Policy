@@ -1,16 +1,29 @@
 {
-	"listOfSKUId": {
-		"type": "Array",
-		"metadata": {
-			"description": "The list of SKUs that can be specified for SQL Databases.",
-			"displayName": "Allowed SKU IDs"
-		}
-	},
-	"listOfSKUName": {
-		"type": "Array",
-		"metadata": {
-			"description": "The list of SKUs that can be specified for SQL Databases.",
-			"displayName": "Allowed SKU Names"
-		}
-	}
+  "listOfSKUId": {
+    "type": "Array",
+    "metadata": {
+      "description": "The list of SKUs that can be specified for SQL Databases.",
+      "displayName": "Allowed SKU IDs"
+    }
+  },
+  "listOfSKUName": {
+    "type": "Array",
+    "metadata": {
+      "description": "The list of SKUs that can be specified for SQL Databases.",
+      "displayName": "Allowed SKU Names"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

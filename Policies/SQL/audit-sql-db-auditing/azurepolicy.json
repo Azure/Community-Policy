@@ -1,43 +1,62 @@
 {
-   "properties": {
-      "displayName": "Audit SQL DB Level Audit Setting",
-      "description": "Audit DB level audit setting for SQL databases",
-      "parameters": {
-         "setting": {
-            "type": "String",
-            "allowedValues": [
-               "enabled",
-               "disabled"
-            ],
-            "metadata": {
-               "displayName": "Audit Setting"
-            }
-         }
+  "name": "4318af33-52b2-43ff-92ea-4e75d9974c2b",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit SQL DB Level Audit Setting",
+    "mode": "indexed",
+    "description": "Audit DB level audit setting for SQL databases",
+    "metaData": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "setting": {
+        "type": "String",
+        "allowedValues": [
+          "enabled",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Audit Setting"
+        }
       },
-      "policyRule": {
-         "if": {
-            "allOf": [
-               {
-                  "field": "type",
-                  "equals": "Microsoft.SQL/servers/databases"
-               },
-               {
-                  "field": "name",
-                  "notEquals": "master"
-               }
-            ]
-         },
-         "then": {
-            "effect": "auditIfNotExists",
-            "details": {
-               "type": "Microsoft.SQL/servers/databases/auditingSettings",
-               "name": "default",
-               "existenceCondition": {
-                  "field": "Microsoft.Sql/auditingSettings.state",
-                  "equals": "[parameters('setting')]"
-               }
-            }
-         }
+      "effect": {
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
       }
-   }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SQL/servers/databases"
+          },
+          {
+            "field": "name",
+            "notEquals": "master"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.SQL/servers/databases/auditingSettings",
+          "name": "default",
+          "existenceCondition": {
+            "field": "Microsoft.Sql/auditingSettings.state",
+            "equals": "[parameters('setting')]"
+          }
+        }
+      }
+    }
+  }
 }

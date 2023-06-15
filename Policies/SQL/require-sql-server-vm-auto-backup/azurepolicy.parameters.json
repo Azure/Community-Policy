@@ -1,23 +1,23 @@
 {
-    "autoBackupSetting": {
-      "type": "Boolean",
-      "metadata": {
-        "displayName": "Auto Backup Setting",
-        "description": "A boolean value for whether or not Auto Backup needs to be enabled on a SQL Server VM."
-      },
-      "defaultValue": false
+  "autoBackupSetting": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Auto Backup Setting",
+      "description": "A boolean value for whether or not Auto Backup needs to be enabled on a SQL Server VM."
     },
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Effect",
-        "description": "Audit, Deny, or Disable Auto Backup."
-      },
-      "allowedValues": [
-        "Audit",
-        "Deny",
-        "Disabled"
-      ],
-      "defaultValue": "Audit"
-    }
+    "defaultValue": false
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Audit, Deny, or Disable Auto Backup."
+    },
+    "allowedValues": [
+      "Audit",
+      "Deny",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
 }

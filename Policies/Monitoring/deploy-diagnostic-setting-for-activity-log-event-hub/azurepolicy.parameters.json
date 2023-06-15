@@ -1,31 +1,31 @@
 {
-    "eventHubRuleId": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Event Hub Authorization Rule Id",
-            "description": "The Event Hub authorization rule Id for Azure Diagnostics. The authorization rule needs to be at Event Hub namespace level. e.g. /subscriptions/{subscription Id}/resourceGroups/{resource group}/providers/Microsoft.EventHub/namespaces/{Event Hub namespace}/authorizationrules/{authorization rule}",
-            "strongType": "Microsoft.EventHub/Namespaces/AuthorizationRules",
-            "assignPermissions": true
-        }
-    },
-    "effect": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Effects",
-            "description": "Enable or disable the execution of the Policy."
-        },
-        "allowedValues": [
-            "DeployIfNotExists",
-            "Disabled"
-        ],
-        "defaultValue": "DeployIfNotExists"
-    },
-    "profileName": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Profile name",
-            "description": "The diagnostic settings profile name"
-        },
-        "defaultValue": "setbypolicy_logAnalytics"
+  "eventHubRuleId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Event Hub Authorization Rule Id",
+      "description": "The Event Hub authorization rule Id for Azure Diagnostics. The authorization rule needs to be at Event Hub namespace level. e.g. /subscriptions/{subscription Id}/resourceGroups/{resource group}/providers/Microsoft.EventHub/namespaces/{Event Hub namespace}/authorizationrules/{authorization rule}",
+      "strongType": "Microsoft.EventHub/Namespaces/AuthorizationRules",
+      "assignPermissions": true
     }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effects",
+      "description": "Enable or disable the execution of the Policy."
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  },
+  "profileName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Profile name",
+      "description": "The diagnostic settings profile name"
+    },
+    "defaultValue": "setbypolicy_eventHub"
+  }
 }

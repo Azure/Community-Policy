@@ -1,21 +1,34 @@
 {
-    "tagName": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Tag Name",
-        "description": "Name of the tag, such as 'Environment'"
-      }
+  "tagName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag Name",
+      "description": "Name of the tag, such as 'Environment'"
+    }
+  },
+  "tagValue": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Tag Value",
+      "description": "Value of the tag, such as 'Prod'"
     },
-    "tagValue": {
-      "type": "Array",
-      "metadata": {
-        "displayName": "Tag Value",
-        "description": "Value of the tag, such as 'Prod'"
-      },
-      "allowedValues": [
-        "Dev",
-        "Test",
-        "Prod"
-      ]
+    "allowedValues": [
+      "Dev",
+      "Test",
+      "Prod"
+    ]
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
     }
   }
+}

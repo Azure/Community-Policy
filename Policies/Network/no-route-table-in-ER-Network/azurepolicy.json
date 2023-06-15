@@ -1,44 +1,63 @@
 {
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "properties": {
-        "mode": "All",
-        "parameters": {},
-        "displayName": "No User Defined Route Table",
-        "description": "Forbid virtual networks to use user defined route table",
-        "policyRule": {
-            "if": {
-                "anyOf": [
-                    {
-                        "allOf": [
-                            {
-                                "field": "type",
-                                "equals": "Microsoft.Network/virtualNetworks"
-                            },
-                            {
-                                "not": {
-                                    "field": "Microsoft.Network/virtualNetworks/subnets[*].routeTable.id",
-                                    "exists": false
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "allOf": [
-                            {
-                                "field": "type",
-                                "equals": "Microsoft.Network/virtualNetworks/subnets"
-                            },
-                            {
-                                "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",
-                                "exists": true
-                            }
-                        ]
-                    }
-                ]
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "name": "0265755a-ef73-4e16-a1fc-b99eecadee27",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "No User Defined Route Table",
+    "mode": "All",
+    "description": "Forbid virtual networks to use user defined route table",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+              },
+              {
+                "not": {
+                  "field": "Microsoft.Network/virtualNetworks/subnets[*].routeTable.id",
+                  "exists": false
+                }
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks/subnets"
+              },
+              {
+                "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",
+                "exists": true
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

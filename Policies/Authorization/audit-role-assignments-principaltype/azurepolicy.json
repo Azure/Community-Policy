@@ -1,40 +1,57 @@
 {
-    "name":"audit-role-assignments-principaltype",
-    "properties":{
-       "displayName":"Audit Role Assignments For Specific Principal Type",
-       "description":"This policy audits for any Role Assignments for a specific Principal Type (e.g. User/Group/ServicePrincipal).",
-       "mode":"All",
-       "parameters":{
-          "principalType":{
-             "type":"String",
-             "metadata":{
-                "description":"Which principalType to audit against e.g. 'User, Group, ServicePrincipal'",
-                "displayName":"principalType"
-             },
-             "allowedValues":[
-                "User",
-                "Group",
-                "ServicePrincipal"
-             ],
-             "defaultValue":"User"
-          }
-       },
-       "policyRule":{
-          "if":{
-             "allOf":[
-                {
-                   "equals":"Microsoft.Authorization/roleAssignments",
-                   "field":"type"
-                },
-                {
-                   "equals":"[parameters('principalType')]",
-                   "field":"Microsoft.Authorization/roleAssignments/principalType"
-                }
-             ]
+  "name": "audit-role-assignments-principaltype",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit Role Assignments For Specific Principal Type",
+    "mode": "All",
+    "description": "This policy audits for any Role Assignments for a specific Principal Type (e.g. User/Group/ServicePrincipal).",
+    "metaData": {
+      "category": "Authorization",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "principalType": {
+        "type": "String",
+        "metadata": {
+          "description": "Which principalType to audit against e.g. 'User, Group, ServicePrincipal'",
+          "displayName": "principalType"
+        },
+        "allowedValues": [
+          "User",
+          "Group",
+          "ServicePrincipal"
+        ],
+        "defaultValue": "User"
+      },
+      "effect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "type": "string",
+        "metaData": {
+          "description": "Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Authorization/roleAssignments",
+            "field": "type"
           },
-          "then":{
-             "effect":"audit"
+          {
+            "equals": "[parameters('principalType')]",
+            "field": "Microsoft.Authorization/roleAssignments/principalType"
           }
-       }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

@@ -1,41 +1,58 @@
 {
-  "displayName": "Allowed SQL Database collations",
-  "policyType": "Custom",
-  "description": "Will deny deploying databases with collations not listed as part of the allowed list",
-  "mode": "All",
-  "metadata": {
-    "category": "SQL"
-  },
-  "parameters": {
-    "listOfAllowedCollations": {
-      "type": "Array",
-      "metadata": {
-        "displayName": "Allowed Collation Names",
-        "description": "A list of approved collations, example: Latin1_General_BIN;SQL_Latin1_General_CP1_CI_AS"
-      }
-    }
-  },
-  "policyRule": {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "equals": "Microsoft.SQL/servers/databases"
-        },
-        {
-          "field": "name",
-          "notEquals": "master"
-        },
-        {
-          "not": {
-            "field": "Microsoft.SQL/servers/databases/collation",
-            "in": "[parameters('listOfAllowedCollations')]"
-          }
-        }
-      ]
+  "name": "15f6b147-14b8-4566-beee-d8498cdc10c3",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Allowed SQL Database collations",
+    "mode": "All",
+    "description": "Will deny deploying databases with collations not listed as part of the allowed list",
+    "metaData": {
+      "category": "SQL",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "Deny"
+    "parameters": {
+      "listOfAllowedCollations": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed Collation Names",
+          "description": "A list of approved collations, example: Latin1_General_BIN;SQL_Latin1_General_CP1_CI_AS"
+        }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SQL/servers/databases"
+          },
+          {
+            "field": "name",
+            "notEquals": "master"
+          },
+          {
+            "not": {
+              "field": "Microsoft.SQL/servers/databases/collation",
+              "in": "[parameters('listOfAllowedCollations')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
   }
 }

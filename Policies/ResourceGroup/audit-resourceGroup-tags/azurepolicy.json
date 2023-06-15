@@ -1,32 +1,50 @@
 {
-   "properties": {
-      "displayName": "Audit resource groups missing tags",
-      "description": "Audit resource groups that doesn't have particular tag",
-      "mode": "All",
-      "parameters": {
-         "tagName": {
-            "type": "String",
-            "metadata": {
-               "description": "Name of the tag, such as costCenter"
-            }
-         }
+  "name": "9f578893-b191-474a-a969-3d3a8346331c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit resource groups missing tags",
+    "mode": "All",
+    "description": "Audit resource groups that doesn't have particular tag",
+    "metaData": {
+      "category": "ResourceGroup",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "description": "Name of the tag, such as costCenter"
+        }
       },
-      "policyRule": {
-         "if": {
-            "allOf": [
-               {
-                  "field": "type",
-                  "equals": "Microsoft.Resources/subscriptions/resourceGroups"
-               },
-               {
-                  "field": "[concat('tags[',parameters('tagName'), ']')]",
-                  "exists": false
-               }
-            ]
-         },
-         "then": {
-            "effect": "audit"
-         }
+      "effect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "type": "string",
+        "metaData": {
+          "description": "Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
       }
-   }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+          },
+          {
+            "field": "[concat('tags[',parameters('tagName'), ']')]",
+            "exists": false
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
 }

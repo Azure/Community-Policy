@@ -1,41 +1,49 @@
 {
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "service-bus-namespace-trusted-microsoft-services-deny",
-    "properties": {
-        "displayName": "Service Bus Namespace - Trusted Microsoft Services DENY",
-        "policyType": "Custom",
-        "mode": "All",
-        "description": "This Azure Policy denies the creation of a Service Bus Namespace when the 'Allow trusted Microsoft services to bypass this firewall?' setting is set to 'Yes'.",
+  "name": "service-bus-namespace-trusted-microsoft-services-deny",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Service Bus Namespace - Trusted Microsoft Services DENY",
+    "mode": "All",
+    "description": "This Azure Policy denies the creation of a Service Bus Namespace when the 'Allow trusted Microsoft services to bypass this firewall?' setting is set to 'Yes'.",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "Service Bus Namespace"
+    },
+    "parameters": {
+      "policyEffect": {
+        "type": "String",
         "metadata": {
-            "version": "1.0.0",
-            "category": "Service Bus Namespace"
+          "displayName": "Policy Effect",
+          "description": "The Policy Effect associated with this Policy Definition"
         },
-        "parameters": {
-            "policyEffect": {
-                "type": "String",
-                "metadata": {
-                    "displayName": "Policy Effect",
-                    "description": "The Policy Effect associated with this Policy Definition"
-                },
-                "defaultValue": "Deny"
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.ServiceBus/namespaces/networkRuleSets"
-                    },
-                    {
-                        "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/trustedServiceAccessEnabled",
-                        "equals": "true"
-                    }
-                ]
-            },
-            "then": {
-                "effect": "[parameters('policyEffect')]"
-            }
+        "defaultValue": "Deny"
+      },
+      "effect": {
+        "allowedValues": null,
+        "defaultValue": null,
+        "type": "string",
+        "metaData": {
+          "description": null,
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ServiceBus/namespaces/networkRuleSets"
+          },
+          {
+            "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/trustedServiceAccessEnabled",
+            "equals": "true"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

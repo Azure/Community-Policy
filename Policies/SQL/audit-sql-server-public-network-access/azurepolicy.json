@@ -1,15 +1,35 @@
 {
+  "name": "c3a11221-0b5c-4fca-a0e1-4310bdd3d578",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit public network access setting for Azure SQL Database",
+    "mode": "indexed",
     "description": "Customers use public network access property to control public vs private connectivity to Azure SQL Database. This policy audits that public network access property is set to 'Disabled' so that no public connectivity is allowed.",
-    "parameters": {},
+    "metaData": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
     "policyRule": {
       "if": {
         "field": "type",
         "equals": "Microsoft.Sql/servers"
       },
       "then": {
-        "effect": "AuditIfNotExists",
+        "effect": "[parameters('effect')]",
         "details": {
           "name": "default",
           "type": "Microsoft.Sql/servers",

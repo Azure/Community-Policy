@@ -1,99 +1,99 @@
 {
-    "if": {
-      "field": "type",
-      "equals": "Microsoft.Sql/managedInstances/databases"
-    },
-    "then": {
-      "effect": "[parameters('effect')]",
-      "details": {
-        "type": "Microsoft.Insights/diagnosticSettings",
-        "name": "[parameters('profileName')]",
-        "existenceCondition": {
-          "allOf": [
-            {
-              "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
-              "equals": "[parameters('logsEnabled')]"
-            }
-          ]
-        },
-        "roleDefinitionIds": [
-          "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-        ],
-        "deployment": {
-          "properties": {
-            "mode": "incremental",
-            "template": {
-              "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-              "contentVersion": "1.0.0.0",
-              "parameters": {
-                "resourceName": {
-                  "type": "string"
-                },
-                "location": {
-                  "type": "string"
-                },
-                "logAnalytics": {
-                  "type": "string"
-                },
-                "logsEnabled": {
-                  "type": "string"
-                },
-                "profileName": {
-                  "type": "string"
-                }
-              },
-              "variables": {},
-              "resources": [
-                {
-                  "type": "Microsoft.Sql/managedInstances/databases/providers/diagnosticSettings",
-                  "apiVersion": "2017-05-01-preview",
-                  "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
-                  "location": "[parameters('location')]",
-                  "dependsOn": [],
-                  "properties": {
-                    "workspaceId": "[parameters('logAnalytics')]",
-                    "logs": [
-                      {
-                        "category": "SQLInsights",
-                        "enabled": "[parameters('logsEnabled')]"
-                      },
-                      {
-                        "category": "QueryStoreRuntimeStatistics",
-                        "enabled": "[parameters('logsEnabled')]"
-                      },
-                      {
-                        "category": "QueryStoreWaitStatistics",
-                        "enabled": "[parameters('logsEnabled')]"
-                      },
-                      {
-                        "category": "Errors",
-                        "enabled": "[parameters('logsEnabled')]"
-                      }
-                    ]
-                  }
-                }
-              ],
-              "outputs": {}
-            },
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Sql/managedInstances/databases"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Insights/diagnosticSettings",
+      "name": "[parameters('profileName')]",
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
+            "equals": "[parameters('logsEnabled')]"
+          }
+        ]
+      },
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+      ],
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
             "parameters": {
-              "location": {
-                "value": "[field('location')]"
-              },
               "resourceName": {
-                "value": "[field('fullName')]"
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
               },
               "logAnalytics": {
-                "value": "[parameters('logAnalytics')]"
+                "type": "string"
               },
               "logsEnabled": {
-                "value": "[parameters('logsEnabled')]"
+                "type": "string"
               },
               "profileName": {
-                "value": "[parameters('profileName')]"
+                "type": "string"
               }
+            },
+            "variables": {},
+            "resources": [
+              {
+                "type": "Microsoft.Sql/managedInstances/databases/providers/diagnosticSettings",
+                "apiVersion": "2017-05-01-preview",
+                "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+                "location": "[parameters('location')]",
+                "dependsOn": [],
+                "properties": {
+                  "workspaceId": "[parameters('logAnalytics')]",
+                  "logs": [
+                    {
+                      "category": "SQLInsights",
+                      "enabled": "[parameters('logsEnabled')]"
+                    },
+                    {
+                      "category": "QueryStoreRuntimeStatistics",
+                      "enabled": "[parameters('logsEnabled')]"
+                    },
+                    {
+                      "category": "QueryStoreWaitStatistics",
+                      "enabled": "[parameters('logsEnabled')]"
+                    },
+                    {
+                      "category": "Errors",
+                      "enabled": "[parameters('logsEnabled')]"
+                    }
+                  ]
+                }
+              }
+            ],
+            "outputs": {}
+          },
+          "parameters": {
+            "location": {
+              "value": "[field('location')]"
+            },
+            "resourceName": {
+              "value": "[field('fullName')]"
+            },
+            "logAnalytics": {
+              "value": "[parameters('logAnalytics')]"
+            },
+            "logsEnabled": {
+              "value": "[parameters('logsEnabled')]"
+            },
+            "profileName": {
+              "value": "[parameters('profileName')]"
             }
           }
         }
       }
     }
   }
+}

@@ -1,19 +1,19 @@
 {
-	"if": {
-		"allOf": [
-			{
-				"field": "type",
-				"equals": "Microsoft.Network/expressRouteCircuits"
-			},
-			{
-				"not": {
-					"field": "Microsoft.Network/expressRouteCircuits/serviceProvider.peerLocation",
-					"in": "[parameters('listOfLocations')]"
-				}
-			}
-		]
-	},
-	"then": {
-		"effect": "Deny"
-	}
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/expressRouteCircuits"
+      },
+      {
+        "not": {
+          "field": "Microsoft.Network/expressRouteCircuits/serviceProviderProperties.peeringLocation",
+          "in": "[parameters('listOfLocations')]"
+        }
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

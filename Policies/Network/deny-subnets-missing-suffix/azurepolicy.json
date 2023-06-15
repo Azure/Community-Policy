@@ -1,89 +1,110 @@
 {
+  "name": "cdd29e33-4698-4ab1-9e55-e1f84309921f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deny-subnets-missing-suffix",
     "mode": "All",
-    "name": "Deny subnets missing suffix",
     "description": "This Policy will deny the creation of subnets that do not contain one of the suffixes defined within this Policy.",
-    "policyRule": {
-        "if": {
-            "anyOf": [
-                {
-                    "allOf": [
-                        {
-                            "field": "type",
-                            "equals": "Microsoft.Network/virtualNetworks"
-                        },
-                        {
-                            "count": {
-                                "field": "Microsoft.Network/virtualNetworks/subnets[*]",
-                                "where": {
-                                    "allOf": [
-                                        {
-                                            "not": {
-                                                "value": "[substring(last(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].name')), '-')), 0, sub(length(last(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].name')), '-'))), 2))]",
-                                                "in": "[parameters('requiredSuffix')]"
-                                            }
-                                        },
-                                        {
-                                            "not": {
-                                                "anyOf": [
-                                                    {
-                                                        "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
-                                                        "equals": "GatewaySubnet"
-                                                    },
-                                                    {
-                                                        "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
-                                                        "equals": "AzureFirewallSubnet"
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    ]
-                                }
-                            },
-                            "greater": 0
-                        }
-                    ]
-                },
-                {
-                    "allOf": [
-                        {
-                            "field": "type",
-                            "equals": "Microsoft.Network/virtualNetworks/subnets"
-                        },
-                        {
-                            "not": {
-                                "value": "[last(split(field('name'),'-'))]",
-                                "in": "[parameters('requiredSuffix')]"
-                            }
-                        },
-                        {
-                            "not": {
-                                "anyOf": [
-                                    {
-                                        "field": "name",
-                                        "equals": "GatewaySubnet"
-                                    },
-                                    {
-                                        "field": "name",
-                                        "equals": "AzureFirewallSubnet"
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        "then": {
-            "effect": "deny"
-        }
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
     },
     "parameters": {
-        "requiredSuffix": {
-            "type": "Array",
-            "metadata": {
-                "displayName": "Required Suffixes",
-                "description": "Assessment is performed as such: 'exameple-subnet-suffix', would be split by '-' and the last value would be returned. That would be the word 'suffix' in this example. If that word was not defined in this list the creation of that subnet would be denied."
-            }
+      "requiredSuffix": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Required Suffixes",
+          "description": "Assessment is performed as such: 'exameple-subnet-suffix', would be split by '-' and the last value would be returned. That would be the word 'suffix' in this example. If that word was not defined in this list the creation of that subnet would be denied."
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+                  "where": {
+                    "allOf": [
+                      {
+                        "not": {
+                          "value": "[substring(last(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].name')), '-')), 0, sub(length(last(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].name')), '-'))), 2))]",
+                          "in": "[parameters('requiredSuffix')]"
+                        }
+                      },
+                      {
+                        "not": {
+                          "anyOf": [
+                            {
+                              "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                              "equals": "GatewaySubnet"
+                            },
+                            {
+                              "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                              "equals": "AzureFirewallSubnet"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks/subnets"
+              },
+              {
+                "not": {
+                  "value": "[last(split(field('name'),'-'))]",
+                  "in": "[parameters('requiredSuffix')]"
+                }
+              },
+              {
+                "not": {
+                  "anyOf": [
+                    {
+                      "field": "name",
+                      "equals": "GatewaySubnet"
+                    },
+                    {
+                      "field": "name",
+                      "equals": "AzureFirewallSubnet"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

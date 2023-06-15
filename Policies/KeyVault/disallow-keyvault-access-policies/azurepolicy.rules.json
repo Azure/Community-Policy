@@ -14,6 +14,6 @@
     ]
   },
   "then": {
-    "effect": "Audit"
+    "effect": "[parameters('effect')]"
   }
 }

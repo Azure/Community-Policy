@@ -1,17 +1,17 @@
 {
-    "if": {
-        "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Network/privateEndpoints"
-            },
-            {
-                "value": "[last(split(field('Microsoft.Network/privateEndpoints/subnet.id'), '/'))]",
-                "contains": "[parameters('subnetNamingConvention')]"
-            }
-        ]
-    },
-    "then": {
-        "effect": "Deny"
-    }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/privateEndpoints"
+      },
+      {
+        "value": "[last(split(field('Microsoft.Network/privateEndpoints/subnet.id'), '/'))]",
+        "contains": "[parameters('subnetNamingConvention')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

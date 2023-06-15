@@ -1,6 +1,14 @@
 {
+  "name": "afee1e99-d05f-4fb7-9b2d-8340988dd054",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "Create NSG Rule",
+    "mode": "indexed",
     "description": "This policy will append a rule to an NSG during creation or update. Only works during creation of the NSG or updates to the NSG as a whole due to the way the Resource Provider works.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
     "parameters": {
       "name": {
         "type": "String"
@@ -42,6 +50,20 @@
       },
       "destinationAddressPrefixes": {
         "type": "Array"
+      },
+      "effect": {
+        "allowedValues": [
+          "Append",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Append",
+        "type": "string",
+        "metaData": {
+          "description": "Append, Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
       }
     },
     "policyRule": {
@@ -54,7 +76,7 @@
         ]
       },
       "then": {
-        "effect": "append",
+        "effect": "[parameters('effect')]",
         "details": [
           {
             "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
@@ -80,4 +102,4 @@
       }
     }
   }
-  
+}

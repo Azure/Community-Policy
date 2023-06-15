@@ -1,86 +1,104 @@
 {
+  "name": "4f00c3dd-a58a-40f8-b70d-0fba2dc014ef",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "Deploy hybrid use for Azure SQL Elastic Pools",
-    "policyType": "Custom",
-    "description": "This Policy will enable HUB for Azure SQL Elastic Pools.",
     "mode": "All",
-    "metadata": {
-        "category": "SQL"
+    "description": "This Policy will enable HUB for Azure SQL Elastic Pools.",
+    "metaData": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
     },
     "policyRule": {
-        "if": {
-            "allOf": [
-                {
-                    "field": "type",
-                    "equals": "Microsoft.Sql/servers/elasticPools"
-                },
-                {
-                    "anyOf": [
-                        {
-                            "field": "Microsoft.Sql/servers/elasticpools/sku.tier",
-                            "equals": "BusinessCritical"
-                        },
-                        {
-                            "field": "Microsoft.Sql/servers/elasticpools/sku.tier",
-                            "equals": "GeneralPurpose"
-                        }
-                    ]
-                }
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers/elasticPools"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Sql/servers/elasticpools/sku.tier",
+                "equals": "BusinessCritical"
+              },
+              {
+                "field": "Microsoft.Sql/servers/elasticpools/sku.tier",
+                "equals": "GeneralPurpose"
+              }
             ]
-        },
-        "then": {
-            "effect": "DeployIfNotExists",
-            "details": {
-                "type": "Microsoft.Sql/servers/elasticPools",
-                "name": "[field('fullname')]",
-                "roleDefinitionIds": [
-                    "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
-                ],
-                "existenceCondition": {
-                    "allOf": [
-                        {
-                            "field": "Microsoft.Sql/servers/elasticpools/licenseType",
-                            "equals": "BasePrice"
-                        }
-                    ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Sql/servers/elasticPools",
+          "name": "[field('fullname')]",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+          ],
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Sql/servers/elasticpools/licenseType",
+                "equals": "BasePrice"
+              }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "sqlElasticPoolName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  }
                 },
-                "deployment": {
+                "resources": [
+                  {
+                    "name": "[parameters('sqlElasticPoolName')]",
+                    "type": "Microsoft.Sql/servers/elasticpools",
+                    "apiVersion": "2017-10-01-preview",
+                    "location": "[parameters('location')]",
                     "properties": {
-                        "mode": "incremental",
-                        "template": {
-                            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                            "contentVersion": "1.0.0.0",
-                            "parameters": {
-                                "sqlElasticPoolName": {
-                                    "type": "string"
-                                },
-                                "location": {
-                                    "type": "string"
-                                }
-                            },
-                            "resources": [
-                                {
-                                    "name": "[parameters('sqlElasticPoolName')]",
-                                    "type": "Microsoft.Sql/servers/elasticpools",
-                                    "apiVersion": "2017-10-01-preview",
-                                    "location": "[parameters('location')]",
-                                    "properties": {
-                                        "licenseType": "BasePrice"
-                                    }
-                                }
-                            ]
-                        },
-                        "parameters": {
-                            "sqlElasticPoolName": {
-                                "value": "[field('fullname')]"
-                            },
-                            "location": {
-                                "value": "[field('location')]"
-                            }
-                        }
+                      "licenseType": "BasePrice"
                     }
+                  }
+                ]
+              },
+              "parameters": {
+                "sqlElasticPoolName": {
+                  "value": "[field('fullname')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
                 }
+              }
             }
+          }
         }
-    },
-    "parameters": {}
+      }
+    }
+  }
 }

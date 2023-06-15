@@ -1,15 +1,15 @@
 {
-    "if": {
-        "field": "type",
-        "equals": "Microsoft.ContainerService/managedClusters"
-    },
-    "then": {
-        "effect": "append",
-        "details": [
-            {
-                "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges",
-                "value": "[parameters('listOfAllowedIps')]"
-            }
-        ]
-    }
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.ContainerService/managedClusters"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": [
+      {
+        "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges",
+        "value": "[parameters('listOfAllowedIps')]"
+      }
+    ]
+  }
 }

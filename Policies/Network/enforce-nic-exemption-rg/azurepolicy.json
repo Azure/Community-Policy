@@ -1,67 +1,88 @@
 {
+  "name": "bfc25e21-4387-4ac6-817e-57e80bd69680",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "VMs in Resource Groups containing suffix must have NICs in Resource Groups with same suffix",
-    "description": "This Policy will require that VMs deployed into Resource Groups with a certain suffix also have their NICs deployed into Resource Groups with that same suffix.",
     "mode": "All",
-    "policyRule": {
-        "if": {
-            "anyOf": [
-                {
-                    "allOf": [
-                        {
-                            "field": "type",
-                            "equals": "Microsoft.Compute/virtualMachines"
-                        },
-                        {
-                            "value": "[resourceGroup().name]",
-                            "notLike": "[concat('*', parameters('resourceGroupSuffix'))]"
-                        },
-                        {
-                            "count": {
-                                "field": "Microsoft.Compute/virtualMachines/networkProfile.networkInterfaces[*]",
-                                "where": {
-                                    "value": "[split(string(field('Microsoft.Compute/virtualMachines/networkProfile.networkInterfaces[*].id')), '/')[4]]",
-                                    "like": "[concat('*', parameters('resourceGroupSuffix'))]"
-                                }
-                            },
-                            "greater": 0
-                        }
-                    ]
-                },
-                {
-                    "allOf": [
-                        {
-                            "field": "type",
-                            "equals": "Microsoft.Compute/virtualMachines"
-                        },
-                        {
-                            "value": "[resourceGroup().name]",
-                            "like": "[concat('*', parameters('resourceGroupSuffix'))]"
-                        },
-                        {
-                            "count": {
-                                "field": "Microsoft.Compute/virtualMachines/networkProfile.networkInterfaces[*]",
-                                "where": {
-                                    "value": "[split(string(field('Microsoft.Compute/virtualMachines/networkProfile.networkInterfaces[*].id')), '/')[4]]",
-                                    "notLike": "[concat('*', parameters('resourceGroupSuffix'))]"
-                                }
-                            },
-                            "greater": 0
-                        }
-                    ]
-                }
-            ]
-        },
-        "then": {
-            "effect": "deny"
-        }
+    "description": "This Policy will require that VMs deployed into Resource Groups with a certain suffix also have their NICs deployed into Resource Groups with that same suffix.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
     },
     "parameters": {
-        "resourceGroupSuffix": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Resource Group Suffix",
-                "description": "VMs deployed into Resource Groups with this suffix will require that their NICs be in Resource Groups also containging this suffix."
-            }
+      "resourceGroupSuffix": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Resource Group Suffix",
+          "description": "VMs deployed into Resource Groups with this suffix will require that their NICs be in Resource Groups also containging this suffix."
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Compute/virtualMachines"
+              },
+              {
+                "value": "[resourceGroup().name]",
+                "notLike": "[concat('*', parameters('resourceGroupSuffix'))]"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Compute/virtualMachines/networkProfile.networkInterfaces[*]",
+                  "where": {
+                    "value": "[split(string(field('Microsoft.Compute/virtualMachines/networkProfile.networkInterfaces[*].id')), '/')[4]]",
+                    "like": "[concat('*', parameters('resourceGroupSuffix'))]"
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Compute/virtualMachines"
+              },
+              {
+                "value": "[resourceGroup().name]",
+                "like": "[concat('*', parameters('resourceGroupSuffix'))]"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Compute/virtualMachines/networkProfile.networkInterfaces[*]",
+                  "where": {
+                    "value": "[split(string(field('Microsoft.Compute/virtualMachines/networkProfile.networkInterfaces[*].id')), '/')[4]]",
+                    "notLike": "[concat('*', parameters('resourceGroupSuffix'))]"
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

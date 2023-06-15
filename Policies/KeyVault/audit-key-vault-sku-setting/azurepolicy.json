@@ -1,48 +1,57 @@
 {
-   "type": "Microsoft.Authorization/policyDefinitions",
-   "name": "key-vault-sku-setting-audit",
-   "properties": {
-      "displayName": "Key Vault - SKU Setting AUDIT",
-      "description": "This Azure Policy creates an audit event when the 'SKU' setting is not included in the 'allowedSKUSetting' parameter.",
-      "mode": "All",
-      "metadata": {
-         "version": "1.0.0",
-         "category": "Key Vault"
+  "name": "key-vault-sku-setting-audit",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Key Vault - SKU Setting AUDIT",
+    "mode": "All",
+    "description": "This Azure Policy creates an audit event when the 'SKU' setting is not included in the 'allowedSKUSetting' parameter.",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "Key Vault"
+    },
+    "parameters": {
+      "allowedSKUSetting": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Allowed SKU Setting",
+          "description": "The allowed SKU setting of an Azure Key Vault"
+        },
+        "defaultValue": "Premium"
       },
-      "parameters": {
-         "allowedSKUSetting": {
-            "type": "String",
-            "metadata": {
-               "displayName": "Allowed SKU Setting",
-               "description": "The allowed SKU setting of an Azure Key Vault"
-            },
-            "defaultValue": "Premium"
-         },
-         "policyEffect": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Policy Effect",
-                "description": "The Policy Effect associated with this Policy Definition"
-            },
-            "defaultValue": "Audit"
+      "policyEffect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Policy Effect",
+          "description": "The Policy Effect associated with this Policy Definition"
+        },
+        "defaultValue": "Audit"
+      },
+      "effect": {
+        "allowedValues": null,
+        "defaultValue": null,
+        "type": "string",
+        "metaData": {
+          "description": null,
+          "displayName": "Policy effect"
         }
-      },
-      "PolicyRule": {
-         "if": {
-            "allOf": [
-               {
-                  "field": "type",
-                  "equals": "Microsoft.KeyVault/vaults"
-               },
-               {
-                  "field": "Microsoft.KeyVault/vaults/sku.name",
-                  "notEquals": "[parameters('allowedSKUSetting')]"
-               }
-            ]
-         },
-         "then": {
-            "effect": "[parameters('policyEffect')]"
-         }
       }
-   }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.KeyVault/vaults"
+          },
+          {
+            "field": "Microsoft.KeyVault/vaults/sku.name",
+            "notEquals": "[parameters('allowedSKUSetting')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
 }

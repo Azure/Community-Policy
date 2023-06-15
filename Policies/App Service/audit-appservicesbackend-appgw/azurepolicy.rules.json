@@ -1,7 +1,9 @@
 {
   "if": {
     "field": "type",
-    "in": ["Microsoft.Web/sites"]
+    "in": [
+      "Microsoft.Web/sites"
+    ]
   },
   "then": {
     "effect": "[parameters('effect')]",

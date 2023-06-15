@@ -1,29 +1,55 @@
 {
+  "name": "e4f50cde-27a0-4814-a43d-a162a25cc421",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce-tags-on-specific-RG",
     "mode": "Indexed",
-    "policyRule": {
-        "if": {
-            "value": "[resourceGroup().name]",
-            "equals": "Put Your ResourceGroup Name Here"
-        },
-        "then": {
-            "effect": "modify",
-            "details": {
-                "roleDefinitionIds": [
-                    "/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionsID}"
-                ],
-                "operations": [
-                    {
-                        "operation": "addOrReplace",
-                        "field": "tags['Environment']",
-                        "value": "Production/Live"
-                    },
-                    {
-                        "operation": "addOrReplace",
-                        "field": "tags['Customer']",
-                        "value": "User1/User2"
-                    }
-                ]
-            }
+    "description": "Policy description.",
+    "metaData": {
+      "category": "General",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Modify",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Modify",
+        "type": "string",
+        "metaData": {
+          "description": "Modify, Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "value": "[resourceGroup().name]",
+        "equals": "Put Your ResourceGroup Name Here"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionsID}"
+          ],
+          "operations": [
+            {
+              "operation": "addOrReplace",
+              "field": "tags['Environment']",
+              "value": "Production/Live"
+            },
+            {
+              "operation": "addOrReplace",
+              "field": "tags['Customer']",
+              "value": "User1/User2"
+            }
+          ]
+        }
+      }
     }
+  }
 }

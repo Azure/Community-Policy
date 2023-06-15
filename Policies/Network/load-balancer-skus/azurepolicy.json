@@ -1,34 +1,54 @@
 {
-    "properties": {
-        "displayName": "Allowed Load Balancer SKUs",
-        "description": "This policy enables you to specify a set of load balancer SKUs that your organization can deploy.",
-        "parameters": {
-            "listOfAllowedSKUs": {
-                "type": "Array",
-                "metadata": {
-                    "description": "The list of SKUs that can be specified for load balancer.",
-                    "displayName": "Allowed SKUs"
-                }
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Network/loadbalancers"
-                    },
-                    {
-                        "not": {
-                            "field": "Microsoft.Network/loadbalancers/sku.name",
-                            "in": "[parameters('listOfAllowedSKUs')]"
-                        }
-                    }
-                ]
-            },
-            "then": {
-                "effect": "Deny"
-            }
+  "name": "d11388a1-74c8-41c3-92a9-5191f27a56d1",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Allowed Load Balancer SKUs",
+    "mode": "indexed",
+    "description": "This policy enables you to specify a set of load balancer SKUs that your organization can deploy.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "listOfAllowedSKUs": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of SKUs that can be specified for load balancer.",
+          "displayName": "Allowed SKUs"
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/loadbalancers"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/loadbalancers/sku.name",
+              "in": "[parameters('listOfAllowedSKUs')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

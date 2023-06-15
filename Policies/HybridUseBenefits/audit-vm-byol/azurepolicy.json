@@ -1,44 +1,65 @@
 {
-  "mode": "all",
-  "displayName": "Audit VM BYOL Compliance",
-  "description": "This policy audits whether an existing VM is enabled for OS BYOL or is based on a Linux GPL distro from Canonical, Debian or Rogue Wave (formerly OpenLogic).",
-  "policyRule": {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "in": [
-            "Microsoft.Compute/virtualMachines",
-            "Microsoft.Compute/VirtualMachineScaleSets"
-          ]
-        },
-        {
-          "not": {
-            "anyOf": [
-              {
-                "field": "Microsoft.Compute/licenseType",
-                "equals": "Windows_Server"
-              },
-              {
-                "field": "Microsoft.Compute/imageOffer",
-                "contains": "byos"
-              },
-              {
-                "field": "Microsoft.Compute/imagePublisher",
-                "in": [
-                  "Canonical",
-                  "Debian",
-                  "OpenLogic"
-                ]
-              }
-            ]
-          }
-        }
-      ]
+  "name": "c3fbcdc9-167a-462c-b543-8f36e108cc36",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit VM BYOL Compliance",
+    "mode": "all",
+    "description": "This policy audits whether an existing VM is enabled for OS BYOL or is based on a Linux GPL distro from Canonical, Debian or Rogue Wave (formerly OpenLogic).",
+    "metaData": {
+      "category": "HybridUseBenefits",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "audit"
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "type": "string",
+        "metaData": {
+          "description": "Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "in": [
+              "Microsoft.Compute/virtualMachines",
+              "Microsoft.Compute/VirtualMachineScaleSets"
+            ]
+          },
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "field": "Microsoft.Compute/licenseType",
+                  "equals": "Windows_Server"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "contains": "byos"
+                },
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "in": [
+                    "Canonical",
+                    "Debian",
+                    "OpenLogic"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
-  },
-  "parameters": {}
+  }
 }

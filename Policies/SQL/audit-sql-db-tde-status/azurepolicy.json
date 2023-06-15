@@ -1,54 +1,60 @@
 {
-   "properties": {
-      "displayName": "Audit transparent data encryption status",
-      "description": "Audit transparent data encryption status for SQL databases",
-      "mode": "Indexed",
-      "parameters": {
-         "effect": {
-            "type": "string",
-            "defaultValue": "AuditIfNotExists",
-            "allowedValues": [
-               "AuditIfNotExists",
-               "Disabled"
-            ],
-            "metadata": {
-               "displayName": "Effect",
-               "description": "Enable or disable the execution of the policy"
-            }
-         }
-      },
-      "policyRule": {
-         "if": {
-            "allOf": [
-               {
-                  "field": "type",
-                  "equals": "Microsoft.Sql/servers/databases"
-               },
-               {
-                  "field": "name",
-                  "notEquals": "master"
-               }
-            ]
-         },
-         "then": {
-            "effect": "[parameters('effect')]",
-            "details": {
-               "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
-               "name": "current",
-               "existenceCondition": {
-                  "anyOf": [
-                     {
-                       "field": "Microsoft.Sql/transparentDataEncryption.status",
-                       "equals": "enabled"
-                     },
-                     {
-                       "field": "Microsoft.Sql/servers/databases/transparentDataEncryption/state",
-                       "equals": "enabled"
-                     }
-                 ]
-               }
-            }
-         }
+  "name": "5ad1c95b-7fc9-4e8e-b454-4334cca18098",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit transparent data encryption status",
+    "mode": "Indexed",
+    "description": "Audit transparent data encryption status for SQL databases",
+    "metaData": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        }
       }
-   }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers/databases"
+          },
+          {
+            "field": "name",
+            "notEquals": "master"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+          "name": "current",
+          "existenceCondition": {
+            "anyOf": [
+              {
+                "field": "Microsoft.Sql/transparentDataEncryption.status",
+                "equals": "enabled"
+              },
+              {
+                "field": "Microsoft.Sql/servers/databases/transparentDataEncryption/state",
+                "equals": "enabled"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
 }

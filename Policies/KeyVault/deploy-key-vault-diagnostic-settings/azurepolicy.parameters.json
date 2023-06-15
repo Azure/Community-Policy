@@ -1,48 +1,54 @@
 {
-    "profileName": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Profile Name",
-            "description": "The profile name of the Diagnostic Settings"
-        }
-    },
-    "logAnalyticsWorkspace": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Log Analytics Workspace",
-            "description": "The resource Id of the Log Analytics Workspace"
-        }
-    },
-    "metricsEnabled": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Metrics Enabled",
-            "description": "Whether the metrics will be send to the Log Analytics Workspace or not"
-        },
-        "allowedValues": [
-            "True",
-            "False"
-        ],
-        "defaultValue": "True"
-    },
-    "logsEnabled": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Logs Enabled",
-            "description": "Whether the logs will be send to the Log Analytics Workspace or not"
-        },
-        "allowedValues": [
-            "True",
-            "False"
-        ],
-        "defaultValue": "True"
-    },
-    "policyEffect": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Policy Effect Analytics Workspace",
-            "description": "The Policy Effect associated with this Policy Definition"
-        },
-        "defaultValue": "DeployIfNotExists"
+  "profileName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Profile Name",
+      "description": "The profile name of the Diagnostic Settings"
     }
+  },
+  "logAnalyticsWorkspace": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Log Analytics Workspace",
+      "description": "The resource Id of the Log Analytics Workspace"
+    }
+  },
+  "metricsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Metrics Enabled",
+      "description": "Whether the metrics will be send to the Log Analytics Workspace or not"
+    },
+    "allowedValues": [
+      "True",
+      "False"
+    ]
+  },
+  "logsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Logs Enabled",
+      "description": "Whether the logs will be send to the Log Analytics Workspace or not"
+    },
+    "allowedValues": [
+      "True",
+      "False"
+    ]
+  },
+  "policyEffect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Policy Effect",
+      "description": "The Policy Effect associated with this Policy Definition"
+    }
+  },
+  "effect": {
+    "allowedValues": null,
+    "defaultValue": null,
+    "type": "string",
+    "metaData": {
+      "description": null,
+      "displayName": "Policy effect"
+    }
+  }
 }

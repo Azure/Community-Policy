@@ -1,16 +1,28 @@
 {
-    "tagName": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Tag Name",
-        "description": "The tag name to audit against (i.e. Environment, CostCenter, etc.)"
-      }
-    },
-    "tagValue": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Tag Value",
-        "description": "Value of the tag to audit against (i.e. Prod/UAT/TEST, 12345, etc.)"
-      }
+  "tagName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag Name",
+      "description": "The Tag name to audit against (i.e. Environment, CostCenter, etc.)"
     }
+  },
+  "tagValue": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag Value",
+      "description": "Value of the tag to audit against (i.e. Prod/UAT/TEST, 12345, etc.)"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

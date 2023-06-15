@@ -1,43 +1,43 @@
 {
-    "if": {
-        "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Network/routeTables"
-            },
-            {
-                "count": {
-                    "field": "Microsoft.Network/routeTables/routes[*]",
-                    "where": {
-                        "field": "Microsoft.Network/routeTables/routes[*].addressPrefix",
-                        "equals": "0.0.0.0/0"
-                    }
-                },
-                "equals": 0
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/routeTables"
+      },
+      {
+        "count": {
+          "field": "Microsoft.Network/routeTables/routes[*]",
+          "where": {
+            "field": "Microsoft.Network/routeTables/routes[*].addressPrefix",
+            "equals": "0.0.0.0/0"
+          }
+        },
+        "equals": 0
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+      ],
+      "conflictEffect": "audit",
+      "operations": [
+        {
+          "operation": "add",
+          "field": "Microsoft.Network/routeTables/routes[*]",
+          "value": {
+            "name": "default",
+            "properties": {
+              "addressPrefix": "0.0.0.0/0",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[parameters('routeTableSettings')[field('location')].virtualApplianceIpAddress]"
             }
-        ]
-    },
-    "then": {
-        "effect": "modify",
-        "details": {
-            "roleDefinitionIds": [
-                "/providers/microsoft.authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
-            ],
-            "conflictEffect": "audit",
-            "operations": [
-                {
-                    "operation": "add",
-                    "field": "Microsoft.Network/routeTables/routes[*]",
-                    "value": {
-                        "name": "default",
-                        "properties": {
-                            "addressPrefix": "0.0.0.0/0",
-                            "nextHopType": "VirtualAppliance",
-                            "nextHopIpAddress": "[parameters('routeTableSettings')[field('location')].virtualApplianceIpAddress]"
-                        }
-                    }
-                }
-            ]
+          }
         }
+      ]
     }
+  }
 }

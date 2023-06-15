@@ -1,34 +1,54 @@
 {
-    "properties": {
-        "displayName": "Use approved vNet for VM network interfaces",
-        "description": "This policy enforces VM network interfaces to use a specific vNet.",
-        "parameters": {
-            "vNetId": {
-                "type": "string",
-                "metadata": {
-                    "description": "Resource Id for the vNet",
-                    "displayName": "vNet Id"
-                }
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Network/networkInterfaces"
-                    },
-                    {
-                        "not": {
-                            "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
-                            "like": "[concat(parameters('vNetId'),'*')]"
-                        }
-                    }
-                ]
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "name": "f44d6214-99a9-45e0-8cea-0f6a6b7d894f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Use approved vNet for VM network interfaces",
+    "mode": "indexed",
+    "description": "This policy enforces VM network interfaces to use a specific vNet.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "vNetId": {
+        "type": "string",
+        "metadata": {
+          "description": "Resource Id for the vNet",
+          "displayName": "vNet Id"
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
+              "like": "[concat(parameters('vNetId'),'*')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

@@ -1,30 +1,51 @@
 {
+  "name": "a6a7ce94-101a-40ab-aba8-624b007a574c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "deny-app-gateway-only-allowed-in-approved-subnet",
-    "policyType": "Custom",
     "mode": "All",
-    "policyRule": {
-        "if": {
-            "allOf": [
-                {
-                    "field": "type",
-                    "equals": "Microsoft.Network/applicationGateways"
-                },
-                {
-                    "field": "Microsoft.Network/applicationGateways/gatewayIPConfigurations[*].subnet.id",
-                    "notContains": "[parameters('allowedSubnetName')]"
-                }
-            ]
-        },
-        "then": {
-            "effect": "deny"
-        }
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
     },
     "parameters": {
-        "allowedSubnetName": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Name of subnet where Applicaiton Gateways are allowed."
-            }
+      "allowedSubnetName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Name of subnet where Applicaiton Gateways are allowed."
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/applicationGateways"
+          },
+          {
+            "field": "Microsoft.Network/applicationGateways/gatewayIPConfigurations[*].subnet.id",
+            "notContains": "[parameters('allowedSubnetName')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

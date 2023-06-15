@@ -1,37 +1,50 @@
 {
-    "backupVaultResourceGroup": {
-      "type": "string",
-      "metadata": {
-        "displayName": "Backup Vault Resource Group Name",
-        "description": "Resource Group in which the backup vault resides"
-      }
-    },
-    "backupVault": {
-      "type": "string",
-      "metadata": {
-        "displayName": "Backup Vault Name",
-        "description": "Target backup vault for VM backup onboarding"
-      }
-    },
-    "backupPolicy": {
-      "type": "string",
-      "metadata": {
-        "displayName": "backupPolicy",
-        "description": "Target backup policy for VM backup onboarding"
-      }
-    },
-    "tagName": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Tag Name",
-          "description": "Name of the tag, such as 'BackupGroup'"
-        }
-      },
-      "tagValue": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Tag Value",
-          "description": "Value of the tag, such as 'Group1'"
-        }
-      }
+  "backupVaultResourceGroup": {
+    "type": "string",
+    "metadata": {
+      "displayName": "Backup Vault Resource Group Name",
+      "description": "Resource Group in which the backup vault resides"
+    }
+  },
+  "backupVault": {
+    "type": "string",
+    "metadata": {
+      "displayName": "Backup Vault Name",
+      "description": "Target backup vault for VM backup onboarding"
+    }
+  },
+  "backupPolicy": {
+    "type": "string",
+    "metadata": {
+      "displayName": "backupPolicy",
+      "description": "Target backup policy for VM backup onboarding"
+    }
+  },
+  "tagName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag Name",
+      "description": "Name of the tag, such as 'BackupGroup'"
+    }
+  },
+  "tagValue": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag Value",
+      "description": "Value of the tag, such as 'Group1'"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
   }
+}

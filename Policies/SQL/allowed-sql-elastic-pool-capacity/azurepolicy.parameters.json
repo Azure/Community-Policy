@@ -1,9 +1,22 @@
 {
-    "MaxPoolCapacityVCores": {
-      "type": "Integer",
-      "metadata": {
-        "displayName": "Maximum vCores allowed for the pool",
-        "description": "Top defined approved vCores"
-      }
+  "MaxPoolCapacityVCores": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "Maximum vCores allowed for the pool",
+      "description": "Top defined approved vCores"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
     }
   }
+}

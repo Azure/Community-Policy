@@ -1,27 +1,44 @@
 {
-    "properties": {
-        "displayName": "Audit authorization rules on Event Hub namespaces",
-        "mode": "All",
-        "description": "Event Hub clients should not use a namespace level access policy that provides access to all queues and topics in a namespace. To align with the least previlege security model, you should create access policies at the entity level for queues and topics to provide access to only the specific entity",
-        "metadata": {
-            "category": "Event Hub"
-        },
-        "policyRule": {
-            "if": {
-              "allOf": [
-                {
-                  "field": "name",
-                  "notEquals": "RootManageSharedAccessKey"
-                },
-                {
-                  "field": "type",
-                  "equals": "Microsoft.EventHub/namespaces/authorizationRules"
-                }
-              ]
-            },
-            "then": {
-              "effect": "Audit"
-            }
+  "name": "f5d7a6bf-479c-40d9-8215-87352930bebf",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit authorization rules on Event Hub namespaces",
+    "mode": "All",
+    "description": "Event Hub clients should not use a namespace level access policy that provides access to all queues and topics in a namespace. To align with the least previlege security model, you should create access policies at the entity level for queues and topics to provide access to only the specific entity",
+    "metaData": {
+      "category": "Event Hub",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "type": "string",
+        "metaData": {
+          "description": "Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "name",
+            "notEquals": "RootManageSharedAccessKey"
+          },
+          {
+            "field": "type",
+            "equals": "Microsoft.EventHub/namespaces/authorizationRules"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

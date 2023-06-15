@@ -1,45 +1,53 @@
 {
-   "type": "Microsoft.Authorization/policyDefinitions",
-   "name": "storage-account-trusted-azure-services-deny",
-   "properties": {
-      "displayName": "Storage Account - Trusted Azure Services DENY",
-      "policyType": "Custom",
-      "mode": "All",
-      "description": "This Azure Policy denies the deployment of an Azure Storage Account when the 'Allow Azure services on the trusted services list to access this storage account' setting is set to 'Enabled'.",
-      "metadata": {
-         "version": "1.0.0",
-         "category": "Storage Account"
+  "name": "storage-account-trusted-azure-services-deny",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage Account - Trusted Azure Services DENY",
+    "mode": "All",
+    "description": "This Azure Policy denies the deployment of an Azure Storage Account when the 'Allow Azure services on the trusted services list to access this storage account' setting is set to 'Enabled'.",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "Storage Account"
+    },
+    "parameters": {
+      "policyEffect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Policy Effect",
+          "description": "The Policy Effect associated with this Policy Definition"
+        },
+        "defaultValue": "Deny"
       },
-      "parameters": {
-         "policyEffect": {
-            "type": "String",
-            "metadata": {
-               "displayName": "Policy Effect",
-               "description": "The Policy Effect associated with this Policy Definition"
-            },
-            "defaultValue": "Deny"
-         }
-      },
-      "policyRule": {
-         "if": {
-            "allOf": [
-               {
-                  "field": "type",
-                  "equals": "Microsoft.Storage/storageAccounts"
-               },
-               {
-                  "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
-                  "exists": "true"
-               },
-               {
-                  "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
-                  "contains": "AzureServices"
-               }
-            ]
-         },
-         "then": {
-            "effect": "[parameters('policyEffect')]"
-         }
+      "effect": {
+        "allowedValues": null,
+        "defaultValue": null,
+        "type": "string",
+        "metaData": {
+          "description": null,
+          "displayName": "Policy effect"
+        }
       }
-   }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+            "exists": "true"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+            "contains": "AzureServices"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
 }

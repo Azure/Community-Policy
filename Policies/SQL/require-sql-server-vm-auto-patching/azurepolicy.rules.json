@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
+      },
+      {
+        "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/autoPatchingSettings.enable",
+        "equals": "[parameters('autoPatchingSetting')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

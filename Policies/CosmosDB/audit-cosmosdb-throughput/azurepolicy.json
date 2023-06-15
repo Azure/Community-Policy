@@ -1,11 +1,13 @@
 {
+  "name": "e349ea1b-8932-4766-949c-e22446f0e482",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit Cosmos DB Throughput Exceeding Max",
-    "policyType": "Custom",
-    "description": "This policy audits when Cosmos DB shared or dedicated throughput exceeds a maximum. The policy audits Cosmos DB resources in accounts of any API (SQL, Cassandra, Gremlin, MongoDB, Table), where throughput can be provisioned either at the database/keyspace/table level or at the collection/container/graph/table level.",
     "mode": "All",
-    "metadata": {
-      "category": "Cosmos DB"
+    "description": "This policy audits when Cosmos DB shared or dedicated throughput exceeds a maximum. The policy audits Cosmos DB resources in accounts of any API (SQL, Cassandra, Gremlin, MongoDB, Table), where throughput can be provisioned either at the database/keyspace/table level or at the collection/container/graph/table level.",
+    "metaData": {
+      "category": "Cosmos DB",
+      "version": "1.0.0"
     },
     "parameters": {
       "throughputMax": {
@@ -13,6 +15,18 @@
         "defaultValue": 400,
         "metadata": {
           "displayName": "Max RUs"
+        }
+      },
+      "effect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "type": "string",
+        "metaData": {
+          "description": "Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
       }
     },
@@ -130,7 +144,7 @@
         ]
       },
       "then": {
-        "effect": "Audit"
+        "effect": "[parameters('effect')]"
       }
     }
   }

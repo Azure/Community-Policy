@@ -1,9 +1,22 @@
 {
-	"listOfAllowedSKUs": {
-		"type": "Array",
-		"metadata": {
-			"description": "The list of SKUs that can be specified for load balancer.",
-			"displayName": "Allowed SKUs"
-		}
-	}
+  "listOfAllowedSKUs": {
+    "type": "Array",
+    "metadata": {
+      "description": "The list of SKUs that can be specified for load balancer.",
+      "displayName": "Allowed SKUs"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

@@ -3,12 +3,12 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Deploy Purview account CanNotDelete lock",
+    "mode": "All",
     "description": "Deploys CanNotDelete lock on Purview account if not exists.",
-    "metadata": {
+    "metaData": {
       "version": "1.0.0",
       "category": "Purview"
     },
-    "mode": "All",
     "parameters": {
       "effect": {
         "type": "String",

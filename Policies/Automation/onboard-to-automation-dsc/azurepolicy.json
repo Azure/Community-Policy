@@ -1,10 +1,37 @@
 {
+  "name": "76eda9c1-12a6-4d3d-a081-b41cc3bf15f5",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Onboard Azure VM and Arc connected machines to Azure Automation DSC",
     "mode": "Indexed",
     "description": "Deploys the DSC extension to onboard nodes to Azure Automation DSC. Does not assign a configuration.",
-    "metadata": {
-      "category": "Automation"
+    "metaData": {
+      "category": "Automation",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "automationAccount": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Automation account",
+          "description": "Select Automation account from dropdown list. If this account is outside of the scope of the assignment you must manually grant 'Contributor' permissions (or similar) on the Automation account to the policy assignment's principal ID.",
+          "strongType": "Microsoft.Automation/automationAccounts",
+          "assignPermissions": true
+        }
+      },
+      "effect": {
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
     },
     "policyRule": {
       "if": {
@@ -183,7 +210,7 @@
         ]
       },
       "then": {
-        "effect": "deployIfNotExists",
+        "effect": "[parameters('effect')]",
         "details": {
           "roleDefinitionIds": [
             "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
@@ -302,17 +329,6 @@
               }
             }
           }
-        }
-      }
-    },
-    "parameters": {
-      "automationAccount": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Automation account",
-          "description": "Select Automation account from dropdown list. If this account is outside of the scope of the assignment you must manually grant 'Contributor' permissions (or similar) on the Automation account to the policy assignment's principal ID.",
-          "strongType": "Microsoft.Automation/automationAccounts",
-          "assignPermissions": true
         }
       }
     }

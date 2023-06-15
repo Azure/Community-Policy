@@ -1,28 +1,48 @@
 {
-    "properties": {
-       "displayName": "Audit SQL DB without Hybrid Licensing",
-       "description": "Generate audit record if SQL DB is not configured for hybrid license",
-       "parameters": {},
-       "policyRule": {
-        "if": {
-            "allOf": [
-              {
-                "field": "type",
-                "equals": "Microsoft.SQL/servers/databases"
-              },
-              {
-                "field": "kind",
-                "contains": "vcore"
-              },
-              {
-                "field": "Microsoft.Sql/servers/databases/licenseType",
-                "notEquals": "BasePrice"
-              }
-            ]
+  "name": "7e74828c-0a73-410c-bb83-89f93115ee4a",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit SQL DB without Hybrid Licensing",
+    "mode": "indexed",
+    "description": "Generate audit record if SQL DB is not configured for hybrid license",
+    "metaData": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "type": "string",
+        "metaData": {
+          "description": "Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SQL/servers/databases"
           },
-          "then": {
-            "effect": "audit"
+          {
+            "field": "kind",
+            "contains": "vcore"
+          },
+          {
+            "field": "Microsoft.Sql/servers/databases/licenseType",
+            "notEquals": "BasePrice"
           }
-       }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
- }
+  }
+}

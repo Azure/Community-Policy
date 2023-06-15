@@ -1,19 +1,19 @@
 {
-    "if": {
-        "allOf": [
-        {
-            "field": "type",
-            "equals": "Microsoft.CognitiveServices/accounts"
-        },
-        {
-            "not": {
-                "field": "kind",
-                "in": "[parameters('listOfAllowedKind')]"
-            }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.CognitiveServices/accounts"
+      },
+      {
+        "not": {
+          "field": "kind",
+          "in": "[parameters('listOfAllowedKind')]"
         }
-        ]
-    },
-        "then": {
-        "effect": "[parameters('effect')]" 
-    }
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

@@ -1,19 +1,19 @@
-﻿{
-    "if": {
-        "allOf": [
-            {
-                "equals": "microsoft.network/bastionhosts",
-                "field": "type"
-            },
-            {
-                "not": {
-                    "field": "Microsoft.Network/bastionHosts/enableShareableLink",
-                    "equals": "False"
-                }
-            }
-        ]
-    },
-    "then": {
-        "effect": "[parameters('effect')]"
-    }
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "microsoft.network/bastionhosts",
+        "field": "type"
+      },
+      {
+        "not": {
+          "field": "Microsoft.Network/bastionHosts/enableShareableLink",
+          "equals": "False"
+        }
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

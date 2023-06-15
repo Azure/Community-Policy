@@ -1,9 +1,22 @@
 {
-    "dnsSettings": {
-        "type": "array",
-        "metadata": {
-            "displayname": "Enforced DNS Settings",
-            "description": "Users will be unable to change the DNS settings on a VNet from the values defined in this array."
-        }
+  "dnsSettings": {
+    "type": "array",
+    "metadata": {
+      "displayname": "Enforced DNS Settings",
+      "description": "Users will be unable to change the DNS settings on a VNet from the values defined in this array."
     }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

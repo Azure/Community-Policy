@@ -1,126 +1,126 @@
 {
-    "if": {
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      {
+        "field": "[concat('tags[', parameters('tagName'), ']')]",
+        "equals": "[parameters('tagValue')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "evaluationDelay": "AfterProvisioningSuccess",
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[field('name')]",
+      "existenceCondition": {
         "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Storage/storageAccounts"
-            },
-            {
-                "field": "[concat('tags[', parameters('tagName'), ']')]",
-                "equals": "[parameters('tagValue')]"
-            }
-        ]
-    },
-    "then": {
-        "effect": "[parameters('effect')]",
-        "details": {
-            "evaluationDelay": "AfterProvisioningSuccess",
-            "type": "Microsoft.Storage/storageAccounts",
-            "name": "[field('name')]",
-            "existenceCondition": {
-                "allOf": [
-                    {
-                        "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules",
-                        "exists": "true"
-                    },
-                    {
-                        "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction",
-                        "equals": "Deny"
-                    },
-                    {
-                        "field": "Microsoft.Storage/storageAccounts/publicNetworkAccess",
-                        "equals": "Enabled"
-                    },
-                    {
-                        "count": {
-                            "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*]",
-                            "where": {
-                                "anyOf": [
-                                    {
-                                        "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value",
-                                        "in": "[parameters('enforceIPRanges')]"
-                                    }
-                                ]
-                            }
-                        },
-                        "equals": "[length(parameters('enforceIPRanges'))]"
-                    }
+          {
+            "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules",
+            "exists": "true"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction",
+            "equals": "Deny"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/publicNetworkAccess",
+            "equals": "Enabled"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*]",
+              "where": {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value",
+                    "in": "[parameters('enforceIPRanges')]"
+                  }
                 ]
+              }
             },
-            "roleDefinitionIds": [
-                "/providers/microsoft.authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab"
-            ],
-            "deployment": {
+            "equals": "[length(parameters('enforceIPRanges'))]"
+          }
+        ]
+      },
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab"
+      ],
+      "deployment": {
+        "properties": {
+          "mode": "Incremental",
+          "template": {
+            "`$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "resourceName": {
+                "type": "String"
+              },
+              "enforceIPRanges": {
+                "type": "Array"
+              },
+              "location": {
+                "type": "String"
+              },
+              "ipRulesExisting": {
+                "type": "Array"
+              },
+              "existingIPRangesHandling": {
+                "type": "String"
+              }
+            },
+            "variables": {
+              "varIPRangesToApply": "[if(equals(parameters('existingIPRangesHandling'), 'retain'), union(parameters('enforceIPRanges'), parameters('ipRulesExisting')), parameters('enforceIPRanges'))]"
+            },
+            "resources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts",
+                "apiVersion": "2022-09-01",
+                "name": "[parameters('resourceName')]",
+                "location": "[parameters('location')]",
                 "properties": {
-                    "mode": "Incremental",
-                    "template": {
-                        "`$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                        "contentVersion": "1.0.0.0",
-                        "parameters": {
-                            "resourceName": {
-                                "type": "String"
-                            },
-                            "enforceIPRanges": {
-                                "type": "Array"
-                            },
-                            "location": {
-                                "type": "String"
-                            },
-                            "ipRulesExisting": {
-                                "type": "Array"
-                            },
-                            "existingIPRangesHandling": {
-                                "type": "String"
-                            }
-                        },
-                        "variables": {
-                            "varIPRangesToApply": "[if(equals(parameters('existingIPRangesHandling'), 'retain'), union(parameters('enforceIPRanges'), parameters('ipRulesExisting')), parameters('enforceIPRanges'))]"
-                        },
-                        "resources": [
-                            {
-                                "type": "Microsoft.Storage/storageAccounts",
-                                "apiVersion": "2022-09-01",
-                                "name": "[parameters('resourceName')]",
-                                "location": "[parameters('location')]",
-                                "properties": {
-                                    "publicNetworkAccess": "Enabled",
-                                    "networkAcls": {
-                                        "defaultAction": "Deny",
-                                        "copy": [
-                                            {
-                                                "name": "ipRules",
-                                                "count": "[length(variables('varIPRangesToApply'))]",
-                                                "input": {
-                                                    "value": "[variables('varIPRangesToApply')[copyIndex('ipRules')]]",
-                                                    "action": "Allow"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                }
-                            }
-                        ],
-                        "outputs": {}
-                    },
-                    "parameters": {
-                        "resourceName": {
-                            "value": "[field('name')]"
-                        },
-                        "enforceIPRanges": {
-                            "value": "[parameters('enforceIPRanges')]"
-                        },
-                        "location": {
-                            "value": "[field('location')]"
-                        },
-                        "ipRulesExisting": {
-                            "value": "[field('Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value')]"
-                        },
-                        "existingIPRangesHandling": {
-                            "value": "[parameters('existingIPRangesHandling')]"
+                  "publicNetworkAccess": "Enabled",
+                  "networkAcls": {
+                    "defaultAction": "Deny",
+                    "copy": [
+                      {
+                        "name": "ipRules",
+                        "count": "[length(variables('varIPRangesToApply'))]",
+                        "input": {
+                          "value": "[variables('varIPRangesToApply')[copyIndex('ipRules')]]",
+                          "action": "Allow"
                         }
-                    }
+                      }
+                    ]
+                  }
                 }
+              }
+            ],
+            "outputs": {}
+          },
+          "parameters": {
+            "resourceName": {
+              "value": "[field('name')]"
+            },
+            "enforceIPRanges": {
+              "value": "[parameters('enforceIPRanges')]"
+            },
+            "location": {
+              "value": "[field('location')]"
+            },
+            "ipRulesExisting": {
+              "value": "[field('Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value')]"
+            },
+            "existingIPRangesHandling": {
+              "value": "[parameters('existingIPRangesHandling')]"
             }
+          }
         }
+      }
     }
+  }
 }

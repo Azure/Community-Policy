@@ -1,108 +1,108 @@
 {
-    "if": {
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Sql/servers/databases"
+      },
+      {
+        "field": "name",
+        "equals": "master"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Insights/diagnosticSettings",
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa",
+        "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+      ],
+      "existenceCondition": {
         "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Sql/servers/databases"
-            },
-            {
-                "field": "name",
-                "equals": "master"
-            }
-        ]
-    },
-    "then": {
-        "effect": "DeployIfNotExists",
-        "details": {
-            "type": "Microsoft.Insights/diagnosticSettings",
-            "roleDefinitionIds": [
-                "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa",
-                "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
-            ],
-            "existenceCondition": {
+          {
+            "count": {
+              "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+              "where": {
                 "allOf": [
-                    {
-                        "count": {
-                            "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
-                            "where": {
-                                "allOf": [
-                                    {
-                                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
-                                        "equals": "SQLSecurityAuditEvents"
-                                    },
-                                    {
-                                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
-                                        "equals": "true"
-                                    }
-                                ]
-                            }
-                        },
-                        "equals": 1
-                    },
-                    {
-                        "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
-                        "matchInsensitively": "[parameters('logAnalytics')]"
-                    }
+                  {
+                    "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                    "equals": "SQLSecurityAuditEvents"
+                  },
+                  {
+                    "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                    "equals": "true"
+                  }
                 ]
+              }
             },
-            "deployment": {
+            "equals": 1
+          },
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+            "matchInsensitively": "[parameters('logAnalytics')]"
+          }
+        ]
+      },
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "logAnalytics": {
+                "type": "String"
+              },
+              "diagnosticsSettingName": {
+                "type": "String"
+              },
+              "resourceName": {
+                "type": "String"
+              },
+              "location": {
+                "type": "String"
+              }
+            },
+            "resources": [
+              {
+                "type": "Microsoft.Sql/servers/databases/providers/diagnosticSettings",
+                "apiVersion": "2017-05-01-preview",
+                "name": "[concat(parameters('resourceName'), '/Microsoft.Insights/', parameters('diagnosticsSettingName'))]",
+                "location": "[parameters('location')]",
                 "properties": {
-                    "mode": "incremental",
-                    "template": {
-                        "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                        "contentVersion": "1.0.0.0",
-                        "parameters": {
-                            "logAnalytics": {
-                                "type": "String"
-                            },
-                            "diagnosticsSettingName": {
-                                "type": "String"
-                            },
-                            "resourceName": {
-                                "type": "String"
-                            },
-                            "location": {
-                                "type": "String"
-                            }
-                        },
-                        "resources": [
-                            {
-                                "type": "Microsoft.Sql/servers/databases/providers/diagnosticSettings",
-                                "apiVersion": "2017-05-01-preview",
-                                "name": "[concat(parameters('resourceName'), '/Microsoft.Insights/', parameters('diagnosticsSettingName'))]",
-                                "location": "[parameters('location')]",
-                                "properties": {
-                                    "workspaceId": "[parameters('logAnalytics')]",
-                                    "logs": [
-                                        {
-                                            "category": "SQLSecurityAuditEvents",
-                                            "enabled": true,
-                                            "retentionPolicy": {
-                                                "enabled": false,
-                                                "days": 0
-                                            }
-                                        }
-                                    ]
-                                }
-                            }
-                        ]
-                    },
-                    "parameters": {
-                        "logAnalytics": {
-                            "value": "[parameters('logAnalytics')]"
-                        },
-                        "diagnosticsSettingName": {
-                            "value": "[parameters('diagnosticsSettingName')]"
-                        },
-                        "resourceName": {
-                            "value": "[field('fullName')]"
-                        },
-                        "location": {
-                            "value": "[field('location')]"
-                        }
+                  "workspaceId": "[parameters('logAnalytics')]",
+                  "logs": [
+                    {
+                      "category": "SQLSecurityAuditEvents",
+                      "enabled": true,
+                      "retentionPolicy": {
+                        "enabled": false,
+                        "days": 0
+                      }
                     }
+                  ]
                 }
+              }
+            ]
+          },
+          "parameters": {
+            "logAnalytics": {
+              "value": "[parameters('logAnalytics')]"
+            },
+            "diagnosticsSettingName": {
+              "value": "[parameters('diagnosticsSettingName')]"
+            },
+            "resourceName": {
+              "value": "[field('fullName')]"
+            },
+            "location": {
+              "value": "[field('location')]"
             }
+          }
         }
+      }
     }
+  }
 }

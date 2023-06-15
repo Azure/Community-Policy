@@ -1,18 +1,17 @@
 {
-	"if": {
-        "allOf": [
-          {
-            "field": "type",
-            "equals": "Microsoft.DevTestLab/labs/artifactsources"
-          },
-          {
-            "field": "Microsoft.DevTestLab/labs/artifactSources/uri",
-            "notLike": "[parameters('URI')]"
-          }
-        ]
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.DevTestLab/labs/artifactsources"
       },
-      "then": {
-        "effect": "deny"
+      {
+        "field": "Microsoft.DevTestLab/labs/artifactSources/uri",
+        "notLike": "[parameters('URI')]"
       }
-    }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

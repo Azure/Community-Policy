@@ -1,9 +1,22 @@
 {
-    "resourceGroupSuffix": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Resource Group Suffix",
-            "description": "VMs deployed into Resource Groups with this suffix will require that their NICs be in Resource Groups also containging this suffix."
-        }
+  "resourceGroupSuffix": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Resource Group Suffix",
+      "description": "VMs deployed into Resource Groups with this suffix will require that their NICs be in Resource Groups also containging this suffix."
     }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

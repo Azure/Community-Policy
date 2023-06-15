@@ -1,25 +1,25 @@
 {
-	"effect": {
-		"type": "String",
-		"metadata": {
-			"displayName": "Effect",
-			"description": "Enable or disable the execution of the audit policy"
-		},
-		"allowedValues": [
-			"DeployIfNotExists",
-			"AuditIfNotExists",
-			"Disabled"
-		],
-		"defaultValue": "DeployIfNotExists"
-	},
-	"rgNames": {
-		"type": "Array",
-		"metadata": {
-			"displayName": "Resource Groups names",
-			"description": "The list of RG that should have cannot delete resource lock, all resources will inherit the lock"
-		},
-		"defaultValue": [
-			""
-		]
-	}
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the audit policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  },
+  "rgNames": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Resource Groups names",
+      "description": "The list of RG that should have cannot delete resource lock, all resources will inherit the lock"
+    },
+    "defaultValue": [
+      ""
+    ]
+  }
 }

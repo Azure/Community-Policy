@@ -1,9 +1,22 @@
 {
-    "deniedSuffix": {
-        "type": "string",
-        "metadata": {
-            "displayName": "Denied Subnet Suffix",
-            "description": "NICs attached to a subnet containing this suffix will be unable to attach a Public IP"
-        }
+  "deniedSuffix": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Denied Subnet Suffix",
+      "description": "NICs attached to a subnet containing this suffix will be unable to attach a Public IP"
     }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

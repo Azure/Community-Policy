@@ -1,11 +1,24 @@
 {
-    "automationAccount": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Automation account",
-        "description": "Select Automation account from dropdown list. If this account is outside of the scope of the assignment you must manually grant 'Contributor' permissions (or similar) on the Automation account to the policy assignment's principal ID.",
-        "strongType": "Microsoft.Automation/automationAccounts",
-        "assignPermissions": true
-      }
+  "automationAccount": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Automation account",
+      "description": "Select Automation account from dropdown list. If this account is outside of the scope of the assignment you must manually grant 'Contributor' permissions (or similar) on the Automation account to the policy assignment's principal ID.",
+      "strongType": "Microsoft.Automation/automationAccounts",
+      "assignPermissions": true
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
     }
   }
+}

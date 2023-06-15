@@ -1,68 +1,68 @@
 {
-    "if": {
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Compute/virtualMachines"
+      },
+      {
+        "field": "Microsoft.Compute/virtualMachines/imageOffer",
+        "equals": "windowsserver"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[field('name')]",
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+      ],
+      "existenceCondition": {
         "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Compute/virtualMachines"
-            },
-            {
-                "field": "Microsoft.Compute/virtualMachines/imageOffer",
-                "equals": "windowsserver"
-            }
+          {
+            "field": "Microsoft.Compute/virtualMachines/licenseType",
+            "notEquals": "Windows_Server"
+          }
         ]
-    },
-    "then": {
-        "effect": "deployIfNotExists",
-        "details": {
-            "type": "Microsoft.Compute/virtualMachines",
-            "name": "[field('name')]",
-            "roleDefinitionIds": [
-                "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
-            ],
-            "existenceCondition": {
-                "allOf": [
-                    {
-                        "field": "Microsoft.Compute/virtualMachines/licenseType",
-                        "notEquals": "Windows_Server"
-                    }
-                ]
+      },
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "windowsServerName": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              }
             },
-            "deployment": {
+            "resources": [
+              {
+                "name": "[parameters('windowsServerName')]",
+                "type": "Microsoft.Compute/virtualMachines",
+                "apiVersion": "2019-07-01",
+                "location": "[parameters('location')]",
                 "properties": {
-                    "mode": "incremental",
-                    "template": {
-                        "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                        "contentVersion": "1.0.0.0",
-                        "parameters": {
-                            "windowsServerName": {
-                                "type": "string"
-                            },
-                            "location": {
-                                "type": "string"
-                            }
-                        },
-                        "resources": [
-                            {
-                                "name": "[parameters('windowsServerName')]",
-                                "type": "Microsoft.Compute/virtualMachines",
-                                "apiVersion": "2019-07-01",
-                                "location": "[parameters('location')]",
-                                "properties": {
-                                    "licenseType": "Windows_Server"
-                                }
-                            }
-                        ]
-                    },
-                    "parameters": {
-                        "windowsServerName": {
-                            "value": "[field('name')]"
-                        },
-                        "location": {
-                            "value": "[field('location')]"
-                        }
-                    }
+                  "licenseType": "Windows_Server"
                 }
+              }
+            ]
+          },
+          "parameters": {
+            "windowsServerName": {
+              "value": "[field('name')]"
+            },
+            "location": {
+              "value": "[field('location')]"
             }
+          }
         }
+      }
     }
+  }
 }

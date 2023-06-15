@@ -1,44 +1,47 @@
 {
+  "name": "c6a82114-42dc-4340-bb52-67ff753d39b5",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "ExpressRoute should not use Authorization keys",
-    "policyType": "Custom",
     "mode": "Indexed",
     "description": "This policy denies the creation of Authorization keys for the ExpressRoute. Authorization keys are used to enable cross-subscription/cross-tenant networking functionality to the ExpressRoute. This should be reviewed by the network security team. https://learn.microsoft.com/en-us/azure/expressroute/expressroute-howto-linkvnet-portal-resource-manager",
-    "metadata": {
-        "version": "1.0.0",
-        "category": "Network"
+    "metaData": {
+      "version": "1.0.0",
+      "category": "Network"
     },
     "parameters": {
-        "effect": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Effect",
-                "description": "Deny or Audit the use of authorization key for ExpressRoute"
-            },
-            "allowedValues": [
-                "Deny",
-                "Audit",
-                "Disabled"
-            ],
-            "defaultValue": "Deny"
-        }
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny or Audit the use of authorization key for ExpressRoute"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
     },
     "policyRule": {
-        "if": {
-            "allOf": [
-                {
-                    "field": "type",
-                    "equals": "Microsoft.Network/expressRouteCircuits"
-                },
-                {
-                    "count": {
-                        "field": "Microsoft.Network/expressRouteCircuits/authorizations[*]"
-                    },
-                    "greaterOrEquals": 1
-                }
-            ]
-        },
-        "then": {
-            "effect": "[parameters('effect')]"
-        }
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/expressRouteCircuits"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/expressRouteCircuits/authorizations[*]"
+            },
+            "greaterOrEquals": 1
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

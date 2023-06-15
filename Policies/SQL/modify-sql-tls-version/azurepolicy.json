@@ -1,76 +1,73 @@
 {
-    "properties": {
-      "displayName": "Configure Azure SQL DB to use TLS 1.2",
-      "policyType": "BuiltIn",
-      "mode": "Indexed",
-      "description": "Configure Azure SQL DB to use TLS 1.2",
-      "metadata": {
-        "version": "1.0.0",
-        "category": "SQL Configuration"
-      },
-      "parameters": {
-        "effect": {
-          "type": "String",
-          "metadata": {
-            "displayName": "Effect",
-            "description": "Enable or disable the execution of the policy"
-          },
-          "allowedValues": [
-            "Modify",
-            "Disabled"
-          ],
-          "defaultValue": "Modify"
-        }
-      },
-      "policyRule": {
-        "if": {
-          "allOf": [
-            {
-              "field": "type",
-              "equals": "Microsoft.Sql/servers"
-            },
-            {
-              "anyOf": [
-                {
-                  "field": "Microsoft.Sql/servers/minimalTlsVersion",
-                  "exists": false
-                },
-                {
-                  "field": "Microsoft.Sql/servers/minimalTlsVersion",
-                  "notequals": "1.2"
-                },
-                {
-                  "field": "Microsoft.Sql/servers/minimalTlsVersion",
-                  "equals": "1.0"
-                },
-                {
-                  "field": "Microsoft.Sql/servers/minimalTlsVersion",
-                  "equals": "1.1"
-                }
-
-              ]
-            }
-          ]
+  "name": "73290fa2-dfa7-4bbb-945d-a5e23b75df2c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Configure Azure SQL DB to use TLS 1.2",
+    "mode": "Indexed",
+    "description": "Configure Azure SQL DB to use TLS 1.2",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "SQL Configuration"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
         },
-        "then": {
-        "effect": "[parameters('effect')]",
-          "details": {
-            "roleDefinitionIds": [
-              "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-            ],
-            "conflictEffect": "audit",
-            "operations": [
+        "allowedValues": [
+          "Modify",
+          "Disabled"
+        ],
+        "defaultValue": "Modify"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers"
+          },
+          {
+            "anyOf": [
               {
-                "operation": "addOrReplace",
                 "field": "Microsoft.Sql/servers/minimalTlsVersion",
-                "value": "1.2"
+                "exists": false
+              },
+              {
+                "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                "notequals": "1.2"
+              },
+              {
+                "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                "equals": "1.0"
+              },
+              {
+                "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                "equals": "1.1"
               }
             ]
           }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "conflictEffect": "audit",
+          "operations": [
+            {
+              "operation": "addOrReplace",
+              "field": "Microsoft.Sql/servers/minimalTlsVersion",
+              "value": "1.2"
+            }
+          ]
         }
       }
-    },
-    "id": "/providers/Microsoft.Authorization/policyDefinitions/73290fa2-dfa7-4bbb-945d-a5e23b75df2c",
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "73290fa2-dfa7-4bbb-945d-a5e23b75df2c"
+    }
   }
+}

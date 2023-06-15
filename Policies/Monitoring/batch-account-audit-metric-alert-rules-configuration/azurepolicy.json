@@ -1,48 +1,63 @@
 {
-    "properties": {
-        "displayName": "Audit configuration of metric alert rules on Batch accounts",
-        "mode": "Indexed",
-        "description": "Audit configuration of metric alert rules on Batch account to enable the required metric",
+  "name": "f67fd48c-198b-4275-be7d-1d7db431fe53",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit configuration of metric alert rules on Batch accounts",
+    "mode": "Indexed",
+    "description": "Audit configuration of metric alert rules on Batch account to enable the required metric",
+    "metaData": {
+      "category": "Batch",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "metricName": {
+        "type": "String",
         "metadata": {
-            "category": "Batch"
-        },
-        "parameters": { 
-            "metricName": {
-              "type": "String",
-              "metadata": {
-                "displayName": "Metric name",
-                "description": "The metric name that an alert rule must be enabled on. See https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-supported-metrics#microsoftbatchbatchaccounts for a list of metrics."
-              }
-            }           
-        },
-        "policyRule": {
-            "if": {
-              "field": "type",
-              "equals": "Microsoft.Batch/batchAccounts"
-            },
-            "then": {
-              "effect": "AuditIfNotExists",
-              "details": {
-                "type": "Microsoft.Insights/alertRules",
-                "existenceScope": "Subscription",
-                "existenceCondition": {
-                  "allOf": [
-                    {
-                      "field": "Microsoft.Insights/alertRules/isEnabled",
-                      "equals": "true"
-                    },
-                    {
-                      "field": "Microsoft.Insights/alertRules/condition.dataSource.metricName",
-                      "equals": "[parameters('metricName')]"
-                    },
-                    {
-                      "field": "Microsoft.Insights/alertRules/condition.dataSource.resourceUri",
-                      "equals": "[concat('/subscriptions/', subscription().subscriptionId, '/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Batch/batchAccounts/', field('name'))]"
-                    }
-                  ]
-                }
-              }
-            }
+          "displayName": "Metric name",
+          "description": "The metric name that an alert rule must be enabled on. See https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-supported-metrics#microsoftbatchbatchaccounts for a list of metrics."
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Batch/batchAccounts"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/alertRules",
+          "existenceScope": "Subscription",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Insights/alertRules/isEnabled",
+                "equals": "true"
+              },
+              {
+                "field": "Microsoft.Insights/alertRules/condition.dataSource.metricName",
+                "equals": "[parameters('metricName')]"
+              },
+              {
+                "field": "Microsoft.Insights/alertRules/condition.dataSource.resourceUri",
+                "equals": "[concat('/subscriptions/', subscription().subscriptionId, '/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Batch/batchAccounts/', field('name'))]"
+              }
+            ]
+          }
+        }
+      }
     }
+  }
 }

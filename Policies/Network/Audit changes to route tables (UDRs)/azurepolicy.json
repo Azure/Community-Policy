@@ -3,12 +3,12 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit changes to route tables (UDRs)",
-    "description": "Audit changes to route tables (UDRs)",
-    "metadata": {
-      "category": "Network",
-      "version": "1.0.0"
-    },
     "mode": "All",
+    "description": "Audit changes to route tables (UDRs)",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
     "parameters": {
       "effect": {
         "type": "String",

@@ -1,52 +1,52 @@
 {
-    "if": {
-        "field": "type",
-        "equals": "Microsoft.Storage/storageAccounts"
-    },
-    "then": {
-        "effect": "[parameters('effect')]",
-        "details": {
-            "type": "Microsoft.Storage/storageAccounts/blobServices",
-            "existenceCondition": {
-                "anyOf": [
-                    {
-                        "allOf": [
-                            {
-                                "field": "Microsoft.Storage/storageAccounts/blobServices/default.containerDeleteRetentionPolicy.enabled",
-                                "equals": true
-                            },
-                            {
-                                "field": "Microsoft.Storage/storageAccounts/blobServices/default.containerDeleteRetentionPolicy.days",
-                                "equals": "[parameters('retentionInDays')]"
-                            },
-                            {
-                                "field": "Microsoft.Storage/storageAccounts/blobServices/default.deleteRetentionPolicy.enabled",
-                                "equals": true
-                            },
-                            {
-                                "field": "Microsoft.Storage/storageAccounts/blobServices/default.deleteRetentionPolicy.days",
-                                "equals": "[parameters('retentionInDays')]"
-                            }
-                        ]
-                    },
-                    {
-                        "allOf": [
-                            {
-                                "field": "Microsoft.Storage/storageAccounts/blobServices/default.containerDeleteRetentionPolicy.enabled",
-                                "equals": true
-                            },
-                            {
-                                "field": "Microsoft.Storage/storageAccounts/blobServices/default.containerDeleteRetentionPolicy.days",
-                                "equals": "[parameters('retentionInDays')]"
-                            },
-                            {
-                                "value": "[field('Microsoft.Storage/storageAccounts/isHnsEnabled')]",
-                                "equals": true
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Storage/storageAccounts"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "existenceCondition": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Storage/storageAccounts/blobServices/default.containerDeleteRetentionPolicy.enabled",
+                "equals": true
+              },
+              {
+                "field": "Microsoft.Storage/storageAccounts/blobServices/default.containerDeleteRetentionPolicy.days",
+                "equals": "[parameters('retentionInDays')]"
+              },
+              {
+                "field": "Microsoft.Storage/storageAccounts/blobServices/default.deleteRetentionPolicy.enabled",
+                "equals": true
+              },
+              {
+                "field": "Microsoft.Storage/storageAccounts/blobServices/default.deleteRetentionPolicy.days",
+                "equals": "[parameters('retentionInDays')]"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Storage/storageAccounts/blobServices/default.containerDeleteRetentionPolicy.enabled",
+                "equals": true
+              },
+              {
+                "field": "Microsoft.Storage/storageAccounts/blobServices/default.containerDeleteRetentionPolicy.days",
+                "equals": "[parameters('retentionInDays')]"
+              },
+              {
+                "value": "[field('Microsoft.Storage/storageAccounts/isHnsEnabled')]",
+                "equals": true
+              }
+            ]
+          }
+        ]
+      }
     }
+  }
 }

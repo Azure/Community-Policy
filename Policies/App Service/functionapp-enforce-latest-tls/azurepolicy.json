@@ -1,10 +1,11 @@
 {
+  "name": "5d823c9d-3eff-404f-b4dd-23c6aef5ab8f",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Latest TLS version should be used in your Function App",
-    "policyType": "Custom",
     "mode": "Indexed",
     "description": "Upgrade to the latest TLS version",
-    "metadata": {
+    "metaData": {
       "version": "1.0.0",
       "category": "App Service"
     },
@@ -49,34 +50,34 @@
             "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772"
           ],
           "deployment": {
-              "properties": {
-                "mode": "incremental",
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "name": {
+                  "value": "[field('name')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
                 "parameters": {
                   "name": {
-                      "value": "[field('name')]"
+                    "type": "string"
                   }
                 },
-                "template": {
-                  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
-                  "parameters": {
-                    "name": {
-                      "type": "string"
+                "resources": [
+                  {
+                    "name": "[concat(parameters('name'), '/web')]",
+                    "type": "Microsoft.Web/sites/config",
+                    "apiVersion": "2018-11-01",
+                    "properties": {
+                      "minTlsVersion": "1.2"
                     }
-                  },
-                  "resources": [
-                    {
-                      "name": "[concat(parameters('name'), '/web')]",
-                      "type": "Microsoft.Web/sites/config",
-                      "apiVersion": "2018-11-01",
-                      "properties": {
-                        "minTlsVersion": "1.2"
-                      }
-                    }
-                  ]
-                }
+                  }
+                ]
               }
             }
+          }
         }
       }
     }

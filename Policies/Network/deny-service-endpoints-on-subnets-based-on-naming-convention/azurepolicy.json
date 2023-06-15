@@ -1,81 +1,89 @@
 {
+  "name": "6f2750aa-5abc-471a-bdaa-fb045754fb0e",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deny-service-endpoints-on-subnets-based-on-naming-convention",
     "mode": "All",
-    "name": "Deny Service Endpoints on Subnets Based on Naming Convention",
     "description": "This Policy will deny the enablement of Service Endpoints on subnets that contain the string you define in the Policy. This will also prevent PaaS resources such as Azure Storage from being able to add this subnet to their firewall allowed list.",
-    "policyRule": {
-        "if": {
-            "anyOf": [
-                {
-                    "allOf": [
-                        {
-                            "field": "type",
-                            "equals": "Microsoft.Network/virtualNetworks"
-                        },
-                        {
-                            "count": {
-                                "field": "Microsoft.Network/virtualNetworks/subnets[*]",
-                                "where": {
-                                    "allOf": [
-                                        {
-                                            "not": {
-                                                "field": "Microsoft.Network/virtualNetworks/subnets[*].serviceEndpoints[*].service",
-                                                "notLike": "*"
-                                            }
-                                        },
-                                        {
-                                            "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
-                                            "contains": "[parameters('targetSubnetName')]"
-                                        }
-                                    ]
-                                }
-                            },
-                            "greater": 0
-                        }
-                    ]
-                },
-                {
-                    "allOf": [
-                        {
-                            "field": "type",
-                            "equals": "Microsoft.Network/virtualNetworks/subnets"
-                        },
-                        {
-                            "field": "name",
-                            "contains": "[parameters('targetSubnetName')]"
-                        },
-                        {
-                            "not": {
-                                "field": "Microsoft.Network/virtualNetworks/subnets/serviceEndpoints[*].service",
-                                "notLike": "*"
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        "then": {
-            "effect": "[parameters('effect')]"
-        }
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
     },
     "parameters": {
-        "effect": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Effect",
-                "description": "Enable or disable the execution of the policy"
-            },
-            "allowedValues": [
-                "Deny",
-                "Disabled"
-            ],
-            "defaultValue": "Deny"
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
         },
-        "targetSubnetName": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Target Subnet Naming Convention",
-                "description": "This is the keyword the policy will look for in order to trigger an effect. If you were to enter the value of 'example' any subnets that contained this word would Service Endpoint enablement denied. This is not case sensitive."
-            }
+        "allowedValues": [
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      },
+      "targetSubnetName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Target Subnet Naming Convention",
+          "description": "This is the keyword the policy will look for in order to trigger an effect. If you were to enter the value of 'example' any subnets that contained this word would Service Endpoint enablement denied. This is not case sensitive."
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+                  "where": {
+                    "allOf": [
+                      {
+                        "not": {
+                          "field": "Microsoft.Network/virtualNetworks/subnets[*].serviceEndpoints[*].service",
+                          "notLike": "*"
+                        }
+                      },
+                      {
+                        "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                        "contains": "[parameters('targetSubnetName')]"
+                      }
+                    ]
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks/subnets"
+              },
+              {
+                "field": "name",
+                "contains": "[parameters('targetSubnetName')]"
+              },
+              {
+                "not": {
+                  "field": "Microsoft.Network/virtualNetworks/subnets/serviceEndpoints[*].service",
+                  "notLike": "*"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

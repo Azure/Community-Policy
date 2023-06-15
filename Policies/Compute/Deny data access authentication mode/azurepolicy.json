@@ -3,12 +3,12 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Deny data access authentication mode",
-    "description": "Disable data access authentication mode to restrict access to export the disk. https://learn.microsoft.com/en-us/azure/virtual-machines/windows/download-vhd?tabs=azure-portal#secure-downloads-and-uploads-with-azure-ad",
-    "metadata": {
-      "category": "Compute",
-      "version": "1.0.0"
-    },
     "mode": "Indexed",
+    "description": "Disable data access authentication mode to restrict access to export the disk. https://learn.microsoft.com/en-us/azure/virtual-machines/windows/download-vhd?tabs=azure-portal#secure-downloads-and-uploads-with-azure-ad",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "Compute"
+    },
     "parameters": {
       "effect": {
         "type": "String",

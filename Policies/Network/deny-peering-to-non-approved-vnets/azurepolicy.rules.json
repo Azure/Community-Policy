@@ -1,43 +1,43 @@
 {
-    "if": {
-        "anyOf": [
-            {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
-                    },
-                    {
-                        "not": {
-                            "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
-                            "in": "[parameters('allowedVnets')]"
-                        }
-                    }
-                ]
-            },
-            {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Network/virtualNetworks"
-                    },
-                    {
-                        "not": {
-                            "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id",
-                            "in": "[parameters('allowedVnets')]"
-                        }
-                    },
-                    {
-                        "not": {
-                            "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id",
-                            "exists": false
-                        }
-                    }
-                ]
+  "if": {
+    "anyOf": [
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
+              "in": "[parameters('allowedVnets')]"
             }
+          }
         ]
-    },
-    "then": {
-        "effect": "[parameters('effect')]"
-    }
+      },
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id",
+              "in": "[parameters('allowedVnets')]"
+            }
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id",
+              "exists": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

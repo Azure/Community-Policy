@@ -3,12 +3,12 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "enforce-StorageAccount-NamingConvention",
-    "description": "The purpose of this policy is to deny the creation of storage accounts that do not meet the set naming convention listed in CAF.",
-    "metadata": {
-      "category": "Storage",
-      "version": null
-    },
     "mode": "Indexed",
+    "description": "The purpose of this policy is to deny the creation of storage accounts that do not meet the set naming convention listed in CAF.",
+    "metaData": {
+      "version": null,
+      "category": "Storage"
+    },
     "parameters": {
       "effect": {
         "type": "String",

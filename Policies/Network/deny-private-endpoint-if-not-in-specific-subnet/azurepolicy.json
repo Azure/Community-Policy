@@ -1,12 +1,13 @@
 {
+  "name": "3af57962-e745-43b8-ae99-40755c1f27a6",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "name": "deny-pe-if-not-in-subnet",
     "displayName": "Deny Private Endpoints if not being deployed to a specific subnet",
-    "policyType": "Custom",
     "mode": "All",
     "description": "This Policy will deny the creation of Private Endpoints if not within subnets that contain a key word.",
-    "metadata": {
-      "category": "Network"
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
     },
     "parameters": {
       "subnetName": {
@@ -21,6 +22,19 @@
         "metadata": {
           "displayName": "Exempted Private Endpoint Group IDs",
           "description": "The Group IDs that are exempted from this Policy (i.e. blob)"
+        }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
       }
     },
@@ -48,7 +62,7 @@
         ]
       },
       "then": {
-        "effect": "deny"
+        "effect": "[parameters('effect')]"
       }
     }
   }

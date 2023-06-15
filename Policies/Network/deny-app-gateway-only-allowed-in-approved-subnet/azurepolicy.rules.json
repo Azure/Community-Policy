@@ -1,17 +1,17 @@
 {
-    "if": {
-        "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Network/applicationGateways"
-            },
-            {
-                "field": "Microsoft.Network/applicationGateways/gatewayIPConfigurations[*].subnet.id",
-                "notContains": "[parameters('allowedSubnetName')]"
-            }
-        ]
-    },
-    "then": {
-        "effect": "deny"
-    }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/applicationGateways"
+      },
+      {
+        "field": "Microsoft.Network/applicationGateways/gatewayIPConfigurations[*].subnet.id",
+        "notContains": "[parameters('allowedSubnetName')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

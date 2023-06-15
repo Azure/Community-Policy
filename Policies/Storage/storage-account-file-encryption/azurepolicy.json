@@ -1,25 +1,45 @@
 {
-    "properties": {
-        "mode": "All",
-        "parameters": {},
-        "displayName": "Ensure storage file encryption",
-        "description": "Ensures file encryption for storage accounts",
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Storage/storageAccounts"
-                    },
-                    {
-                        "field": "Microsoft.Storage/storageAccounts/enableFileEncryption",
-                        "equals": "false"
-                    }
-                ]
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "name": "e7d5c1f3-699d-4bcb-baa8-e9dbb029f5ba",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Ensure storage file encryption",
+    "mode": "All",
+    "description": "Ensures file encryption for storage accounts",
+    "metaData": {
+      "category": "Storage",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/enableFileEncryption",
+            "equals": "false"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

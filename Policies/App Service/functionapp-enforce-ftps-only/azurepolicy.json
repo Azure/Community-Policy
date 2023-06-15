@@ -1,10 +1,11 @@
 {
+  "name": "db61b8ad-00a8-4510-90cc-7686caef9c60",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Enforce FTPS only or disablement of FTP/FTPS for App Service and Azure Functions",
-    "policyType": "Custom",
     "mode": "Indexed",
     "description": "Enforce FTPS only or disablement of FTP/FTPS for App Service and Azure Functions",
-    "metadata": {
+    "metaData": {
       "version": "1.0.0",
       "category": "App Service"
     },

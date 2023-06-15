@@ -1,48 +1,49 @@
 {
-    "properties": {
-        "displayName": "Function App should only be accessible over HTTPS",
-        "policyType": "Custom",
-        "mode": "Indexed",
-        "description": "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks.",
+  "name": "e34b9a11-cd79-4cd3-8c84-21eca40833c7",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Function App should only be accessible over HTTPS",
+    "mode": "Indexed",
+    "description": "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks.",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "App Service"
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
         "metadata": {
-            "version": "1.0.0",
-            "category": "App Service"
-        },
-        "parameters": {
-            "effect": {
-                "type": "string",
-                "defaultValue": "Audit",
-                "allowedValues": [
-                    "Audit",
-                    "Deny",
-                    "Disabled"
-                ],
-                "metadata": {
-                    "displayName": "Effect",
-                    "description": "Enable or disable the execution of the policy"
-                }
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Web/sites"
-                    },
-                    {
-                        "field": "kind",
-                        "contains": "functionapp"
-                    },
-                    {
-                        "field": "Microsoft.Web/sites/httpsOnly",
-                        "notEquals": true
-                    }
-                ]
-            },
-            "then": {
-                "effect": "[parameters('effect')]"
-            }                
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "kind",
+            "contains": "functionapp"
+          },
+          {
+            "field": "Microsoft.Web/sites/httpsOnly",
+            "notEquals": true
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

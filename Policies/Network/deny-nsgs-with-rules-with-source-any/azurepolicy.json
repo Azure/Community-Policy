@@ -1,53 +1,77 @@
 {
-  "mode": "All",
-  "policyRule": {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "equals": "Microsoft.Network/networkSecurityGroups"
-        },
-        {
-          "count": {
-            "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
-            "where": {
-              "allOf": [
-                {
-                  "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix",
-                  "equals": "*"
-                },
-                {
-                  "anyOf": [
-                    {
-                      "not": {
-                        "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]",
-                        "notIn": []
-                      }
-                    },
-                    {
-                      "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]",
-                      "exists": false
-                    }
-                  ]
-                },
-                {
-                  "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].access",
-                  "equals": "Allow"
-                },
-                {
-                  "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].direction",
-                  "equals": "Inbound"
-                }
-              ]
-            }
-          },
-          "greater": 0
-        }
-      ]
+  "name": "b1c73d3d-6890-466f-9ccb-6bc6258dafcb",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deny-nsgs-with-rules-with-source-any",
+    "mode": "All",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "deny"
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkSecurityGroups"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix",
+                    "equals": "*"
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "not": {
+                          "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]",
+                          "notIn": []
+                        }
+                      },
+                      {
+                        "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefixes[*]",
+                        "exists": false
+                      }
+                    ]
+                  },
+                  {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].access",
+                    "equals": "Allow"
+                  },
+                  {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].direction",
+                    "equals": "Inbound"
+                  }
+                ]
+              }
+            },
+            "greater": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
-  },
-  "parameters": {}
+  }
 }

@@ -1,55 +1,55 @@
 {
-    "if": {
-        "anyOf": [
-            {
+  "if": {
+    "anyOf": [
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+              "where": {
                 "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Network/virtualNetworks"
-                    },
-                    {
-                        "count": {
-                            "field": "Microsoft.Network/virtualNetworks/subnets[*]",
-                            "where": {
-                                "allOf": [
-                                    {
-                                        "allOf": [
-                                            {
-                                                "value": "[empty(field('Microsoft.Network/virtualNetworks/subnets[*].delegations[*]'))]",
-                                                "equals": false
-                                            },
-                                            {
-                                                "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
-                                                "contains": "[parameters('subnetNamingConvention')]"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        },
-                        "greater": 0
-                    }
-                ]
-            },
-            {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Network/virtualNetworks/subnets"
-                    },
-                    {
-                        "value": "[empty(field('Microsoft.Network/virtualNetworks/subnets/delegations[*]'))]",
+                  {
+                    "allOf": [
+                      {
+                        "value": "[empty(field('Microsoft.Network/virtualNetworks/subnets[*].delegations[*]'))]",
                         "equals": false
-                    },
-                    {
-                        "field": "name",
+                      },
+                      {
+                        "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
                         "contains": "[parameters('subnetNamingConvention')]"
-                    }
+                      }
+                    ]
+                  }
                 ]
-            }
+              }
+            },
+            "greater": 0
+          }
         ]
-    },
-    "then": {
-        "effect": "deny"
-    }
+      },
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks/subnets"
+          },
+          {
+            "value": "[empty(field('Microsoft.Network/virtualNetworks/subnets/delegations[*]'))]",
+            "equals": false
+          },
+          {
+            "field": "name",
+            "contains": "[parameters('subnetNamingConvention')]"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

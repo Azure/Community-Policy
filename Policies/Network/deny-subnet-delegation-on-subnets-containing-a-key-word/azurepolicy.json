@@ -1,68 +1,89 @@
 {
+  "name": "efc84fa1-94e4-4e1e-8dc9-1a8289d071ab",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deny-subnet-delegation-on-subnets-containing-a-key-word",
     "mode": "All",
-    "name": "Deny subnet delegation on subnets containing a key word",
     "description": "This Policy will deny users from enabling subnet delegation on subnets containing a pre-defined key word.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
     "parameters": {
-        "subnetNamingConvention": {
-            "type": "string",
-            "metadata": {
-                "displayName": "Subnets containing this word cannot enable subnet delegation"
-            }
+      "subnetNamingConvention": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Subnets containing this word cannot enable subnet delegation"
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
     },
     "policyRule": {
-        "if": {
-            "anyOf": [
-                {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+                  "where": {
                     "allOf": [
-                        {
-                            "field": "type",
-                            "equals": "Microsoft.Network/virtualNetworks"
-                        },
-                        {
-                            "count": {
-                                "field": "Microsoft.Network/virtualNetworks/subnets[*]",
-                                "where": {
-                                    "allOf": [
-                                        {
-                                            "allOf": [
-                                                {
-                                                    "value": "[empty(field('Microsoft.Network/virtualNetworks/subnets[*].delegations[*]'))]",
-                                                    "equals": false
-                                                },
-                                                {
-                                                    "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
-                                                    "contains": "[parameters('subnetNamingConvention')]"
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            },
-                            "greater": 0
-                        }
-                    ]
-                },
-                {
-                    "allOf": [
-                        {
-                            "field": "type",
-                            "equals": "Microsoft.Network/virtualNetworks/subnets"
-                        },
-                        {
-                            "value": "[empty(field('Microsoft.Network/virtualNetworks/subnets/delegations[*]'))]",
+                      {
+                        "allOf": [
+                          {
+                            "value": "[empty(field('Microsoft.Network/virtualNetworks/subnets[*].delegations[*]'))]",
                             "equals": false
-                        },
-                        {
-                            "field": "name",
+                          },
+                          {
+                            "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
                             "contains": "[parameters('subnetNamingConvention')]"
-                        }
+                          }
+                        ]
+                      }
                     ]
-                }
+                  }
+                },
+                "greater": 0
+              }
             ]
-        },
-        "then": {
-            "effect": "deny"
-        }
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks/subnets"
+              },
+              {
+                "value": "[empty(field('Microsoft.Network/virtualNetworks/subnets/delegations[*]'))]",
+                "equals": false
+              },
+              {
+                "field": "name",
+                "contains": "[parameters('subnetNamingConvention')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

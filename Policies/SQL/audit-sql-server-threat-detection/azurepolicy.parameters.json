@@ -1,12 +1,24 @@
 {
-	"setting": {
-		"type": "String",
-		"allowedValues": [
-			"enabled",
-			"disabled"
-		],
-		"metadata": {
-			"displayName": "Threat Detection Setting"
-		}
-	}
+  "setting": {
+    "type": "String",
+    "allowedValues": [
+      "enabled",
+      "disabled"
+    ],
+    "metadata": {
+      "displayName": "Threat Detection Setting"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

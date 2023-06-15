@@ -1,13 +1,29 @@
 {
+  "name": "4ff951f3-5d20-4d28-b19d-9f36aa5297db",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Enforce Virtual Network Filtering on Cosmos DB accounts",
-    "policyType": "Custom",
-    "description": "This policy ensures Virtual Network Filtering is enabled on all Cosmos DB accounts",
     "mode": "Indexed",
-    "metadata": {
-      "category": "Cosmos DB"
+    "description": "This policy ensures Virtual Network Filtering is enabled on all Cosmos DB accounts",
+    "metaData": {
+      "category": "Cosmos DB",
+      "version": "1.0.0"
     },
-    "parameters": {},
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
     "policyRule": {
       "if": {
         "allOf": [
@@ -30,7 +46,7 @@
         ]
       },
       "then": {
-        "effect": "deny"
+        "effect": "[parameters('effect')]"
       }
     }
   }

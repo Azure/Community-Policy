@@ -1,100 +1,100 @@
 {
-    "if": {
-        "field": "type",
-        "equals": "Microsoft.Sql/managedInstances"
-    },
-    "then": {
-        "effect": "deployIfNotExists",
-        "details": {
-            "type": "Microsoft.Insights/diagnosticSettings",
-            "roleDefinitionIds": [
-                "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-            ],
-            "existenceCondition": {
-                "allOf": [
-                    {
-                        "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
-                        "equals": "True"
-                    },
-                    {
-                        "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
-                        "equals": "True"
-                    },
-                    {
-                        "field": "Microsoft.Insights/diagnosticSettings/storageAccountId",
-                        "matchInsensitively": "[parameters('storageAccountId')]"
-                    }
-                ]
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Sql/managedInstances"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Insights/diagnosticSettings",
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+      ],
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
+            "equals": "True"
+          },
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
+            "equals": "True"
+          },
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/storageAccountId",
+            "matchInsensitively": "[parameters('storageAccountId')]"
+          }
+        ]
+      },
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "resourceName": {
+                "type": "string"
+              },
+              "storageAccountId": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              },
+              "retentionDays": {
+                "type": "string"
+              }
             },
-            "deployment": {
+            "variables": {},
+            "resources": [
+              {
+                "type": "Microsoft.Sql/managedInstances/providers/diagnosticSettings",
+                "apiVersion": "2017-05-01-preview",
+                "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/setByPolicy')]",
+                "location": "[parameters('location')]",
+                "dependsOn": [],
                 "properties": {
-                    "mode": "incremental",
-                    "template": {
-                        "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                        "contentVersion": "1.0.0.0",
-                        "parameters": {
-                            "resourceName": {
-                                "type": "string"
-                            },
-                            "storageAccountId": {
-                                "type": "string"
-                            },
-                            "location": {
-                                "type": "string"
-                            },
-                            "retentionDays": {
-                                "type": "string"
-                            }
-                        },
-                        "variables": {},
-                        "resources": [
-                            {
-                                "type": "Microsoft.Sql/managedInstances/providers/diagnosticSettings",
-                                "apiVersion": "2017-05-01-preview",
-                                "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/setByPolicy')]",
-                                "location": "[parameters('location')]",
-                                "dependsOn": [],
-                                "properties": {
-                                    "storageAccountId": "[parameters('storageAccountId')]",
-                                    "logs": [
-                                        {
-                                            "category": "ResourceUsageStats",
-                                            "enabled": true,
-                                            "retentionPolicy": {
-                                                "enabled": true,
-                                                "days": "[parameters('retentionDays')]"
-                                            }
-                                        },
-                                        {
-                                            "category": "SQLSecurityAuditEvents",
-                                            "enabled": true,
-                                            "retentionPolicy": {
-                                                "enabled": true,
-                                                "days": "[parameters('retentionDays')]"
-                                            }
-                                        }
-                                    ]
-                                }
-                            }
-                        ],
-                        "outputs": {}
+                  "storageAccountId": "[parameters('storageAccountId')]",
+                  "logs": [
+                    {
+                      "category": "ResourceUsageStats",
+                      "enabled": true,
+                      "retentionPolicy": {
+                        "enabled": true,
+                        "days": "[parameters('retentionDays')]"
+                      }
                     },
-                    "parameters": {
-                        "storageAccountId": {
-                            "value": "[parameters('storageAccountId')]"
-                        },
-                        "location": {
-                            "value": "[field('location')]"
-                        },
-                        "resourceName": {
-                            "value": "[field('name')]"
-                        },
-                        "retentionDays": {
-                            "value": "[parameters('retentionDays')]"
-                        }
+                    {
+                      "category": "SQLSecurityAuditEvents",
+                      "enabled": true,
+                      "retentionPolicy": {
+                        "enabled": true,
+                        "days": "[parameters('retentionDays')]"
+                      }
                     }
+                  ]
                 }
+              }
+            ],
+            "outputs": {}
+          },
+          "parameters": {
+            "storageAccountId": {
+              "value": "[parameters('storageAccountId')]"
+            },
+            "location": {
+              "value": "[field('location')]"
+            },
+            "resourceName": {
+              "value": "[field('name')]"
+            },
+            "retentionDays": {
+              "value": "[parameters('retentionDays')]"
             }
+          }
         }
+      }
     }
+  }
 }

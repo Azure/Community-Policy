@@ -1,20 +1,35 @@
 {
+  "name": "3434c56f-52bd-4919-9890-efcb586167e7",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit App Service vnetRouteAllEnabled",
-    "policyType": "Custom",
-    "description": "Audits that vnetRouteAllEnabled is true, ensuring all traffic originating from App is routed through VNet integration",
     "mode": "Indexed",
-    "metadata": {
-      "category": "Web App"
+    "description": "Audits that vnetRouteAllEnabled is true, ensuring all traffic originating from App is routed through VNet integration",
+    "metaData": {
+      "category": "Web App",
+      "version": "1.0.0"
     },
-    "parameters": {},
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
     "policyRule": {
       "if": {
-            "field": "type",
-            "equals": "Microsoft.Web/sites"
+        "field": "type",
+        "equals": "Microsoft.Web/sites"
       },
       "then": {
-        "effect": "auditIfNotExists",
+        "effect": "[parameters('effect')]",
         "details": {
           "type": "Microsoft.Web/sites/config",
           "existenceCondition": {

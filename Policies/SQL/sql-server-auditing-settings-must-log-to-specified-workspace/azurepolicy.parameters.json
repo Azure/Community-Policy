@@ -1,18 +1,31 @@
 {
-    "logAnalytics": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Log Analytics workspace",
-            "description": "Select the Log Analytics workspace from dropdown list",
-            "strongType": "omsWorkspace",
-            "assignPermissions": true
-        }
-    },
-    "diagnosticsSettingName": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Setting name",
-            "description": "Name of the diagnostic settings."
-        }
+  "logAnalytics": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Log Analytics workspace",
+      "description": "Select the Log Analytics workspace from dropdown list",
+      "strongType": "omsWorkspace",
+      "assignPermissions": true
     }
+  },
+  "diagnosticsSettingName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Setting name",
+      "description": "Name of the diagnostic settings."
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

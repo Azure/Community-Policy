@@ -1,44 +1,59 @@
 {
-    "properties": {
-        "displayName": "Audit enabling of diagnostic logs in Logic Apps",
-        "mode": "Indexed",
-        "description": "Audit enabling of logs and retain them up to a year. This enables you to recreate activity trails for investigation purposes when a security incident occurs or your network is compromised",
+  "name": "6c01a453-6d68-4359-89ca-1ca85ca0dc8f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit enabling of diagnostic logs in Logic Apps",
+    "mode": "Indexed",
+    "description": "Audit enabling of logs and retain them up to a year. This enables you to recreate activity trails for investigation purposes when a security incident occurs or your network is compromised",
+    "metaData": {
+      "category": "Logic Apps",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "requiredRetentionDays": {
+        "type": "String",
+        "defaultValue": "365",
         "metadata": {
-            "category": "Logic Apps"
-        },
-        "parameters": { 
-            "requiredRetentionDays": {
-              "type": "String",
-              "defaultValue": "365",
-              "metadata": {
-                "displayName": "Required retention (days)",
-                "description": "The required diagnostic logs retention in days"
-              }
-            }           
-        },
-        "policyRule": {
-            "if": {
-              "field": "type",
-              "equals": "Microsoft.Logic/workflows"
-            },
-            "then": {
-              "effect": "AuditIfNotExists",
-              "details":{
-                "type": "Microsoft.Insights/diagnosticSettings",
-                "existenceCondition": {
-                  "allOf": [
-                    {
-                      "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.enabled",
-                      "equals": "true"
-                    },
-                    {
-                      "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.days",
-                      "equals": "[parameters('requiredRetentionDays')]"
-                    }
-                  ]
-                }
-              }
-            }
+          "displayName": "Required retention (days)",
+          "description": "The required diagnostic logs retention in days"
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Logic/workflows"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/diagnosticSettings",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.enabled",
+                "equals": "true"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.days",
+                "equals": "[parameters('requiredRetentionDays')]"
+              }
+            ]
+          }
+        }
+      }
     }
+  }
 }

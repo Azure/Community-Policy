@@ -1,9 +1,23 @@
 {
-    "userAssignedManagedIdentityResourceID": {
-        "type": "string",
-        "metadata": {
-            "displayName": "UAMI Resource ID",
-            "description": "Resource ID for the User Assigned Managed Identity. Example: /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourcegroups/uami-rg/providers/microsoft.managedidentity/userassignedidentities/uami"
-        }
+  "userAssignedManagedIdentityResourceID": {
+    "type": "string",
+    "metadata": {
+      "displayName": "UAMI Resource ID",
+      "description": "Resource ID for the User Assigned Managed Identity. Example: /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourcegroups/uami-rg/providers/microsoft.managedidentity/userassignedidentities/uami"
     }
+  },
+  "effect": {
+    "allowedValues": [
+      "Modify",
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Modify",
+    "type": "string",
+    "metaData": {
+      "description": "Modify, Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

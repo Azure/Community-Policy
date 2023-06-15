@@ -12,5 +12,18 @@
       "displayName": "Exempted Private Endpoint Group IDs",
       "description": "The Group IDs that are exempted from this Policy (i.e. blob)"
     }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
   }
 }

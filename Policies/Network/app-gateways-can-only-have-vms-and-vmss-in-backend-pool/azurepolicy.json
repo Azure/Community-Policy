@@ -1,37 +1,46 @@
 {
+  "name": "ea283d81-fcd0-4f8e-a3f0-41878fe1f891",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "App Gateway can only have a VM's or VMSS in its backend pool.",
     "mode": "All",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
     "parameters": {
-        "effect": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Effects",
-                "description": "Enable or disable the execution of the Policy."
-            },
-            "allowedValues": [
-                "Deny",
-                "Disabled"
-            ],
-            "defaultValue": "Deny"
-        }
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effects",
+          "description": "Enable or disable the execution of the Policy."
+        },
+        "allowedValues": [
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
     },
     "policyRule": {
-        "if": {
-            "allOf": [
-                {
-                    "field": "type",
-                    "equals": "Microsoft.Network/applicationGateways"
-                },
-                {
-                    "count": {
-                        "field": "Microsoft.Network/applicationGateways/backendAddressPools[*].backendAddresses[*]"
-                    },
-                    "greater": 0
-                }
-            ]
-        },
-        "then": {
-            "effect": "[parameters('effect')]"
-        }
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/applicationGateways"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/applicationGateways/backendAddressPools[*].backendAddresses[*]"
+            },
+            "greater": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

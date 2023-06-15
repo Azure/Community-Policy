@@ -1,64 +1,86 @@
 {
+  "name": "d196a703-0a15-4bae-b0ab-6483579b2281",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "Deploy Security Center Standard to Workspaces",
-    "description": "This Policy will Deploy the OMS Solution that enables Security Center Standard on a workspace if the solution does not exist.",
     "mode": "All",
-    "policyRule": {
-        "if": {
-            "field": "type",
-            "equals": "Microsoft.OperationalInsights/workspaces"
-        },
-        "then": {
-            "effect": "DeployIfNotExists",
-            "details": {
-                "type": "Microsoft.OperationsManagement/solutions",
-                "name": "[concat('Security(', field('name'),')')]",
-                "roleDefinitionIds": [
-                    "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
-                ],
-                "deployment": {
-                    "properties": {
-                        "mode": "incremental",
-                        "template": {
-                            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                            "contentVersion": "1.0.0.0",
-                            "parameters": {
-                                "azureMonitorWorkspaceName": {
-                                    "type": "string"
-                                },
-                                "location": {
-                                    "type": "string"
-                                }
-                            },
-                            "resources": [
-                                {
-                                    "name": "[concat('Security', '(', parameters('azureMonitorWorkspaceName'), ')')]",
-                                    "type": "Microsoft.OperationsManagement/solutions",
-                                    "apiVersion": "2015-11-01-preview",
-                                    "location": "[parameters('location')]",
-                                    "plan": {
-                                        "name": "[concat('Security', '(', parameters('azureMonitorWorkspaceName'), ')')]",
-                                        "publisher": "Microsoft",
-                                        "promotionCode": "",
-                                        "product": "OMSGallery/Security"
-                                    },
-                                    "properties": {
-                                        "workspaceResourceId": "[concat(resourceGroup().id,'/providers/microsoft.operationalinsights/workspaces/', parameters('azureMonitorWorkspaceName'))]"
-                                    }
-                                }
-                            ]
-                        },
-                        "parameters": {
-                            "azureMonitorWorkspaceName": {
-                                "value": "[field('name')]"
-                            },
-                            "location": {
-                                "value": "[field('location')]"
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    "description": "This Policy will Deploy the OMS Solution that enables Security Center Standard on a workspace if the solution does not exist.",
+    "metaData": {
+      "category": "Security",
+      "version": "1.0.0"
     },
-    "parameters": {}
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.OperationalInsights/workspaces"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.OperationsManagement/solutions",
+          "name": "[concat('Security(', field('name'),')')]",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "azureMonitorWorkspaceName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "name": "[concat('Security', '(', parameters('azureMonitorWorkspaceName'), ')')]",
+                    "type": "Microsoft.OperationsManagement/solutions",
+                    "apiVersion": "2015-11-01-preview",
+                    "location": "[parameters('location')]",
+                    "plan": {
+                      "name": "[concat('Security', '(', parameters('azureMonitorWorkspaceName'), ')')]",
+                      "publisher": "Microsoft",
+                      "promotionCode": "",
+                      "product": "OMSGallery/Security"
+                    },
+                    "properties": {
+                      "workspaceResourceId": "[concat(resourceGroup().id,'/providers/microsoft.operationalinsights/workspaces/', parameters('azureMonitorWorkspaceName'))]"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "azureMonitorWorkspaceName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

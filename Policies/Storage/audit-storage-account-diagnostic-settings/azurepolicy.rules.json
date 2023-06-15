@@ -1,34 +1,34 @@
 {
-    "if": {
-        "field": "type",
-        "equals": "Microsoft.Storage/storageAccounts"
-    },
-    "then": {
-        "effect": "[parameters('policyEffect')]",
-        "details": {
-            "type": "Microsoft.Insights/diagnosticSettings",
-            "name": "[parameters('profileName')]",
-            "evaluationDelay": "AfterProvisioning",
-            "existenceCondition": {
-                "allOf": [
-                    {
-                        "anyof": [
-                            {
-                                "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
-                                "equals": "True"
-                            },
-                            {
-                                "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
-                                "equals": "True"
-                            }
-                        ]
-                    },
-                    {
-                        "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
-                        "equals": "[parameters('logAnalyticsWorkspace')]"
-                    }
-                ]
-            }
-        }
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Storage/storageAccounts"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Insights/diagnosticSettings",
+      "name": "[parameters('profileName')]",
+      "evaluationDelay": "AfterProvisioning",
+      "existenceCondition": {
+        "allOf": [
+          {
+            "anyof": [
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
+                "equals": "True"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
+                "equals": "True"
+              }
+            ]
+          },
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+            "equals": "[parameters('logAnalyticsWorkspace')]"
+          }
+        ]
+      }
     }
+  }
 }

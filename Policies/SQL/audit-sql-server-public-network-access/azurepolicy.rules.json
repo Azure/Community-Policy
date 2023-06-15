@@ -4,7 +4,7 @@
     "equals": "Microsoft.Sql/servers"
   },
   "then": {
-    "effect": "AuditIfNotExists",
+    "effect": "[parameters('effect')]",
     "details": {
       "name": "default",
       "type": "Microsoft.Sql/servers",

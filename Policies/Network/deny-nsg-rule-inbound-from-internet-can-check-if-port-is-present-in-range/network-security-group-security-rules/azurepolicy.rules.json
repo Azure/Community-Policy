@@ -1,0 +1,86 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+      },
+      {
+        "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+        "equals": "Allow"
+      },
+      {
+        "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+        "equals": "Inbound"
+      },
+      {
+        "anyOf": [
+          {
+            "count": {
+              "value": "[parameters('allowedIPRanges')]",
+              "name": "allowedIPRanges",
+              "where": {
+                "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix')), bool('true'), ipRangeContains(current('allowedIPRanges'), if(or(greaterOrEquals(first(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix')), 'a'), equals(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix'), '*')), current('allowedIPRanges'), field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix'))))]",
+                "equals": false
+              }
+            },
+            "equals": "[length(parameters('allowedIPRanges'))]"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]",
+              "where": {
+                "count": {
+                  "value": "[parameters('allowedIPRanges')]",
+                  "name": "allowedIPRanges",
+                  "where": {
+                    "value": "[ipRangeContains(current('allowedIPRanges'), first(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]')))]",
+                    "equals": true
+                  }
+                },
+                "greater": 0
+              }
+            },
+            "notEquals": "[length(field('Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]'))]"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
+            "equals": "*"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
+            "equals": "Internet"
+          }
+        ]
+      },
+      {
+        "count": {
+          "value": "[parameters('destinationPort')]",
+          "name": "destinationPort",
+          "where": {
+            "anyOf": [
+              {
+                "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange')), bool('false'), if(contains(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '*'), bool('true'), and(greaterOrEquals(int(current('destinationPort')), int(first(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))), lessOrEquals(int(current('destinationPort')), int(last(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-')))))))]",
+                "equals": true
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]",
+                  "where": {
+                    "value": "[if(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), bool('false'), if(contains(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), '*'), bool('true'), and(greaterOrEquals(int(current('destinationPort')), int(first(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), 4)), '-')))), lessOrEquals(int(current('destinationPort')), int(last(split(substring(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]')), 2, sub(length(string(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), 4)), '-')))))))]",
+                    "equals": true
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          }
+        },
+        "greater": 0
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

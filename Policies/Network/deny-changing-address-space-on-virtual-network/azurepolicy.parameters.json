@@ -1,9 +1,22 @@
 {
-    "addressSpaceSettings": {
-        "type": "array",
-        "metadata": {
-            "displayname": "Enforced Address Space Settings",
-            "description": "Users will be unable to change the address space on a VNet from the values defined in this array."
-        }
+  "addressSpaceSettings": {
+    "type": "array",
+    "metadata": {
+      "displayname": "Enforced Address Space Settings",
+      "description": "Users will be unable to change the address space on a VNet from the values defined in this array."
     }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

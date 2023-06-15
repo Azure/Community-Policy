@@ -1,34 +1,54 @@
 {
-    "properties": {
-        "displayName": "Use approved subnet for VM network interfaces",
-        "description": "This policy enforces VM network interfaces to use subnet",
-        "parameters": {
-            "subnetId": {
-                "type": "string",
-                "metadata": {
-                    "description": "Resource Id for Subnet",
-                    "displayName": "Subnet Id"
-                }
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Network/networkInterfaces"
-                    },
-                    {
-                        "not": {
-                            "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
-                            "equals": "[parameters('subnetId')]"
-                        }
-                    }
-                ]
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "name": "7843f905-a7d3-4729-bb23-3fba83eeb6aa",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Use approved subnet for VM network interfaces",
+    "mode": "indexed",
+    "description": "This policy enforces VM network interfaces to use subnet",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "subnetId": {
+        "type": "string",
+        "metadata": {
+          "description": "Resource Id for Subnet",
+          "displayName": "Subnet Id"
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
+              "equals": "[parameters('subnetId')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

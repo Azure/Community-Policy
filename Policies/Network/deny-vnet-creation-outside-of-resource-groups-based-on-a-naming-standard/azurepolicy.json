@@ -1,43 +1,51 @@
 {
+  "name": "fbcd3c36-0b9f-41ab-a1d3-7bea5bfa6e5f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deny-vnet-creation-outside-of-resource-groups-based-on-a-naming-standard",
     "mode": "All",
-    "name": "Deny VNet creation outside of Resource Groups based on a naming standard",
     "description": "This Policy will deny the creation of VNets outside of Resource Groups that follow a certain naming convention.",
-    "policyRule": {
-        "if": {
-            "allOf": [
-                {
-                    "value": "[resourceGroup().name]",
-                    "notEquals": "[concat(field('location'), parameters('resourceGroupNamingConvention'))]"
-                },
-                {
-                    "field": "type",
-                    "equals": "Microsoft.Network/virtualNetworks"
-                }
-            ]
-        },
-        "then": {
-            "effect": "[parameters('effect')]"
-        }
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
     },
     "parameters": {
-        "effect": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Effect",
-                "description": "Enable or disable the execution of the policy"
-            },
-            "allowedValues": [
-                "Deny",
-                "Disabled"
-            ],
-            "defaultValue": "Deny"
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
         },
-        "resourceGroupNamingConvention": {
-            "type": "String",
-            "metadata": {
-                "displayName": "resourceGroupNamingConvention",
-                "description": "The policy will concat this value with the provisioned resources location. Example, if you provide the value of '-example' the concat result will be like: 'eastus-example'. If the created resources location does not match this contact then Policy will deny the creation."
-            }
+        "allowedValues": [
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      },
+      "resourceGroupNamingConvention": {
+        "type": "String",
+        "metadata": {
+          "displayName": "resourceGroupNamingConvention",
+          "description": "The policy will concat this value with the provisioned resources location. Example, if you provide the value of '-example' the concat result will be like: 'eastus-example'. If the created resources location does not match this contact then Policy will deny the creation."
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "value": "[resourceGroup().name]",
+            "notEquals": "[concat(field('location'), parameters('resourceGroupNamingConvention'))]"
+          },
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

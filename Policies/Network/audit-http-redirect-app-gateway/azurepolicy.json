@@ -1,34 +1,55 @@
 {
+  "name": "7ea3d294-f29c-401d-b988-668ed4180a7f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "Audit for Application Gateway without HTTP Redirect",
-    "description": "This Policy looks to see if an HTTP listener exists. It then checks to see if a routing rule is configured for redirect. If a redirect is not detected then an audit is performed.",
     "mode": "All",
-    "parameters": {},
-    "policyRule": {
-        "if": {
-            "allOf": [
-                {
-                    "field": "type",
-                    "equals": "Microsoft.Network/applicationGateways"
-                },
-                {
-                    "field": "Microsoft.Network/applicationGateways/httpListeners[*].protocol",
-                    "equals": "http"
-                }
-            ]
-        },
-        "then": {
-            "effect": "auditIfNotExists",
-            "details": {
-                "type": "Microsoft.Network/applicationGateways/requestRoutingRules",
-                "existenceCondition": {
-                    "allOf": [
-                        {
-                            "field": "Microsoft.Network/applicationGateways/requestRoutingRules[*].redirectConfiguration.id",
-                            "exists": true
-                        }
-                    ]
-                }
-            }
+    "description": "This Policy looks to see if an HTTP listener exists. It then checks to see if a routing rule is configured for redirect. If a redirect is not detected then an audit is performed.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/applicationGateways"
+          },
+          {
+            "field": "Microsoft.Network/applicationGateways/httpListeners[*].protocol",
+            "equals": "http"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Network/applicationGateways/requestRoutingRules",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Network/applicationGateways/requestRoutingRules[*].redirectConfiguration.id",
+                "exists": true
+              }
+            ]
+          }
+        }
+      }
     }
+  }
 }

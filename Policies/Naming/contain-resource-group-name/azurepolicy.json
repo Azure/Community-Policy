@@ -1,16 +1,37 @@
 {
-    "properties": {
-        "displayName": "Resource name contains resource group name",
-        "mode": "Indexed",
-        "description": "Require resources to contain the resource group's name",
-        "policyRule": {
-            "if": {
-                "field": "name",
-                "notContains": "[resourceGroup().name]"
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "name": "29b719d7-e84a-452c-8d89-743174dde1d0",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Resource name contains resource group name",
+    "mode": "Indexed",
+    "description": "Require resources to contain the resource group's name",
+    "metaData": {
+      "category": "Naming",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "name",
+        "notContains": "[resourceGroup().name]"
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

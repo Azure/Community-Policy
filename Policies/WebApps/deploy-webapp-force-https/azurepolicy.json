@@ -1,81 +1,92 @@
 {
+  "name": "c59a9a5f-04cc-4a11-b5da-e7aef792ccd2",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deploy-webapp-force-https",
+    "mode": "indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "WebApps",
+      "version": "1.0.0"
+    },
     "parameters": {
-        "effect": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Effect",
-                "description": "Enable or disable the execution of the policy"
-            },
-            "allowedValues": [
-                "Deny",
-                "Disabled",
-                "DeployIfNotExists"
-            ],
-            "defaultValue": "DeployIfNotExists"
-        }
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Disabled",
+          "DeployIfNotExists"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
     },
     "policyRule": {
-        "if": {
-            "allOf": [
-                {
-                    "field": "type",
-                    "equals": "Microsoft.Web/sites"
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "Microsoft.Web/sites/httpsOnly",
+            "equals": false
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Web/sites",
+          "name": "[field('name')]",
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/httpsOnly",
+            "equals": true
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "webAppName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  }
                 },
-                {
-                    "field": "Microsoft.Web/sites/httpsOnly",
-                    "equals": false
-                }
-            ]
-        },
-        "then": {
-            "effect": "[parameters('effect')]",
-            "details": {
-                "type": "Microsoft.Web/sites",
-                "name": "[field('name')]",
-                "existenceCondition": {
-                    "field": "Microsoft.Web/sites/httpsOnly",
-                    "equals": true
-                },
-                "roleDefinitionIds": [
-                    "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772"
-                ],
-                "deployment": {
+                "resources": [
+                  {
+                    "type": "Microsoft.Web/sites",
+                    "apiVersion": "2018-11-01",
+                    "name": "[parameters('webAppName')]",
+                    "location": "[parameters('location')]",
                     "properties": {
-                        "mode": "incremental",
-                        "template": {
-                            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                            "contentVersion": "1.0.0.0",
-                            "parameters": {
-                                "webAppName": {
-                                    "type": "string"
-                                },
-                                "location": {
-                                    "type": "string"
-                                }
-                            },
-                            "resources": [
-                                {
-                                    "type": "Microsoft.Web/sites",
-                                    "apiVersion": "2018-11-01",
-                                    "name": "[parameters('webAppName')]",
-                                    "location": "[parameters('location')]",
-                                    "properties": {
-                                        "httpsOnly": true
-                                    }
-                                }
-                            ]
-                        },
-                        "parameters": {
-                            "webAppName": {
-                                "value": "[field('name')]"
-                            },
-                            "location": {
-                                "value": "[field('location')]"
-                            }
-                        }
+                      "httpsOnly": true
                     }
+                  }
+                ]
+              },
+              "parameters": {
+                "webAppName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
                 }
+              }
             }
+          }
         }
+      }
     }
+  }
 }

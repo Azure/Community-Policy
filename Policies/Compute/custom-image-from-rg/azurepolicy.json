@@ -1,36 +1,54 @@
 {
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "custom-image-from-rg",
-    "properties": {
-        "displayName": "Allow custom VM image from a Resource Group",
-        "description": "This policy allows only usage of images from a resource group",
-        "parameters": {
-            "resourceGroupName":{
-                "type":"String",
-                "metadata":{
-                    "displayName": "Resource Group Name",
-                    "strongType": "ExistingResourceGroups"
-                }
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Compute/virtualMachines"
-                    },
-                    {
-                        "not": {
-                            "field": "Microsoft.Compute/imageId",
-                            "contains": "[concat('resourceGroups/',parameters('resourceGroupName'))]"
-                        }
-                    }
-                ]
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "name": "custom-image-from-rg",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Allow custom VM image from a Resource Group",
+    "mode": "indexed",
+    "description": "This policy allows only usage of images from a resource group",
+    "metaData": {
+      "category": "Compute",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "resourceGroupName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Resource Group Name",
+          "strongType": "ExistingResourceGroups"
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Compute/imageId",
+              "contains": "[concat('resourceGroups/',parameters('resourceGroupName'))]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

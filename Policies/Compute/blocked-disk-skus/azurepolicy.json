@@ -1,45 +1,52 @@
 {
+  "name": "5e3612de-d065-4436-a5c5-9ac418b4ef6d",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "blocked-disk-skus",
     "mode": "All",
-    "Metadata": {
-        "category": "Compute"
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Compute",
+      "version": "1.0.0"
     },
     "parameters": {
-        "blockedDiskSkus": {
-            "type": "Array",
-            "metadata": {
-                "displayName": "Blocked Disk Skus",
-                "description": "The list of blocked disk skus for Managed Disks."
-            }
-        },
-        "effect": {
-            "type": "string",
-            "metadata": {
-                "displayName": "Effect",
-                "description": "The effect for this policy to take. e.g. Audit"
-            },
-            "defaultValue": "Audit",
-            "allowedValues": [
-                "Deny",
-                "Audit",
-                "Disabled"
-            ]
+      "blockedDiskSkus": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Blocked Disk Skus",
+          "description": "The list of blocked disk skus for Managed Disks."
         }
+      },
+      "effect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "The effect for this policy to take. e.g. Audit"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ]
+      }
     },
     "policyRule": {
-        "if": {
-            "allOf": [
-                {
-                    "field": "type",
-                    "equals": "Microsoft.Compute/disks"
-                },
-                {
-                    "field": "Microsoft.Compute/disk/sku.name",
-                    "in": "[parameters('blockedDiskSkus')]"
-                }
-            ]
-        },
-        "then": {
-            "effect": "[parameters('effect')]"
-        }
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/disks"
+          },
+          {
+            "field": "Microsoft.Compute/disk/sku.name",
+            "in": "[parameters('blockedDiskSkus')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

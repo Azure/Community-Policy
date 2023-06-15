@@ -1,20 +1,20 @@
 {
-    "effect": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Effect",
-            "description": "Enable or disable the execution of the policy"
-        },
-        "allowedValues": [
-            "DeployIfNotExists",
-            "Disabled"
-        ],
-        "defaultValue": "DeployIfNotExists"
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
     },
-    "tagName": {
-        "type": "String"
-    },
-    "tagValue": {
-        "type": "String"
-    }
+    "allowedValues": [
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  },
+  "tagName": {
+    "type": "String"
+  },
+  "tagValue": {
+    "type": "String"
+  }
 }

@@ -3,12 +3,12 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Deploy Diagnostic Settings for Application Insights to Log Analytics workspace",
+    "mode": "Indexed",
     "description": "Deploys the diagnostic settings for Application Insights to stream to a Log Analytics workspace when any Application Insights which is missing this diagnostic settings is created or updated. The policy will  set the diagnostic with all metrics and category enabled.",
-    "metadata": {
+    "metaData": {
       "version": "1.0.0",
       "category": "Monitoring"
     },
-    "mode": "Indexed",
     "parameters": {
       "logAnalytics": {
         "type": "String",

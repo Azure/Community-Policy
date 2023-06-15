@@ -2,13 +2,13 @@
   "effect": {
     "type": "String",
     "metadata": {
-        "displayName": "Effect",
-        "description": "Deny the use of TempDB leveraging the listed drives."
+      "displayName": "Effect",
+      "description": "Deny the use of TempDB leveraging the listed drive."
     },
     "allowedValues": [
-        "Audit",
-        "Deny",
-        "Disabled"
+      "Audit",
+      "Deny",
+      "Disabled"
     ],
     "defaultValue": "Deny"
   },

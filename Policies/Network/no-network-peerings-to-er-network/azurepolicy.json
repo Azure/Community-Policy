@@ -1,34 +1,53 @@
 {
-    "properties": {
-        "mode": "All",
-        "parameters": {
-            "resourceGroupName": {
-                "type": "String",
-                "metadata": {
-                    "description": "Name of the resource group with ER Network",
-                    "displayName": "ER Network Resource Group Name",
-                    "strongType": "ExistingResourceGroups"
-                }
-            }
-        },
-        "displayName": "No network peering to ER network",
-        "description": "No network peering can be associated to networks in network in a resource group containing central managed network infrastructure.",
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
-                    },
-                    {
-                        "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
-                        "contains": "[concat('resourceGroups/',parameters('resourceGroupName'))]"
-                    }
-                ]
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "name": "9a0fbcab-01df-44ed-9710-d6683fbeb13c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "No network peering to ER network",
+    "mode": "All",
+    "description": "No network peering can be associated to networks in network in a resource group containing central managed network infrastructure.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "resourceGroupName": {
+        "type": "String",
+        "metadata": {
+          "description": "Name of the resource group with ER Network",
+          "displayName": "ER Network Resource Group Name",
+          "strongType": "ExistingResourceGroups"
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+          },
+          {
+            "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
+            "contains": "[concat('resourceGroups/',parameters('resourceGroupName'))]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

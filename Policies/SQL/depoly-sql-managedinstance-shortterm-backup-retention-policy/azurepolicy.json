@@ -1,59 +1,81 @@
-﻿{
-    "properties": {
-      "mode": "All",
-      "parameters": {},
-      "policyRule": {
-        "if": {
-          "allOf": [
-            {
-              "field": "type",
-              "equals": "Microsoft.Sql/managedInstances/databases"
-            }
-          ]
-        },
-        "then": {
-          "effect": "deployIfNotExists",
-          "details": {
-            "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
-            "name": "default",
-            "existenceCondition": {
-              "field": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies/retentionDays",
-              "equals": 35
-            },
-            "deployment": {
-              "properties": {
-                "mode": "incremental",
-                "template": {
-                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
-                  "parameters": {
-                    "fullDbName": {
-                      "type": "string"
-                    }
-                  },
-                  "resources": [
-                    {
-                      "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
-                      "apiVersion": "2020-11-01-preview",
-                      "name": "[concat(parameters('fullDbName'), '/default')]",
-                      "properties": {
-                        "retentionDays": 35
-                      }
-                    }
-                  ]
-                },
+{
+  "name": "70bd9328-9d00-4253-9bf7-3d36be708ebc",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "depoly-sql-managedinstance-shortterm-backup-retention-policy",
+    "mode": "All",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/managedInstances/databases"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+          "name": "default",
+          "existenceCondition": {
+            "field": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies/retentionDays",
+            "equals": 35
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
                 "parameters": {
                   "fullDbName": {
-                    "value": "[field('fullName')]"
+                    "type": "string"
                   }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.Sql/managedInstances/databases/backupShortTermRetentionPolicies",
+                    "apiVersion": "2020-11-01-preview",
+                    "name": "[concat(parameters('fullDbName'), '/default')]",
+                    "properties": {
+                      "retentionDays": 35
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "fullDbName": {
+                  "value": "[field('fullName')]"
                 }
               }
-            },
-            "roleDefinitionIds": [
-              "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-            ]
-          }
+            }
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ]
         }
       }
     }
   }
+}

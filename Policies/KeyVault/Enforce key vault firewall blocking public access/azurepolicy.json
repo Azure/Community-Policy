@@ -1,69 +1,69 @@
 {
-  "Description": "This policy prevents setting key vault public firewall as allow all or have any vnet/ip rules.",
-  "DisplayName": "Enforce key vault firewall blocking public access",
-  "Metadata": {
-    "category": "Key Vault",
-    "createdBy": "",
-    "createdOn": "2021-10-05T11:35:32.4030817Z",
-    "updatedBy": null,
-    "updatedOn": null
-  },
-  "Mode": "Indexed",
-  "Parameters": {
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "description": "Enable or disable the execution of the policy",
-        "displayName": "Effect"
-      },
-      "allowedValues": [
-        "Audit",
-        "Deny",
-        "Disabled"
-      ],
-      "defaultValue": "Deny"
-    }
-  },
-  "PolicyRule": {
-    "if": {
-      "allOf": [
-        {
-          "equals": "Microsoft.KeyVault/Vaults",
-          "field": "type"
-        },
-        {
-          "anyOf": [
-            {
-              "exists": "false",
-              "field": "Microsoft.KeyVault/Vaults/networkAcls.defaultAction"
-            },
-            {
-              "equals": "Allow",
-              "field": "Microsoft.KeyVault/Vaults/networkAcls.defaultAction"
-            },
-            {
-              "exists": "false",
-              "field": "Microsoft.KeyVault/Vaults/networkAcls.virtualNetworkRules"
-            },
-            {
-              "notequals": "0",
-              "value": "[length(field('Microsoft.KeyVault/Vaults/networkAcls.virtualNetworkRules'))]"
-            },
-            {
-              "exists": "false",
-              "field": "Microsoft.KeyVault/Vaults/networkAcls.ipRules"
-            },
-            {
-              "notequals": "0",
-              "value": "[length(field('Microsoft.KeyVault/Vaults/networkAcls.ipRules'))]"
-            }
-          ]
-        }
-      ]
+  "name": "53cfe49c-d2de-47f4-85ef-c6890c7d4e61",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce key vault firewall blocking public access",
+    "mode": "indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "KeyVault",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "[parameters('effect')]"
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "description": "Enable or disable the execution of the policy",
+          "displayName": "Effect"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.KeyVault/Vaults",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "exists": "false",
+                "field": "Microsoft.KeyVault/Vaults/networkAcls.defaultAction"
+              },
+              {
+                "equals": "Allow",
+                "field": "Microsoft.KeyVault/Vaults/networkAcls.defaultAction"
+              },
+              {
+                "exists": "false",
+                "field": "Microsoft.KeyVault/Vaults/networkAcls.virtualNetworkRules"
+              },
+              {
+                "notequals": "0",
+                "value": "[length(field('Microsoft.KeyVault/Vaults/networkAcls.virtualNetworkRules'))]"
+              },
+              {
+                "exists": "false",
+                "field": "Microsoft.KeyVault/Vaults/networkAcls.ipRules"
+              },
+              {
+                "notequals": "0",
+                "value": "[length(field('Microsoft.KeyVault/Vaults/networkAcls.ipRules'))]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
-  },
-  "PolicyType": 1
+  }
 }

@@ -1,7 +1,35 @@
 {
+  "name": "c98dab0e-edab-4619-9385-9dbde2fbb6cd",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "Enforce network security groups to have a DENY RDP security rule.",
-    "description": "Enforce network security groups to have a DENY RDP security rule.",     
     "mode": "All",
+    "description": "Enforce network security groups to have a DENY RDP security rule.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DoNotEnforce",
+          "deployIfNotExists"
+        ],
+        "defaultValue": "deployIfNotExists"
+      },
+      "priority": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "priority",
+          "description": "Priority for the deny RDP security rule (Example 100)."
+        }
+      }
+    },
     "policyRule": {
       "if": {
         "field": "type",
@@ -74,27 +102,7 @@
             }
           }
         }
-      }      
-    },
-    "parameters": {
-        "effect": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Effect",
-                "description": "Enable or disable the execution of the policy"
-            },
-            "allowedValues": [
-                "DoNotEnforce",
-                "deployIfNotExists"
-            ],
-            "defaultValue": "deployIfNotExists"
-       },
-       "priority": {
-           "type": "Integer",
-           "metadata": {
-              "displayName": "priority",
-              "description": "Priority for the deny RDP security rule (Example 100)."
-            }
-       }
+      }
     }
+  }
 }

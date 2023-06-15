@@ -1,14 +1,27 @@
 {
-    "diagnosticsSettingName": {
-        "type": "string",
-        "metadata": {
-          "description": "Name for the diagnostic setting resource (e.g. 'SecOpsSendToEventHub')"
-        }
-    },
-    "eventHubAuthorizationRuleId": {
-        "type": "string",
-        "metadata": {
-            "description": "Resource ID of the event hub authorization rule for the Event Hubs namespace in which the event hubs should be created and/or streamed to."
-        }
+  "diagnosticsSettingName": {
+    "type": "string",
+    "metadata": {
+      "description": "Name for the diagnostic setting resource (e.g. 'SecOpsSendToEventHub')"
     }
+  },
+  "eventHubAuthorizationRuleId": {
+    "type": "string",
+    "metadata": {
+      "description": "Resource ID of the event hub authorization rule for the Event Hubs namespace in which the event hubs should be created and/or streamed to."
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

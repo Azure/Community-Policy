@@ -1,14 +1,32 @@
 {
+  "name": "12866455-71aa-45f2-9731-1c99aeaa87a8",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit when a given service principal is assigned to the Key Vault data plane",
-    "description": "Audit when a specified AAD object is granted any permissions to secrets, certs, or keys stored in a Key Vault through data plane access policies.",
     "mode": "All",
+    "description": "Audit when a specified AAD object is granted any permissions to secrets, certs, or keys stored in a Key Vault through data plane access policies.",
+    "metaData": {
+      "category": "KeyVault",
+      "version": "1.0.0"
+    },
     "parameters": {
       "aadObjectId": {
         "type": "String",
         "metadata": {
           "displayName": "AAD Object ID",
           "description": "The objectId of the AAD user, group, or service principal to check."
+        }
+      },
+      "effect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "type": "string",
+        "metaData": {
+          "description": "Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
       }
     },
@@ -28,7 +46,7 @@
         ]
       },
       "then": {
-        "effect": "audit"
+        "effect": "[parameters('effect')]"
       }
     }
   }

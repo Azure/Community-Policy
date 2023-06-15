@@ -1,38 +1,51 @@
 {
-    "galleryRGName": {
-        "type": "String",
-        "metadata": {
-            "description": "Shared Image Gallery resourceGroup name ",
-            "displayName": "Image Gallery RG name"
-        }
-    },
-    "galleryName": {
-        "type": "String",
-        "metadata": {
-            "description": "Shared Image Gallery resourceGroup name ",
-            "displayName": "Image Gallery name"
-        }
-    },
-    "imageDefinitionName": {
-        "type": "String",
-        "metadata": {
-            "description": "Shared Image Gallery resourceGroup name ",
-            "displayName": "Image Definition name"
-        }
-    },
-    "imageVersion": {
-        "type": "String",
-        "metadata": {
-            "description": "Shared Image Gallery resourceGroup name ",
-            "displayName": "Image Version(Name)"
-        }
-    },
-    "deplomentApiVersion": {
-        "type": "String",
-        "metadata": {
-            "description": "ASC Vulnerability assesment API version",
-            "displayName": "ASC Resource Provider Api Version"
-        },
-        "defaultvalue": "2015-06-01-preview"
+  "galleryRGName": {
+    "type": "String",
+    "metadata": {
+      "description": "Shared Image Gallery resourceGroup name ",
+      "displayName": "Image Gallery RG name"
     }
-} 
+  },
+  "galleryName": {
+    "type": "String",
+    "metadata": {
+      "description": "Shared Image Gallery resourceGroup name ",
+      "displayName": "Image Gallery name"
+    }
+  },
+  "imageDefinitionName": {
+    "type": "String",
+    "metadata": {
+      "description": "Shared Image Gallery resourceGroup name ",
+      "displayName": "Image Definition name"
+    }
+  },
+  "imageVersion": {
+    "type": "String",
+    "metadata": {
+      "description": "Shared Image Gallery resourceGroup name ",
+      "displayName": "Image Version(Name)"
+    }
+  },
+  "deplomentApiVersion": {
+    "type": "String",
+    "metadata": {
+      "description": "ASC Vulnerability assesment API version",
+      "displayName": "ASC Resource Provider Api Version"
+    },
+    "defaultValue": "2015-06-01-preview"
+  },
+  "effect": {
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
+}

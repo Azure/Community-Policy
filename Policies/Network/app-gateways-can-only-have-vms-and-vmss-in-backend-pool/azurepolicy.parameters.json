@@ -1,14 +1,14 @@
 {
-    "effect": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Effects",
-            "description": "Enable or disable the execution of the Policy."
-        },
-        "allowedValues": [
-            "Deny",
-            "Disabled"
-        ],
-        "defaultValue": "Deny"
-    }
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effects",
+      "description": "Enable or disable the execution of the Policy."
+    },
+    "allowedValues": [
+      "Deny",
+      "Disabled"
+    ],
+    "defaultValue": "Deny"
+  }
 }

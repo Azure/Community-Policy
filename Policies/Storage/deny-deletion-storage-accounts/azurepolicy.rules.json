@@ -1,0 +1,14 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Storage/storageAccounts"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "actionNames": [
+        "delete"
+      ]
+    }
+  }
+}

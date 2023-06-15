@@ -1,14 +1,13 @@
 {
+  "name": "aca94a15-a131-4a06-ab0e-89f57e28cc5c",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Allowed DevTestLabs Repo URL prefix",
-    "policyType": "Custom",
     "mode": "All",
-    "metadata": {
+    "description": "Policy description.",
+    "metaData": {
       "category": "DevTestLabs",
-      "createdBy": "68d98b7c-abc4-4295-9cae-04593c1fbf44",
-      "createdOn": "2020-06-29T09:52:11.4651979Z",
-      "updatedBy": null,
-      "updatedOn": null
+      "version": "1.0.0"
     },
     "parameters": {
       "URI": {
@@ -18,6 +17,19 @@
           "description": "Allowed URL for the like operator"
         },
         "defaultValue": "https://dev.azure.com/WorkingRemotely/*"
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
       }
     },
     "policyRule": {
@@ -34,11 +46,8 @@
         ]
       },
       "then": {
-        "effect": "deny"
+        "effect": "[parameters('effect')]"
       }
     }
-  },
-  "id": "/subscriptions/d91567e4-6c5e-434e-9a52-cc0b9b71aecb/providers/Microsoft.Authorization/policyDefinitions/aca94a15-a131-4a06-ab0e-89f57e28cc5c",
-  "type": "Microsoft.Authorization/policyDefinitions",
-  "name": "aca94a15-a131-4a06-ab0e-89f57e28cc5c"
+  }
 }

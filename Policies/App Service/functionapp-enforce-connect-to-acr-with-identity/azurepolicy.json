@@ -1,89 +1,89 @@
 {
-    "properties": {
-      "displayName": "Function apps should authenticate to Azure Container Registry using a managed identity",
-      "policyType": "Custom",
-      "mode": "Indexed",
-      "description": "Function apps should authenticate to Azure Container Registry using a managed identity",
-      "metadata": {
-        "version": "1.0.0",
-        "category": "App Service"
-      },
-      "parameters": {
-        "effect": {
-          "type": "String",
-          "metadata": {
-            "displayName": "Effect",
-            "description": "Enable or disable the execution of the policy"
-          },
-          "allowedValues": [
-            "AuditIfNotExists",
-            "DeployIfNotExists",
-            "Disabled"
-          ],
-          "defaultValue": "AuditIfNotExists"
-        }
-      },
-      "policyRule": {
-        "if": {
-          "allOf": [
-            {
-              "field": "type",
-              "equals": "Microsoft.Web/sites"
-            },
-            {
-              "field": "kind",
-              "contains": "functionapp"
-            }
-          ]
+  "name": "fe7edcd4-dbdf-40f4-8f90-ca904896d32d",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Function apps should authenticate to Azure Container Registry using a managed identity",
+    "mode": "Indexed",
+    "description": "Function apps should authenticate to Azure Container Registry using a managed identity",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "App Service"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
         },
-        "then": {
-          "effect": "[parameters('effect')]",
-          "details": {
-            "type": "Microsoft.Web/sites/config",
-            "name": "web",
-            "existenceCondition": {
-              "field": "Microsoft.Web/sites/config/acrUseManagedIdentityCreds",
-              "equals": true
-            },
-            "roleDefinitionIds": [
-              "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772"
-            ],
-            "deployment": {
-              "properties": {
-                "mode": "incremental",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "kind",
+            "contains": "functionapp"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Web/sites/config",
+          "name": "web",
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/config/acrUseManagedIdentityCreds",
+            "equals": true
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "siteName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
                 "parameters": {
                   "siteName": {
-                    "value": "[field('name')]"
+                    "type": "string"
                   },
                   "location": {
-                    "value": "[field('location')]"
+                    "type": "string"
                   }
                 },
-                "template": {
-                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
-                  "parameters": {
-                    "siteName": {
-                      "type": "string"
-                    },
-                    "location": {
-                      "type": "string"
+                "variables": {},
+                "resources": [
+                  {
+                    "type": "Microsoft.Web/sites/config",
+                    "name": "[concat(parameters('siteName'), '/web')]",
+                    "apiVersion": "2021-02-01",
+                    "location": "[parameters('location')]",
+                    "tags": {},
+                    "properties": {
+                      "acrUseManagedIdentityCreds": true
                     }
-                  },
-                  "variables": {},
-                  "resources": [
-                    {
-                      "type": "Microsoft.Web/sites/config",
-                      "name": "[concat(parameters('siteName'), '/web')]",
-                      "apiVersion": "2021-02-01",
-                      "location": "[parameters('location')]",
-                      "tags": {},
-                      "properties": {
-                        "acrUseManagedIdentityCreds": true
-                      }
-                    }
-                  ]
-                }
+                  }
+                ]
               }
             }
           }
@@ -91,3 +91,4 @@
       }
     }
   }
+}

@@ -1,12 +1,12 @@
 {
-    "companyPrefix": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Company Prefix",
-          "description": "The Company Prefix you will use with all Resource Groups"
-        },
-        "defaultValue": "DMF"
-      },
+  "companyPrefix": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Company Prefix",
+      "description": "The Company Prefix you will use through all Resource Groups"
+    },
+    "defaultValue": "DMF"
+  },
   "allowedLocations": {
     "type": "Array",
     "metadata": {
@@ -63,5 +63,18 @@
       "description": "The State Prefix you will allow for location 3"
     },
     "defaultValue": "CAL"
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
   }
 }

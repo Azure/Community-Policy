@@ -1,46 +1,65 @@
 {
-   "properties": {
-      "displayName": "Audit SQL Server firewall rule",
-      "description": "Audits the existence of a rule that enables traffic from a specific IP range to a SQL Server.",
-      "parameters": {
-         "startIpAddress": {
-            "type": "string",
-            "metadata": {
-               "displayName": "Start IP Address",
-               "description": "The beginning of the IP address range. Example: 1.23.191.10"
-            }
-         },
-         "endIpAddress": {
-            "type": "string",
-            "metadata": {
-               "displayName": "End IP Address",
-               "description": "The end of the IP address range. Example: 1.23.191.50"
-            }
-         }
+  "name": "9a848490-4cab-47e8-acd8-5d87fdd9ad86",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit SQL Server firewall rule",
+    "mode": "indexed",
+    "description": "Audits the existence of a rule that enables traffic from a specific IP range to a SQL Server.",
+    "metaData": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "startIpAddress": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Start IP Address",
+          "description": "The beginning of the IP address range. Example: 1.23.191.10"
+        }
       },
-      "policyRule": {
-         "if": {
-            "field": "type",
-            "equals": "Microsoft.Sql/servers"
-         },
-         "then": {
-            "effect": "AuditIfNotExists",
-            "details": {
-               "type": "Microsoft.Sql/servers/firewallRules",
-               "existenceCondition": {
-                  "allOf": [
-                     {
-                        "field": "Microsoft.Sql/servers/firewallRules/startIpAddress",
-                        "equals": "[parameters('startIpAddress')]"
-                     },
-                     {
-                        "field": "Microsoft.Sql/servers/firewallRules/endIpAddress",
-                        "equals": "[parameters('endIpAddress')]"
-                     }
-                  ]
-               }
-            }
-         }
+      "endIpAddress": {
+        "type": "string",
+        "metadata": {
+          "displayName": "End IP Address",
+          "description": "The end of the IP address range. Example: 1.23.191.50"
+        }
+      },
+      "effect": {
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
       }
-   }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Sql/servers"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Sql/servers/firewallRules",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Sql/servers/firewallRules/startIpAddress",
+                "equals": "[parameters('startIpAddress')]"
+              },
+              {
+                "field": "Microsoft.Sql/servers/firewallRules/endIpAddress",
+                "equals": "[parameters('endIpAddress')]"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
 }

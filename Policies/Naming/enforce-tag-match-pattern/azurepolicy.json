@@ -1,18 +1,39 @@
 {
-    "properties": {
-        "displayName": "Use match condition on tag value.",
-        "description": "Enforce a text pattern on tag value.",
-        "mode": "All",
-        "policyRule": {
-            "if": {
-                "not": {
-                    "field": "tags.date",
-                    "match": "##-???-####"
-                }
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "name": "02e15ba2-a23c-4e3e-ab2e-d4c6385793dc",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Use match condition on tag value.",
+    "mode": "All",
+    "description": "Enforce a text pattern on tag value.",
+    "metaData": {
+      "category": "Naming",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "not": {
+          "field": "tags.date",
+          "match": "##-???-####"
+        }
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

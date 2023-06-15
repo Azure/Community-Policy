@@ -4,6 +4,7 @@
     "in": "[parameters('listOfResourceTypes')]"
   },
   "then": {
+    "effect": "[parameters('effect')]",
     "details": {
       "existenceCondition": {
         "allOf": [
@@ -22,7 +23,6 @@
         ]
       },
       "type": "Microsoft.Insights/diagnosticSettings"
-    },
-    "effect": "AuditIfNotExists"
+    }
   }
 }

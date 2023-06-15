@@ -1,54 +1,60 @@
 {
-    "properties": {
-        "displayName": "Audit enabling of diagnostic logs in App Services",
-        "mode": "All",
-        "description": "Audit enabling of diagnostic logs on the app. This enables you to recreate activity trails for investigation purposes if a security incident occurs or your network is compromised",
+  "name": "96e2125f-df4f-43e4-9ff9-520ddf6ca99c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit enabling of diagnostic logs in App Services",
+    "mode": "All",
+    "description": "Audit enabling of diagnostic logs on the app. This enables you to recreate activity trails for investigation purposes if a security incident occurs or your network is compromised",
+    "metaData": {
+      "category": "App Service",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
         "metadata": {
-            "category": "App Service"
-        },
-        "parameters": { 
-            "effect": { 
-                "type": "string",
-                "defaultValue": "Audit",
-                "allowedValues": ["Audit", "Disabled"],
-                "metadata": {
-                    "displayName": "Effect",
-                    "description": "Enable or disable the execution of the policy"
-                }
-            } 
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                {
-                   "field": "type",
-                   "equals": "Microsoft.Web/sites/config"
-                },
-                {
-                   "field": "name",
-                   "equals": "web"
-                },
-                {
-                   "anyOf": [
-                      {
-                         "field": "Microsoft.Web/sites/config/detailedErrorLoggingEnabled",
-                         "notEquals": "true"
-                      },
-                      {
-                         "field": "Microsoft.Web/sites/config/httpLoggingEnabled",
-                         "notEquals": "true"
-                      },
-                      {
-                         "field": "Microsoft.Web/sites/config/requestTracingEnabled",
-                         "notEquals": "true"
-                      }
-                   ]
-                }
-                ]
-            },
-            "then": {
-                "effect": "[parameters('effect')]"
-            }
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites/config"
+          },
+          {
+            "field": "name",
+            "equals": "web"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Web/sites/config/detailedErrorLoggingEnabled",
+                "notEquals": "true"
+              },
+              {
+                "field": "Microsoft.Web/sites/config/httpLoggingEnabled",
+                "notEquals": "true"
+              },
+              {
+                "field": "Microsoft.Web/sites/config/requestTracingEnabled",
+                "notEquals": "true"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

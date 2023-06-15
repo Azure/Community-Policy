@@ -1,8 +1,14 @@
 {
+  "name": "939dc635-4371-4d18-b4b0-f91738df0b4c",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit for allowed locations",
-    "description": "This policy enables you to audit the locations where your resources have been deployed. Use this to understand what is within your environment and if it matches company guidelines.",
     "mode": "Indexed",
+    "description": "This policy enables you to audit the locations where your resources have been deployed. Use this to understand what is within your environment and if it matches company guidelines.",
+    "metaData": {
+      "category": "General",
+      "version": "1.0.0"
+    },
     "parameters": {
       "listOfAllowedLocations": {
         "type": "Array",
@@ -10,6 +16,18 @@
           "description": "The list of locations to audit against.",
           "strongType": "location",
           "displayName": "Allowed locations"
+        }
+      },
+      "effect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "type": "string",
+        "metaData": {
+          "description": "Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
       }
     },
@@ -21,7 +39,7 @@
         }
       },
       "then": {
-        "effect": "Audit"
+        "effect": "[parameters('effect')]"
       }
     }
   }

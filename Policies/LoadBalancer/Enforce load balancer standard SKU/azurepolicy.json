@@ -1,45 +1,45 @@
 {
-  "Description": "This policy enforces standard sku for load balancers.",
-  "DisplayName": "Enforce load balancer standard SKU",
-  "Metadata": {
-    "category": "Load Balancer",
-    "createdBy": "",
-    "createdOn": "2021-10-05T11:25:09.3488815Z",
-    "updatedBy": null,
-    "updatedOn": null
-  },
-  "Mode": "Indexed",
-  "Parameters": {
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "description": "Enable or disable the execution of the policy",
-        "displayName": "Effect"
-      },
-      "allowedValues": [
-        "Audit",
-        "Deny",
-        "Disabled"
-      ],
-      "defaultValue": "Deny"
-    }
-  },
-  "PolicyRule": {
-    "if": {
-      "allOf": [
-        {
-          "equals": "Microsoft.Network/loadBalancers",
-          "field": "type"
-        },
-        {
-          "field": "Microsoft.Network/loadBalancers/sku.name",
-          "notEquals": "Standard"
-        }
-      ]
+  "name": "009ce71a-3c2e-4da3-affc-0c8533af6ac0",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce load balancer standard SKU",
+    "mode": "indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "LoadBalancer",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "[parameters('effect')]"
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "description": "Enable or disable the execution of the policy",
+          "displayName": "Effect"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Network/loadBalancers",
+            "field": "type"
+          },
+          {
+            "field": "Microsoft.Network/loadBalancers/sku.name",
+            "notEquals": "Standard"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
-  },
-  "PolicyType": 1
+  }
 }

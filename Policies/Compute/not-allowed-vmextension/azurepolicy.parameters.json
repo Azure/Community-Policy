@@ -1,23 +1,22 @@
 {
-	"effect": {
-	  "type": "String",
-	  "metadata": {
-		 "displayName": "Effect",
-		 "description": "The effect determines what happens when the policy rule is evaluated to match"
-	  },
-	  "allowedValues": [
-		 "Audit",
-		 "Deny",
-		 "Disabled"
-	  ],
-	  "defaultValue": "Deny"
-	},
-	"notAllowedExtensions": {
-	  "type": "Array",
-	  "metadata": {
-		 "displayName": "Denied extension",
-		 "description": "The list of extensions that will be denied."
-	  }
-	}
- }
- 
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "The effect determines what happens when the policy rule is evaluated to match"
+    },
+    "allowedValues": [
+      "Audit",
+      "Deny",
+      "Disabled"
+    ],
+    "defaultValue": "Deny"
+  },
+  "notAllowedExtensions": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Denied extension",
+      "description": "The list of extensions that will be denied."
+    }
+  }
+}

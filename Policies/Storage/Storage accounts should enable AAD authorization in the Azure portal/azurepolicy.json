@@ -3,12 +3,12 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Storage accounts should enable AAD authorization in the Azure portal",
+    "mode": "Indexed",
     "description": "When this property is enabled, the Azure portal authorizes requests to blobs, queues, and tables with Azure Active Directory by default. It is disabled by default.",
-    "metadata": {
+    "metaData": {
       "version": "1.0.0",
       "category": "Storage"
     },
-    "mode": "Indexed",
     "parameters": {
       "effect": {
         "type": "String",

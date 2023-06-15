@@ -1,13 +1,13 @@
 {
+  "name": "8ebc7bf2-d7ec-426a-b7f1-8e9bada802cb",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Do not allow container privilege escalation in Kubernetes cluster",
-    "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
     "description": "This policy does not allow containers to use privilege escalation in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
-    "metadata": {
+    "metaData": {
       "version": "1.0.0-preview",
-      "category": "Kubernetes",
-      "preview": true
+      "category": "Kubernetes"
     },
     "parameters": {
       "effect": {

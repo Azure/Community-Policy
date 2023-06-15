@@ -1,24 +1,47 @@
 {
-  "mode": "Indexed",
-  "policyRule": {
-    "if": {
-      "allof": [
-        {
-          "field": "[concat('tags[', parameters('tagName'), ']')]",
-          "exists": "false"
-        }
-      ]
+  "name": "0f36f09f-9bc6-480f-a46f-c4a4e30d9aa8",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny-resource-without-tag",
+    "mode": "Indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "General",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "deny"
-    }
-  },
-  "parameters": {
-    "tagName": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Tag name",
-        "description": "Name of the tag to enforce"
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag name",
+          "description": "Name of the tag to enforce"
+        }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allof": [
+          {
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "exists": "false"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
       }
     }
   }

@@ -1,10 +1,11 @@
 {
   "name": "efa5ffc1-e9b5-4311-a4cb-e8d695cb19ae",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Network Security Groups - Allow inbound rules with any as source",
     "mode": "All",
     "description": "This policy restricts the creation of inbound security rules with the source \"Any\" with allow access action.",
-    "metadata": {
+    "metaData": {
       "version": "1.0.0",
       "category": "Network"
     },

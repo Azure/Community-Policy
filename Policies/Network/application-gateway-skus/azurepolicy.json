@@ -1,34 +1,54 @@
 {
-    "properties": {
-        "displayName": "Allowed Application Gateway SKUs",
-        "description": "This policy enables you to specify a set of application Gateway SKUs that your organization can deploy.",
-        "parameters": {
-            "listOfAllowedSKUs": {
-                "type": "Array",
-                "metadata": {
-                    "description": "The list of SKUs that can be specified for application gateways.",
-                    "displayName": "Allowed SKUs"
-                }
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Network/applicationGateways"
-                    },
-                    {
-                        "not": {
-                            "field": "Microsoft.Network/applicationGateways/sku.name",
-                            "in": "[parameters('listOfAllowedSKUs')]"
-                        }
-                    }
-                ]
-            },
-            "then": {
-                "effect": "Deny"
-            }
+  "name": "974342ca-6b30-48d8-95ff-f77df73073bc",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Allowed Application Gateway SKUs",
+    "mode": "indexed",
+    "description": "This policy enables you to specify a set of application Gateway SKUs that your organization can deploy.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "listOfAllowedSKUs": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of SKUs that can be specified for application gateways.",
+          "displayName": "Allowed SKUs"
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/applicationGateways"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/applicationGateways/sku.name",
+              "in": "[parameters('listOfAllowedSKUs')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

@@ -1,21 +1,39 @@
 {
-  "policyType": "Custom",
-  "mode": "All",
-  "displayName": "Manual Policy per subscription",
-  "policyRule": {
-    "if": {
-      "field": "type",
-      "equals": "Microsoft.Resources/subscriptions"
+  "name": "72703f17-be70-4dc3-8ed6-dfc7292696a0",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Manual Policy per subscription",
+    "mode": "All",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "General",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "manual",
-      "details": {
-        "defaultState": "Unknown"
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Manual",
+          "Disabled"
+        ],
+        "defaultValue": "Manual",
+        "type": "string",
+        "metaData": {
+          "description": "Manual or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Resources/subscriptions"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "defaultState": "Unknown"
+        }
       }
     }
-  },
-  "parameters": {},
-  "id": "/providers/Microsoft.Management/managementGroups/XXX/providers/Microsoft.Authorization/policyDefinitions/manualattestsubscriptions",
-  "name": "manualattestsubscriptions",
-  "type": "Microsoft.Authorization/policyDefinitions"
+  }
 }

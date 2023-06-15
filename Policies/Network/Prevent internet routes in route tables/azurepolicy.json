@@ -1,67 +1,67 @@
 {
-  "Description": "This policy prevents next hop internet in route tables.",
-  "DisplayName": "Prevent internet routes in route tables",
-  "Metadata": {
-    "category": "Network",
-    "createdBy": "",
-    "createdOn": "2021-10-05T10:43:35.8162341Z",
-    "updatedBy": null,
-    "updatedOn": null
-  },
-  "Mode": "Indexed",
-  "Parameters": {
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "description": "The effect of the policy",
-        "displayName": "Effect"
-      },
-      "allowedValues": [
-        "audit",
-        "deny",
-        "disabled"
-      ],
-      "defaultValue": "deny"
-    }
-  },
-  "PolicyRule": {
-    "if": {
-      "anyOf": [
-        {
-          "allOf": [
-            {
-              "equals": "Microsoft.Network/routeTables",
-              "field": "type"
-            },
-            {
-              "count": {
-                "field": "Microsoft.Network/routeTables/routes[*]",
-                "where": {
-                  "equals": "Internet",
-                  "field": "Microsoft.Network/routeTables/routes[*].nextHopType"
-                }
-              },
-              "greater": 0
-            }
-          ]
-        },
-        {
-          "allOf": [
-            {
-              "equals": "Microsoft.Network/routeTables/routes",
-              "field": "type"
-            },
-            {
-              "equals": "Internet",
-              "field": "Microsoft.Network/routeTables/routes/nextHopType"
-            }
-          ]
-        }
-      ]
+  "name": "a98f523c-0a5f-458a-a9ac-48c2547c42fe",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Prevent internet routes in route tables",
+    "mode": "indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "[parameters('effect')]"
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "description": "The effect of the policy",
+          "displayName": "Effect"
+        },
+        "allowedValues": [
+          "audit",
+          "deny",
+          "disabled"
+        ],
+        "defaultValue": "deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "equals": "Microsoft.Network/routeTables",
+                "field": "type"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/routeTables/routes[*]",
+                  "where": {
+                    "equals": "Internet",
+                    "field": "Microsoft.Network/routeTables/routes[*].nextHopType"
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "equals": "Microsoft.Network/routeTables/routes",
+                "field": "type"
+              },
+              {
+                "equals": "Internet",
+                "field": "Microsoft.Network/routeTables/routes/nextHopType"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
-  },
-  "PolicyType": 1
+  }
 }

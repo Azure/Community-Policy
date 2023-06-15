@@ -1,63 +1,86 @@
 {
+  "name": "b0c8d6e7-950f-4b3d-95e5-67d64a5004ec",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deny-vm-vmss-and-load-balancer-from-subnet",
     "mode": "All",
-    "policyRule": {
-        "if": {
-            "anyOf": [
-                {
-                    "allOf": [
-                        {
-                            "field": "type",
-                            "equals": "Microsoft.Compute/VirtualMachineScaleSets"
-                        },
-                        {
-                            "field": "Microsoft.Compute/VirtualMachineScaleSets/networkInterfaceConfigurations[*].ipConfigurations[*].subnet.id",
-                            "Contains": "[parameters('deniedSubnetName')]"
-                        }
-                    ]
-                },
-                {
-                    "allOf": [
-                        {
-                            "field": "type",
-                            "equals": "Microsoft.Network/networkInterfaces"
-                        },
-                        {
-                            "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
-                            "Contains": "[parameters('deniedSubnetName')]"
-                        }
-                    ]
-                },
-                {
-                    "allOf": [
-                        {
-                            "field": "type",
-                            "equals": "Microsoft.Network/loadBalancers"
-                        },
-                        {
-                            "count": {
-                                "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*]",
-                                "where": {
-                                    "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].subnet.id",
-                                    "like": "[concat('*',parameters('deniedSubnetName'))]"
-                                }
-                            },
-                            "greater": 0
-                        }
-                    ]
-                }
-            ]
-        },
-        "then": {
-            "effect": "deny"
-        }
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
     },
     "parameters": {
-        "deniedSubnetName": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Name of subnet where VM, VMSS, and LB are denied.",
-                "description": "The creation of VM, VMSS, and LB in the defined subnet will be denied"
-            }
+      "deniedSubnetName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Name of subnet where VM, VMSS, and LB are denied.",
+          "description": "The creation of VM, VMSS, and LB in the defined subnet will be denied"
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Compute/VirtualMachineScaleSets"
+              },
+              {
+                "field": "Microsoft.Compute/VirtualMachineScaleSets/networkInterfaceConfigurations[*].ipConfigurations[*].subnet.id",
+                "Contains": "[parameters('deniedSubnetName')]"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/networkInterfaces"
+              },
+              {
+                "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
+                "Contains": "[parameters('deniedSubnetName')]"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/loadBalancers"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*]",
+                  "where": {
+                    "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].subnet.id",
+                    "like": "[concat('*',parameters('deniedSubnetName'))]"
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

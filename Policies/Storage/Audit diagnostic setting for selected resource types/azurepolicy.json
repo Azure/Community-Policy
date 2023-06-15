@@ -1,58 +1,70 @@
 {
-  "Description": "This policy audit the existence of diagnostic setting and specific log analytics workspaceId for selected resource types.",
-  "DisplayName": "Audit diagnostic setting for selected resource types",
-  "Metadata": {
-    "category": "Storage",
-    "createdBy": "",
-    "createdOn": "2021-10-05T11:07:08.9491697Z",
-    "updatedBy": null,
-    "updatedOn": null
-  },
-  "Mode": "All",
-  "Parameters": {
-    "listOfResourceTypes": {
-      "type": "Array",
-      "metadata": {
-        "displayName": "Resource Types",
-        "strongType": "resourceTypes"
-      }
+  "name": "99f59b87-9a68-4adc-9a67-3995aeb1856a",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit diagnostic setting for selected resource types",
+    "mode": "indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Storage",
+      "version": "1.0.0"
     },
-    "logAnalyticsWorkspaceId": {
-      "type": "String",
-      "metadata": {
-        "description": "Specify the Log Analytics workspace the logs should be streamed to.",
-        "displayName": "Log Analytics workspaceId",
-        "strongType": "omsWorkspace"
-      }
-    }
-  },
-  "PolicyRule": {
-    "if": {
-      "field": "type",
-      "in": "[parameters('listOfResourceTypes')]"
-    },
-    "then": {
-      "details": {
-        "existenceCondition": {
-          "allOf": [
-            {
-              "equals": "true",
-              "field": "Microsoft.Insights/diagnosticSettings/logs.enabled"
-            },
-            {
-              "equals": "true",
-              "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled"
-            },
-            {
-              "equals": "[parameters('logAnalyticsWorkspaceId')]",
-              "field": "Microsoft.Insights/diagnosticSettings/workspaceId"
-            }
-          ]
-        },
-        "type": "Microsoft.Insights/diagnosticSettings"
+    "parameters": {
+      "listOfResourceTypes": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Resource Types",
+          "strongType": "resourceTypes"
+        }
       },
-      "effect": "AuditIfNotExists"
+      "logAnalyticsWorkspaceId": {
+        "type": "String",
+        "metadata": {
+          "description": "Specify the Log Analytics workspace the logs should be streamed to.",
+          "displayName": "Log Analytics workspaceId",
+          "strongType": "omsWorkspace"
+        }
+      },
+      "effect": {
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": "[parameters('listOfResourceTypes')]"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "existenceCondition": {
+            "allOf": [
+              {
+                "equals": "true",
+                "field": "Microsoft.Insights/diagnosticSettings/logs.enabled"
+              },
+              {
+                "equals": "true",
+                "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled"
+              },
+              {
+                "equals": "[parameters('logAnalyticsWorkspaceId')]",
+                "field": "Microsoft.Insights/diagnosticSettings/workspaceId"
+              }
+            ]
+          },
+          "type": "Microsoft.Insights/diagnosticSettings"
+        }
+      }
     }
-  },
-  "PolicyType": 1
+  }
 }

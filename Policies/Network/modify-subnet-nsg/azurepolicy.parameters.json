@@ -1,9 +1,23 @@
 {
-    "networkSecurityGroupSettings": {
-        "type": "Object",
-        "metadata": {
-            "displayName": "Network Security Group Settings",
-            "description": "Location-specific settings for network security groups."
-        }
+  "networkSecurityGroupSettings": {
+    "type": "Object",
+    "metadata": {
+      "displayName": "Network Security Group Settings",
+      "description": "Location-specific settings for network security groups."
     }
+  },
+  "effect": {
+    "allowedValues": [
+      "Modify",
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Modify",
+    "type": "string",
+    "metaData": {
+      "description": "Modify, Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

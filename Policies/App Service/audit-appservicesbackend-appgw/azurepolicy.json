@@ -1,12 +1,13 @@
 {
+  "name": "8c34e43a-bd44-43b1-9dd3-680723357f57",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "name": "HTTPSAppsRequireAppGWFrontEnd",
     "displayName": "Apps Require App Gateway Front End",
-    "description": "Custom policy requires that HTTP(S) triggered apps require App GW Front-End so that inbound ports are not opened on apps",
-    "policyType": "Custom",
     "mode": "All",
-    "metadata": {
-      "category": "App Service"
+    "description": "Custom policy requires that HTTP(S) triggered apps require App GW Front-End so that inbound ports are not opened on apps",
+    "metaData": {
+      "category": "App Service",
+      "version": "1.0.0"
     },
     "parameters": {
       "effect": {
@@ -15,13 +16,18 @@
           "description": "Policy effect either disabled or auditIfNotExists"
         },
         "defaultValue": "auditIfNotExists",
-        "allowedValues": ["auditIfNotExists", "disabled"]
+        "allowedValues": [
+          "auditIfNotExists",
+          "disabled"
+        ]
       }
     },
     "policyRule": {
       "if": {
         "field": "type",
-        "in": ["Microsoft.Web/sites"]
+        "in": [
+          "Microsoft.Web/sites"
+        ]
       },
       "then": {
         "effect": "[parameters('effect')]",

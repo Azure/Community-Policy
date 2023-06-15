@@ -1,48 +1,60 @@
 {
-    "policyEffect": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Policy Effect Analytics Workspace",
-            "description": "The Policy Effect associated with this Policy Definition"
-        },
-        "defaultValue": "AuditIfNotExists"
+  "policyEffect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Policy Effect",
+      "description": "The Policy Effect associated with this Policy Definition"
     },
-    "profileName": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Profile Name",
-            "description": "The profile name of the Diagnostic Settings"
-        }
+    "defaultValue": "AuditIfNotExists"
+  },
+  "profileName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Profile name",
+      "description": "The diagnostic settings profile name"
     },
-    "logAnalytics": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Log Analytics Workspace",
-            "description": "The resource Id of the Log Analytics Workspace"
-        }
-    },
-    "metricsEnabled": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Metrics Enabled",
-            "description": "Whether the metrics will be send to the Log Analytics Workspace or not"
-        },
-        "allowedValues": [
-            "True",
-            "False"
-        ],
-        "defaultValue": "True"
-    },
-    "logsEnabled": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Logs Enabled",
-            "description": "Whether the logs will be send to the Log Analytics Workspace or not"
-        },
-        "allowedValues": [
-            "True",
-            "False"
-        ],
-        "defaultValue": "True"
+    "defaultValue": "DeployedByPolicy"
+  },
+  "logAnalytics": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Log Analytics Workspace",
+      "description": "Select Log Analytics workspace from dropdown list. If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+      "strongType": "omsWorkspace",
+      "assignPermissions": true
     }
+  },
+  "metricsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enable metrics",
+      "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+    },
+    "allowedValues": [
+      "True",
+      "False"
+    ],
+    "defaultValue": "True"
+  },
+  "logsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enable logs",
+      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+    },
+    "allowedValues": [
+      "True",
+      "False"
+    ],
+    "defaultValue": "True"
+  },
+  "effect": {
+    "allowedValues": null,
+    "defaultValue": null,
+    "type": "string",
+    "metaData": {
+      "description": null,
+      "displayName": "Policy effect"
+    }
+  }
 }

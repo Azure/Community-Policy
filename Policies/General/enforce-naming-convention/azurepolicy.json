@@ -1,59 +1,83 @@
 {
-  "mode": "Indexed",
-  "policyRule": {
-    "if": {
-      "anyOf": [
-        {
-          "count": {
-            "value": [
-              "vm",
-              "vnet",
-              "kv",
-              "sql"
-            ],
-            "name": "pattern",
-            "where": {
-              "value": "[split(field('name'), '-')[0]]",
-              "like": "[current('pattern')]"
-            }
-          },
-          "notEquals": 1
-        },
-        {
-          "count": {
-            "value": [
-              "dev",
-              "test",
-              "prod"
-            ],
-            "name": "pattern",
-            "where": {
-              "value": "[split(field('name'), '-')[1]]",
-              "like": "[current('pattern')]"
-            }
-          },
-          "notEquals": 1
-        },
-        {
-          "count": {
-            "value": [
-              "centralus",
-              "eastus",
-              "westus"
-            ],
-            "name": "pattern",
-            "where": {
-              "value": "[split(field('name'), '-')[2]]",
-              "like": "[current('pattern')]"
-            }
-          },
-          "notEquals": 1
-        }
-      ]
+  "name": "35bdd347-7d4e-46d8-922a-20823119a6ed",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "enforce-naming-convention",
+    "mode": "Indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "General",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "deny"
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "count": {
+              "value": [
+                "vm",
+                "vnet",
+                "kv",
+                "sql"
+              ],
+              "name": "pattern",
+              "where": {
+                "value": "[split(field('name'), '-')[0]]",
+                "like": "[current('pattern')]"
+              }
+            },
+            "notEquals": 1
+          },
+          {
+            "count": {
+              "value": [
+                "dev",
+                "test",
+                "prod"
+              ],
+              "name": "pattern",
+              "where": {
+                "value": "[split(field('name'), '-')[1]]",
+                "like": "[current('pattern')]"
+              }
+            },
+            "notEquals": 1
+          },
+          {
+            "count": {
+              "value": [
+                "centralus",
+                "eastus",
+                "westus"
+              ],
+              "name": "pattern",
+              "where": {
+                "value": "[split(field('name'), '-')[2]]",
+                "like": "[current('pattern')]"
+              }
+            },
+            "notEquals": 1
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
-  },
-  "parameters": {}
+  }
 }

@@ -1,24 +1,33 @@
 {
-    "profileName": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Profile Name",
-            "description": "The profile name of the Diagnostic Settings"
-        }
-    },
-    "logAnalyticsWorkspace": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Log Analytics Workspace",
-            "description": "The resource Id of the Log Analytics Workspace"
-        }
-    },
-    "policyEffect": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Policy Effect",
-            "description": "The Policy Effect associated with this Policy Definition"
-        },
-        "defaultValue": "AuditIfNotExists"
+  "profileName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Profile Name",
+      "description": "The profile name of the Diagnostic Settings"
     }
+  },
+  "logAnalyticsWorkspace": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Log Analytics Workspace",
+      "description": "The resource Id of the Log Analytics Workspace"
+    }
+  },
+  "policyEffect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Policy Effect",
+      "description": "The Policy Effect associated with this Policy Definition"
+    },
+    "defaultValue": "AuditIfNotExists"
+  },
+  "effect": {
+    "allowedValues": null,
+    "defaultValue": null,
+    "type": "string",
+    "metaData": {
+      "description": null,
+      "displayName": "Policy effect"
+    }
+  }
 }

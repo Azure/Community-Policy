@@ -13,5 +13,17 @@
       "displayName": "Log Analytics workspaceId",
       "strongType": "omsWorkspace"
     }
+  },
+  "effect": {
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
   }
 }

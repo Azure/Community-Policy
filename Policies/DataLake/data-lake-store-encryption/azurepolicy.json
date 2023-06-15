@@ -1,28 +1,45 @@
 {
-   "properties": {
-      "displayName": "Enforce encryption on Data Lake Store accounts",
-      "mode": "Indexed",
-      "description": "This policy ensures encryption is enabled on all Data Lake Store accounts",
-      "metadata": {
-         "category": "Data Lake"
-      },
-      "parameters": {},
-      "policyRule": {
-         "if": {
-            "allOf": [
-               {
-                  "field": "type",
-                  "equals": "Microsoft.DataLakeStore/accounts"
-               },
-               {
-                  "field": "Microsoft.DataLakeStore/accounts/encryptionState",
-                  "equals": "Disabled"
-               }
-            ]
-         },
-         "then": {
-            "effect": "deny"
-         }
+  "name": "a3028828-6cdc-4adf-96a7-439937be8b83",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce encryption on Data Lake Store accounts",
+    "mode": "Indexed",
+    "description": "This policy ensures encryption is enabled on all Data Lake Store accounts",
+    "metaData": {
+      "category": "Data Lake",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
       }
-   }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.DataLakeStore/accounts"
+          },
+          {
+            "field": "Microsoft.DataLakeStore/accounts/encryptionState",
+            "equals": "Disabled"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
 }

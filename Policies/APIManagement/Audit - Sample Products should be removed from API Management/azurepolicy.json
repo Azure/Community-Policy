@@ -3,12 +3,12 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit - Sample Products should be removed from API Management",
-    "description": "API Management includes two sample products Starter and Unlimited. Accidentally adding APIs to these sample products may expose APIs more than intended.",
-    "metadata": {
-      "category": "API Management",
-      "version": "1.0.0"
-    },
     "mode": "All",
+    "description": "API Management includes two sample products Starter and Unlimited. Accidentally adding APIs to these sample products may expose APIs more than intended.",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "API Management"
+    },
     "parameters": {
       "effect": {
         "type": "String",

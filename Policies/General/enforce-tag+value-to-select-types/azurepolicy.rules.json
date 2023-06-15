@@ -1,37 +1,37 @@
 {
-    "if": {
-        "allOf": [
-            {
-                "field": "type",
-                "in": "[parameters('resourceTypes')]"
-            },
-            {
-                "anyOf": [
-                    {
-                        "field": "[concat('tags[', parameters('tagName'), ']')]",
-                        "exists": false
-                    },
-                    {
-                        "field": "[concat('tags[', parameters('tagName'), ']')]",
-                        "notEquals": "[parameters('tagValue')]"
-                    }
-                ]
-            }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "in": "[parameters('resourceTypes')]"
+      },
+      {
+        "anyOf": [
+          {
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "exists": false
+          },
+          {
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "notEquals": "[parameters('tagValue')]"
+          }
         ]
-    },
-    "then": {
-        "effect": "modify",
-        "details": {
-            "roleDefinitionIds": [
-                "/providers/microsoft.authorization/roleDefinitions/{roleID}"
-            ],
-            "operations": [
-                {
-                    "operation": "addOrReplace",
-                    "field": "[concat('tags[', parameters('tagName'), ']')]",
-                    "value": "[parameters('tagValue')]"
-                }
-            ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/{roleID}"
+      ],
+      "operations": [
+        {
+          "operation": "addOrReplace",
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "value": "[parameters('tagValue')]"
         }
+      ]
     }
+  }
 }

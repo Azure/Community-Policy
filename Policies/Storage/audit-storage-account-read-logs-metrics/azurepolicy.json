@@ -1,49 +1,57 @@
 {
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "storage-account-read-logs-metrics-audit",
-    "properties": {
-        "displayName": "Storage Account - Read Access Logs and Metrics AUDIT",
-        "policyType": "Custom",
-        "mode": "All",
-        "description": "This Azure Policy creates an audit event when the 'Allow read access to storage logging from any network' and 'Allow read access to storage metrics from any network' settings are 'Enabled'.",
+  "name": "storage-account-read-logs-metrics-audit",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage Account - Read Access Logs and Metrics AUDIT",
+    "mode": "All",
+    "description": "This Azure Policy creates an audit event when the 'Allow read access to storage logging from any network' and 'Allow read access to storage metrics from any network' settings are 'Enabled'.",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "Storage Account"
+    },
+    "parameters": {
+      "policyEffect": {
+        "type": "String",
         "metadata": {
-            "version": "1.0.0",
-            "category": "Storage Account"
+          "displayName": "Policy Effect",
+          "description": "The Policy Effect associated with this Policy Definition"
         },
-        "parameters": {
-            "policyEffect": {
-                "type": "String",
-                "metadata": {
-                    "displayName": "Policy Effect",
-                    "description": "The Policy Effect associated with this Policy Definition"
-                },
-                "defaultValue": "Audit"
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Storage/storageAccounts"
-                    },
-                    {
-                        "anyOf": [
-                            {
-                                "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
-                                "contains": "Logging"
-                            },
-                            {
-                                "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
-                                "contains": "Metrics"
-                            }
-                        ]
-                    }
-                ]
-            },
-            "then": {
-                "effect": "[parameters('policyEffect')]"
-            }
+        "defaultValue": "Audit"
+      },
+      "effect": {
+        "allowedValues": null,
+        "defaultValue": null,
+        "type": "string",
+        "metaData": {
+          "description": null,
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+                "contains": "Logging"
+              },
+              {
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+                "contains": "Metrics"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

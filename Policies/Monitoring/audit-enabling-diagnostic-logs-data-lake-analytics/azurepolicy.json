@@ -1,44 +1,59 @@
 {
-    "properties": {
-        "displayName": "Audit enabling of diagnostic logs in Data Lake Analytics",
-        "mode": "Indexed",
-        "description": "Audit enabling of logs and retain them up to a year. This enables you to recreate activity trails for investigation purposes when a security incident occurs or your network is compromised",
+  "name": "23b76306-9dbb-4e49-ba17-771d4ca657d5",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit enabling of diagnostic logs in Data Lake Analytics",
+    "mode": "Indexed",
+    "description": "Audit enabling of logs and retain them up to a year. This enables you to recreate activity trails for investigation purposes when a security incident occurs or your network is compromised",
+    "metaData": {
+      "category": "Data Lake",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "requiredRetentionDays": {
+        "type": "String",
+        "defaultValue": "365",
         "metadata": {
-            "category": "Data Lake"
-        },
-        "parameters": { 
-            "requiredRetentionDays": {
-              "type": "String",
-              "defaultValue": "365",
-              "metadata": {
-                "displayName": "Required retention (days)",
-                "description": "The required diagnostic logs retention in days"
-              }
-            }           
-        },
-        "policyRule": {
-            "if": {
-              "field": "type",
-              "equals": "Microsoft.DataLakeAnalytics/accounts"
-            },
-            "then": {
-              "effect": "AuditIfNotExists",
-              "details":{
-                "type": "Microsoft.Insights/diagnosticSettings",
-                "existenceCondition": {
-                  "allOf": [
-                    {
-                      "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.enabled",
-                      "equals": "true"
-                    },
-                    {
-                      "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.days",
-                      "equals": "[parameters('requiredRetentionDays')]"
-                    }
-                  ]
-                }
-              }
-            }
+          "displayName": "Required retention (days)",
+          "description": "The required diagnostic logs retention in days"
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.DataLakeAnalytics/accounts"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/diagnosticSettings",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.enabled",
+                "equals": "true"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.days",
+                "equals": "[parameters('requiredRetentionDays')]"
+              }
+            ]
+          }
+        }
+      }
     }
+  }
 }

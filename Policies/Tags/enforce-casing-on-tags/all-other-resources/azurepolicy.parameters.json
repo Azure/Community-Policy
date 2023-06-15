@@ -1,13 +1,27 @@
 {
-    "toLowerOrToUpper": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Enforce lowercase or uppercase",
-            "description": "If set to lowercase then the Policy will convert all tags on existing and new resources to lowercase. Uppercase will convert them to uppercase."
-        },
-        "allowedValues": [
-            "Lowercase",
-            "Uppercase"
-        ]
+  "toLowerOrToUpper": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enforce lowercase or uppercase",
+      "description": "If set to lowercase then the Policy will convert all tags on existing and new resources to lowercase. Uppercase will convert them to uppercase."
+    },
+    "allowedValues": [
+      "Lowercase",
+      "Uppercase"
+    ]
+  },
+  "effect": {
+    "allowedValues": [
+      "Modify",
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Modify",
+    "type": "string",
+    "metaData": {
+      "description": "Modify, Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
     }
+  }
 }

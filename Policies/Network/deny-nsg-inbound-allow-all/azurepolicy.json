@@ -1,66 +1,87 @@
 {
-    "properties": {
-        "displayName": "Denies NSG rule changes that allow all inbound traffic",
-        "description": "Denies the creation of network security group rules that allow all inbound traffic",
-        "mode": "All",
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
-                    },
-                    {
-                        "allOf": [
-                            {
-                                "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
-                                "equals": "Allow"
-                            },
-                            {
-                                "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
-                                "equals": "Inbound"
-                            },
-                            {
-                                "anyOf": [
-                                    {
-                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange",
-                                        "equals": "*"
-                                    },
-                                    {
-                                        "not": {
-                                            "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]",
-                                            "notEquals": "*"
-                                        }
-                                    }
-                                ]
-                            },
-                            {
-                                "anyOf": [
-                                    {
-                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
-                                        "in": [
-                                            "*",
-                                            "Internet"
-                                        ]
-                                    },
-                                    {
-                                        "not": {
-                                            "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]",
-                                            "notIn": [
-                                                "*",
-                                                "Internet"
-                                            ]
-                                        }
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "name": "99dd14d8-1542-4ef0-9e89-6fc92853f4de",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Denies NSG rule changes that allow all inbound traffic",
+    "mode": "All",
+    "description": "Denies the creation of network security group rules that allow all inbound traffic",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+                "equals": "Allow"
+              },
+              {
+                "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+                "equals": "Inbound"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange",
+                    "equals": "*"
+                  },
+                  {
+                    "not": {
+                      "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]",
+                      "notEquals": "*"
+                    }
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
+                    "in": [
+                      "*",
+                      "Internet"
+                    ]
+                  },
+                  {
+                    "not": {
+                      "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]",
+                      "notIn": [
+                        "*",
+                        "Internet"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

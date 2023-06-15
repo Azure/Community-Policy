@@ -1,73 +1,97 @@
 {
-  "mode": "All",
-  "policyRule": {
-    "if": {
-      "anyOf": [
-        {
-          "allOf": [
-            {
-              "field": "type",
-              "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
-            },
-            {
-              "not": {
-                "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
-                "notEquals": "*"
-              }
-            },
-            {
-              "anyOf": [
-                {
-                  "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange",
-                  "equals": "22"
-                },
-                {
-                  "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange",
-                  "equals": "3389"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "allOf": [
-            {
-              "field": "type",
-              "equals": "Microsoft.Network/networkSecurityGroups"
-            },
-            {
-              "count": {
-                "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
-                "where": {
-                  "allOf": [
-                    {
-                      "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix",
-                      "equals": "*"
-                    },
-                    {
-                      "anyOf": [
-                        {
-                          "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange",
-                          "equals": "22"
-                        },
-                        {
-                          "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange",
-                          "equals": "3389"
-                        }
-                      ]
-                    }
-                  ]
+  "name": "39bf9756-671b-44b9-9888-4a17dc83a565",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deny-ports-nsg",
+    "mode": "All",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+              },
+              {
+                "not": {
+                  "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
+                  "notEquals": "*"
                 }
               },
-              "greater": 0
-            }
-          ]
-        }
-      ]
-    },
-    "then": {
-      "effect": "deny"
+              {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange",
+                    "equals": "22"
+                  },
+                  {
+                    "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange",
+                    "equals": "3389"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/networkSecurityGroups"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
+                  "where": {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix",
+                        "equals": "*"
+                      },
+                      {
+                        "anyOf": [
+                          {
+                            "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange",
+                            "equals": "22"
+                          },
+                          {
+                            "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange",
+                            "equals": "3389"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
-  },
-  "parameters": {}
+  }
 }

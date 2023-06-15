@@ -1,79 +1,80 @@
 {
-    "properties": {
-        "policyType": "Custom",
-        "displayName": "Unused Public IP addresses driving cost should be avoided",
-        "mode": "All",
-        "description": "Optimize cost by detecting unused but chargeable resources. Leverage this Policy definition as a cost control to reveal orphaned Public IP addresses that are driving cost.",
+  "name": "e5881888-eeac-4986-bbf1-86de243e8039",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Unused Public IP addresses driving cost should be avoided",
+    "mode": "All",
+    "description": "Optimize cost by detecting unused but chargeable resources. Leverage this Policy definition as a cost control to reveal orphaned Public IP addresses that are driving cost.",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "Cost Optimization"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
         "metadata": {
-            "version": "1.0.0",
-            "category": "Cost Optimization"
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
         },
-        "parameters": {
-            "effect": {
-                "type": "String",
-                "metadata": {
-                    "displayName": "Effect",
-                    "description": "Enable or disable the execution of the policy"
-                },
-                "allowedValues": [
-                    "Audit",
-                    "Disabled"
-                ],
-                "defaultValue": "Audit"
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "microsoft.network/publicIpAddresses"
-                    },
-                    {
-                        "field": "Microsoft.Network/publicIPAddresses/sku.name",
-                        "notEquals": "Basic"
-                    },
-                    {
-                        "anyOf": [
-                            {
-                                "field": "Microsoft.Network/publicIPAddresses/natGateway",
-                                "exists": false
-                            },
-                            {
-                                "value": "[equals(length(field('Microsoft.Network/publicIPAddresses/natGateway')), 0)]",
-                                "equals": true
-                            }
-                        ]
-                    },
-                    {
-                        "anyOf": [
-                            {
-                                "field": "Microsoft.Network/publicIPAddresses/ipConfiguration",
-                                "exists": false
-                            },
-                            {
-                                "value": "[equals(length(field('Microsoft.Network/publicIPAddresses/ipConfiguration')), 0)]",
-                                "equals": true
-                            }
-                        ]
-                    },
-                    {
-                        "anyOf": [
-                            {
-                                "field": "Microsoft.Network/publicIPAddresses/publicIPPrefix",
-                                "exists": false
-                            },
-                            {
-                                "value": "[equals(length(field('Microsoft.Network/publicIPAddresses/publicIPPrefix')), 0)]",
-                                "equals": true
-                            }
-                        ]
-                    }
-                ]
-            },
-            "then": {
-                "effect": "[parameters('effect')]"
-            }
-        }
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "microsoft.network/publicIpAddresses"
+          },
+          {
+            "field": "Microsoft.Network/publicIPAddresses/sku.name",
+            "notEquals": "Basic"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Network/publicIPAddresses/natGateway",
+                "exists": false
+              },
+              {
+                "value": "[equals(length(field('Microsoft.Network/publicIPAddresses/natGateway')), 0)]",
+                "equals": true
+              }
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Network/publicIPAddresses/ipConfiguration",
+                "exists": false
+              },
+              {
+                "value": "[equals(length(field('Microsoft.Network/publicIPAddresses/ipConfiguration')), 0)]",
+                "equals": true
+              }
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Network/publicIPAddresses/publicIPPrefix",
+                "exists": false
+              },
+              {
+                "value": "[equals(length(field('Microsoft.Network/publicIPAddresses/publicIPPrefix')), 0)]",
+                "equals": true
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

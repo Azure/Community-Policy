@@ -1,21 +1,21 @@
 {
-    "if": {
-      "field": "[concat('tags[', parameters('tagName'), ']')]",
-      "exists": "false"
-    },
-    "then": {
-      "effect": "modify",
-      "details": {
-        "roleDefinitionIds": [
-          "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-        ],
-        "operations": [
-          {
-            "operation": "add",
-            "field": "[concat('tags[', parameters('tagName'), ']')]",
-            "value": "[concat(substring(utcNow(),5,2), '/', substring(utcNow(),8,2), '/', substring(utcNow(),0,4))]"
-          }
-        ]
-      }
+  "if": {
+    "field": "[concat('tags[', parameters('tagName'), ']')]",
+    "exists": "false"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/4a9ae827-6dc8-4573-8ac7-8239d42aa03f"
+      ],
+      "operations": [
+        {
+          "operation": "add",
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "value": "[concat(substring(utcNow(),5,2), '/', substring(utcNow(),8,2), '/', substring(utcNow(),0,4))]"
+        }
+      ]
     }
   }
+}

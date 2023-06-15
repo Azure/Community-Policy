@@ -9,5 +9,14 @@
       "Audit"
     ],
     "defaultValue": "Audit"
+  },
+  "effect": {
+    "allowedValues": null,
+    "defaultValue": null,
+    "type": "string",
+    "metaData": {
+      "description": null,
+      "displayName": "Policy effect"
+    }
   }
 }

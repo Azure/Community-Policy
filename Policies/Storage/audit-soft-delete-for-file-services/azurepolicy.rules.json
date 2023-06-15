@@ -1,32 +1,32 @@
 {
-    "if": {
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      {
+        "field": "kind",
+        "notEquals": "BlobStorage"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Storage/storageAccounts/fileServices",
+      "existenceCondition": {
         "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Storage/storageAccounts"
-            },
-            {
-                "field": "kind",
-                "notEquals": "BlobStorage"
-            }
+          {
+            "field": "Microsoft.Storage/storageAccounts/fileServices/default.shareDeleteRetentionPolicy.enabled",
+            "equals": true
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/fileServices/default.shareDeleteRetentionPolicy.days",
+            "equals": "[parameters('retentionInDays')]"
+          }
         ]
-    },
-    "then": {
-        "effect": "[parameters('effect')]",
-        "details": {
-            "type": "Microsoft.Storage/storageAccounts/fileServices",
-            "existenceCondition": {
-                "allOf": [
-                    {
-                        "field": "Microsoft.Storage/storageAccounts/fileServices/default.shareDeleteRetentionPolicy.enabled",
-                        "equals": true
-                    },
-                    {
-                        "field": "Microsoft.Storage/storageAccounts/fileServices/default.shareDeleteRetentionPolicy.days",
-                        "equals": "[parameters('retentionInDays')]"
-                    }
-                ]
-            }
-        }
+      }
     }
+  }
 }

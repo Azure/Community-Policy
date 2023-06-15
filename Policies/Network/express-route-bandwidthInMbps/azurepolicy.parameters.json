@@ -1,9 +1,22 @@
 {
-	"listOfBandwidthinMbps": {
-		"type": "Array",
-		"metadata": {
-			"description": "The list of SKUs that can be specified for express route.",
-			"displayName": "Allowed Bandwidth"
-		}
-	}
+  "listOfBandwidthinMbps": {
+    "type": "Array",
+    "metadata": {
+      "description": "The list of SKUs that can be specified for express route.",
+      "displayName": "Allowed Bandwidth"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

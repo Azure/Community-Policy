@@ -1,42 +1,42 @@
 {
-    "addressPrefix": {
-        "type": "string",
-        "metadata": {
-            "description": "The destination IP address range in CIDR notation that this Policy checks for within the UDR. Example: 0.0.0.0/0 to check for the presence of a default route.",
-            "displayName": "Address Prefix"
-        }
-    },
-    "nextHopType": {
-        "type": "string",
-        "metadata": {
-            "description": "The next hope type that the policy checks for within the inspected route. The value can be Virtual Network, Virtual Network Gateway, Internet, Virtual Appliance, or None.",
-            "displayName": "Next Hop Type"
-        },
-        "allowedValues": [
-            "VnetLocal",
-            "VirtualNetworkGateway",
-            "Internet",
-            "VirtualAppliance",
-            "None"
-        ]
-    },
-    "nextHopIpAddress": {
-        "type": "string",
-        "metadata": {
-            "description": "The IP address packets should be forwarded to.",
-            "displayName": "Next Hop IP Address"
-        }
-    },
-    "effect": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Effect",
-            "description": "Enable or disable the execution of the policy"
-        },
-        "allowedValues": [
-            "Modify",
-            "Disabled"
-        ],
-        "defaultValue": "Modify"
+  "addressPrefix": {
+    "type": "string",
+    "metadata": {
+      "description": "The destination IP address range in CIDR notation that this Policy checks for within the UDR. Example: 0.0.0.0/0 to check for the presence of a default route.",
+      "displayName": "Address Prefix"
     }
+  },
+  "nextHopType": {
+    "type": "string",
+    "metadata": {
+      "description": "The next hope type that the policy checks for within the inspected route. The value can be Virtual Network, Virtual Network Gateway, Internet, Virtual Appliance, or None.",
+      "displayName": "Next Hop Type"
+    },
+    "allowedValues": [
+      "VnetLocal",
+      "VirtualNetworkGateway",
+      "Internet",
+      "VirtualAppliance",
+      "None"
+    ]
+  },
+  "nextHopIpAddress": {
+    "type": "string",
+    "metadata": {
+      "description": "The IP address packets should be forwarded to.",
+      "displayName": "Next Hop IP Address"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "Disabled",
+      "Modify"
+    ],
+    "defaultValue": "Modify"
+  }
 }

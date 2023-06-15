@@ -1,23 +1,23 @@
 {
-    "if": {
-        "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Network/networkInterfaces"
-            },
-            {
-                "count": {
-                    "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].applicationSecurityGroups[*]",
-                    "where": {
-                        "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].applicationSecurityGroups[*].id",
-                        "notContains": "[resourceGroup().id]"
-                    }
-                },
-                "notEquals": 0
-            }
-        ]
-    },
-    "then": {
-        "effect": "[parameters('effect')]"
-    }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "count": {
+          "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].applicationSecurityGroups[*]",
+          "where": {
+            "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].applicationSecurityGroups[*].id",
+            "notContains": "[resourceGroup().id]"
+          }
+        },
+        "notEquals": 0
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

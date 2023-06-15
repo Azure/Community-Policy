@@ -1,17 +1,17 @@
 {
-    "if": {
-        "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.DBforPostgreSQL/servers"
-            },
-            {
-                "field": "Microsoft.DBforPostgreSQL/servers/sku.tier",
-                "notIn": "[parameters('allowedSkus')]"
-            }
-        ]
-    },
-    "then": {
-        "effect": "deny"
-    }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.DBforPostgreSQL/servers"
+      },
+      {
+        "field": "Microsoft.DBforPostgreSQL/servers/sku.tier",
+        "notIn": "[parameters('allowedSkus')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

@@ -1,35 +1,51 @@
 {
-    "properties": {
-        "displayName": "Append AKS API IP Restrictions",
-        "mode": "Indexed",
-        "description": "This policy will restrict access to the AKS API server as documented here: https://docs.microsoft.com/en-us/azure/aks/api-server-authorized-ip-ranges",
+  "name": "fe6a9f65-f46f-4de6-a406-915f640beba0",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Append AKS API IP Restrictions",
+    "mode": "Indexed",
+    "description": "This policy will restrict access to the AKS API server as documented here: https://docs.microsoft.com/en-us/azure/aks/api-server-authorized-ip-ranges",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "Kubernetes"
+    },
+    "parameters": {
+      "listOfAllowedIps": {
+        "type": "Array",
         "metadata": {
-            "category": "Kubernetes",
-            "version": "1.0.0"
-        },
-        "parameters": {
-            "listOfAllowedIps": {
-                "type": "Array",
-                "metadata": {
-                    "displayName": "Allowed IP's",
-                    "description": "A list of IP's that are allowed to access the AKS API server."
-                }
-            }
-        },
-        "policyRule": {
-            "if": {
-                "field": "type",
-                "equals": "Microsoft.ContainerService/managedClusters"
-            },
-            "then": {
-                "effect": "append",
-                "details": [
-                    {
-                        "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges",
-                        "value": "[parameters('listOfAllowedIps')]"
-                    }
-                ]
-            }
+          "displayName": "Allowed IP's",
+          "description": "A list of IP's that are allowed to access the AKS API server."
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Append",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Append",
+        "type": "string",
+        "metaData": {
+          "description": "Append, Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.ContainerService/managedClusters"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": [
+          {
+            "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges",
+            "value": "[parameters('listOfAllowedIps')]"
+          }
+        ]
+      }
     }
+  }
 }

@@ -1,57 +1,57 @@
 {
-  "Description": "This policy prevent specific services (VM, ARM, ADE) access to kv.",
-  "DisplayName": "Deny deployment with access to specific services (VM, ARM, ADE)",
-  "Metadata": {
-    "category": "Key Vault",
-    "createdBy": "",
-    "createdOn": "2021-10-05T11:35:32.3943468Z",
-    "updatedBy": null,
-    "updatedOn": null
-  },
-  "Mode": "Indexed",
-  "Parameters": {
-    "effect": {
-      "type": "String",
-      "metadata": {
-        "description": "Enable or disable the execution of the policy",
-        "displayName": "Effect"
-      },
-      "allowedValues": [
-        "audit",
-        "deny",
-        "disabled"
-      ],
-      "defaultValue": "audit"
-    }
-  },
-  "PolicyRule": {
-    "if": {
-      "allOf": [
-        {
-          "equals": "Microsoft.KeyVault/vaults",
-          "field": "type"
-        },
-        {
-          "anyOf": [
-            {
-              "equals": "true",
-              "field": "Microsoft.KeyVault/vaults/enabledForDeployment"
-            },
-            {
-              "equals": "true",
-              "field": "Microsoft.KeyVault/vaults/enabledForDiskEncryption"
-            },
-            {
-              "equals": "true",
-              "field": "Microsoft.KeyVault/vaults/enabledForTemplateDeployment"
-            }
-          ]
-        }
-      ]
+  "name": "cd60fbd3-564f-474c-97b3-19e28d92a9d4",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny deployment with access to specific services (VM, ARM, ADE)",
+    "mode": "indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "KeyVault",
+      "version": "1.0.0"
     },
-    "then": {
-      "effect": "[parameters('effect')]"
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "description": "Enable or disable the execution of the policy",
+          "displayName": "Effect"
+        },
+        "allowedValues": [
+          "audit",
+          "deny",
+          "disabled"
+        ],
+        "defaultValue": "audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.KeyVault/vaults",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "equals": "true",
+                "field": "Microsoft.KeyVault/vaults/enabledForDeployment"
+              },
+              {
+                "equals": "true",
+                "field": "Microsoft.KeyVault/vaults/enabledForDiskEncryption"
+              },
+              {
+                "equals": "true",
+                "field": "Microsoft.KeyVault/vaults/enabledForTemplateDeployment"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
-  },
-  "PolicyType": 1
+  }
 }

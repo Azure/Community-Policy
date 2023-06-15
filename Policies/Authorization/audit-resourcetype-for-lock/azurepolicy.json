@@ -1,56 +1,73 @@
 {
-    "name":"audit-resourcetype-for-lock",
-    "properties":{
-       "displayName":"Audit Specified Resource Type For Any Lock",
-       "description":"This policy audits the specified resource type for any lock such as 'CanNotDelete' or 'ReadOnly'.",
-       "mode":"All",
-       "parameters":{
-          "resourceTypes":{
-             "type":"Array",
-             "metadata":{
-                "description":"Azure resource types to audit for any lock",
-                "displayName":"resourceTypes"
-             },
-             "defaultValue":[
-                "microsoft.network/expressroutecircuits",
-                "microsoft.network/expressroutegateways",
-                "microsoft.network/virtualnetworks",
-                "microsoft.network/virtualnetworkgateways",
-                "microsoft.network/vpngateways",
-                "microsoft.network/p2svpngateways"
-             ]
+  "name": "audit-resourcetype-for-lock",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit Specified Resource Type For Any Lock",
+    "mode": "All",
+    "description": "This policy audits the specified resource type for any lock such as 'CanNotDelete' or 'ReadOnly'.",
+    "metaData": {
+      "category": "Authorization",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "resourceTypes": {
+        "type": "Array",
+        "metadata": {
+          "description": "Azure resource types to audit for any lock",
+          "displayName": "resourceTypes"
+        },
+        "defaultValue": [
+          "microsoft.network/expressroutecircuits",
+          "microsoft.network/expressroutegateways",
+          "microsoft.network/virtualnetworks",
+          "microsoft.network/virtualnetworkgateways",
+          "microsoft.network/vpngateways",
+          "microsoft.network/p2svpngateways"
+        ]
+      },
+      "lockLevel": {
+        "type": "Array",
+        "metadata": {
+          "description": "The lock level to audit for",
+          "displayName": "lockLevel"
+        },
+        "allowedValues": [
+          "ReadOnly",
+          "CanNotDelete"
+        ],
+        "defaultValue": [
+          "ReadOnly",
+          "CanNotDelete"
+        ]
+      },
+      "effect": {
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "type": "string",
+        "metaData": {
+          "description": "AuditIfNotExists or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": "[parameters('resourceTypes')]"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "existenceCondition": {
+            "field": "Microsoft.Authorization/locks/level",
+            "in": "[parameters('lockLevel')]"
           },
-          "lockLevel":{
-             "type":"Array",
-             "metadata":{
-                "description":"The lock level to audit for",
-                "displayName":"lockLevel"
-             },
-             "allowedValues":[
-                "ReadOnly",
-                "CanNotDelete"
-             ],
-             "defaultValue":[
-                "ReadOnly",
-                "CanNotDelete"
-             ]
-          }
-       },
-       "policyRule":{
-          "if":{
-             "field":"type",
-             "in":"[parameters('resourceTypes')]"
-          },
-          "then":{
-             "details":{
-                "existenceCondition":{
-                   "field":"Microsoft.Authorization/locks/level",
-                   "in":"[parameters('lockLevel')]"
-                },
-                "type":"Microsoft.Authorization/locks"
-             },
-             "effect":"auditIfNotExists"
-          }
-       }
+          "type": "Microsoft.Authorization/locks"
+        }
+      }
     }
+  }
 }

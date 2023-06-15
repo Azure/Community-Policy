@@ -3,12 +3,12 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Storage accounts should prevent allowed copy scope outside AAD tenant",
+    "mode": "All",
     "description": "Audit restriction of copy operations for your storage account. By default, users can copy from source storage account in one Azure AD tenant and a destination account in a different tenant. It is a security concern because customer's data can be replicated to a storage account that is owned by the customer. By setting allowedCopyScope to AAD, copy operations can be done only if both source and destination accounts are in the same Azure AD tenant.",
-    "metadata": {
+    "metaData": {
       "version": "1.0.0",
       "category": "Storage"
     },
-    "mode": "All",
     "parameters": {
       "effect": {
         "type": "String",

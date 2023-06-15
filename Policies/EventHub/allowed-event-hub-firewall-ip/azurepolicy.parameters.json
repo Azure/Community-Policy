@@ -6,5 +6,18 @@
       "description": "List of IPs allowed for event hub firewall"
     },
     "defaultValue": []
+  },
+  "effect": {
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Deny",
+    "type": "string",
+    "metaData": {
+      "description": "Deny, Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
   }
 }

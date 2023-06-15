@@ -1,29 +1,48 @@
 {
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "deny-hybrid-use-benefit",
-    "properties": {
-        "displayName": "Deny hybrid use benefit",
-        "description": "This policy will deny usage of hybrid use benefit.",
-        "parameters": {},
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "in": [
-                            "Microsoft.Compute/virtualMachines",
-                            "Microsoft.Compute/VirtualMachineScaleSets"
-                        ]
-                    },
-                    {
-                        "field": "Microsoft.Compute/licenseType",
-                        "equals": "Windows_Server"
-                    }
-                ]
-            },
-            "then": {
-                "effect": "deny"
-            }
+  "name": "deny-hybrid-use-benefit",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny hybrid use benefit",
+    "mode": "indexed",
+    "description": "This policy will deny usage of hybrid use benefit.",
+    "metaData": {
+      "category": "Compute",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "in": [
+              "Microsoft.Compute/virtualMachines",
+              "Microsoft.Compute/VirtualMachineScaleSets"
+            ]
+          },
+          {
+            "field": "Microsoft.Compute/licenseType",
+            "equals": "Windows_Server"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

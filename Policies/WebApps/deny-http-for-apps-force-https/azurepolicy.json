@@ -1,33 +1,44 @@
 {
-      "parameters": {
-        "effect": {
-          "type": "String",
-          "metadata": {
-            "displayName": "Effect",
-            "description": "Enable or disable the execution of the policy"
-          },
-          "allowedValues": [
-            "Deny",
-            "Disabled"
-          ],
-          "defaultValue": "Deny"
-        }
-      },
-      "policyRule": {
-        "if": {
-          "allOf": [
-            {
-              "field": "type",
-              "equals": "Microsoft.Web/sites"
-            },
-            {
-              "field": "Microsoft.Web/sites/httpsOnly",
-              "equals": "false"
-            }
-          ]
+  "name": "08f2d003-5ce0-443d-aa30-5b5000b03d54",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deny-http-for-apps-force-https",
+    "mode": "indexed",
+    "description": "Policy description.",
+    "metaData": {
+      "category": "WebApps",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
         },
-        "then": {
-          "effect": "[parameters('effect')]"
-        }
+        "allowedValues": [
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
       }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "Microsoft.Web/sites/httpsOnly",
+            "equals": "false"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
   }
+}

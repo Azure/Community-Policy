@@ -1,38 +1,38 @@
 {
-    "lifecyclePolicyName": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Lifecycle Policy Name",
-            "description": "The name of the lifecycle policy to deploy. The default value is 'optimizeCostDemo'."
-        },
-        "defaultValue": "optimizeCostDemo"
+  "lifecyclePolicyName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Lifecycle Policy Name",
+      "description": "The name of the lifecycle policy to deploy. The default value is 'optimizeCostDemo'."
     },
-    "LATCool": {
-        "type": "Integer",
-        "metadata": {
-            "displayName": "Last time accessed before moving to cool.",
-            "description": "Last time accessed blob to move to cool tier in days. The default value is 30 days."
-        },
-        "defaultValue": 30
+    "defaultValue": "optimizeCostDemo"
+  },
+  "LATCool": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "Last time accessed before moving to cool.",
+      "description": "Last time accessed blob to move to cool tier in days. The default value is 30 days."
     },
-    "LATArchive": {
-        "type": "Integer",
-        "metadata": {
-            "displayName": "Last time accessed before archiving.",
-            "description": "Last time accessed blob to move to archive tier in days. The default value is 180 days."
-        },
-        "defaultValue": 180
+    "defaultValue": 30
+  },
+  "LATArchive": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "Last time accessed before archiving.",
+      "description": "Last time accessed blob to move to archive tier in days. The default value is 180 days."
     },
-    "effect": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Effect",
-            "description": "The effect of the policy: DeployIfNotExists or Audit. The default value is DeployIfNotExists."
-        },
-        "allowedValues": [
-            "DeployIfNotExists",
-            "Audit"
-        ],
-        "defaultValue": "DeployIfNotExists"
-    }
+    "defaultValue": 180
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "The effect of the policy: DeployIfNotExists or Audit. The default value is DeployIfNotExists."
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "Audit"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
 }

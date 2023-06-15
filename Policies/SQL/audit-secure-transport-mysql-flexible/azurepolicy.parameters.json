@@ -5,7 +5,10 @@
       "displayName": "Effect",
       "description": "Enable or disable the execution of the policy"
     },
-    "allowedValues": ["AuditIfNotExists", "Disabled"],
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
     "defaultValue": "AuditIfNotExists"
   }
 }

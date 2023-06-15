@@ -1,31 +1,31 @@
 {
-   "if": {
-      "allOf": [
-         {
-            "field": "type",
-            "equals": "Microsoft.SQL/servers/databases"
-         },
-         {
-            "field": "name",
-            "notEquals": "master"
-         },
-         {
-            "not": {
-               "anyOf": [
-                  {
-                     "field": "Microsoft.SQL/servers/databases/requestedServiceObjectiveId",
-                     "in": "[parameters('listOfSKUId')]"
-                  },
-                  {
-                     "field": "Microsoft.SQL/servers/databases/requestedServiceObjectiveName",
-                     "in": "[parameters('listOfSKUName')]"
-                  }
-               ]
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.SQL/servers/databases"
+      },
+      {
+        "field": "name",
+        "notEquals": "master"
+      },
+      {
+        "not": {
+          "anyOf": [
+            {
+              "field": "Microsoft.SQL/servers/databases/requestedServiceObjectiveId",
+              "in": "[parameters('listOfSKUId')]"
+            },
+            {
+              "field": "Microsoft.SQL/servers/databases/requestedServiceObjectiveName",
+              "in": "[parameters('listOfSKUName')]"
             }
-         }
-      ]
-   },
-   "then": {
-      "effect": "Deny"
-   }
+          ]
+        }
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

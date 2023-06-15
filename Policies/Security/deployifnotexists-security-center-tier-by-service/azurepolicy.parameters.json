@@ -1,98 +1,111 @@
 {
-    "virtualMachinesTier": {
-        "type": "String",
-        "metadata": {
-            "displayName": "virtualMachinesTier",
-            "description": "Specifiy whether you want to enable Standard tier for Virtual Machine resource type"
-        },
-        "allowedValues": [
-            "Standard",
-            "Free"
-        ],
-        "defaultValue": "Standard"
+  "virtualMachinesTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "virtualMachinesTier",
+      "description": "Specifiy whether you want to enable Standard tier for Virtual Machine resource type"
     },
-    "appServicesTier": {
-        "type": "String",
-        "metadata": {
-            "displayName": "appServicesTier",
-            "description": "Specify whether you want to enable Standard tier for Azure App Service resource type"
-        },
-        "allowedValues": [
-            "Standard",
-            "Free"
-        ],
-        "defaultValue": "Standard"
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "appServicesTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "appServicesTier",
+      "description": "Specify whether you want to enable Standard tier for Azure App Service resource type"
     },
-    "sqlServersTier": {
-        "type": "String",
-        "metadata": {
-            "displayName": "sqlServersTier",
-            "description": "Specify whether you want to enable Standard tier for PaaS SQL Service resource type"
-        },
-        "allowedValues": [
-            "Standard",
-            "Free"
-        ],
-        "defaultValue": "Standard"
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "sqlServersTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "sqlServersTier",
+      "description": "Specify whether you want to enable Standard tier for PaaS SQL Service resource type"
     },
-    "sqlServerVirtualMachinesTier": {
-        "type": "String",
-        "metadata": {
-            "displayName": "sqlServerVirtualMachinesTier",
-            "description": "Specify whether you want to enable Standard tier for SQL Server on VM resource type"
-        },
-        "allowedValues": [
-            "Standard",
-            "Free"
-        ],
-        "defaultValue": "Standard"
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "sqlServerVirtualMachinesTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "sqlServerVirtualMachinesTier",
+      "description": "Specify whether you want to enable Standard tier for SQL Server on VM resource type"
     },
-    "storageAccountsTier": {
-        "type": "String",
-        "metadata": {
-            "displayName": "storageAccountsTier",
-            "description": "Specify whether you want to enable Standard tier for Storage Account resource type"
-        },
-        "allowedValues": [
-            "Standard",
-            "Free"
-        ],
-        "defaultValue": "Standard"
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "storageAccountsTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "storageAccountsTier",
+      "description": "Specify whether you want to enable Standard tier for Storage Account resource type"
     },
-    "kubernetesServiceTier": {
-        "type": "String",
-        "metadata": {
-            "displayName": "kubernetesServiceTier",
-            "description": "Specify whether you want to enable Standard tier for Kubernetes service resource type"
-        },
-        "allowedValues": [
-            "Standard",
-            "Free"
-        ],
-        "defaultValue": "Standard"
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "kubernetesServiceTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "kubernetesServiceTier",
+      "description": "Specify whether you want to enable Standard tier for Kubernetes service resource type"
     },
-    "containerRegistryTier": {
-        "type": "String",
-        "metadata": {
-            "displayName": "containerRegistryTier",
-            "description": "Specify whether you want to enable Standard tier for Container Registry resource type"
-        },
-        "allowedValues": [
-            "Standard",
-            "Free"
-        ],
-        "defaultValue": "Standard"
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "containerRegistryTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "containerRegistryTier",
+      "description": "Specify whether you want to enable Standard tier for Container Registry resource type"
     },
-    "keyVaultsTier": {
-        "type": "String",
-        "metadata": {
-            "displayName": "keyVaultsTier",
-            "description": "Specify whether you want to enable Standard tier for Key Vault resource type"
-        },
-        "allowedValues": [
-            "Standard",
-            "Free"
-        ],
-        "defaultValue": "Standard"
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "keyVaultsTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "keyVaultsTier",
+      "description": "Specify whether you want to enable Standard tier for Key Vault resource type"
+    },
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "effect": {
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
     }
+  }
 }

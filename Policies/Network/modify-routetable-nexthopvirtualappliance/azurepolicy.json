@@ -1,63 +1,79 @@
 {
-    "properties": {
-        "displayName": "Adds route with address prefix 0.0.0.0/0 pointing to the virtual appliance in case there is none.",
-        "description": "Adds route with address prefix 0.0.0.0/0 pointing to the virtual appliance in case there is none. Best combined with policy deny-route-nexthopvirtualappliance to ensure the correct IP address of the virtual appliance.",
-        "policyType": "Custom",
-        "mode": "All",
+  "name": "d6421f02-02f2-4a9f-8be3-22f046fb0deb",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Adds route with address prefix 0.0.0.0/0 pointing to the virtual appliance in case there is none.",
+    "mode": "All",
+    "description": "Adds route with address prefix 0.0.0.0/0 pointing to the virtual appliance in case there is none. Best combined with policy deny-route-nexthopvirtualappliance to ensure the correct IP address of the virtual appliance.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "routeTableSettings": {
+        "type": "Object",
         "metadata": {
-            "category": "Network"
-        },
-        "parameters": {
-            "routeTableSettings": {
-                "type": "Object",
-                "metadata": {
-                    "displayName": "Route Table Settings",
-                    "description": "Location-specific settings for route tables."
-                }
-            }
-        },
-        "policyRule": {
-            "if": {
-                "allOf": [
-                    {
-                        "field": "type",
-                        "equals": "Microsoft.Network/routeTables"
-                    },
-                    {
-                        "count": {
-                            "field": "Microsoft.Network/routeTables/routes[*]",
-                            "where": {
-                                "field": "Microsoft.Network/routeTables/routes[*].addressPrefix",
-                                "equals": "0.0.0.0/0"
-                            }
-                        },
-                        "equals": 0
-                    }
-                ]
-            },
-            "then": {
-                "effect": "modify",
-                "details": {
-                    "roleDefinitionIds": [
-                        "/providers/microsoft.authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
-                    ],
-                    "conflictEffect": "audit",
-                    "operations": [
-                        {
-                            "operation": "add",
-                            "field": "Microsoft.Network/routeTables/routes[*]",
-                            "value": {
-                                "name": "default",
-                                "properties": {
-                                    "addressPrefix": "0.0.0.0/0",
-                                    "nextHopType": "VirtualAppliance",
-                                    "nextHopIpAddress": "[parameters('routeTableSettings')[field('location')].virtualApplianceIpAddress]"
-                                }
-                            }
-                        }
-                    ]
-                }
-            }
+          "displayName": "Route Table Settings",
+          "description": "Location-specific settings for route tables."
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Modify",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Modify",
+        "type": "string",
+        "metaData": {
+          "description": "Modify, Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/routeTables"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/routeTables/routes[*]",
+              "where": {
+                "field": "Microsoft.Network/routeTables/routes[*].addressPrefix",
+                "equals": "0.0.0.0/0"
+              }
+            },
+            "equals": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+          ],
+          "conflictEffect": "audit",
+          "operations": [
+            {
+              "operation": "add",
+              "field": "Microsoft.Network/routeTables/routes[*]",
+              "value": {
+                "name": "default",
+                "properties": {
+                  "addressPrefix": "0.0.0.0/0",
+                  "nextHopType": "VirtualAppliance",
+                  "nextHopIpAddress": "[parameters('routeTableSettings')[field('location')].virtualApplianceIpAddress]"
+                }
+              }
+            }
+          ]
+        }
+      }
     }
+  }
 }

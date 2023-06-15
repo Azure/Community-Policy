@@ -1,0 +1,109 @@
+{
+  "eventHubRuleId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Event Hub Authorization Rule Id",
+      "description": "The Event Hub authorization rule Id for Azure Diagnostics. The authorization rule needs to be at Event Hub namespace level. e.g. /subscriptions/{subscription Id}/resourceGroups/{resource group}/providers/Microsoft.EventHub/namespaces/{Event Hub namespace}/authorizationrules/{authorization rule}",
+      "strongType": "Microsoft.EventHub/Namespaces/AuthorizationRules",
+      "assignPermissions": true
+    }
+  },
+  "eventHubLocation": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Event Hub Location",
+      "description": "The location the Event Hub resides in. Only Logic Apps in this location will be linked to this Event Hub.",
+      "strongType": "location"
+    },
+    "defaultValue": ""
+  },
+  "servicesToDeploy": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Storage services to deploy",
+      "description": "List of Storage services to deploy"
+    },
+    "allowedValues": [
+      "storageAccounts",
+      "blobServices",
+      "fileServices",
+      "tableServices",
+      "queueServices"
+    ],
+    "defaultValue": [
+      "storageAccounts",
+      "blobServices",
+      "fileServices",
+      "tableServices",
+      "queueServices"
+    ]
+  },
+  "diagnosticsSettingNameToUse": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Setting name",
+      "description": "Name of the diagnostic settings."
+    },
+    "defaultValue": "storageAccountsDiagnosticsLogsToEventHub"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  },
+  "StorageDelete": {
+    "type": "String",
+    "metadata": {
+      "displayName": "StorageDelete - Enabled",
+      "description": "Whether to stream StorageDelete logs to the Log Analytics workspace - True or False"
+    },
+    "allowedValues": [
+      "True",
+      "False"
+    ],
+    "defaultValue": "True"
+  },
+  "StorageWrite": {
+    "type": "String",
+    "metadata": {
+      "displayName": "StorageWrite - Enabled",
+      "description": "Whether to stream StorageWrite logs to the Log Analytics workspace - True or False"
+    },
+    "allowedValues": [
+      "True",
+      "False"
+    ],
+    "defaultValue": "True"
+  },
+  "StorageRead": {
+    "type": "String",
+    "metadata": {
+      "displayName": "StorageRead - Enabled",
+      "description": "Whether to stream StorageRead logs to the Log Analytics workspace - True or False"
+    },
+    "allowedValues": [
+      "True",
+      "False"
+    ],
+    "defaultValue": "True"
+  },
+  "Transaction": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Transaction - Enabled",
+      "description": "Whether to stream Transaction logs to the Log Analytics workspace - True or False"
+    },
+    "allowedValues": [
+      "True",
+      "False"
+    ],
+    "defaultValue": "True"
+  }
+}

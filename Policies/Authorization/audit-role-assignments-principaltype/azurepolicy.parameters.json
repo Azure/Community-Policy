@@ -1,15 +1,27 @@
 {
-    "principalType":{
-       "type":"String",
-       "metadata":{
-          "description":"Which principalType to audit against e.g. 'User, Group, ServicePrincipal'",
-          "displayName":"principalType"
-       },
-       "allowedValues":[
-          "User",
-          "Group",
-          "ServicePrincipal"
-       ],
-       "defaultValue":"User"
+  "principalType": {
+    "type": "String",
+    "metadata": {
+      "description": "Which principalType to audit against e.g. 'User, Group, ServicePrincipal'",
+      "displayName": "principalType"
+    },
+    "allowedValues": [
+      "User",
+      "Group",
+      "ServicePrincipal"
+    ],
+    "defaultValue": "User"
+  },
+  "effect": {
+    "allowedValues": [
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit",
+    "type": "string",
+    "metaData": {
+      "description": "Audit or Disable the execution of the Policy",
+      "displayName": "Policy effect"
     }
+  }
 }

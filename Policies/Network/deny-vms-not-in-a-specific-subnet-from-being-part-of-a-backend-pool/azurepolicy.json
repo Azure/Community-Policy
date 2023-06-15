@@ -1,35 +1,57 @@
 {
+  "name": "7d81b744-d9d4-4587-af44-669bfa008ed3",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
     "displayName": "VMs not in a specific subnet cannot be part of a backend pool",
     "mode": "All",
-    "policyRule": {
-        "if": {
-            "allOf": [
-                {
-                    "field": "type",
-                    "equals": "Microsoft.Network/networkInterfaces"
-                },
-                {
-                    "count": {
-                        "field": "Microsoft.Network/networkInterfaces/ipConfigurations[*].applicationGatewayBackendAddressPools[*]"
-                    },
-                    "greater": 0
-                },
-                {
-                    "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
-                    "notContains": "[parameters('allowedSubnetName')]"
-                }
-            ]
-        },
-        "then": {
-            "effect": "deny"
-        }
+    "description": "Policy description.",
+    "metaData": {
+      "category": "Network",
+      "version": "1.0.0"
     },
     "parameters": {
-        "allowedSubnetName": {
-            "type": "string",
-            "metadata": {
-                "displayName": "Name of subnet where VMs are allowed to be added into a backend pool."
-            }
+      "allowedSubnetName": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Name of subnet where VMs are allowed to be added into a backend pool."
         }
+      },
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/networkInterfaces/ipConfigurations[*].applicationGatewayBackendAddressPools[*]"
+            },
+            "greater": 0
+          },
+          {
+            "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
+            "notContains": "[parameters('allowedSubnetName')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
     }
+  }
 }

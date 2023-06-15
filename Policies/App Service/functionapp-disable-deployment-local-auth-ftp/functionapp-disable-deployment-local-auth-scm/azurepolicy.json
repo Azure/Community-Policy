@@ -1,89 +1,89 @@
 {
-    "properties": {
-      "displayName": "Function apps should have local authentication methods for deployment disabled",
-      "policyType": "Custom",
-      "mode": "Indexed",
-      "description": "Disabling local authentication methods improves security by ensuring that the app exclusively requires Azure Active Directory identities for authentication. Learn more at: https://aka.ms/app-service-disable-basic-auth.",
-      "metadata": {
-        "version": "1.0.0",
-        "category": "App Service"
-      },
-      "parameters": {
-        "effect": {
-          "type": "String",
-          "metadata": {
-            "displayName": "Effect",
-            "description": "Enable or disable the execution of the policy"
-          },
-          "allowedValues": [
-            "AuditIfNotExists",
-            "DeployIfNotExists",
-            "Disabled"
-          ],
-          "defaultValue": "AuditIfNotExists"
-        }
-      },
-      "policyRule": {
-        "if": {
-          "allOf": [
-            {
-              "field": "type",
-              "equals": "Microsoft.Web/sites"
-            },
-            {
-              "field": "kind",
-              "contains": "functionapp"
-            }
-          ]
+  "name": "518ec7b4-db34-474c-8711-1d07c3d20cea",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Function apps should have local authentication methods for deployment disabled",
+    "mode": "Indexed",
+    "description": "Disabling local authentication methods improves security by ensuring that the app exclusively requires Azure Active Directory identities for authentication. Learn more at: https://aka.ms/app-service-disable-basic-auth.",
+    "metaData": {
+      "version": "1.0.0",
+      "category": "App Service"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
         },
-        "then": {
-          "effect": "[parameters('effect')]",
-          "details": {
-            "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
-            "name": "ftp",
-            "existenceCondition": {
-              "field": "Microsoft.Web/sites/basicPublishingCredentialsPolicies/allow",
-              "equals": false
-            },
-            "roleDefinitionIds": [
-              "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772"
-            ],
-            "deployment": {
-              "properties": {
-                "mode": "incremental",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "kind",
+            "contains": "functionapp"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+          "name": "ftp",
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/basicPublishingCredentialsPolicies/allow",
+            "equals": false
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "siteName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
                 "parameters": {
                   "siteName": {
-                    "value": "[field('name')]"
+                    "type": "string"
                   },
                   "location": {
-                    "value": "[field('location')]"
+                    "type": "string"
                   }
                 },
-                "template": {
-                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
-                  "parameters": {
-                    "siteName": {
-                      "type": "string"
-                    },
-                    "location": {
-                      "type": "string"
+                "variables": {},
+                "resources": [
+                  {
+                    "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+                    "name": "[concat(parameters('siteName'), '/ftp')]",
+                    "apiVersion": "2020-12-01",
+                    "location": "[parameters('location')]",
+                    "tags": {},
+                    "properties": {
+                      "allow": false
                     }
-                  },
-                  "variables": {},
-                  "resources": [
-                    {
-                      "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
-                      "name": "[concat(parameters('siteName'), '/ftp')]",
-                      "apiVersion": "2020-12-01",
-                      "location": "[parameters('location')]",
-                      "tags": {},
-                      "properties": {
-                        "allow": false
-                      }
-                    }
-                  ]
-                }
+                  }
+                ]
               }
             }
           }
@@ -91,3 +91,4 @@
       }
     }
   }
+}

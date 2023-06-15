@@ -1,31 +1,44 @@
 {
-    "logAnalyticsSubscriptionId": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Log Analytics workspace subscription id",
-            "description": "Subscription ID where all of your workspaces reside."
-        }
-    },
-    "logAnalyticsResourceGroupNamingConvention": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Log Analytics workspace resource group naming convention",
-            "description": "This works using the following concactenation: (concat(parameters('logAnalyticsResourceGroupNamingConvention'), field('location')). This means that all of your resource groups need to follow this naming pattern (example given is for east us): YOUR-NAMING-CONVENTION-EASTUS."
-        }
-    },
-    "logAnalyticsNamingConvention": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Log Analytics workspace naming convention",
-            "description": "This works using the following concactenation: (concat(parameters('logAnalyticsNamingConvention'), field('location')). This means that all of your workspaces need to follow this naming pattern (example given is for east us): YOUR-NAMING-CONVENTION-EASTUS."
-        }
-    },
-    "listOfImageIdToInclude": {
-        "type": "Array",
-        "metadata": {
-            "displayName": "Optional: List of VM images that have supported Windows OS to add to scope",
-            "description": "Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
-        },
-        "defaultValue": []
+  "logAnalyticsSubscriptionId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Log Analytics workspace subscription id",
+      "description": "Subscription ID where all of your workspaces reside."
     }
+  },
+  "logAnalyticsResourceGroupNamingConvention": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Log Analytics workspace resource group naming convention",
+      "description": "This works using the following concactenation: (concat(parameters('logAnalyticsResourceGroupNamingConvention'), field('location')). This means that all of your resource groups need to follow this naming pattern (example given is for east us): YOUR-NAMING-CONVENTION-EASTUS."
+    }
+  },
+  "logAnalyticsNamingConvention": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Log Analytics workspace naming convention",
+      "description": "This works using the following concactenation: (concat(parameters('logAnalyticsNamingConvention'), field('location')). This means that all of your workspaces need to follow this naming pattern (example given is for east us): YOUR-NAMING-CONVENTION-EASTUS."
+    }
+  },
+  "listOfImageIdToInclude": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Optional: List of VM images that have supported Linux OS to add to scope",
+      "description": "Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+    },
+    "defaultValue": []
+  },
+  "effect": {
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

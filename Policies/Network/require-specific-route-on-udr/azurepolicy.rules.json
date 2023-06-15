@@ -1,35 +1,35 @@
 {
-    "if": {
-        "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Network/routeTables"
-            },
-            {
-                "count": {
-                    "field": "Microsoft.Network/routeTables/routes[*]",
-                    "where": {
-                        "allOf": [
-                            {
-                                "field": "Microsoft.Network/routeTables/routes[*].addressPrefix",
-                                "equals": "[parameters('addressPrefix')]"
-                            },
-                            {
-                                "field": "Microsoft.Network/routeTables/routes[*].nextHopType",
-                                "equals": "[parameters('nextHopType')]"
-                            },
-                            {
-                                "field": "Microsoft.Network/routeTables/routes[*].nextHopIpAddress",
-                                "equals": "[parameters('nextHopIpAddress')]"
-                            }
-                        ]
-                    }
-                },
-                "less": 1
-            }
-        ]
-    },
-    "then": {
-        "effect": "[parameters('effect')]"
-    }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/routeTables"
+      },
+      {
+        "count": {
+          "field": "Microsoft.Network/routeTables/routes[*]",
+          "where": {
+            "allOf": [
+              {
+                "field": "Microsoft.Network/routeTables/routes[*].addressPrefix",
+                "equals": "[parameters('addressPrefix')]"
+              },
+              {
+                "field": "Microsoft.Network/routeTables/routes[*].nextHopType",
+                "equals": "[parameters('nextHopType')]"
+              },
+              {
+                "field": "Microsoft.Network/routeTables/routes[*].nextHopIpAddress",
+                "equals": "[parameters('nextHopIpAddress')]"
+              }
+            ]
+          }
+        },
+        "less": 1
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

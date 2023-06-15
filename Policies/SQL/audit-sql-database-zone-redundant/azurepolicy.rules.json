@@ -11,11 +11,11 @@
       },
       {
         "field": "Microsoft.Sql/servers/databases/zoneRedundant",
-        "equals": "false"
+        "notEquals": "true"
       }
     ]
-   },
-   "then": {
-     "effect": "Audit"
-   }
- }
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

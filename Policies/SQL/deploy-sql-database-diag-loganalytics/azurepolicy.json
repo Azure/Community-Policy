@@ -1,7 +1,14 @@
 {
+  "name": "925e69c3-4a67-4522-b501-6f2c40eeca15",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
+    "displayName": "deploy-sql-database-diag-loganalytics",
     "mode": "Indexed",
-    "metadata": {},
+    "description": "Policy description.",
+    "metaData": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
     "parameters": {
       "effect": {
         "type": "String",

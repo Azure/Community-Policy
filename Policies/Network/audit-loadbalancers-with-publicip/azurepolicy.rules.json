@@ -1,17 +1,17 @@
 {
-    "if": {
-        "allOf": [
-            {
-                "field": "type",
-                "equals": "Microsoft.Network/loadBalancers"
-            },
-            {
-                "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].subnet.id",
-                "notLike": "*"
-            }
-        ]
-    },
-    "then": {
-        "effect": "audit"
-    }
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/loadBalancers"
+      },
+      {
+        "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].subnet.id",
+        "notLike": "*"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
 }

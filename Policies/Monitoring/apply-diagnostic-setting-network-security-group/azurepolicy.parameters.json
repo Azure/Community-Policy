@@ -1,16 +1,29 @@
 {
-   "storagePrefix": {
-      "type": "String",
-      "metadata": {
-         "displayName": "Storage Account Prefix for Regional Storage Account"
-      }
-   },
-   "rgName": {
-      "type": "String",
-      "metadata": {
-         "displayName": "Resource Group Name for Storage Account (must exist)",
-         "description": "This resource group must already exist",
-         "strongType": "ExistingResourceGroups"
-      }
-   }
+  "storagePrefix": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Storage Account Prefix for Regional Storage Account"
+    }
+  },
+  "rgName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Resource Group Name for Storage Account (must exist)",
+      "description": "This resource group must already exist",
+      "strongType": "ExistingResourceGroups"
+    }
+  },
+  "effect": {
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists",
+    "type": "string",
+    "metaData": {
+      "description": "DeployIfNotExists, AuditIfNotExists or Disable the execution of the Policy",
+      "displayName": "Policy effect"
+    }
+  }
 }

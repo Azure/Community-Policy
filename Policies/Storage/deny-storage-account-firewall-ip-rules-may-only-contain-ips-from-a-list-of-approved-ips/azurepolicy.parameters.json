@@ -1,0 +1,18 @@
+{
+  "allowedIps": {
+    "type": "Array"
+  },
+  "effect": {
+    "type": "string",
+    "metadata": {
+      "displayName": "Policy Effect",
+      "description": "Sets the effect of the Policy. Useful for when the Policy is part of an initiative."
+    },
+    "allowedValues": [
+      "Audit",
+      "Deny",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

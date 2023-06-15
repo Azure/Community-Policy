@@ -1,41 +1,57 @@
 {
-   "type": "Microsoft.Authorization/policyDefinitions",
-   "name": "allowed-image-publishers-policy",
-   "properties": {
-      "displayName": "Only allow images from certain image publishers to be deployed",
-      "policyType": "Custom",
-      "description": "This policy ensures that only certain image publisher offerings are usable from the image repository",
-      "mode": "All",
-      "parameters": {
-         "listOfAllowedimagePublishers": {
-            "type": "Array",
-            "metadata": {
-               "description": "The list of publishers to audit against. Example: 'MicrosoftWindowsServer'",
-               "displayName": "Allowed image publishers"
-            }
-         }
+  "name": "allowed-image-publishers-policy",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Only allow images from certain image publishers to be deployed",
+    "mode": "All",
+    "description": "This policy ensures that only certain image publisher offerings are usable from the image repository",
+    "metaData": {
+      "category": "Compute",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "listOfAllowedimagePublishers": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of publishers to audit against. Example: 'MicrosoftWindowsServer'",
+          "displayName": "Allowed image publishers"
+        }
       },
-      "policyRule": {
-         "if": {
-            "allOf": [
-               {
-                  "field": "type",
-                  "in": [
-                     "Microsoft.Compute/virtualMachines",
-                     "Microsoft.Compute/VirtualMachineScaleSets"
-                  ]
-               },
-               {
-                  "not": {
-                     "field": "Microsoft.Compute/imagePublisher",
-                     "in": "[parameters('listOfAllowedimagePublishers')]"
-                  }
-               }
-            ]
-         },
-         "then": {
-            "effect": "deny"
-         }
+      "effect": {
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "type": "string",
+        "metaData": {
+          "description": "Deny, Audit or Disable the execution of the Policy",
+          "displayName": "Policy effect"
+        }
       }
-   }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "in": [
+              "Microsoft.Compute/virtualMachines",
+              "Microsoft.Compute/VirtualMachineScaleSets"
+            ]
+          },
+          {
+            "not": {
+              "field": "Microsoft.Compute/imagePublisher",
+              "in": "[parameters('listOfAllowedimagePublishers')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
 }
