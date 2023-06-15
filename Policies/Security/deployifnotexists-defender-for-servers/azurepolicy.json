@@ -1,5 +1,5 @@
 {
-  "name": "DeployDefenderForServers",
+  "name": "f05a0c37-38e7-4dc0-ae66-9beeeef723ba",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "COMPUTE - Deploy Defender for Servers",

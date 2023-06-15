@@ -1,5 +1,5 @@
 {
-  "name": "enforce-nsg-on-subnet",
+  "name": "7c902198-2302-443c-bcde-db542a53a325",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "NSG X on every subnet",

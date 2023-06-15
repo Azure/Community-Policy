@@ -1,5 +1,5 @@
 {
-  "name": "service-bus-namespace-customer-managed-keys-audit",
+  "name": "d8dda1cd-d8f5-4ccf-ad13-920b12dae682",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Service Bus Namespace - Customer Managed Keys AUDIT",

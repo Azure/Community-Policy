@@ -1,5 +1,5 @@
 {
-  "name": "storage-account-cmk-queue-table-storage-audit",
+  "name": "a1fe0046-4236-4353-a840-59cd58de50d7",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Storage Account - Customer Managed Keys Queue and Table Storage AUDIT",

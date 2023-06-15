@@ -1,5 +1,5 @@
 {
-  "name": "storage-account-firewall-settings-audit",
+  "name": "f998f847-16a2-46e2-924c-59e1869775f7",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Storage Account - Firewall Settings AUDIT",

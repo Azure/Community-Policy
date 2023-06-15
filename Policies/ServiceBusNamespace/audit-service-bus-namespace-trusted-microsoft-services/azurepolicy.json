@@ -1,5 +1,5 @@
 {
-  "name": "service-bus-namespace-trusted-microsoft-services-audit",
+  "name": "f7ab3e6c-9caa-47c8-8e59-7a2ae49be241",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Service Bus Namespace - Trusted Microsoft Services AUDIT",

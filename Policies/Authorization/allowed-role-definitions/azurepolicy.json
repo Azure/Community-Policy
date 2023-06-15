@@ -1,5 +1,5 @@
 {
-  "name": "allowed-role-definitions",
+  "name": "0c9723f6-f35e-4dc2-b961-261fe3029bc7",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Allowed Role Definitions",

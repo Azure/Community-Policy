@@ -1,5 +1,5 @@
 {
-  "name": "storage-account-trusted-azure-services-audit",
+  "name": "0d5b623b-59fb-4000-a2b6-fe5ac51aca8f",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Storage Account - Trusted Azure Services AUDIT",

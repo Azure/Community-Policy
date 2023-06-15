@@ -1,5 +1,5 @@
 {
-  "name": "storage-account-cmk-blob-file-storage-audit",
+  "name": "f9a1cf7b-73ce-4f70-9395-6bc25e0059e2",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Storage Account - Customer Managed Keys Blob and File Storage AUDIT",

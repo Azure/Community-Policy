@@ -1,5 +1,5 @@
 {
-  "name": "audit-role-assignments-principaltype",
+  "name": "2a54af81-ceb1-466a-ba52-1374be68b694",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit Role Assignments For Specific Principal Type",

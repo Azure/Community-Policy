@@ -1,5 +1,5 @@
 {
-  "name": "deny-bastion-shared-links",
+  "name": "31999c88-f3a2-4b86-b5c0-f494b7065f7e",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Deny Bastion Shared Links",

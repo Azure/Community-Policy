@@ -1,5 +1,5 @@
 {
-  "name": "storage-account-access-key-setting-deny",
+  "name": "4d29340c-f292-4493-9aab-364edd0a2600",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Storage Account - Access Key Setting DENY",

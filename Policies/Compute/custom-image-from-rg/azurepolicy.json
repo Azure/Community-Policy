@@ -1,5 +1,5 @@
 {
-  "name": "custom-image-from-rg",
+  "name": "3af94692-3d32-4f14-bf97-352e1f0d7d99",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Allow custom VM image from a Resource Group",

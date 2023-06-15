@@ -1,5 +1,5 @@
 {
-  "name": "key-vault-sku-setting-audit",
+  "name": "df71e18d-da6f-4c51-ab04-6e72e64c893c",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Key Vault - SKU Setting AUDIT",

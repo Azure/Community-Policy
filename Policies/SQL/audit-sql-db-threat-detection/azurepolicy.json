@@ -1,5 +1,5 @@
 {
-  "name": "audit-sql-db-threat-detection",
+  "name": "8c9ce110-bb8f-4f61-aa29-c536355a7639",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit DB level threat detection setting",

@@ -1,5 +1,5 @@
 {
-  "name": "service-bus-namespace-tier-setting-audit",
+  "name": "630d6bd9-5d3c-410a-ae00-615b04b6d72b",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Service Bus Namespace - Tier Setting AUDIT",

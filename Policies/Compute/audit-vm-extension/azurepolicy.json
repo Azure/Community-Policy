@@ -1,5 +1,5 @@
 {
-  "name": "audit-vm-extension",
+  "name": "665ad16b-c377-414c-af21-824bcaac23e5",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit if extension does not exist",

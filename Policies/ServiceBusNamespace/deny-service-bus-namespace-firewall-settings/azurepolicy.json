@@ -1,5 +1,5 @@
 {
-  "name": "service-bus-namespace-firewall-settings-deny",
+  "name": "90aab5f2-03f1-4167-8902-c50fd3100525",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Service Bus Namespace - Firewall Settings DENY",

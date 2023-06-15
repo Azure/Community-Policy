@@ -1,5 +1,5 @@
 {
-  "name": "disallowed-role-definitions",
+  "name": "6742eee4-2879-4e97-a6a8-074b00abfed9",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Disallowed Role Definitions",

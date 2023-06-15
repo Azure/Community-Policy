@@ -1,5 +1,5 @@
 {
-  "name": "allowed-image-publishers-policy",
+  "name": "fac900b0-286d-4d0f-9e1d-0e8d61a164f7",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Only allow images from certain image publishers to be deployed",

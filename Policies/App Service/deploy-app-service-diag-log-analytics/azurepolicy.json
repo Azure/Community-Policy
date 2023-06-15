@@ -1,5 +1,5 @@
 {
-  "name": "App-Service-Diagnostics-Settings",
+  "name": "91ec1c84-a853-4f1b-9760-b183e111ec29",
   "type": "Microsoft.Authorization/policySetDefinitions",
   "properties": {
     "displayName": "Deploy Diagnostic Settings for App Service to Log Analytics workspace",

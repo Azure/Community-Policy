@@ -1,5 +1,5 @@
 {
-  "name": "audit-existing-linux-vm-ssh-with-password",
+  "name": "8edb5f43-d360-4cf6-bf0f-9583479edfcd",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit SSH Auth on Existing Resources",

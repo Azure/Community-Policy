@@ -1,5 +1,5 @@
 {
-  "name": "allowed-role-definitions-for-specific-principal-ids",
+  "name": "03e0848a-7ecf-4560-9d95-9b0bc7a00bb6",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Allowed Role Definitions For Specific Principal IDs",

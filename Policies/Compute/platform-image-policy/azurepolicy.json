@@ -1,5 +1,5 @@
 {
-  "name": "platform-image-policy",
+  "name": "5946ffe8-3e6c-41ec-bd1e-df20ea51fb74",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Only allow a certain VM platform image",

@@ -1,5 +1,5 @@
 {
-  "name": "service-bus-namespace-trusted-microsoft-services-deny",
+  "name": "8190662b-df7a-4cf2-ba28-c8f7f3271888",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Service Bus Namespace - Trusted Microsoft Services DENY",

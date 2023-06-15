@@ -1,5 +1,5 @@
 {
-  "name": "service-bus-namespace-firewall-settings-audit",
+  "name": "3bddb7a9-9329-4ca2-bd84-75001d1f35c9",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Service Bus Namespace - Firewall Settings AUDIT",

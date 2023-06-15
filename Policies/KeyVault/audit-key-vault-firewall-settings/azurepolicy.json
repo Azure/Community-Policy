@@ -1,5 +1,5 @@
 {
-  "name": "key-vault-firewall-settings-audit",
+  "name": "a2c7ceae-d3fd-4273-afda-151829f108aa",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Key Vault - Firewall Settings AUDIT",

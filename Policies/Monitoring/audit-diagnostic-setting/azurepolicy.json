@@ -1,5 +1,5 @@
 {
-  "name": "audit-diagnostic-setting",
+  "name": "92fa08d9-8719-4e4d-9b3b-17fa03f41aeb",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit diagnostic setting",

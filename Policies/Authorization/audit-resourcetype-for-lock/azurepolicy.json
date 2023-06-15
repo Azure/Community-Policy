@@ -1,5 +1,5 @@
 {
-  "name": "audit-resourcetype-for-lock",
+  "name": "abaa8b38-84c8-4775-8d75-5e857708c069",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Audit Specified Resource Type For Any Lock",
