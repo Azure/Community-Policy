@@ -2,7 +2,7 @@
     "name": "Sample name",
     "properties": {
         "description": "Test description.",
-        "displayName": "Sample display name",
+        "displayName": "Name not a Guid",
         "metadata": {
             "version": "1.9.9",
             "category": "Monitoring"

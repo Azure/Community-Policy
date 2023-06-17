@@ -1,12 +1,13 @@
 {
+    "name": "bb03b2b0-3941-4f8a-be67-37025dda0d76",
     "properties": {
         "description": "Test description.",
-        "displayName": "no name",
+        "displayName": "metadata bad category",
+        "mode": "Indexed",
         "metadata": {
             "version": "1.9.9",
-            "category": "Monitoring"
+            "category": "Some Unknown Category"
         },
-        "mode": "Indexed",
         "parameters": {
             "effect": {
                 "type": "String",
