@@ -1,8 +1,8 @@
 {
     "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "postgresql-diagnostic-settings-v1",
+    "name": "postgresql-diagnostic-settings",
     "properties": {
-        "displayName": "PostgreSQL - Diagnostic Settings v1",
+        "displayName": "PostgreSQL - Diagnostic Settings",
         "policyType": "Custom",
         "mode": "All",
         "description": "This Azure Policy creates an audit event when specific log (i.e. PostgreSQLLogs) and metric categories (i.e. AllMetrics) in the Diagnostic Settings are not send to a specific Log Analytics Workspace.",
