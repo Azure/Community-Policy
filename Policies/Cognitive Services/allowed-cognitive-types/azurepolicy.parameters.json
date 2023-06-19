@@ -1,0 +1,58 @@
+{
+    "effect": {
+    "type": "String",
+    "metadata": {
+        "displayName": "Effect",
+        "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+    ],
+    "defaultValue": "Audit"
+    },
+"listOfAllowedKind": {
+"type": "Array",
+"metadata": {
+    "description": "The list of Cognitive Services resources that can be deployed.",
+    "displayName": "Allowed Cognitive Services resources"
+},
+"allowedValues": [
+    "Academic",
+    "AnomalyDetector",
+    "Bing.Autosuggest",
+    "Bing.Autosuggest.v7",
+    "Bing.CustomSearch",
+    "Bing.Search",
+    "Bing.Search.v7",
+    "Bing.Speech",
+    "Bing.SpellCheck",
+    "Bing.SpellCheck.v7",
+    "CognitiveServices",
+    "ComputerVision",
+    "ContentModerator",
+    "CustomSpeech",
+    "CustomVision.Prediction",
+    "CustomVision.Training",
+    "Emotion",
+    "Face",
+    "FormRecognizer",
+    "ImmersiveReader",
+    "LUIS",
+    "LUIS.Authoring",
+    "MetricsAdvisor",
+    "OpenAI",
+    "Personalizer",
+    "QnAMaker",
+    "Recommendations",
+    "SpeakerRecognition",
+    "Speech",
+    "SpeechServices",
+    "SpeechTranslation",
+    "TextAnalytics",
+    "TextTranslation",
+    "WebLM"
+]
+}
+}

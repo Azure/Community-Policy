@@ -1,0 +1,8 @@
+{
+	"parameters": {
+		"AccountLocation": "eastus2"
+	},
+	"scope": "/providers/Microsoft.Management/managementgroups/mg-name",
+	"exclusions": 	[],
+	"region": "eastus2"
+}

@@ -11,7 +11,7 @@ Fixes some errors with a warning
 Splits the file into the required three files
 
 .PARAMETER fileName
-Input file name. Default is azurepolicy.json.
+Input file name.
 
 .PARAMETER outputDirectory
 Output directory. Default is output.
@@ -94,7 +94,9 @@ else {
         $newPolicyRuleJson = $newDefinition.properties.policyRule | ConvertTo-Json -Depth 100
         $basePath = "$($folderPath)/azurepolicy"
         $null = ($newDefinitionJson | Out-File -FilePath "$($basePath).json" -Encoding utf8 -Force -InformationAction SilentlyContinue)
-        $null = ($newParametersJson | Out-File -FilePath "$($basePath).parameters.json" -Encoding utf8 -Force -InformationAction SilentlyContinue)
-        $null = ($newPolicyRuleJson | Out-File -FilePath "$($basePath).rules.json" -Encoding utf8 -Force -InformationAction SilentlyContinue)
+        if (!$singleFile) {
+            $null = ($newParametersJson | Out-File -FilePath "$($basePath).parameters.json" -Encoding utf8 -Force -InformationAction SilentlyContinue)
+            $null = ($newPolicyRuleJson | Out-File -FilePath "$($basePath).rules.json" -Encoding utf8 -Force -InformationAction SilentlyContinue)
+        }
     }
 }

@@ -4,46 +4,49 @@
         "mode": "All",
         "description": "Audit enabling of diagnostic logs on the app. This enables you to recreate activity trails for investigation purposes if a security incident occurs or your network is compromised",
         "metadata": {
-            "category": "App Service"
+            "category": "Monitoring"
         },
-        "parameters": { 
-            "effect": { 
+        "parameters": {
+            "effect": {
                 "type": "string",
                 "defaultValue": "Audit",
-                "allowedValues": ["Audit", "Disabled"],
+                "allowedValues": [
+                    "Audit",
+                    "Disabled"
+                ],
                 "metadata": {
                     "displayName": "Effect",
                     "description": "Enable or disable the execution of the policy"
                 }
-            } 
+            }
         },
         "policyRule": {
             "if": {
                 "allOf": [
-                {
-                   "field": "type",
-                   "equals": "Microsoft.Web/sites/config"
-                },
-                {
-                   "field": "name",
-                   "equals": "web"
-                },
-                {
-                   "anyOf": [
-                      {
-                         "field": "Microsoft.Web/sites/config/detailedErrorLoggingEnabled",
-                         "notEquals": "true"
-                      },
-                      {
-                         "field": "Microsoft.Web/sites/config/httpLoggingEnabled",
-                         "notEquals": "true"
-                      },
-                      {
-                         "field": "Microsoft.Web/sites/config/requestTracingEnabled",
-                         "notEquals": "true"
-                      }
-                   ]
-                }
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Web/sites/config"
+                    },
+                    {
+                        "field": "name",
+                        "equals": "web"
+                    },
+                    {
+                        "anyOf": [
+                            {
+                                "field": "Microsoft.Web/sites/config/detailedErrorLoggingEnabled",
+                                "notEquals": "true"
+                            },
+                            {
+                                "field": "Microsoft.Web/sites/config/httpLoggingEnabled",
+                                "notEquals": "true"
+                            },
+                            {
+                                "field": "Microsoft.Web/sites/config/requestTracingEnabled",
+                                "notEquals": "true"
+                            }
+                        ]
+                    }
                 ]
             },
             "then": {

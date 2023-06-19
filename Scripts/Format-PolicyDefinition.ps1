@@ -27,6 +27,9 @@ function Format-PolicyDefinition {
         [string] $content,
 
         [parameter(Mandatory = $false)]
+        [string] $alternateDisplayName = "",
+
+        [parameter(Mandatory = $false)]
         [string] $category = ""
     )
     
@@ -38,6 +41,7 @@ function Format-PolicyDefinition {
             "App Platform",
             "App Service",
             "Attestation",
+            "Authorization",
             "Automanage",
             "Automation",
             "Azure Active Directory",
@@ -61,10 +65,12 @@ function Format-PolicyDefinition {
             "Container Instances",
             "Container Registry",
             "Cosmos DB",
+            "Cost Optimization",
             "Custom Provider",
             "Data Box",
             "Data Factory",
             "Data Lake",
+            "Dev Test Labs",
             "Desktop Virtualization",
             "Event Grid",
             "Event Hub",
@@ -90,6 +96,7 @@ function Format-PolicyDefinition {
             "Migrate",
             "Monitoring",
             "Network",
+            "Policy",
             "Portal",
             "Regulatory Compliance",
             "SDN",
@@ -185,22 +192,76 @@ function Format-PolicyDefinition {
         }
         $definition = ConvertFrom-Json $content -AsHashtable -Depth 100
 
-        # tolerate flat or nested properties structure
+        #region fix tolerate flat or nested properties structure, wrong capiatalization of property members
+
         $properties = $definition
         if ($definition.properties) {
             $properties = $definition.properties
         }
+        elseif ($definition.Properties) {
+            $properties = $definition.Properties
+        }
+
+        $name = $properties.name
+        if (!$name) {
+            $name = $properties.Name
+        }
+        
+        $displayName = $properties.displayName
+        if (!$displayName) {
+            $displayName = $properties.DisplayName
+        }
+
+        $description = $properties.description
+        if (!$description) {
+            $description = $properties.Description
+        }
+
+        $metadata = $properties.metadata
+        if (!$metadata) {
+            $metadata = $properties.Metadata
+            if (!$metadata) {
+                $metadata = @{}
+            }
+        }
+
+        $mode = $properties.mode
+        if (!$mode) {
+            $mode = $properties.Mode
+        }
+
+        $parameters = $properties.parameters
+        if (!$parameters) {
+            $parameters = $properties.Parameters
+            if (!$parameters) {
+                $parameters = @{}
+            }
+        }
+
+        $policyRule = $properties.policyRule
+        if (!$policyRule) {
+            $policyRule = $properties.PolicyRule
+        }
+
+        #endregion
 
         # region check that it is a Policy definition , ignore file if it is not, uses primitive heuristic
 
-        $maybePolicyDefinition = $false
-        if ($properties.policyRule) {
-            $effect = $properties.policyRule.then.effect
-            $maybePolicyDefinition = $null -ne $effect
+        $notPolicyDefinition = $true
+        $if = $null
+        $then = $null
+        $effect = $null
+        if ($policyRule) {
+            $then = $policyRule.then
+            if ($then) {
+                $effect = $then.effect
+            }
+            $if = $policyRule.if
+            $notPolicyDefinition = $null -eq $if -or $null -eq $effect
         }
-        if (!$maybePolicyDefinition) {
-            $messagesString = "'$($file.FullName)' is not a Policy definition. Ignoring."
-            $null = $warningMessages.Add($messagesString)
+        if ($notPolicyDefinition) {
+            $messagesString = "'$($file.FullName)' is not a Policy definition."
+            $null = $errorMessages.Add($messagesString)
             return $null, $warningMessages, $errorMessages, $null
         }
 
@@ -208,7 +269,6 @@ function Format-PolicyDefinition {
 
         #region naming
 
-        $name = $definition.name
         if (!$name) {
             if ($definition.id) {
                 $idSplits = $definition.id -split "/"
@@ -224,33 +284,48 @@ function Format-PolicyDefinition {
             $guid = [guid]::Empty
             $isGuid = [guid]::TryParse($name, $([ref]$guid))
         }
+        $nonGuidName = $null
+        if (!$isGuid) {
+            $nonGuidName = $name
+        }
+        if (!$displayName) {
+            if ($nonGuidName -and $alternateDisplayName -ne "") {
+                $displayName = $nonGuidName
+                $null = $warningMessages.Add("Policy displayName not found. Using name '$displayName' as the displayName.")
+            }
+            elseif ($alternateDisplayName -ne "") {
+                $displayName = $alternateDisplayName
+                $null = $warningMessages.Add("Policy displayName not found. Using alternateDisplayName '$displayName' as the displayName.")
+            }
+            else {
+                $null = $errorMessages.Add("Policy displayName not found.")
+            }
+        }
+        elseif ($displayName.Length -gt 128) {
+            $null = $warningMessages.Add("Policy displayName is too long. Must be 128 characters or less; truncating displayName.")
+            $displayName = $displayName.Substring(0, 128)
+        }
+        if (!$description) {
+            if ($alternateDisplayName -eq "") {
+                $null = $errorMessages.Add("Policy description not found.")
+            }
+            else {
+                $description = "need to add description"
+                $null = $warningMessages.Add("Policy description not found. Using '$description' as the description.")
+            }
+        }
+        elseif ($description.Length -gt 512) {
+            $null = $warningMessages.Add("Policy description is too long. Must be 512 characters or less; truncating description")
+            $description = $description.Substring(0, 512)
+        }
         if (!$isGuid) {
             $name = (New-Guid).Guid
             $null = $warningMessages.Add("Policy name missing or not a GUID. Fix using generated GUID '$name' as the name.")
-        }
-        $displayName = $properties.displayName
-        if (!$displayName) {
-            $null = $errorMessages.Add("Policy displayName not found.")
-        }
-        elseif ($displayName.Length -gt 128) {
-            $null = $errorMessages.Add("Policy displayName is too long. Must be 128 characters or less.")
-        }
-        $description = $properties.description
-        if (!$description) {
-            $null = $errorMessages.Add("Policy description not found.")
-        }
-        elseif ($description.Length -gt 512) {
-            $null = $errorMessages.Add("Policy description is too long. Must be 512 characters or less.")
         }
 
         #endregion
 
         #region metadata
-
-        $metadata = @{}
-        if ($properties.metadata) {
-            $metadata = $properties.metadata
-        }
 
         # Temporary until versions available
         if (!$metadata.version) {
@@ -278,32 +353,31 @@ function Format-PolicyDefinition {
             elseif ($category.Length -gt 0) {
                 if ($allowedCategories -ccontains $category) {
                     $metadata.category = $category
-                    $null = $warningMessages.Add("Category '$($metadata.category)' is not in allowed list. Using parameter $category instead.")
+                    $null = $warningMessages.Add("Category '$($metadata.category)' is not in allowed list. Using category parameter $category instead.")
                 }
                 else {
-                    $null = $errorMessages.Add("Metadata category '$($metadata.category)' and parameter $($category) is not in allowed list.")
+                    $null = $errorMessages.Add("Metadata category '$($metadata.category)' and category parameter $($category) are not in allowed list.")
                 }
             }
             else {
-                $null = $errorMessages.Add("Metadata category '$($metadata.category)' is not in allowed list and parameter category is empty.")
+                $null = $errorMessages.Add("Metadata category '$($metadata.category)' is not in allowed list and category parameter is empty.")
             }
         }
         elseif ($category.Length -gt 0) {
             if ($allowedCategories -ccontains $category) {
-                $null = $warningMessages.Add("Metadata category is not supplied. Using parameter $category instead.")
+                $null = $warningMessages.Add("Metadata category is not supplied. Using category parameter $category instead.")
                 $metadata.category = $category
             }
             else {
-                $null = $errorMessages.Add("Metadata category  is not supplied and parameter $($category) is not in allowed list.")
+                $null = $errorMessages.Add("Metadata category is not supplied and category parameter $($category) is not in allowed list.")
             }
         }
         else {
-            $null = $errorMessages.Add("Metadata category is not supplied and parameter category is empty.")
+            $null = $errorMessages.Add("Metadata category is not supplied and category parameter is empty.")
         }
 
         #endregion
 
-        $mode = $properties.mode
         if (!$mode) {
             $mode = "All"
             $null = $warningMessages.Add("Policy mode not found. Fix using 'All'.")
@@ -311,107 +385,93 @@ function Format-PolicyDefinition {
 
         #region effect paramteter
 
-        $parameters = @{}
-        if ($properties.parameters) {
-            $parameters = $properties.parameters
-        }
-        $parametersNew = $parameters
-        $effect = $properties.policyRule.then.effect
-        if (!$effect) {
-            $null = $errorMessages.Add("Policy effect not found. Every rule must have an effect.")
+        $defaultValue = $null
+        $allowedValues = $null
+        $allowedValuesSet = $null
+        if ($effect.StartsWith(("[parameters('")) -and $effect.EndsWith("')]")) {
+            # parameterized effect
+            $value1 = $effect.Replace("[parameters('", "")
+            $parameterName = $value1.Replace("')]", "")
+            $effectParameter = $parameters.$parameterName
+            $allowedValues = $effectParameter.allowedValues
+            $defaultValue = $effectParameter.defaultValue
+
+            if ($parameterName -cne "effect") {
+                $null = $warningMessages.Add("Policy effect parameter name must be effect. Autofix available.")
+            }
+            if (!$defaultValue) {
+                $null = $warningMessages.Add("Policy effect parameter default value not found. Autofix available.")
+            }
+            if (!$allowedValues) {
+                $null = $warningMessages.Add("Policy effect parameter allowed values not found. Autofix available.")
+            }
+            if ($effectParameter.type -ne "String") {
+                $null = $warningMessages.Add("Policy effect parameter type must be String. Autofix available.")
+            }
+            if ($effectParameter.metadata.displayName -ne "Effect") {
+                $null = $warningMessages.Add("Policy effect parameter displayName must be Effect. Autofix available.")
+            }
+            if ($null -eq $effectParameter.metadata.description) {
+                $null = $warningMessages.Add("Policy effect parameter description must be set. Autofix available.")
+            }
+
+            $parameters.Remove($parameterName)
         }
         else {
-            $defaultValue = $null
-            $allowedValues = $null
-            $allowedValuesSet = $null
-            if ($effect.StartsWith(("[parameters('")) -and $effect.EndsWith("')]")) {
-                # parameterized effect
-                $value1 = $effect.Replace("[parameters('", "")
-                $parameterName = $value1.Replace("')]", "")
-                $effectParameter = $parameters.$parameterName
-                $allowedValues = $effectParameter.allowedValues
-                $defaultValue = $effectParameter.defaultValue
+            # hard coded effect
+            $defaultValue = $effect
+            $null = $warningMessages.Add("Policy effect is hard coded. Autofix available.")
+        }
 
-                if ($parameterName -cne "effect") {
-                    $null = $warningMessages.Add("Policy effect parameter name must be effect. Autofix available.")
+        # find allowed values set
+        if (!$allowedValues -and $defaultValue) {
+            # find allowed values set by default value
+            foreach ($set in $allowedValuesSets) {
+                if ($defaultValue -eq $set.hasMember) {
+                    $allowedValuesSet = $set
+                    break
                 }
-                if (!$defaultValue) {
-                    $null = $warningMessages.Add("Policy effect parameter default value not found. Autofix available.")
-                }
-                if (!$allowedValues) {
-                    $null = $warningMessages.Add("Policy effect parameter allowed values not found. Autofix available.")
-                }
-                if ($effectParameter.type -ne "String") {
-                    $null = $warningMessages.Add("Policy effect parameter type must be String. Autofix available.")
-                }
-                if ($effectParameter.metadata.displayName -ne "Effect") {
-                    $null = $warningMessages.Add("Policy effect parameter displayName must be Effect. Autofix available.")
-                }
-                if ($null -eq $effectParameter.metadata.description) {
-                    $null = $warningMessages.Add("Policy effect parameter description must be set. Autofix available.")
-                }
-
-                $parameters.Remove($parameterName)
             }
-            else {
-                # hard coded effect
-                $defaultValue = $effect
-                $null = $warningMessages.Add("Policy effect is hard coded. Autofix available.")
-            }
-
-            # find allowed values set
-            if (!$allowedValues -and $defaultValue) {
-                # find allowed values set by default value
-                foreach ($set in $allowedValuesSets) {
-                    if ($defaultValue -eq $set.hasMember) {
+        }
+        elseif ($allowedValues) {
+            # find allowed values set by allowed values
+            foreach ($set in $allowedValuesSets) {
+                foreach ($allowedValue in $allowedValues) {
+                    if ($set.hasMember -eq $allowedValue) {
                         $allowedValuesSet = $set
                         break
                     }
                 }
-            }
-            elseif ($allowedValues) {
-                # find allowed values set by allowed values
-                foreach ($set in $allowedValuesSets) {
-                    foreach ($allowedValue in $allowedValues) {
-                        if ($set.hasMember -eq $allowedValue) {
-                            $allowedValuesSet = $set
-                            break
-                        }
-                    }
-                    if ($allowedValuesSet) {
-                        break
-                    }
+                if ($allowedValuesSet) {
+                    break
                 }
             }
+        }
 
-            # create effect parameter
-            if ($allowedValuesSet) {
-                $parametersNew = [ordered]@{
-                    effect = [ordered]@{
-                        type          = "String"
-                        metadata      = [ordered]@{
-                            displayName = "Effect"
-                            description = $allowedValuesSet.description
-                        }
-                        allowedValues = $allowedValuesSet.allowedValues
-                        defaultValue  = $allowedValuesSet.defaultValue
-                    }
+        # create effect parameter
+        if ($allowedValuesSet) {
+            $newEffect = [ordered]@{
+                type          = "String"
+                metadata      = [ordered]@{
+                    displayName = "Effect"
+                    description = $allowedValuesSet.description
                 }
-                $parametersNew += $parameters
-                $properties.policyRule.then["effect"] = "[parameters('effect')]"
+                allowedValues = $allowedValuesSet.allowedValues
+                defaultValue  = $allowedValuesSet.defaultValue
             }
-            else {
-                $null = $errorMessages.Add("Policy effect parameter does not specify a valid allowedValues or a valid defaultValue; therfore the values cannot be inferred.")
-            }
+            $parameters["effect"] = $newEffect
+            $then["effect"] = "[parameters('effect')]"
+        }
+        else {
+            $null = $errorMessages.Add("Policy effect parameter does not specify a valid allowedValues or a valid defaultValue; therefore the values cannot be inferred.")
         }
 
         #endregion
 
         #region remove invalid elements
         
-        if ($properties.policyType) {
+        if ($properties.policyType -or $properties.PolicyType) {
             $null = $warningMessages.Add("policyType ($($properties.policyType)) is not allowed, fix by removing it from the definition.")
-            $properties.Remove("policyType")
         }
         if ($metadata.createdBy) {
             $null = $warningMessages.Add("createdBy ($($metadata.createdBy)) is not allowed, fix by removing it from the definition.")
@@ -443,10 +503,10 @@ function Format-PolicyDefinition {
                 metadata    = $metadata
                 # version     = $version
                 mode        = $mode
-                parameters  = $parametersNew
+                parameters  = $parameters
                 policyRule  = [ordered]@{
-                    if   = $properties.policyRule.if
-                    then = $properties.policyRule.then
+                    if   = $if
+                    then = $then
                 }
             }
         }
