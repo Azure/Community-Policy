@@ -247,17 +247,28 @@ function Format-PolicyDefinition {
 
         # region check that it is a Policy definition , ignore file if it is not, uses primitive heuristic
 
-        $notPolicyDefinition = $true
+        $notPolicyDefinition = $false
         $if = $null
         $then = $null
         $effect = $null
-        if ($policyRule) {
-            $then = $policyRule.then
-            if ($then) {
-                $effect = $then.effect
-            }
+        if ($null -ne $policyRule) {
             $if = $policyRule.if
-            $notPolicyDefinition = $null -eq $if -or $null -eq $effect
+            if ($null -eq $if) {
+                $notPolicyDefinition = $true
+            }
+            $then = $policyRule.then
+            if ($null -ne $then) {
+                $effect = $then.effect
+                if ($null -eq $effect) {
+                    $notPolicyDefinition = $true
+                }
+            }
+            else {
+                $notPolicyDefinition = $true
+            }
+        }
+        else {
+            $notPolicyDefinition = $true
         }
         if ($notPolicyDefinition) {
             $messagesString = "'$($file.FullName)' is not a Policy definition."

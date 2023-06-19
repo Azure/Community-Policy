@@ -1,0 +1,69 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "name",
+                "notMatch": "[concat(parameters('statePrefix'), '##-', parameters('companyPrefix'), '-...')]"
+              },
+              {
+                "field": "location",
+                "notIn": "[parameters('allowedLocations')]"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "name",
+                "notMatch": "[concat(parameters('statePrefix2'), '##-', parameters('companyPrefix'), '-...')]"
+              },
+              {
+                "field": "location",
+                "notIn": "[parameters('allowedLocations2')]"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "name",
+                "notMatch": "[concat(parameters('statePrefix3'), '##-', parameters('companyPrefix'), '-...')]"
+              },
+              {
+                "field": "location",
+                "notIn": "[parameters('allowedLocations3')]"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

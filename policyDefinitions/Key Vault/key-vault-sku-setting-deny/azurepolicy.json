@@ -1,0 +1,53 @@
+{
+  "name": "cc054458-e66d-46ad-9621-294e722ea88e",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Key Vault - SKU Setting DENY",
+    "description": "This Azure Policy denies the creation of an Azure Key Vault when the 'SKU' setting is not included in the 'allowedSKUSetting' parameter.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Key Vault"
+    },
+    "mode": "All",
+    "parameters": {
+      "allowedSKUSetting": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Allowed SKU Setting",
+          "description": "The allowed SKU setting of an Azure Key Vault"
+        },
+        "defaultValue": "Premium"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.KeyVault/vaults"
+          },
+          {
+            "field": "Microsoft.KeyVault/vaults/sku.name",
+            "notEquals": "[parameters('allowedSKUSetting')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

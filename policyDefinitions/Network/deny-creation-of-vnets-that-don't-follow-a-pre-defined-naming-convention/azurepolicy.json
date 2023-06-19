@@ -1,0 +1,52 @@
+{
+  "name": "578e87f4-56f8-4fae-9aab-4efe51566f0b",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny creation of VNets that don't follow a pre-defined naming convention",
+    "description": "This Policy will deny the creation of VNets that do not follow a pre-defined naming convention.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "vnetNamingConvention": {
+        "type": "String",
+        "meatdata": {
+          "displayName": "Virtual Network Naming Convention",
+          "description": "The policy will concat this value with the provisioned resources location. Example, if you provide the value of '-example' the concat result will be like: 'eastus-example'. If the created resources name does not match this contact then Policy will deny the creation."
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "field": "name",
+            "notEquals": "[concat(field('location'), parameters('vnetNamingConvention'))]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

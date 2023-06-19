@@ -1,0 +1,64 @@
+{
+  "name": "24a44bf6-3651-44f4-bb82-68c80e1c9a48",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Not allowed VM Extensions",
+    "description": "This policy governs which VM extensions that are explicitly denied.",
+    "metadata": {
+      "version": "2.0.0",
+      "category": "Compute"
+    },
+    "mode": "All",
+    "parameters": {
+      "notAllowedExtensions": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Denied extension",
+          "description": "The list of extensions that will be denied."
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines/extensions"
+          },
+          {
+            "field": "Microsoft.Compute/virtualMachines/extensions/type",
+            "in": "[parameters('notAllowedExtensions')]"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+                "equals": "Microsoft.Azure.AzureDefenderForServers"
+              },
+              {
+                "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+                "equals": "Microsoft.Compute"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

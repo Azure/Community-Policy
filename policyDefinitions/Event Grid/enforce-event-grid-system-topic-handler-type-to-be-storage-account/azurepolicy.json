@@ -1,0 +1,48 @@
+{
+  "name": "c49bc25e-0d5d-4959-9f56-4267c2d95b8a",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce event grid system topic handler type to be storage account",
+    "description": "This policy enforce event grid system topic handler type to be storage account.",
+    "metadata": {
+      "category": "Event Grid",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.EventGrid/systemTopics/eventSubscriptions",
+            "field": "type"
+          },
+          {
+            "field": "Microsoft.EventGrid/systemTopics/eventSubscriptions/destination.endpointType",
+            "notequals": "StorageQueue"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

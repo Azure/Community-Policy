@@ -1,9 +1,0 @@
-{
-	"listOfAllowedSKUs": {
-		"type": "Array",
-		"metadata": {
-			"description": "The list of SKUs that can be specified for load balancer.",
-			"displayName": "Allowed SKUs"
-		}
-	}
-}

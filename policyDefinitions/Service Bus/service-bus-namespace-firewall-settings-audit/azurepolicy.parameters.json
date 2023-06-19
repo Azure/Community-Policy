@@ -1,0 +1,21 @@
+{
+  "allowedAddressRanges": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed Address Ranges",
+      "description": "The list of IP Addresses or IP Address Ranges that are allowed for a Service Bus Namespace"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

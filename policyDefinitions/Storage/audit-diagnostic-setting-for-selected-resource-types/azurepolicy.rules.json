@@ -1,0 +1,28 @@
+{
+  "if": {
+    "field": "type",
+    "in": "[parameters('listOfResourceTypes')]"
+  },
+  "then": {
+    "details": {
+      "existenceCondition": {
+        "allOf": [
+          {
+            "equals": "true",
+            "field": "Microsoft.Insights/diagnosticSettings/logs.enabled"
+          },
+          {
+            "equals": "true",
+            "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled"
+          },
+          {
+            "equals": "[parameters('logAnalyticsWorkspaceId')]",
+            "field": "Microsoft.Insights/diagnosticSettings/workspaceId"
+          }
+        ]
+      },
+      "type": "Microsoft.Insights/diagnosticSettings"
+    },
+    "effect": "[parameters('effect')]"
+  }
+}

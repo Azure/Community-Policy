@@ -1,0 +1,45 @@
+{
+  "name": "20b21801-8432-4515-acf9-4dffc85b0413",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "web-app-always-on-deny",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "App Service"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "Microsoft.Web/sites/siteConfig.alwaysOn",
+            "equals": "false"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

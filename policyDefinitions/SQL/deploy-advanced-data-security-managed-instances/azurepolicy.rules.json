@@ -1,0 +1,57 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Sql/managedInstances"
+      },
+      {
+        "field": "Microsoft.Sql/managedInstances/securityAlertPolicies/state",
+        "equals": "Disabled"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Sql/managedInstances/securityAlertPolicies",
+      "name": "Default",
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/4939a1f6-9ae0-4e48-a1e0-f2cbe897382d"
+      ],
+      "existenceCondition": {
+        "field": "Microsoft.Sql/managedInstances/securityAlertPolicies/state",
+        "equals": "Enabled"
+      },
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "managedInstances_sqlmanagedinstance_name": {
+                "type": "String"
+              }
+            },
+            "resources": [
+              {
+                "name": "[concat(parameters('managedInstances_sqlmanagedinstance_name'), '/Default')]",
+                "type": "Microsoft.Sql/managedInstances/securityAlertPolicies",
+                "apiVersion": "2017-03-01-preview",
+                "properties": {
+                  "state": "Enabled"
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "managedInstances_sqlmanagedinstance_name": {
+              "value": "[field('name')]"
+            }
+          }
+        }
+      }
+    }
+  }
+}

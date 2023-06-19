@@ -1,0 +1,49 @@
+{
+  "name": "5bd0303a-01f1-41d8-a425-7b4c77526849",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage Account - Customer Managed Keys Queue and Table Storage DENY",
+    "description": "This Azure Policy denies the deployment of an Azure Storage Account when the 'Enable support for customer-managed keys' setting is set to 'Blobs and files only'.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/encryption.services.queue.enabled",
+            "exists": "false"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/encryption.services.table.enabled",
+            "exists": "false"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

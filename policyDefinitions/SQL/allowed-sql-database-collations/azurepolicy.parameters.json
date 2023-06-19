@@ -1,0 +1,22 @@
+{
+  "listOfAllowedCollations": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed Collation Names",
+      "description": "A list of approved collations, example: Latin1_General_BIN;SQL_Latin1_General_CP1_CI_AS"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "name": "b8ef6623-67f2-46cb-be57-f0e518aaec52",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit SQL server level Auditing settings",
+    "description": "Audits the existence of SQL Auditing at the server level",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Sql/servers"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Sql/servers/auditingSettings",
+          "name": "default",
+          "existenceCondition": {
+            "field": "Microsoft.Sql/auditingSettings.state",
+            "equals": "Enabled"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "rgNames": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Resource Groups names",
+      "description": "The list of RG that should have cannot delete resource lock, all resources will inherit the lock"
+    },
+    "defaultValue": [
+      ""
+    ]
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}

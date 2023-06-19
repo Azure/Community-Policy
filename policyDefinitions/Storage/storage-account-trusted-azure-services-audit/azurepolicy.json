@@ -1,0 +1,48 @@
+{
+  "name": "c56bf0c0-18b6-4659-a4b7-066056986982",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage Account - Trusted Azure Services AUDIT",
+    "description": "This Azure Policy creates an audit event when the 'Allow Azure services on the trusted services list to access this storage account' setting is set to 'Enabled'.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+            "exists": "true"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+            "contains": "AzureServices"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

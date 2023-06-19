@@ -1,0 +1,62 @@
+{
+  "name": "fe53aca3-4eeb-449f-a2d5-aad2d728481e",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit SQL DB Level Audit Setting",
+    "description": "Audit DB level audit setting for SQL databases",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "mode": "All",
+    "parameters": {
+      "setting": {
+        "type": "String",
+        "allowedValues": [
+          "enabled",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Audit Setting"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SQL/servers/databases"
+          },
+          {
+            "field": "name",
+            "notEquals": "master"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.SQL/servers/databases/auditingSettings",
+          "name": "default",
+          "existenceCondition": {
+            "field": "Microsoft.Sql/auditingSettings.state",
+            "equals": "[parameters('setting')]"
+          }
+        }
+      }
+    }
+  }
+}

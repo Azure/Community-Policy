@@ -1,0 +1,22 @@
+{
+  "priority": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "priority",
+      "description": "Priority for the deny RDP security rule (Example 100)."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}

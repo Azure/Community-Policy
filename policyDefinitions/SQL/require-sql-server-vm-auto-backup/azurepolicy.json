@@ -1,0 +1,53 @@
+{
+  "name": "f3587016-597a-447a-8910-c03c1a2aa9d4",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Require SQL Server VM Auto Backup",
+    "description": "Require SQL Server Virtual Machines to have Auto Backup enabled/disabled",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "mode": "All",
+    "parameters": {
+      "autoBackupSetting": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Auto Backup Setting",
+          "description": "A boolean value for whether or not Auto Backup needs to be enabled on a SQL Server VM."
+        },
+        "defaultValue": false
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
+          },
+          {
+            "field": "SqlVirtualMachine/sqlVirtualMachines/autoBackupSettings.enable",
+            "equals": "[parameters('autoBackupSetting')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

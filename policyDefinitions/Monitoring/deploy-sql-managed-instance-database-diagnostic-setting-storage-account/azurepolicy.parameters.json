@@ -1,0 +1,29 @@
+{
+  "storageAccountId": {
+    "type": "string",
+    "metadata": {
+      "displayName": "Storage Account ID",
+      "description": "The resource ID of the storage account to which you would like to send Diagnostic Logs."
+    }
+  },
+  "retentionDays": {
+    "type": "string",
+    "metadata": {
+      "displayName": "Number of days to retain logs",
+      "description": "Retention policy ranges from 1 to 365 days. If you do not want to apply any retention policy and retain data forever, set retention (days) to 0."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}

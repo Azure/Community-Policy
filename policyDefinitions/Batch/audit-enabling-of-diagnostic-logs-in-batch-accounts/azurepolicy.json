@@ -1,0 +1,59 @@
+{
+  "name": "702c34cf-3c67-4485-aec6-d196face8bde",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit enabling of diagnostic logs in Batch accounts",
+    "description": "Audit enabling of logs and retain them up to a year. This enables you to recreate activity trails for investigation purposes when a security incident occurs or your network is compromised",
+    "metadata": {
+      "category": "Batch",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "requiredRetentionDays": {
+        "type": "String",
+        "defaultValue": "365",
+        "metadata": {
+          "displayName": "Required retention (days)",
+          "description": "The required diagnostic logs retention in days"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Batch/batchAccounts"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/diagnosticSettings",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.enabled",
+                "equals": "true"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.days",
+                "equals": "[parameters('requiredRetentionDays')]"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "name": "6480c6e8-f25e-44d2-bdad-ab4585cdd99e",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Block usage of the default namespace in a Kubernetes cluster",
+    "description": "This policy blocks usage of the default namespace in a Kubernetes cluster. For instructions on using this policy, please go to https://aka.ms/kubepolicydoc.",
+    "metadata": {
+      "version": "1.0.0-preview",
+      "category": "Kubernetes",
+      "preview": true
+    },
+    "mode": "Microsoft.Kubernetes.Data",
+    "parameters": {
+      "excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+        },
+        "defaultValue": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc"
+        ]
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "AKS Engine",
+          "Microsoft.Kubernetes/connectedClusters",
+          "Microsoft.ContainerService/managedClusters"
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/block-default-namespace/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/block-default-namespace/constraint.yaml",
+          "values": {
+            "excludedNamespaces": "[parameters('excludedNamespaces')]"
+          }
+        }
+      }
+    }
+  }
+}

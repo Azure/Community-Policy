@@ -1,0 +1,24 @@
+{
+  "allowedVnets": {
+    "type": "array",
+    "metadata": {
+      "description": "Enter list of allowed VNets using a semi-coling ';' seperated list. VNets must be entered using their resource ID. Example: /subscriptions/{SubID}/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualNetworks/resourceGroupName/virtualNetworkPeerings/vnetName",
+      "displayName": "Allowed VNets",
+      "strongType": "Microsoft.Network/virtualNetworks"
+    },
+    "defaultValue": []
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

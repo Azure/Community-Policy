@@ -1,0 +1,58 @@
+{
+  "name": "2ad98ec6-3f37-452a-bb1f-b7adcbf44872",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit Server level threat detection setting",
+    "description": "Audit threat detection setting for SQL Server",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "mode": "All",
+    "parameters": {
+      "setting": {
+        "type": "String",
+        "allowedValues": [
+          "enabled",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Threat Detection Setting"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.SQL/servers"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.SQL/servers/securityAlertPolicies",
+          "name": "default",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Sql/securityAlertPolicies.state",
+                "equals": "[parameters('setting')]"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

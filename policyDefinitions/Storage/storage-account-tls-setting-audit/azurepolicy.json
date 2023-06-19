@@ -1,0 +1,52 @@
+{
+  "name": "0e97a50d-f52c-4d2f-8da7-f894cf2b2071",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage Account - TLS Setting AUDIT",
+    "description": "This Azure Policy creates an audit event when the 'Minimum TLS version' setting is not set to 'Version 1.2'.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "mode": "All",
+    "parameters": {
+      "tlsVersionRequired": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Required TLS Version",
+          "description": "The TLS version that should be configured on the Storage Account"
+        },
+        "defaultValue": "TLS1_2"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/minimumTlsVersion",
+            "notEquals": "[parameters('tlsVersionRequired')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

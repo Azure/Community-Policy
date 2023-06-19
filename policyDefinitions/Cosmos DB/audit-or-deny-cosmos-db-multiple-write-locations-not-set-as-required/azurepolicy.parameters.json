@@ -1,0 +1,26 @@
+{
+  "multipleWriteLocationsMustBeEnabled": {
+    "type": "boolean",
+    "defaultValue": true,
+    "allowedValues": [
+      true,
+      false
+    ],
+    "metadata": {
+      "displayName": "Specify whether multiple write locations must be enabled (true) or not enabled (false)."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "name": "638b060e-c9a7-4649-853b-5a74a9c1a1c4",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Append specified values for encryption using customer managed keys and infrastructure encryption for Azure Backup",
+    "description": "This policy appends the specified properties for encryption using customer managed keys and infrastructure encryption for Azure Backup if the same are not applied during creation of the Recovery Services vault.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Backup"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "keyUri": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Encryption key URI",
+          "description": "The URI of the key you want to use for encrypting the backup data in your Recovery Services vaults."
+        }
+      },
+      "userAssignedIdentity": {
+        "type": "String",
+        "metadata": {
+          "displayName": "User assigned managed identity",
+          "description": "The user assigned managed identity to use to access the encryption key for encrypting backup data in your Recovery Services vaults.",
+          "strongType": "Microsoft.ManagedIdentity/UserAssignedIdentities"
+        }
+      },
+      "infrastructureEncryption": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Infrastructure Encryption",
+          "description": "Enable infrastructure encryption on your Recovery Services vaults for Backup."
+        },
+        "allowedValues": [
+          "Enabled",
+          "Disabled"
+        ],
+        "defaultValue": "Disabled"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Append, Deny, Audit or Disable the execution of the Policy"
+        },
+        "allowedValues": [
+          "Append",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Append"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.RecoveryServices/vaults"
+          },
+          {
+            "field": "Microsoft.RecoveryServices/vaults/encryption",
+            "exists": "false"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": [
+          {
+            "field": "Microsoft.RecoveryServices/vaults/encryption.keyVaultProperties.keyUri",
+            "value": "[parameters('keyUri')]"
+          },
+          {
+            "field": "Microsoft.RecoveryServices/vaults/encryption.kekIdentity.userAssignedIdentity",
+            "value": "[parameters('userAssignedIdentity')]"
+          },
+          {
+            "field": "Microsoft.RecoveryServices/vaults/encryption.infrastructureEncryption",
+            "value": "[parameters('infrastructureEncryption')]"
+          },
+          {
+            "field": "identity.type",
+            "value": "UserAssigned"
+          },
+          {
+            "field": "identity.userAssignedIdentities",
+            "value": {
+              "[parameters('userAssignedIdentity')]": {}
+            }
+          }
+        ]
+      }
+    }
+  }
+}

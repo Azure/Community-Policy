@@ -1,0 +1,59 @@
+{
+  "name": "cd44e22b-0b26-49a2-8199-e596a17b3560",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "NSG rule ports without IP source",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "ipAddresses": {
+        "type": "Array",
+        "metadata": {
+          "displayname": "Destination Port Ranges"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange",
+            "in": "[parameters('ipAddresses')]"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
+            "equals": "*"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+            "equals": "Allow"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "exists": "true",
+        "field": "[concat('tags[', parameters('tagName'), ']')]"
+      },
+      {
+        "notEquals": "",
+        "value": "[resourceGroup().tags[parameters('tagName')]]"
+      },
+      {
+        "field": "[concat('tags[', parameters('tagName'), ']')]",
+        "notEquals": "[resourceGroup().tags[parameters('tagName')]]"
+      },
+      {
+        "notIn": "[parameters('tagValuesToIgnore')]",
+        "value": "[resourceGroup().tags[parameters('tagName')]]"
+      }
+    ]
+  },
+  "then": {
+    "details": {
+      "operations": [
+        {
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "operation": "addOrReplace",
+          "value": "[resourceGroup().tags[parameters('tagName')]]"
+        }
+      ],
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+      ]
+    },
+    "effect": "[parameters('effect')]"
+  }
+}

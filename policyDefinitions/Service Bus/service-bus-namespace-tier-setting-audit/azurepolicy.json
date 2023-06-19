@@ -1,0 +1,48 @@
+{
+  "name": "60000d6f-a660-4ea2-a347-4ab040f17b6a",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Service Bus Namespace - Tier Setting AUDIT",
+    "description": "This Azure Policy creates an audit event when the 'Pricing tier' setting is not set to 'Premium'.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Service Bus"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ServiceBus/namespaces"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.ServiceBus/namespaces/sku.name",
+                "notEquals": "Premium"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

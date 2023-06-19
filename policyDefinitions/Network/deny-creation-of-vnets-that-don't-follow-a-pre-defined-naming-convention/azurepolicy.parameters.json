@@ -1,0 +1,22 @@
+{
+  "vnetNamingConvention": {
+    "type": "String",
+    "meatdata": {
+      "displayName": "Virtual Network Naming Convention",
+      "description": "The policy will concat this value with the provisioned resources location. Example, if you provide the value of '-example' the concat result will be like: 'eastus-example'. If the created resources name does not match this contact then Policy will deny the creation."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

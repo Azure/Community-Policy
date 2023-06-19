@@ -1,0 +1,22 @@
+{
+  "tlsVersionRequired": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Required TLS Version",
+      "description": "The TLS version that should be configured on the Storage Account"
+    },
+    "defaultValue": "TLS1_2"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "name": "017def49-4d59-46c7-9740-5b5a5127e0a7",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Only approved VMSS extensions should be installed",
+    "description": "This policy governs the virtual machine scale set extensions that are not approved.",
+    "metadata": {
+      "category": "Compute",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "approvedExtensions": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of approved extension types that can be installed. Example: AzureDiskEncryption",
+          "displayName": "Approved extensions"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "equals": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+                "field": "type"
+              },
+              {
+                "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/type",
+                "notIn": "[parameters('approvedExtensions')]"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.extensionProfile.extensions[*].type",
+                "notIn": "[parameters('approvedExtensions')]"
+              },
+              {
+                "exists": true,
+                "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.extensionProfile.extensions[*].type"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

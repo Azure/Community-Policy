@@ -1,0 +1,53 @@
+{
+  "name": "35f46b9d-8c22-48bc-8a92-60f960d039de",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Network Security Groups - Allow inbound rules with any as source",
+    "description": "This policy restricts the creation of inbound security rules with the source \"Any\" with allow access action.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
+            "equals": "*"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+            "equals": "Allow"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+            "equals": "Inbound"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

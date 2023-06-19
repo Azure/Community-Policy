@@ -1,0 +1,47 @@
+{
+  "name": "0712ea43-15c2-4471-a45d-1f075d60c50f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "ExpressRoute should not use Authorization keys",
+    "description": "This policy denies the creation of Authorization keys for the ExpressRoute. Authorization keys are used to enable cross-subscription/cross-tenant networking functionality to the ExpressRoute. This should be reviewed by the network security team. https://learn.microsoft.com/en-us/azure/expressroute/expressroute-howto-linkvnet-portal-resource-manager",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/expressRouteCircuits"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/expressRouteCircuits/authorizations[*]"
+            },
+            "greaterOrEquals": 1
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

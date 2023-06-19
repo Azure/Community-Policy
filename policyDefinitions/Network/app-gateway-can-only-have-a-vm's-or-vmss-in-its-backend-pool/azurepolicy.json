@@ -1,0 +1,47 @@
+{
+  "name": "09acf097-b60e-42d5-98a1-e37e9ede66fe",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "App Gateway can only have a VM's or VMSS in its backend pool.",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/applicationGateways"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/applicationGateways/backendAddressPools[*].backendAddresses[*]"
+            },
+            "greater": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

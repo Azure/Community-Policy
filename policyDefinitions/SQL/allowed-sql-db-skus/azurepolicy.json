@@ -1,0 +1,73 @@
+{
+  "name": "1cee483a-7053-4e29-99eb-5da1f7f73810",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Allowed SQL DB SKUs",
+    "description": "This policy enables you to specify a set of SQL DB SKUs",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "mode": "All",
+    "parameters": {
+      "listOfSKUId": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of SKUs that can be specified for SQL Databases.",
+          "displayName": "Allowed SKU IDs"
+        }
+      },
+      "listOfSKUName": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of SKUs that can be specified for SQL Databases.",
+          "displayName": "Allowed SKU Names"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SQL/servers/databases"
+          },
+          {
+            "field": "name",
+            "notEquals": "master"
+          },
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "field": "Microsoft.SQL/servers/databases/requestedServiceObjectiveId",
+                  "in": "[parameters('listOfSKUId')]"
+                },
+                {
+                  "field": "Microsoft.SQL/servers/databases/requestedServiceObjectiveName",
+                  "in": "[parameters('listOfSKUName')]"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

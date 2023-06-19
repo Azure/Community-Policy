@@ -1,0 +1,39 @@
+{
+  "name": "45cbca17-bd6d-49c7-8ef8-b7649d32f6c0",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Manual Policy per subscription",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Attestation"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Manual or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Manual",
+          "Disabled"
+        ],
+        "defaultValue": "Manual"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Resources/subscriptions"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "defaultState": "Unknown"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "2e9a8bea-8de0-4bd1-b70b-64cff8b28d17",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny policy exemption with an expiration date greater than given days",
+    "description": "Deny policy exemption with an expiration date greater than given days",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Policy"
+    },
+    "mode": "All",
+    "parameters": {
+      "maxExpirationDays": {
+        "type": "integer",
+        "defaultValue": 182,
+        "metadata": {
+          "description": "Days from current datetime that a policy exemption date can maximum be. Time is UTC. 182 is approx. 6 months."
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Authorization/policyExemptions"
+          },
+          {
+            "field": "Microsoft.Authorization/policyExemptions/expiresOn",
+            "greaterOrEquals": "[addDays(utcNow(), parameters('maxExpirationDays'))]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

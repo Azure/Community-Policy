@@ -1,0 +1,52 @@
+{
+  "name": "03d46a5e-3a84-43ee-83b5-d7f7ee7c8a57",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Virtual Machine NIC must have NSG",
+    "description": "This policy prevents NIC attached to a vm to not have an NSG.",
+    "metadata": {
+      "category": "Network",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Network/networkInterfaces",
+            "field": "type"
+          },
+          {
+            "exists": "false",
+            "field": "Microsoft.Network/networkInterfaces/networkSecurityGroup.id"
+          },
+          {
+            "exists": "true",
+            "field": "Microsoft.Network/networkInterfaces/virtualMachine.id"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

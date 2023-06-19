@@ -1,0 +1,130 @@
+{
+  "name": "26da082e-29f6-4b47-b640-89010f2a598e",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Create Delete Lock on specified Azure VMs",
+    "description": "List the VM names under the parameter vmName that you want to create a Delete Lock on./nThen expand the deployment variables and the resources to the amount of VMs given in the vmName array parameter. Make sure the values and deployment variables and resources are always aligned in numbers.",
+    "metadata": {
+      "category": "Compute",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "lockslevel": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable a Delete Lock"
+        },
+        "allowedValues": [
+          "CanNotDelete",
+          "ReadOnly",
+          "NotSpecified"
+        ],
+        "defaultValue": "CanNotDelete"
+      },
+      "vmName": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "VM Names",
+          "description": "The list of VM names that should have resource locks"
+        },
+        "allowedValues": [
+          "vm-test01",
+          "vm-test02"
+        ],
+        "defaultValue": [
+          "vm-test01",
+          "vm-test02"
+        ]
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "name",
+            "in": "[parameters('vmName')]"
+          },
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Authorization/locks",
+          "existenceCondition": {
+            "field": "Microsoft.Authorization/locks/level",
+            "equals": "[parameters('lockslevel')]"
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/18d7d88d-d35e-4fb5-a5c3-7773c20a72d9",
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "vmName": {
+                    "type": "Array"
+                  }
+                },
+                "variables": {
+                  "vmName1": "[concat('/', parameters('vmName')[0])]",
+                  "vmName2": "[concat('/', parameters('vmName')[1])]"
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.Authorization/locks",
+                    "apiVersion": "2020-05-01",
+                    "name": "DenyDelete",
+                    "scope": "[concat('Microsoft.Compute/virtualMachines', variables('vmName1'))]",
+                    "properties": {
+                      "level": "CanNotDelete",
+                      "notes": "Prevents deletion of resource."
+                    }
+                  },
+                  {
+                    "type": "Microsoft.Authorization/locks",
+                    "apiVersion": "2020-05-01",
+                    "name": "DenyDelete",
+                    "scope": "[concat('Microsoft.Compute/virtualMachines/', variables('vmName2'))]",
+                    "properties": {
+                      "level": "CanNotDelete",
+                      "notes": "Prevents deletion of resource."
+                    }
+                  }
+                ],
+                "outputs": {}
+              },
+              "parameters": {
+                "vmName": {
+                  "value": "[parameters('vmName')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

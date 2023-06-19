@@ -1,0 +1,67 @@
+{
+  "name": "ea8ce69d-d2fe-448d-bf67-d46b4b7a0fa4",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce 1.2 as Minimum TLS Version for SQL Server",
+    "description": "Will set the Minimum TLS Version for a SQL Server to 1.2 or deny creation (when older API versions are used for deployment)",
+    "metadata": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Modify, Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Modify",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Modify"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                "exists": "false"
+              },
+              {
+                "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                "notEquals": "1.2"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/056cd41c-7e88-42e1-933e-88ba6a50c9c3"
+          ],
+          "conflictEffect": "deny",
+          "operations": [
+            {
+              "operation": "addOrReplace",
+              "field": "Microsoft.Sql/servers/minimalTlsVersion",
+              "value": "1.2"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

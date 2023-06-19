@@ -1,0 +1,72 @@
+{
+  "name": "8d207454-abad-446e-a5fd-2e4279b663ef",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce key vault firewall blocking public access",
+    "description": "This policy prevents setting key vault public firewall as allow all or have any vnet/ip rules.",
+    "metadata": {
+      "category": "Key Vault",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.KeyVault/Vaults",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "exists": "false",
+                "field": "Microsoft.KeyVault/Vaults/networkAcls.defaultAction"
+              },
+              {
+                "equals": "Allow",
+                "field": "Microsoft.KeyVault/Vaults/networkAcls.defaultAction"
+              },
+              {
+                "exists": "false",
+                "field": "Microsoft.KeyVault/Vaults/networkAcls.virtualNetworkRules"
+              },
+              {
+                "notequals": "0",
+                "value": "[length(field('Microsoft.KeyVault/Vaults/networkAcls.virtualNetworkRules'))]"
+              },
+              {
+                "exists": "false",
+                "field": "Microsoft.KeyVault/Vaults/networkAcls.ipRules"
+              },
+              {
+                "notequals": "0",
+                "value": "[length(field('Microsoft.KeyVault/Vaults/networkAcls.ipRules'))]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

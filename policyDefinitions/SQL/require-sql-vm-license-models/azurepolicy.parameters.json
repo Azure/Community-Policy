@@ -1,0 +1,28 @@
+{
+  "licenseModel": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "License Model",
+      "description": "A list of acceptable License Models for your SQL Server Virtual Machine"
+    },
+    "allowedValues": [
+      "AHUB",
+      "DR",
+      "PAYG"
+    ],
+    "defaultValue": "PAYG"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

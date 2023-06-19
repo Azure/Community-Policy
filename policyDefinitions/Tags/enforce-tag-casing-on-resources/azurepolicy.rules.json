@@ -1,0 +1,21 @@
+{
+  "if": {
+    "field": "tags",
+    "exists": true
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/4a9ae827-6dc8-4573-8ac7-8239d42aa03f"
+      ],
+      "operations": [
+        {
+          "operation": "addOrReplace",
+          "field": "tags",
+          "value": "[json(if(equals(parameters('toLowerOrToUpper'), 'Lowercase'), toLower(string(field('tags'))),toUpper(string(field('tags')))))]"
+        }
+      ]
+    }
+  }
+}

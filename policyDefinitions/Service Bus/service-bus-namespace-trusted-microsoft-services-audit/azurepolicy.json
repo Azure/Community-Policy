@@ -1,0 +1,44 @@
+{
+  "name": "54d9feff-c301-4c4a-b655-e9ccc53b2c9c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Service Bus Namespace - Trusted Microsoft Services AUDIT",
+    "description": "This Azure Policy creates an audit event when the 'Allow trusted Microsoft services to bypass this firewall?' setting is set to 'Yes'.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Service Bus"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ServiceBus/namespaces/networkRuleSets"
+          },
+          {
+            "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/trustedServiceAccessEnabled",
+            "equals": "true"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

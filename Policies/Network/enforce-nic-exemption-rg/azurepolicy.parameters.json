@@ -1,9 +1,0 @@
-{
-    "resourceGroupSuffix": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Resource Group Suffix",
-            "description": "VMs deployed into Resource Groups with this suffix will require that their NICs be in Resource Groups also containging this suffix."
-        }
-    }
-}

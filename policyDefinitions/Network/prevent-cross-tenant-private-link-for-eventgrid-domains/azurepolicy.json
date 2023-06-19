@@ -1,0 +1,56 @@
+{
+  "name": "d733d766-d5d7-46e3-88fa-2cf5dff0db3d",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Prevent cross tenant Private Link for eventgrid domains",
+    "description": "This policy prevents private link between tenants for eventgrid domains.",
+    "metadata": {
+      "category": "Network",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.EventGrid/domains/privateEndpointConnections",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "exists": false,
+                "field": "Microsoft.EventGrid/domains/privateEndpointConnections/privateEndpoint.id"
+              },
+              {
+                "notEquals": "[subscription().subscriptionId]",
+                "value": "[split(concat(field('Microsoft.EventGrid/domains/privateEndpointConnections/privateEndpoint.id'), '//'), '/')[2]]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

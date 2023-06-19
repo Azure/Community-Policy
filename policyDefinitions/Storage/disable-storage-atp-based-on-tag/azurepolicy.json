@@ -1,0 +1,95 @@
+{
+  "name": "c0a60ee5-fcff-454d-ab6a-be8287aeec46",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Disable Storage ATP Based on Tag",
+    "description": "This Policy will disable Advanced Threat Protection and a storage account that has a matching tag key/value.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "tagName": {
+        "type": "String"
+      },
+      "tagValue": {
+        "type": "String"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "equals": "[parameters('tagValue')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Security/advancedThreatProtectionSettings",
+          "name": "current",
+          "existenceCondition": {
+            "anyOf": [
+              {
+                "field": "Microsoft.Security/advancedThreatProtectionSettings/isEnabled",
+                "equals": "false"
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/fb1c8493-542b-48eb-b624-b4c8fea62acd"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "storageAccountName": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "apiVersion": "2019-01-01",
+                    "type": "Microsoft.Storage/storageAccounts/providers/advancedThreatProtectionSettings",
+                    "name": "[concat(parameters('storageAccountName'), '/Microsoft.Security/current')]",
+                    "properties": {
+                      "isEnabled": false
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "storageAccountName": {
+                  "value": "[field('name')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

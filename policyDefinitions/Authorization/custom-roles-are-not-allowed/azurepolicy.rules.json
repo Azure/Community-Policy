@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Authorization/roleDefinitions"
+      },
+      {
+        "field": "Microsoft.Authorization/roleDefinitions/type",
+        "notEquals": "BuiltInRole"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

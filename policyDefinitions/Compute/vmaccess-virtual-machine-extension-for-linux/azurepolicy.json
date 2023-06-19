@@ -1,0 +1,45 @@
+{
+  "name": "980f4300-a120-446c-9a6b-e299a845b931",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "VMAccess virtual machine extension for Linux",
+    "description": "The VMAccess virtual machine extensions for Linux allows the user to reset the password/ssh of a selected user or the ability to create a new local users with sudo access. https://github.com/Azure/azure-linux-extensions/blob/master/VMAccess/README.md",
+    "metadata": {
+      "category": "Compute",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines/extensions"
+          },
+          {
+            "field": "Microsoft.Compute/virtualMachines/extensions/type",
+            "equals": "VMAccessForLinux"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

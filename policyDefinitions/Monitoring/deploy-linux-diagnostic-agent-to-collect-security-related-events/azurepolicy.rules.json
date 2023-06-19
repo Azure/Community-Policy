@@ -1,0 +1,141 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Compute/virtualMachines"
+      },
+      {
+        "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+        "equals": "Linux"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293",
+        "/providers/microsoft.authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab"
+      ],
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.Compute/virtualMachines/extensions/type",
+            "equals": "LinuxDiagnostic"
+          },
+          {
+            "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+            "equals": "Microsoft.Azure.Diagnostics"
+          },
+          {
+            "field": "Microsoft.Compute/virtualMachines/extensions/provisioningState",
+            "equals": "Succeeded"
+          }
+        ]
+      },
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "vmName": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              },
+              "storageAccountId": {
+                "type": "string"
+              }
+            },
+            "variables": {
+              "vmExtensionName": "Microsoft.Insights.VMDiagnosticsSettings",
+              "vmExtensionPublisher": "Microsoft.Azure.Diagnostics",
+              "vmExtensionType": "LinuxDiagnostic",
+              "vmExtensionTypeHandlerVersion": "4.0",
+              "existingdiagnosticsStorageAccountName": "[last(split(parameters('storageAccountId'), '/'))]",
+              "wadmetricsresourceid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name , '/providers/', 'Microsoft.Compute/virtualMachines/')]",
+              "accountSasProperties": {
+                "signedServices": "q",
+                "signedPermission": "rwc",
+                "signedExpiry": "2050-01-01T00:00:01Z",
+                "signedResourceTypes": "o"
+              }
+            },
+            "resources": [
+              {
+                "type": "Microsoft.Compute/virtualMachines/extensions",
+                "apiVersion": "2020-06-01",
+                "location": "[parameters('location')]",
+                "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
+                "properties": {
+                  "publisher": "[variables('vmExtensionPublisher')]",
+                  "type": "[variables('vmExtensionType')]",
+                  "autoUpgradeMinorVersion": true,
+                  "typeHandlerVersion": "[variables('vmExtensionTypeHandlerVersion')]",
+                  "protectedSettings": {
+                    "storageAccountName": "[variables('existingdiagnosticsStorageAccountName')]",
+                    "storageAccountSasToken": "[listAccountSas(parameters('storageAccountId'), '2018-07-01', variables('accountSasProperties')).accountSasToken]"
+                  },
+                  "settings": {
+                    "StorageAccount": "[variables('existingdiagnosticsStorageAccountName')]",
+                    "ladCfg": {
+                      "diagnosticMonitorConfiguration": {
+                        "eventVolume": "Medium",
+                        "metrics": {
+                          "metricAggregation": [
+                            {
+                              "scheduledTransferPeriod": "PT1M"
+                            },
+                            {
+                              "scheduledTransferPeriod": "PT1H"
+                            }
+                          ],
+                          "resourceId": "[variables('wadmetricsresourceid')]"
+                        },
+                        "performanceCounters": {
+                          "performanceCounterConfiguration": []
+                        },
+                        "syslogEvents": {
+                          "syslogEventConfiguration": {
+                            "LOG_AUTH": "LOG_INFO",
+                            "LOG_AUTHPRIV": "LOG_INFO",
+                            "LOG_SYSLOG": "LOG_INFO",
+                            "LOG_CRON": "LOG_INFO",
+                            "LOG_MAIL": "LOG_INFO"
+                          }
+                        }
+                      },
+                      "sampleRateInSeconds": 15
+                    }
+                  }
+                }
+              }
+            ],
+            "outputs": {
+              "policy": {
+                "type": "string",
+                "value": "[concat('Enabled Linux diagnostic extension for VM', ': ', parameters('vmName'))]"
+              }
+            }
+          },
+          "parameters": {
+            "vmName": {
+              "value": "[field('name')]"
+            },
+            "location": {
+              "value": "[field('location')]"
+            },
+            "storageAccountId": {
+              "value": "[parameters('storageAccountId')]"
+            }
+          }
+        }
+      }
+    }
+  }
+}

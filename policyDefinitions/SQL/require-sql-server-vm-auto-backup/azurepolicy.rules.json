@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
+      },
+      {
+        "field": "SqlVirtualMachine/sqlVirtualMachines/autoBackupSettings.enable",
+        "equals": "[parameters('autoBackupSetting')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

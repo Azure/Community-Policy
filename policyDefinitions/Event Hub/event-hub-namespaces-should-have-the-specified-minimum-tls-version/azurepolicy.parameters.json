@@ -1,0 +1,28 @@
+{
+  "minimumTlsVersion": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Minimum TLS Version",
+      "description": "Minimum version of TLS required to access data in the Event Hub Namespace"
+    },
+    "allowedValues": [
+      "1.0",
+      "1.1",
+      "1.2"
+    ],
+    "defaultValue": "1.2"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

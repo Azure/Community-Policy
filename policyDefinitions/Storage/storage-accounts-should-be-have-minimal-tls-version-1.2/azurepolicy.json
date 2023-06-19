@@ -1,0 +1,66 @@
+{
+  "name": "6c286ca4-40db-4f55-9e98-1d88bb21ea9f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage accounts should be have minimal TLS version 1.2",
+    "description": "This policy enforce storage minimal tls version.",
+    "metadata": {
+      "category": "Storage",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "tlsVersion": {
+        "type": "String",
+        "metadata": {
+          "description": "The TLS version to require",
+          "displayName": "TLS Version"
+        },
+        "allowedValues": [
+          "TLS1_0",
+          "TLS1_1",
+          "TLS1_2"
+        ],
+        "defaultValue": "TLS1_2"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Storage/storageAccounts",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Storage/storageAccounts/minimumTlsVersion",
+                "notEquals": "[parameters('tlsVersion')]"
+              },
+              {
+                "exists": "false",
+                "field": "Microsoft.Storage/storageAccounts/minimumTlsVersion"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

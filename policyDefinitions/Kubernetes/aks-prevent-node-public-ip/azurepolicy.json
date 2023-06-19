@@ -1,0 +1,62 @@
+{
+  "name": "82417f79-38c7-4446-ae2c-3c4fd7f06d89",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "AKS prevent node public ip",
+    "description": "This policy prevent node public ip for aks.",
+    "metadata": {
+      "category": "Kubernetes",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.ContainerService/managedClusters",
+            "field": "type"
+          },
+          {
+            "count": {
+              "field": "Microsoft.ContainerService/managedClusters/agentPoolProfiles[*]",
+              "where": {
+                "anyOf": [
+                  {
+                    "exists": "False",
+                    "field": "Microsoft.ContainerService/managedClusters/agentPoolProfiles[*].enableNodePublicIP"
+                  },
+                  {
+                    "equals": "true",
+                    "field": "Microsoft.ContainerService/managedClusters/agentPoolProfiles[*].enableNodePublicIP"
+                  }
+                ]
+              }
+            },
+            "greater": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

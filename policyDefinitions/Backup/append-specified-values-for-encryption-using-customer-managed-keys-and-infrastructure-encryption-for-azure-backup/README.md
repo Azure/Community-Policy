@@ -1,0 +1,1 @@
+This policy appends the specified properties for encryption using customer managed keys and infrastructure encryption for Azure Backup if the same are not applied during creation of the Recovery Services vault.

@@ -1,0 +1,48 @@
+{
+  "name": "0724c16d-fd7c-46b7-adc0-bd0dfa57d4a6",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Unused App Service plans driving cost should be avoided",
+    "description": "Optimize cost by detecting unused but chargeable resources. Leverage this Policy definition as a cost control to reveal orphaned App Service plans that are driving cost.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Cost Optimization"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/serverfarms"
+          },
+          {
+            "field": "Microsoft.Web/serverFarms/sku.tier",
+            "notEquals": "Free"
+          },
+          {
+            "field": "Microsoft.Web/serverFarms/numberOfSites",
+            "equals": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

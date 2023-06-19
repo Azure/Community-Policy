@@ -1,0 +1,51 @@
+{
+  "name": "5f0b611a-c962-4a81-9530-1c07c9565702",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deny-app-gateway-only-allowed-in-approved-subnet",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "allowedSubnetName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Name of subnet where Applicaiton Gateways are allowed."
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/applicationGateways"
+          },
+          {
+            "field": "Microsoft.Network/applicationGateways/gatewayIPConfigurations[*].subnet.id",
+            "notContains": "[parameters('allowedSubnetName')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

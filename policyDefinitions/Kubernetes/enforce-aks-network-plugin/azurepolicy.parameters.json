@@ -1,0 +1,23 @@
+{
+  "networkPlugin": {
+    "type": "String",
+    "metadata": {
+      "description": "The network plugin used for building Kubernetes network.",
+      "displayName": "Network Plugin"
+    },
+    "defaultValue": "azure"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

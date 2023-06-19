@@ -1,0 +1,22 @@
+{
+  "allowedDiskSkus": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed Disk Skus",
+      "description": "The list of allowed disk skus for Managed Disks."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

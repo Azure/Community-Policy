@@ -1,0 +1,54 @@
+{
+  "name": "34f97ac3-0f0a-495a-b135-1934397eb183",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Use approved vNet for VM network interfaces",
+    "description": "This policy enforces VM network interfaces to use a specific vNet.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "vNetId": {
+        "type": "string",
+        "metadata": {
+          "description": "Resource Id for the vNet",
+          "displayName": "vNet Id"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
+              "like": "[concat(parameters('vNetId'),'*')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

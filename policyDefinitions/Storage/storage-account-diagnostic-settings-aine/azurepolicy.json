@@ -1,0 +1,75 @@
+{
+  "name": "94876c10-a8cd-4c32-9ce1-ad4140beb1dc",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage Account - Diagnostic Settings AINE",
+    "description": "This Azure Policy creates an audit event when all logs and metrics are not send to a specified Log Analytics Workspace.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "mode": "All",
+    "parameters": {
+      "profileName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Profile Name",
+          "description": "The profile name of the Diagnostic Settings"
+        }
+      },
+      "logAnalyticsWorkspace": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace",
+          "description": "The resource Id of the Log Analytics Workspace"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/diagnosticSettings",
+          "name": "[parameters('profileName')]",
+          "evaluationDelay": "AfterProvisioning",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "anyof": [
+                  {
+                    "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
+                    "equals": "True"
+                  },
+                  {
+                    "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
+                    "equals": "True"
+                  }
+                ]
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+                "equals": "[parameters('logAnalyticsWorkspace')]"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

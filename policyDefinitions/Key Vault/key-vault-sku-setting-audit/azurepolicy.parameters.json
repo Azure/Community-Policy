@@ -1,0 +1,22 @@
+{
+  "allowedSKUSetting": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Allowed SKU Setting",
+      "description": "The allowed SKU setting of an Azure Key Vault"
+    },
+    "defaultValue": "Premium"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}
