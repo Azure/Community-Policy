@@ -1,0 +1,69 @@
+{
+  "name": "14b1d0d7-3e90-4989-bb8e-e52773fc6a8f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce Firewall Policy DNS servers",
+    "description": "This policy prevent settings non authorized dns servers for firewall policies.",
+    "metadata": {
+      "category": "Network",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "servers": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of DNS servers to enforce exclusive existance of.",
+          "displayName": "DNS Servers list"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "AllOf": [
+          {
+            "equals": "Microsoft.Network/firewallPolicies",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "exists": false,
+                "field": "Microsoft.Network/firewallPolicies/dnsSettings.servers"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/firewallPolicies/dnsSettings.servers[*]",
+                  "where": {
+                    "field": "Microsoft.Network/firewallPolicies/dnsSettings.servers[*]",
+                    "notIn": "[parameters('servers')]"
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

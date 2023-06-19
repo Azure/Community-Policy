@@ -1,0 +1,50 @@
+{
+  "name": "ff100af1-70f2-4521-8c0e-d3b90ae13741",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Service Bus Namespace - Customer Managed Keys AUDIT",
+    "description": "This Azure Policy creates an audit event when the 'Customer-managed key' setting is not enabled as this implies that a Microsoft Managed Key is used.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Service Bus"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ServiceBus/namespaces"
+          },
+          {
+            "field": "Microsoft.ServiceBus/namespaces/sku.tier",
+            "equals": "Premium"
+          },
+          {
+            "not": {
+              "field": "Microsoft.ServiceBus/namespaces/encryption.keySource",
+              "equals": "Microsoft.Keyvault"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

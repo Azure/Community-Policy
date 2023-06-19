@@ -1,0 +1,22 @@
+{
+  "deniedSubnetName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Name of subnet where VM, VMSS, and LB are denied.",
+      "description": "The creation of VM, VMSS, and LB in the defined subnet will be denied"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

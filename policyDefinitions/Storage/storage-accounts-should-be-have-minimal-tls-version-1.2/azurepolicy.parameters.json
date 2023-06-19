@@ -1,0 +1,28 @@
+{
+  "tlsVersion": {
+    "type": "String",
+    "metadata": {
+      "description": "The TLS version to require",
+      "displayName": "TLS Version"
+    },
+    "allowedValues": [
+      "TLS1_0",
+      "TLS1_1",
+      "TLS1_2"
+    ],
+    "defaultValue": "TLS1_2"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

@@ -1,9 +1,0 @@
-{
-    "listOfAllowedIps": {
-        "type": "Array",
-        "metadata": {
-            "displayName": "Allowed IP's",
-            "description": "A list of IP's that are allowed to access the AKS API server."
-        }
-    }
-}

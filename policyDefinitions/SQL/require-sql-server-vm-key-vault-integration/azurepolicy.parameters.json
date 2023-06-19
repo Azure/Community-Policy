@@ -1,0 +1,23 @@
+{
+  "keyVaultIntegrationSetting": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Key Vault Integration Setting",
+      "description": "A boolean value for whether or not Key Vault Integration needs to be enabled on a SQL Server VM."
+    },
+    "defaultValue": false
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

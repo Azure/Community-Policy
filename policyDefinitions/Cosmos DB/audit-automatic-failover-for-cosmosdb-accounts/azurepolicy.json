@@ -1,0 +1,48 @@
+{
+  "name": "350c4f55-a655-444f-95a3-af075bebccbb",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit Automatic Failover for CosmosDB accounts",
+    "description": "This policy audits Automatic Failover for CosmosDB accounts",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Cosmos DB"
+    },
+    "mode": "all",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.DocumentDB/databaseAccounts"
+          },
+          {
+            "field": "Microsoft.DocumentDB/databaseAccounts/enableAutomaticFailover",
+            "equals": "false"
+          },
+          {
+            "field": "Microsoft.DocumentDB/databaseAccounts/enableMultipleWriteLocations",
+            "equals": "false"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

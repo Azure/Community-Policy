@@ -1,0 +1,118 @@
+{
+  "name": "0ad1b72f-ed9c-40aa-84cf-6e4f2820bc59",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deploy Azure Hybrid Benefit for Windows.",
+    "description": "This policy ensures virtual machines are configured for Azure Hybrid Benefit for Windows Client and Server - https://docs.microsoft.com/en-us/azure/virtual-machines/windows/hybrid-use-benefit-licensing#ways-to-use-azure-hybrid-benefit-for-windows-server.",
+    "metadata": {
+      "category": "Compute",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "field": "Microsoft.Compute/imagePublisher",
+            "in": [
+              "MicrosoftWindowsServer",
+              "MicrosoftWindowsDesktop"
+            ]
+          },
+          {
+            "field": "Microsoft.Compute/imageOffer",
+            "in": [
+              "WindowsServer",
+              "Windows-10"
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Compute/virtualMachines",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Compute/virtualMachines/licenseType",
+                "equals": "[if(equals(field('Microsoft.Compute/imagePublisher'), 'MicrosoftWindowsDesktop'), 'Windows_Client', 'Windows_Server')]"
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "vmName": {
+                    "type": "String"
+                  },
+                  "licenceType": {
+                    "defaultValue": "None",
+                    "type": "String",
+                    "allowedValues": [
+                      "None",
+                      "Windows_Client",
+                      "Windows_Server"
+                    ]
+                  }
+                },
+                "variables": {},
+                "resources": [
+                  {
+                    "type": "Microsoft.Compute/virtualMachines",
+                    "apiVersion": "2021-03-01",
+                    "name": "[parameters('vmName')]",
+                    "location": "[resourceGroup().location]",
+                    "properties": {
+                      "licenseType": "[parameters('licenceType')]"
+                    }
+                  }
+                ],
+                "outputs": {
+                  "policy": {
+                    "type": "string",
+                    "value": "[concat('Changed LicenseType for Windows VM', ': ', parameters('vmName'), '- ', parameters('licenceType'))]"
+                  }
+                }
+              },
+              "parameters": {
+                "vmName": {
+                  "value": "[field('name')]"
+                },
+                "licenceType": {
+                  "value": "[if(equals(field('Microsoft.Compute/imagePublisher'), 'MicrosoftWindowsDesktop'), 'Windows_Client', 'Windows_Server')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "name": "93998338-fca3-4e49-b605-e9eeed2bae79",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Only allow images from certain image publishers to be deployed",
+    "description": "This policy ensures that only certain image publisher offerings are usable from the image repository",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Compute"
+    },
+    "mode": "All",
+    "parameters": {
+      "listOfAllowedimagePublishers": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of publishers to audit against. Example: 'MicrosoftWindowsServer'",
+          "displayName": "Allowed image publishers"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "in": [
+              "Microsoft.Compute/virtualMachines",
+              "Microsoft.Compute/VirtualMachineScaleSets"
+            ]
+          },
+          {
+            "not": {
+              "field": "Microsoft.Compute/imagePublisher",
+              "in": "[parameters('listOfAllowedimagePublishers')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

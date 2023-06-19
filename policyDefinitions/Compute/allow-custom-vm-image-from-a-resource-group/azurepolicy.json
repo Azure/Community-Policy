@@ -1,0 +1,54 @@
+{
+  "name": "841c8cb0-cce0-4716-a026-5254dd6468c6",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Allow custom VM image from a Resource Group",
+    "description": "This policy allows only usage of images from a resource group",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Compute"
+    },
+    "mode": "All",
+    "parameters": {
+      "resourceGroupName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Resource Group Name",
+          "strongType": "ExistingResourceGroups"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Compute/imageId",
+              "contains": "[concat('resourceGroups/',parameters('resourceGroupName'))]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

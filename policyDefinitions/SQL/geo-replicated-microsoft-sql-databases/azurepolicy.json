@@ -1,0 +1,44 @@
+{
+  "name": "2ba488a2-471a-48aa-8885-7b24fc5b93d7",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Geo replicated Microsoft SQL databases",
+    "description": "This policy audits geo replicated Microsoft SQL databases. This will only list the stand-by geo-redundant database as compliant and the primary as non-compliant, please note that this is a false-positive.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers/databases"
+          },
+          {
+            "field": "Microsoft.Sql/servers/databases/secondaryType",
+            "notEquals": "Geo"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

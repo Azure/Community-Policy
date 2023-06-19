@@ -1,0 +1,56 @@
+{
+  "name": "f151e60c-f336-4b95-bd96-7e419939f01f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Prevent cross tenant Private Link for storage",
+    "description": "This policy prevents private link between tenants for storage.",
+    "metadata": {
+      "category": "Network",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Storage/storageAccounts/privateEndpointConnections",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "exists": false,
+                "field": "Microsoft.Storage/storageAccounts/privateEndpointConnections/privateEndpoint.id"
+              },
+              {
+                "notEquals": "[subscription().subscriptionId]",
+                "value": "[split(concat(field('Microsoft.Storage/storageAccounts/privateEndpointConnections/privateEndpoint.id'), '//'), '/')[2]]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

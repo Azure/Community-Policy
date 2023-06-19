@@ -1,0 +1,76 @@
+{
+  "name": "6755a76b-930a-479e-8d30-52e0174a6151",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "webapp-config-is-minTLS",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "App Service"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Web/sites"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Web/sites/config",
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/****-****-****"
+          ],
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/config/minTlsVersion",
+            "equals": "1.2"
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "webappName": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "name": "[concat(parameters('webappName'),'/','web')]",
+                    "type": "Microsoft.Web/sites/config",
+                    "apiVersion": "2018-11-01",
+                    "properties": {
+                      "minTlsVersion": "1.2"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "webappName": {
+                  "value": "[field('name')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

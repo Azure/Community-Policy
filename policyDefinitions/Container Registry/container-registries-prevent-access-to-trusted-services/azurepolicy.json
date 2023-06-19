@@ -1,0 +1,56 @@
+{
+  "name": "87d66c96-5b33-48cf-bc41-c1356bb565dc",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Container Registries prevent access to trusted services",
+    "description": "This policy configures container registry acr_firewall_bypass to prevent access to trusted services",
+    "metadata": {
+      "category": "Container Registry",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.ContainerRegistry/registries",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "exists": "false",
+                "field": "Microsoft.ContainerRegistry/registries/networkRuleBypassOptions"
+              },
+              {
+                "equals": "AzureServices",
+                "field": "Microsoft.ContainerRegistry/registries/networkRuleBypassOptions"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

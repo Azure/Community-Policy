@@ -1,0 +1,69 @@
+{
+  "name": "647f8568-2711-4920-b7f1-e011c1ca6e1f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Create VM using Managed Disk",
+    "description": "Create VM using Managed Disk",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Compute"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Compute/virtualMachines"
+              },
+              {
+                "field": "Microsoft.Compute/virtualMachines/osDisk.uri",
+                "exists": true
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Compute/VirtualMachineScaleSets"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.Compute/VirtualMachineScaleSets/osDisk.vhdContainers",
+                    "exists": true
+                  },
+                  {
+                    "field": "Microsoft.Compute/VirtualMachineScaleSets/osdisk.imageUrl",
+                    "exists": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

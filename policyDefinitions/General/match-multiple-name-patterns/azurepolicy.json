@@ -1,0 +1,49 @@
+{
+  "name": "c57d9f5d-39a7-4b98-a17a-d55df5b7b33d",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Match multiple name patterns.",
+    "description": "Allows one of multiple naming patterns for resources.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "General"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "not": {
+              "field": "name",
+              "match": "contoso??????"
+            }
+          },
+          {
+            "not": {
+              "field": "name",
+              "match": "contoso-???-##"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

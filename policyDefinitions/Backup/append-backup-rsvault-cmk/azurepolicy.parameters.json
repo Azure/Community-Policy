@@ -1,0 +1,43 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Append, Deny, Audit or Disable the execution of the Policy"
+    },
+    "allowedValues": [
+      "Append",
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Append"
+  },
+  "keyUri": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Encryption key URI",
+      "description": "The URI of the key you want to use for encrypting the backup data in your Recovery Services vaults."
+    }
+  },
+  "userAssignedIdentity": {
+    "type": "String",
+    "metadata": {
+      "displayName": "User assigned managed identity",
+      "description": "The user assigned managed identity to use to access the encryption key for encrypting backup data in your Recovery Services vaults.",
+      "strongType": "Microsoft.ManagedIdentity/UserAssignedIdentities"
+    }
+  },
+  "infrastructureEncryption": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Infrastructure Encryption",
+      "description": "Enable infrastructure encryption on your Recovery Services vaults for Backup."
+    },
+    "allowedValues": [
+      "Enabled",
+      "Disabled"
+    ],
+    "defaultValue": "Disabled"
+  }
+}

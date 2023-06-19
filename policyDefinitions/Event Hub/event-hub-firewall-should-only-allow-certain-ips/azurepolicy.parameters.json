@@ -1,0 +1,23 @@
+{
+  "allowedIps": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allow IPs for event hub firewall",
+      "description": "List of IPs allowed for event hub firewall"
+    },
+    "defaultValue": []
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

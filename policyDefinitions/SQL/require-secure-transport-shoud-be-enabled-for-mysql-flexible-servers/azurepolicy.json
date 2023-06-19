@@ -1,0 +1,44 @@
+{
+  "name": "49e6f04d-fbc3-4ac3-9e84-6ae0eb5db024",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Require Secure Transport shoud be enabled for MySQL flexible servers",
+    "description": "Azure Database for MySQL flexible servers supports connecting your Azure Database for MySQL flexible servers to client applications using Secure Sockets Layer (SSL). Enforcing SSL connections between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server.",
+    "metadata": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.DBforMySQL/flexibleServers"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.DBforMySQL/flexibleServers/configurations",
+          "name": "require_secure_transport",
+          "existenceCondition": {
+            "field": "Microsoft.DBForMySql/flexibleServers/configurations/value",
+            "equals": "ON"
+          }
+        }
+      }
+    }
+  }
+}

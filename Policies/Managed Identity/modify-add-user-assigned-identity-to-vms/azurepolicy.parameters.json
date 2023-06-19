@@ -1,9 +1,0 @@
-{
-    "userAssignedManagedIdentityResourceID": {
-        "type": "string",
-        "metadata": {
-            "displayName": "UAMI Resource ID",
-            "description": "Resource ID for the User Assigned Managed Identity. Example: /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourcegroups/uami-rg/providers/microsoft.managedidentity/userassignedidentities/uami"
-        }
-    }
-}

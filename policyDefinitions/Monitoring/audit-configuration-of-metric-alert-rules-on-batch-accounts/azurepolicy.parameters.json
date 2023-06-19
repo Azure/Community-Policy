@@ -1,0 +1,21 @@
+{
+  "metricName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Metric name",
+      "description": "The metric name that an alert rule must be enabled on. See https://docs.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-supported-metrics#microsoftbatchbatchaccounts for a list of metrics."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists"
+  }
+}

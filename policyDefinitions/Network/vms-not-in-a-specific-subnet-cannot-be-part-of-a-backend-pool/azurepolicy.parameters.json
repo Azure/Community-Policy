@@ -1,0 +1,21 @@
+{
+  "allowedSubnetName": {
+    "type": "string",
+    "metadata": {
+      "displayName": "Name of subnet where VMs are allowed to be added into a backend pool."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

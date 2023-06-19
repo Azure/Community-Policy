@@ -1,0 +1,22 @@
+{
+  "resourceGroupSuffix": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Resource Group Suffix",
+      "description": "VMs deployed into Resource Groups with this suffix will require that their NICs be in Resource Groups also containging this suffix."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

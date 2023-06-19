@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
+      },
+      {
+        "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/keyVaultCredentialSettings.enable",
+        "equals": "[parameters('keyVaultIntegrationSetting')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

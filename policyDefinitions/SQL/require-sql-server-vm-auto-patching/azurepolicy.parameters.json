@@ -1,0 +1,23 @@
+{
+  "autoPatchingSetting": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Auto Patching Setting",
+      "description": "A boolean value for whether or not Auto Patching needs to be enabled on a SQL Server VM."
+    },
+    "defaultValue": true
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

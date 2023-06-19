@@ -1,0 +1,84 @@
+{
+  "name": "a8951b74-a64f-418b-bbdf-e98fe479c67f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Add user-assigned managed identity to virtual machines.",
+    "description": "This policy adds a user-assigned managed identity to virtual machines.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Managed Identity"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "userAssignedManagedIdentityResourceID": {
+        "type": "string",
+        "metadata": {
+          "displayName": "UAMI Resource ID",
+          "description": "Resource ID for the User Assigned Managed Identity. Example: /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourcegroups/uami-rg/providers/microsoft.managedidentity/userassignedidentities/uami"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Modify, Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Modify",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Modify"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "value": "[requestContext().apiVersion]",
+            "greaterOrEquals": "2018-10-01"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "identity.type",
+                "exists": "false"
+              },
+              {
+                "field": "identity.type",
+                "equals": "None"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "operations": [
+            {
+              "operation": "addOrReplace",
+              "field": "identity.type",
+              "value": "userAssigned"
+            },
+            {
+              "operation": "addOrReplace",
+              "field": "identity.userAssignedIdentities",
+              "value": {
+                "[parameters('userAssignedManagedIdentityResourceID')]": {}
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

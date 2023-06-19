@@ -1,0 +1,45 @@
+{
+  "name": "78c92ce1-7e45-4482-95df-1c3b86af1b62",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "remote-debugging-off-for-web-apps-deny",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "App Service"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "Microsoft.Web/sites/siteConfig.remoteDebuggingEnabled",
+            "equals": "true"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

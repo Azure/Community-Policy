@@ -1,0 +1,77 @@
+{
+  "name": "a712aded-1a15-4ffd-8b3d-97dbc7b732f2",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deploy-tde-sql-databases",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Sql/servers/databases"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+          "name": "current",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/9b7fa17d-e63e-47b0-bb0a-15c516ac86ec"
+          ],
+          "existenceCondition": {
+            "field": "Microsoft.Sql/transparentDataEncryption.status",
+            "equals": "Enabled"
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "fullDbName": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "name": "[concat(parameters('fullDbName'), '/current')]",
+                    "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+                    "apiVersion": "2014-04-01",
+                    "properties": {
+                      "status": "Enabled"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "fullDbName": {
+                  "value": "[field('fullName')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

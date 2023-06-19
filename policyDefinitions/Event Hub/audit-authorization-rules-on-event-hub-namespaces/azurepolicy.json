@@ -1,0 +1,44 @@
+{
+  "name": "3d9b055f-ba04-40c9-b40c-0b6bf5275726",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit authorization rules on Event Hub namespaces",
+    "description": "Event Hub clients should not use a namespace level access policy that provides access to all queues and topics in a namespace. To align with the least previlege security model, you should create access policies at the entity level for queues and topics to provide access to only the specific entity",
+    "metadata": {
+      "category": "Event Hub",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "name",
+            "notEquals": "RootManageSharedAccessKey"
+          },
+          {
+            "field": "type",
+            "equals": "Microsoft.EventHub/namespaces/authorizationRules"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

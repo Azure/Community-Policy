@@ -1,0 +1,51 @@
+{
+  "name": "661c9658-3220-4a5f-976c-f65c1a8fd827",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deny-app-gateways-cant-have-private-listener",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/applicationGateways"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/applicationGateways/frontendIPConfigurations[*]",
+              "where": {
+                "field": "Microsoft.Network/applicationGateways/frontendIPConfigurations[*].subnet.id",
+                "like": "*"
+              }
+            },
+            "greater": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

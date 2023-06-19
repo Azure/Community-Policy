@@ -1,0 +1,56 @@
+{
+  "name": "b48e485c-067a-4ec0-b5ac-b491d3500a79",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Prevent cross tenant Private Link for aks",
+    "description": "This policy prevents private link between tenants for aks.",
+    "metadata": {
+      "category": "Network",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.ContainerService/managedClusters/privateEndpointConnections",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "exists": false,
+                "field": "Microsoft.ContainerService/managedClusters/privateEndpointConnections/privateEndpoint.id"
+              },
+              {
+                "notEquals": "[subscription().subscriptionId]",
+                "value": "[split(concat(field('Microsoft.ContainerService/managedClusters/privateEndpointConnections/privateEndpoint.id'), '//'), '/')[2]]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

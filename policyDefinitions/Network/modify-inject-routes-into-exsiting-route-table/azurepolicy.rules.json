@@ -1,0 +1,36 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/routeTables"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+      ],
+      "conflictEffect": "audit",
+      "operations": [
+        {
+          "operation": "addOrReplace",
+          "field": "Microsoft.Network/routeTables/routes[*].addressPrefix",
+          "value": "[parameters('addressPrefix')]"
+        },
+        {
+          "operation": "addOrReplace",
+          "field": "Microsoft.Network/routeTables/routes[*].nextHopType",
+          "value": "[parameters('nextHopType')]"
+        },
+        {
+          "operation": "addOrReplace",
+          "field": "Microsoft.Network/routeTables/routes[*].nextHopIpAddress",
+          "value": "[parameters('nextHopIpAddress')]"
+        }
+      ]
+    }
+  }
+}

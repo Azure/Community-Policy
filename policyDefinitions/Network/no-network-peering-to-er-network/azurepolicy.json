@@ -1,0 +1,53 @@
+{
+  "name": "b2a0ab0c-4bc0-4157-a662-47d23188085a",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "No network peering to ER network",
+    "description": "No network peering can be associated to networks in network in a resource group containing central managed network infrastructure.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "resourceGroupName": {
+        "type": "String",
+        "metadata": {
+          "description": "Name of the resource group with ER Network",
+          "displayName": "ER Network Resource Group Name",
+          "strongType": "ExistingResourceGroups"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+          },
+          {
+            "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
+            "contains": "[concat('resourceGroups/',parameters('resourceGroupName'))]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

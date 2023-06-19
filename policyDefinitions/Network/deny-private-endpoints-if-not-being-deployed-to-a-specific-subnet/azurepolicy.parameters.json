@@ -1,0 +1,29 @@
+{
+  "subnetName": {
+    "type": "string",
+    "metadata": {
+      "displayName": "Allowed Subnet prefix name (i.e. pls)",
+      "description": "Name of subnet where Private Endpoints are allowed to be deployed into."
+    }
+  },
+  "exemptedGroupIds": {
+    "type": "array",
+    "metadata": {
+      "displayName": "Exempted Private Endpoint Group IDs",
+      "description": "The Group IDs that are exempted from this Policy (i.e. blob)"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

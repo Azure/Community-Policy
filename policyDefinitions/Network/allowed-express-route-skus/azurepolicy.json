@@ -1,0 +1,54 @@
+{
+  "name": "1f592b89-fdd1-4698-9835-ad0faf60311f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Allowed Express Route SKUs",
+    "description": "This policy enables you to specify a set of express route SKUs that your organization can deploy.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "listOfAllowedSKUs": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of SKUs that can be specified for express route.",
+          "displayName": "Allowed SKUs"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/expressRouteCircuits"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/expressRouteCircuits/sku.name",
+              "in": "[parameters('listOfAllowedSKUs')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

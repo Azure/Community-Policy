@@ -1,0 +1,53 @@
+{
+  "name": "4c8b8237-22e7-4238-8cdd-ae63e2706104",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Require SQL Server VM Key Vault Integration",
+    "description": "Require SQL Server Virtual Machines to have Key Vault Integration",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "mode": "All",
+    "parameters": {
+      "keyVaultIntegrationSetting": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Key Vault Integration Setting",
+          "description": "A boolean value for whether or not Key Vault Integration needs to be enabled on a SQL Server VM."
+        },
+        "defaultValue": false
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
+          },
+          {
+            "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/keyVaultCredentialSettings.enable",
+            "equals": "[parameters('keyVaultIntegrationSetting')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "02445760-2921-4076-a9b5-38ec91b3126f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Vnet peering disallowed outside subscription",
+    "description": "No network peering can be associated to networks outside the current subscription.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+          },
+          {
+            "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
+            "notcontains": "[subscription().id]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

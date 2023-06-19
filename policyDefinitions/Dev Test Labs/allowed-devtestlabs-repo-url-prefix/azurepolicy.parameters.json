@@ -1,0 +1,23 @@
+{
+  "URI": {
+    "type": "String",
+    "metadata": {
+      "displayName": "URI",
+      "description": "Allowed URL for the like operator"
+    },
+    "defaultValue": "https://dev.azure.com/WorkingRemotely/*"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

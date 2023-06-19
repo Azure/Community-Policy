@@ -1,0 +1,106 @@
+{
+  "name": "dd3e395e-1e91-4021-9903-4f2f47229c2a",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce FTPS only or disablement of FTP/FTPS for App Service and Azure Functions",
+    "description": "Enforce FTPS only or disablement of FTP/FTPS for App Service and Azure Functions",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "App Service"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "allowFTPS": {
+        "type": "boolean",
+        "defaultValue": false,
+        "metadata": {
+          "displayName": "Allow FTPS",
+          "description": "Allow FtpsOnly as a valid configuration. FTP will still be disabled."
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "kind",
+            "contains": "functionapp"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Web/sites/config",
+          "name": "web",
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/config/ftpsState",
+            "in": "[if(parameters('allowFTPS'), createArray('FtpsOnly', 'Disabled'), createArray('Disabled'))]"
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "name": {
+                  "value": "[field('name')]"
+                },
+                "allowFTPS": {
+                  "value": "[parameters('allowFTPS')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "allowFTPS": {
+                    "type": "bool"
+                  },
+                  "location": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "name": "[concat(parameters('name'), '/web')]",
+                    "type": "Microsoft.Web/sites/config",
+                    "location": "[parameters('location')]",
+                    "apiVersion": "2018-11-01",
+                    "properties": {
+                      "ftpsState": "[if(parameters('allowFTPS'), 'FtpsOnly', 'Disabled')]"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "throughputMax": {
+    "type": "integer",
+    "defaultValue": 400,
+    "metadata": {
+      "displayName": "Max RUs"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

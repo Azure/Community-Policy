@@ -1,0 +1,73 @@
+{
+  "name": "18df4014-9705-4839-9bbf-91bb26f59766",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit diagnostic setting for selected resource types",
+    "description": "This policy audit the existence of diagnostic setting and specific log analytics workspaceId for selected resource types.",
+    "metadata": {
+      "category": "Storage",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "listOfResourceTypes": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Resource Types",
+          "strongType": "resourceTypes"
+        }
+      },
+      "logAnalyticsWorkspaceId": {
+        "type": "String",
+        "metadata": {
+          "description": "Specify the Log Analytics workspace the logs should be streamed to.",
+          "displayName": "Log Analytics workspaceId",
+          "strongType": "omsWorkspace"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": "[parameters('listOfResourceTypes')]"
+      },
+      "then": {
+        "details": {
+          "existenceCondition": {
+            "allOf": [
+              {
+                "equals": "true",
+                "field": "Microsoft.Insights/diagnosticSettings/logs.enabled"
+              },
+              {
+                "equals": "true",
+                "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled"
+              },
+              {
+                "equals": "[parameters('logAnalyticsWorkspaceId')]",
+                "field": "Microsoft.Insights/diagnosticSettings/workspaceId"
+              }
+            ]
+          },
+          "type": "Microsoft.Insights/diagnosticSettings"
+        },
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

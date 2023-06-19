@@ -1,0 +1,22 @@
+{
+  "maxExpirationDays": {
+    "type": "integer",
+    "defaultValue": 182,
+    "metadata": {
+      "description": "Days from current datetime that a policy exemption date can maximum be. Time is UTC. 182 is approx. 6 months."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

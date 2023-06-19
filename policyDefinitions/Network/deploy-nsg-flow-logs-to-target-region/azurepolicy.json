@@ -1,0 +1,144 @@
+{
+  "name": "fd40c385-9316-4218-a5c6-ca6855d90a3b",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deploy NSG Flow Logs to Target Region",
+    "description": "This Policy will deploy NSG Flow Logs for a target region. You'll need to do a unique assignment of this Policy for each region you wish to enable NSG Flow Logs in. NSG Flow Logs require that the Storage Account used for logging be in the same region as the NSG you're enabling Flow Logs on.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "storageId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Storage id",
+          "description": "A string with the storage id for the flowlogs to be sent to. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Storage/storageAccounts/{storage account name}"
+        }
+      },
+      "targetRegion": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Target Region",
+          "description": "This needs to use the name format for the region found by running 'az account list-locations' or 'Get-AzLocation'"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkSecurityGroups"
+          },
+          {
+            "field": "location",
+            "equals": "[parameters('targetRegion')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Network/networkWatchers/flowLogs",
+          "resourceGroupName": "NetworkWatcherRG",
+          "name": "[concat('networkwatcher_', field('location'), '/Microsoft.Network', resourceGroup().name, field('name'))]",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Network/networkWatchers/flowLogs/targetResourceId",
+                "equals": "[concat(resourceGroup().id, '/providers/Microsoft.Network/networkSecurityGroups/', field('name'))]"
+              },
+              {
+                "field": "Microsoft.Network/networkWatchers/flowLogs/enabled",
+                "equals": "true"
+              },
+              {
+                "field": "Microsoft.Network/networkWatchers/flowLogs/storageId",
+                "equals": "[parameters('storageId')]"
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "storageId": {
+                    "type": "String"
+                  },
+                  "nsgName": {
+                    "type": "String"
+                  },
+                  "nsgRG": {
+                    "type": "String"
+                  },
+                  "location": {
+                    "type": "String"
+                  },
+                  "targetResource": {
+                    "type": "string"
+                  }
+                },
+                "variables": {},
+                "resources": [
+                  {
+                    "type": "Microsoft.Network/networkWatchers/flowLogs",
+                    "name": "[concat('networkwatcher_', parameters('location'), '/Microsoft.Network', parameters('nsgRG'), parameters('nsgName'))]",
+                    "apiVersion": "2019-11-01",
+                    "location": "[parameters('location')]",
+                    "properties": {
+                      "targetResourceId": "[parameters('targetResource')]",
+                      "storageId": "[parameters('storageId')]",
+                      "enabled": "true",
+                      "retentionPolicy": {
+                        "days": "0",
+                        "enabled": "false"
+                      }
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "storageId": {
+                  "value": "[parameters('storageId')]"
+                },
+                "nsgName": {
+                  "value": "[field('name')]"
+                },
+                "nsgRG": {
+                  "value": "[resourceGroup().name]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                },
+                "targetResource": {
+                  "value": "[concat(resourceGroup().id, '/providers/Microsoft.Network/networkSecurityGroups/', field('name'))]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

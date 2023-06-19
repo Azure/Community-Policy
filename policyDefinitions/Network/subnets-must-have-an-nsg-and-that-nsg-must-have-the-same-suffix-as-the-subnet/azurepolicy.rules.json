@@ -1,0 +1,71 @@
+{
+  "if": {
+    "anyOf": [
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "value": "[if(empty(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id')), bool('false'), endswith(substring(last(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id')), 'networkSecurityGroups/')), 0, sub(length(last(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].networkSecurityGroup.id')), 'networkSecurityGroups/'))), 2)), substring(last(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].name')), '-')), 0, sub(length(last(split(string(field('Microsoft.Network/virtualNetworks/subnets[*].name')), '-'))), 2))))]",
+                    "equals": false
+                  },
+                  {
+                    "not": {
+                      "anyOf": [
+                        {
+                          "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                          "equals": "GatewaySubnet"
+                        },
+                        {
+                          "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                          "equals": "AzureFirewallSubnet"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "greater": 0
+          }
+        ]
+      },
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks/subnets"
+          },
+          {
+            "value": "[if(empty(field('Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.id')), bool('false'), endswith(last(split(substring(last(split(field('Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.id'), 'networkSecurityGroups/')), 0, length(last(split(field('Microsoft.Network/virtualNetworks/subnets/networkSecurityGroup.id'), 'networkSecurityGroups/')))), '-')), last(split(field('name'),'-'))))]",
+            "equals": false
+          },
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "field": "name",
+                  "equals": "GatewaySubnet"
+                },
+                {
+                  "field": "name",
+                  "equals": "AzureFirewallSubnet"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "name": "4e47ac00-d7a9-401c-a98c-a800210ee10b",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deploy Activity Log Alert to Detect CRUD against Policy Assingments",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Monitoring"
+    },
+    "mode": "All",
+    "parameters": {
+      "actionGroupName": {
+        "type": "string",
+        "metadata": {
+          "description": "Name for the Action group.",
+          "displayName": "Action Group Name"
+        }
+      },
+      "activityLogAlertName": {
+        "type": "string",
+        "metadata": {
+          "description": "Name for the Activity log alert.",
+          "displayName": "Alert Name"
+        }
+      },
+      "ActivityLogAlertResourceGroupName": {
+        "type": "string",
+        "metadata": {
+          "description": "This is the name of the Resource Group that will contain the Activity log alert resource.",
+          "displayName": "Alert Resource Group Name"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.resources/subscriptions"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/activityLogAlerts",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
+                "equals": "true"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                  "where": {
+                    "anyOf": [
+                      {
+                        "allOf": [
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                            "equals": "category"
+                          },
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                            "equals": "Administrative"
+                          }
+                        ]
+                      },
+                      {
+                        "allOf": [
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                            "equals": "resourceType"
+                          },
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                            "equals": "microsoft.authorization/policyassignments"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "equals": 2
+              },
+              {
+                "not": {
+                  "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                  "equals": "category"
+                }
+              },
+              {
+                "not": {
+                  "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                  "equals": "resourceType"
+                }
+              }
+            ]
+          },
+          "ResourceGroupName": "[parameters('ActivityLogAlertResourceGroupName')]",
+          "Name": "[parameters('activityLogAlertName')]",
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "actionGroupName": {
+                    "type": "string"
+                  },
+                  "activityLogAlertName": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.Insights/activityLogAlerts",
+                    "apiVersion": "2017-04-01",
+                    "name": "[parameters('activityLogAlertName')]",
+                    "location": "Global",
+                    "properties": {
+                      "enabled": true,
+                      "scopes": [
+                        "[subscription().id]"
+                      ],
+                      "condition": {
+                        "allOf": [
+                          {
+                            "field": "category",
+                            "equals": "Administrative"
+                          },
+                          {
+                            "field": "resourceType",
+                            "equals": "microsoft.authorization/policyassignments"
+                          }
+                        ]
+                      },
+                      "actions": {
+                        "actionGroups": [
+                          {
+                            "actionGroupId": "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "activityLogAlertName": {
+                  "value": "[parameters('activityLogAlertName')]"
+                },
+                "actionGroupName": {
+                  "value": "[parameters('actionGroupName')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

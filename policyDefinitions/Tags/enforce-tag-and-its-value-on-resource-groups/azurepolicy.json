@@ -1,0 +1,59 @@
+{
+  "name": "138d3078-8d8e-48c2-bc99-3d7e3b9807c8",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce tag and its value on resource groups",
+    "description": "Enforces a required tag and its value on resource groups.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Tags"
+    },
+    "mode": "All",
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "description": "Name of the tag, such as costCenter"
+        }
+      },
+      "tagValue": {
+        "type": "String",
+        "metadata": {
+          "description": "Value of the tag, such as headquarter"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+          },
+          {
+            "not": {
+              "field": "[concat('tags[',parameters('tagName'), ']')]",
+              "equals": "[parameters('tagValue')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "namePattern": {
+    "type": "String",
+    "metadata": {
+      "description": "Pattern to use for names. Can include wildcard (*)."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

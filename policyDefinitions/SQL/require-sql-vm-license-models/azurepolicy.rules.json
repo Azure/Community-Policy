@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
+      },
+      {
+        "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/sqlServerLicenseType",
+        "notIn": "[parameters('licenseModel')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

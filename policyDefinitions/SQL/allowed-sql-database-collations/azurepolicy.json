@@ -1,0 +1,58 @@
+{
+  "name": "be6d249b-259f-45ac-9a2d-74f4b42ad519",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Allowed SQL Database collations",
+    "description": "Will deny deploying databases with collations not listed as part of the allowed list",
+    "metadata": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "listOfAllowedCollations": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed Collation Names",
+          "description": "A list of approved collations, example: Latin1_General_BIN;SQL_Latin1_General_CP1_CI_AS"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SQL/servers/databases"
+          },
+          {
+            "field": "name",
+            "notEquals": "master"
+          },
+          {
+            "not": {
+              "field": "Microsoft.SQL/servers/databases/collation",
+              "in": "[parameters('listOfAllowedCollations')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

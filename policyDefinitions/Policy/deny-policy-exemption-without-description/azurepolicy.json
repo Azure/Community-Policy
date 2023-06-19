@@ -1,0 +1,45 @@
+{
+  "name": "503d4c56-85c7-44a7-8286-1e91b09d581c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny policy exemption without description",
+    "description": "Deny policy exemption without description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Policy"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Authorization/policyExemptions"
+          },
+          {
+            "field": "Microsoft.Authorization/policyExemptions/description",
+            "exists": false
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

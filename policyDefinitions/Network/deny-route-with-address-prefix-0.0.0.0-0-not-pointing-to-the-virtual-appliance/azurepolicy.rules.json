@@ -1,0 +1,67 @@
+{
+  "if": {
+    "anyOf": [
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/routeTables"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/routeTables/routes[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Network/routeTables/routes[*].addressPrefix",
+                    "equals": "0.0.0.0/0"
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.Network/routeTables/routes[*].nextHopType",
+                        "notEquals": "VirtualAppliance"
+                      },
+                      {
+                        "field": "Microsoft.Network/routeTables/routes[*].nextHopIpAddress",
+                        "notEquals": "[parameters('routeTableSettings')[field('location')].virtualApplianceIpAddress]"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "greater": 0
+          }
+        ]
+      },
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/routeTables/routes"
+          },
+          {
+            "field": "Microsoft.Network/routeTables/routes/addressPrefix",
+            "equals": "0.0.0.0/0"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Network/routeTables/routes/nextHopType",
+                "notEquals": "VirtualAppliance"
+              },
+              {
+                "field": "Microsoft.Network/routeTables/routes/nextHopIpAddress",
+                "notEquals": "[parameters('routeTableSettings')[field('location')].virtualApplianceIpAddress]"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

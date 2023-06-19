@@ -1,0 +1,168 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Web/sites"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Insights/diagnosticSettings",
+      "name": "[parameters('profileName')]",
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
+            "equals": "true"
+          },
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+            "equals": "[parameters('logAnalytics')]"
+          }
+        ]
+      },
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+      ],
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "resourceName": {
+                "type": "string"
+              },
+              "logAnalytics": {
+                "type": "string"
+              },
+              "metricsEnabled": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              },
+              "profileName": {
+                "type": "string"
+              },
+              "appServiceHTTPLogsEnabled": {
+                "type": "string"
+              },
+              "appServiceConsoleLogs": {
+                "type": "string"
+              },
+              "appServiceAppLogs": {
+                "type": "string"
+              },
+              "appServiceFileAuditLogs": {
+                "type": "string"
+              },
+              "appServiceAuditLogs": {
+                "type": "string"
+              },
+              "appServiceIPSecAuditLogs": {
+                "type": "string"
+              },
+              "appServicePlatformLogs": {
+                "type": "string"
+              }
+            },
+            "variables": {},
+            "resources": [
+              {
+                "type": "Microsoft.Web/sites/providers/diagnosticSettings",
+                "apiVersion": "2017-05-01-preview",
+                "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+                "location": "[parameters('location')]",
+                "dependsOn": [],
+                "properties": {
+                  "workspaceId": "[parameters('logAnalytics')]",
+                  "metrics": [
+                    {
+                      "category": "AllMetrics",
+                      "enabled": "[parameters('metricsEnabled')]",
+                      "retentionPolicy": {
+                        "days": 0,
+                        "enabled": false
+                      },
+                      "timeGrain": null
+                    }
+                  ],
+                  "logs": [
+                    {
+                      "category": "AppServiceHTTPLogs",
+                      "enabled": "[parameters('appServiceHTTPLogsEnabled')]"
+                    },
+                    {
+                      "category": "AppServiceConsoleLogs",
+                      "enabled": "[parameters('appServiceConsoleLogs')]"
+                    },
+                    {
+                      "category": "AppServiceAppLogs",
+                      "enabled": "[parameters('appServiceAppLogs')]"
+                    },
+                    {
+                      "category": "AppServiceFileAuditLogs",
+                      "enabled": "[parameters('appServiceAppLogs')]"
+                    },
+                    {
+                      "category": "AppServiceAuditLogs",
+                      "enabled": "[parameters('appServiceAuditLogs')]"
+                    },
+                    {
+                      "category": "AppServiceIPSecAuditLogs",
+                      "enabled": "[parameters('appServiceIPSecAuditLogs')]"
+                    },
+                    {
+                      "category": "AppServicePlatformLogs",
+                      "enabled": "[parameters('appServicePlatformLogs')]"
+                    }
+                  ]
+                }
+              }
+            ],
+            "outputs": {}
+          },
+          "parameters": {
+            "logAnalytics": {
+              "value": "[parameters('logAnalytics')]"
+            },
+            "location": {
+              "value": "[field('location')]"
+            },
+            "resourceName": {
+              "value": "[field('name')]"
+            },
+            "metricsEnabled": {
+              "value": "[parameters('metricsEnabled')]"
+            },
+            "profileName": {
+              "value": "[parameters('profileName')]"
+            },
+            "appServiceHTTPLogsEnabled": {
+              "value": "[parameters('appServiceHTTPLogsEnabled')]"
+            },
+            "appServiceConsoleLogs": {
+              "value": "[parameters('appServiceConsoleLogs')]"
+            },
+            "appServiceAppLogs": {
+              "value": "[parameters('appServiceAppLogs')]"
+            },
+            "appServiceFileAuditLogs": {
+              "value": "[parameters('appServiceFileAuditLogs')]"
+            },
+            "appServiceAuditLogs": {
+              "value": "[parameters('appServiceAuditLogs')]"
+            },
+            "appServiceIPSecAuditLogs": {
+              "value": "[parameters('appServiceIPSecAuditLogs')]"
+            },
+            "appServicePlatformLogs": {
+              "value": "[parameters('appServicePlatformLogs')]"
+            }
+          }
+        }
+      }
+    }
+  }
+}

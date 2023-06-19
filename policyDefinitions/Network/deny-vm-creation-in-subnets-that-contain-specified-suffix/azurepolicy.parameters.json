@@ -1,0 +1,29 @@
+{
+  "disallowedSubnet": {
+    "type": "string",
+    "metadata": {
+      "displayname": "Deny VMs in subnets based on this name",
+      "description": "VMs will not be allowed to provision into subnets that contain this word."
+    }
+  },
+  "resourceGroupSuffix": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Resource Group Suffix",
+      "description": "NICs deployed into Resource Groups containing this suffix are exempt from the Policy."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

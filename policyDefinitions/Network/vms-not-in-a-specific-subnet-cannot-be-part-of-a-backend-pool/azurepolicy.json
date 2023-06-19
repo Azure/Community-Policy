@@ -1,0 +1,57 @@
+{
+  "name": "2e3fbee4-3033-4ec0-b076-c0689636c43b",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "VMs not in a specific subnet cannot be part of a backend pool",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "allowedSubnetName": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Name of subnet where VMs are allowed to be added into a backend pool."
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/networkInterfaces/ipConfigurations[*].applicationGatewayBackendAddressPools[*]"
+            },
+            "greater": 0
+          },
+          {
+            "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
+            "notContains": "[parameters('allowedSubnetName')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

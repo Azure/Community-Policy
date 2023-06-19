@@ -1,0 +1,167 @@
+{
+  "name": "d435b2b5-6c7a-47de-ac0b-b5aa3646b4e0",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "vm-tag-based-backup",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Backup"
+    },
+    "mode": "indexed",
+    "parameters": {
+      "backupVaultResourceGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Backup Vault Resource Group Name",
+          "description": "Resource Group in which the backup vault resides"
+        }
+      },
+      "backupVault": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Backup Vault Name",
+          "description": "Target backup vault for VM backup onboarding"
+        }
+      },
+      "backupPolicy": {
+        "type": "string",
+        "metadata": {
+          "displayName": "backupPolicy",
+          "description": "Target backup policy for VM backup onboarding"
+        }
+      },
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag, such as 'BackupGroup'"
+        }
+      },
+      "tagValue": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Value",
+          "description": "Value of the tag, such as 'Group1'"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "equals": "[parameters('tagValue')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.RecoveryServices/backupprotecteditems",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "name",
+                "like": "*"
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "vmName": {
+                    "type": "string"
+                  },
+                  "vmResourceGroup": {
+                    "type": "string"
+                  },
+                  "backupVaultResourceGroup": {
+                    "type": "string"
+                  },
+                  "backupVault": {
+                    "type": "string"
+                  },
+                  "backupPolicy": {
+                    "type": "string"
+                  }
+                },
+                "variables": {
+                  "backupIntentConcat": "[concat('/Azure/vm;iaasvmcontainerv2;',parameters('vmResourceGroup'),';',parameters('vmName'))]"
+                },
+                "resources": [
+                  {
+                    "apiVersion": "2017-05-10",
+                    "name": "[concat(parameters('vmName'), '-' , 'backupIntent')]",
+                    "type": "Microsoft.Resources/deployments",
+                    "resourceGroup": "[parameters('backupVaultResourceGroup')]",
+                    "properties": {
+                      "mode": "Incremental",
+                      "template": {
+                        "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "resources": [
+                          {
+                            "name": "[concat(parameters('backupVault'),variables('backupIntentConcat'))]",
+                            "apiVersion": "2017-07-01",
+                            "type": "Microsoft.RecoveryServices/vaults/backupFabrics/backupProtectionIntent",
+                            "properties": {
+                              "protectionIntentItemType": "AzureResourceItem",
+                              "policyId": "[concat(resourceId('Microsoft.RecoveryServices/vaults/backuppolicies',parameters('backupVault'),parameters('backupPolicy')))]",
+                              "sourceResourceId": "[concat(resourceId('Microsoft.Compute/virtualMachines',parameters('vmName')))]"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "vmName": {
+                  "value": "[field('name')]"
+                },
+                "vmResourceGroup": {
+                  "value": "[resourcegroup().name]"
+                },
+                "backupVaultResourceGroup": {
+                  "value": "[parameters('backupVaultResourceGroup')]"
+                },
+                "backupVault": {
+                  "value": "[parameters('backupVault')]"
+                },
+                "backupPolicy": {
+                  "value": "[parameters('backupPolicy')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

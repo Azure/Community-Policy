@@ -1,0 +1,72 @@
+{
+  "name": "42f607e8-489b-44e2-ad9d-6df23127734e",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Prevent cross subscription Private Link",
+    "description": "This policy prevents private link between subscriptions.",
+    "metadata": {
+      "category": "Network",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Network/privateEndpoints",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
+                    "notContains": "[concat('/subscriptions/',split(field('id'),'/')[2])]"
+                  },
+                  {
+                    "value": "[length(field('Microsoft.Network/privateEndpoints/privateLinkServiceConnections'))]",
+                    "greater": 0
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections[*].privateLinkServiceId",
+                    "notContains": "[concat('/subscriptions/',split(field('id'),'/')[2])]"
+                  },
+                  {
+                    "value": "[length(field('Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections'))]",
+                    "greater": 0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

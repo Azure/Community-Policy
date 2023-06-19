@@ -1,0 +1,52 @@
+{
+  "name": "38dfed9b-a4e8-4c1e-9842-4a56eb19574d",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "blocked-disk-skus",
+    "description": "need to add description",
+    "metadata": {
+      "category": "Compute",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "blockedDiskSkus": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Blocked Disk Skus",
+          "description": "The list of blocked disk skus for Managed Disks."
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/disks"
+          },
+          {
+            "field": "Microsoft.Compute/disk/sku.name",
+            "in": "[parameters('blockedDiskSkus')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

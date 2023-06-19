@@ -1,0 +1,138 @@
+{
+  "name": "29750e03-2a09-4e55-9b40-a99920cb63b1",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "VM use allowed Images",
+    "description": "This policy prevents unauthorized images for VMs.",
+    "metadata": {
+      "category": "Compute",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "allowedImageOffers": {
+        "type": "Array",
+        "metadata": {
+          "description": "Offers listed here are the only ones approved to be deployed. Use this command to get a list of Offers: Get-AzVMImageOffer -Location '' -PublisherName ''",
+          "displayName": "Allowed Image Offers"
+        },
+        "defaultValue": []
+      },
+      "allowedImagePublishers": {
+        "type": "Array",
+        "metadata": {
+          "description": "Publishers listed here are the only ones approved to be deployed. Use this command to get a list of Publishers: Get-AzVMImagePublisher -Location ''",
+          "displayName": "Allowed Image Publishers"
+        },
+        "defaultValue": []
+      },
+      "allowedImageSkus": {
+        "type": "Array",
+        "metadata": {
+          "description": "SKUs listed here are the only ones approved to be deployed. Use this command to get a list of SKUs: Get-AzVMImageSku -Location '' -PublisherName ''  -Offer ''",
+          "displayName": "Allowed Image SKUs"
+        },
+        "defaultValue": []
+      },
+      "allowedImageVersions": {
+        "type": "Array",
+        "metadata": {
+          "description": "Versions listed here are the only ones approved to be deployed. Use this command to get a list of Versions: Get-AzVMImage -Location '' -PublisherName '' -Offer '' -Skus ''",
+          "displayName": "Allowed Image Versions"
+        },
+        "defaultValue": []
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Compute/virtualMachines",
+            "field": "type"
+          },
+          {
+            "allOf": [
+              {
+                "exists": false,
+                "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.id"
+              },
+              {
+                "not": {
+                  "allOf": [
+                    {
+                      "anyOf": [
+                        {
+                          "field": "Microsoft.Compute/virtualMachines/imagePublisher",
+                          "in": "[parameters('allowedImagePublishers')]"
+                        },
+                        {
+                          "equals": 0,
+                          "value": "[length(parameters('allowedImagePublishers'))]"
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "field": "Microsoft.Compute/virtualMachines/imageOffer",
+                          "in": "[parameters('allowedImageOffers')]"
+                        },
+                        {
+                          "equals": 0,
+                          "value": "[length(parameters('allowedImageOffers'))]"
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "field": "Microsoft.Compute/virtualMachines/imageSku",
+                          "in": "[parameters('allowedImageSkus')]"
+                        },
+                        {
+                          "equals": 0,
+                          "value": "[length(parameters('allowedImageSkus'))]"
+                        }
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "field": "Microsoft.Compute/virtualMachines/imageVersion",
+                          "in": "[parameters('allowedImageVersions')]"
+                        },
+                        {
+                          "equals": 0,
+                          "value": "[length(parameters('allowedImageVersions'))]"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

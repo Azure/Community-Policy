@@ -1,0 +1,68 @@
+{
+  "name": "b959c857-3c53-5ceb-9ae3-f6f39166d099",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit - Azure Files should have Soft Delete enabled",
+    "description": "Protect your File Shares from accidental or malicious deletions by enabling Soft Delete: https://docs.microsoft.com/azure/storage/files/storage-files-prevent-file-share-deletion",
+    "metadata": {
+      "version": "1.0.0-preview",
+      "category": "Storage"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "retentionInDays": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Retention in Days",
+          "description": "How long should deleted resources be retained for."
+        },
+        "minValue": 1,
+        "maxValue": 365
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "kind",
+            "notEquals": "BlobStorage"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Storage/storageAccounts/fileServices",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Storage/storageAccounts/fileServices/default.shareDeleteRetentionPolicy.enabled",
+                "equals": true
+              },
+              {
+                "field": "Microsoft.Storage/storageAccounts/fileServices/default.shareDeleteRetentionPolicy.days",
+                "equals": "[parameters('retentionInDays')]"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

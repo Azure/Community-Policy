@@ -1,0 +1,27 @@
+{
+  "excludedNamespaces": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Namespace exclusions",
+      "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+    },
+    "defaultValue": [
+      "kube-system",
+      "gatekeeper-system",
+      "azure-arc"
+    ]
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

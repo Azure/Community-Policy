@@ -1,0 +1,21 @@
+{
+  "tagName": {
+    "type": "String"
+  },
+  "tagValue": {
+    "type": "String"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "f4818b78-a565-424f-a614-78f233a9e50f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Service Bus Namespace - Trusted Microsoft Services DENY",
+    "description": "This Azure Policy denies the creation of a Service Bus Namespace when the 'Allow trusted Microsoft services to bypass this firewall?' setting is set to 'Yes'.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Service Bus"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ServiceBus/namespaces/networkRuleSets"
+          },
+          {
+            "field": "Microsoft.ServiceBus/namespaces/networkRuleSets/trustedServiceAccessEnabled",
+            "equals": "true"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

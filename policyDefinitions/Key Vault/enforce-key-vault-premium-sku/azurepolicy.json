@@ -1,0 +1,48 @@
+{
+  "name": "80cb9e61-f5f8-4ee4-ab86-132a5747bc18",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce key vault premium SKU",
+    "description": "This policy enforces premium sku for key vaults.",
+    "metadata": {
+      "category": "Key Vault",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.KeyVault/Vaults",
+            "field": "type"
+          },
+          {
+            "field": "Microsoft.KeyVault/Vaults/sku.name",
+            "notEquals": "premium"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

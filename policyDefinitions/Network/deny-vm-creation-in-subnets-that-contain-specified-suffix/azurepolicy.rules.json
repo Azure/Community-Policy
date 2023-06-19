@@ -1,0 +1,27 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "count": {
+          "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*]",
+          "where": {
+            "value": "[substring(last(split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), 'subnets/')), 0, sub(length(last(split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), 'subnets/'))), 2))]",
+            "like": "[concat('*', parameters('disallowedSubnet'))]"
+          }
+        },
+        "greater": 0
+      },
+      {
+        "value": "[resourceGroup().name]",
+        "notLike": "[concat('*', parameters('resourceGroupSuffix'))]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

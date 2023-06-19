@@ -1,0 +1,45 @@
+{
+  "name": "9243143b-99f3-4948-8cf0-ad4076a7de3d",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage Account - Access Key Setting DENY",
+    "description": "This Azure Policy denies the deployment of an Azure Storage Account when the 'Allow storage account key access' setting is not set to 'Disabled'.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/allowSharedKeyAccess",
+            "notEquals": "false"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

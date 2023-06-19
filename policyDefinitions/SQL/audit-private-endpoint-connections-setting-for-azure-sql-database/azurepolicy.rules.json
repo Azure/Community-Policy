@@ -1,0 +1,25 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Sql/servers"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "name": "default",
+      "type": "Microsoft.Sql/servers",
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.Sql/servers/privateEndpointConnections/privateEndpoint",
+            "exists": true
+          },
+          {
+            "field": "Microsoft.Sql/servers/privateEndpointConnections/privateLinkServiceConnectionState.status",
+            "equals": "Ready"
+          }
+        ]
+      }
+    }
+  }
+}

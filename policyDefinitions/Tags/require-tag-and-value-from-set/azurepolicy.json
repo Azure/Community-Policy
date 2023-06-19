@@ -1,0 +1,58 @@
+{
+  "name": "d8eafd94-c80b-426f-be1a-60ece5139a6f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "require-tag-and-value-from-set",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Tags"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag, such as 'Environment'"
+        }
+      },
+      "tagValue": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Tag Value",
+          "description": "Value of the tag, such as 'Prod'"
+        },
+        "allowedValues": [
+          "Dev",
+          "Test",
+          "Prod"
+        ]
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "not": {
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "in": "[parameters('tagValue')]"
+        }
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

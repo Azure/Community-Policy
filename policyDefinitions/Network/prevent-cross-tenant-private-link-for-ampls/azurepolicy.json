@@ -1,0 +1,56 @@
+{
+  "name": "f2d4a1bb-554c-45fc-aa9b-ac813aedaae8",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Prevent cross tenant Private Link for ampls",
+    "description": "This policy prevents private link between tenants for ampls.",
+    "metadata": {
+      "category": "Network",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.OperationalInsights/workspaces/privateEndpointConnections",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "exists": false,
+                "field": "Microsoft.OperationalInsights/workspaces/privateEndpointConnections.privateEndpoint.id"
+              },
+              {
+                "notEquals": "[subscription().subscriptionId]",
+                "value": "[split(concat(field('Microsoft.OperationalInsights/workspaces/privateEndpointConnections.privateEndpoint.id'), '//'), '/')[2]]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

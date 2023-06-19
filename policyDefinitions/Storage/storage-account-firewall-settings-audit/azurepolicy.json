@@ -1,0 +1,69 @@
+{
+  "name": "24fb038c-d2e1-4ef3-ba98-6f2619154092",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage Account - Firewall Settings AUDIT",
+    "description": "This Azure Policy creates an audit event when the 'Allow access from' setting is not set to 'Selected networks' and when the Firewall does contain any IP addresses outside of the approved ones.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "mode": "All",
+    "parameters": {
+      "allowedAddressRanges": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed Address Ranges",
+          "description": "The list of IP Addresses or IP Address Ranges that are allowed for the Firewall Setting on the Storage Account"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "anyOf": [
+              {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value",
+                    "notEquals": ""
+                  },
+                  {
+                    "not": {
+                      "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value",
+                      "in": "[parameters('allowedAddressRanges')]"
+                    }
+                  }
+                ]
+              },
+              {
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction",
+                "equals": "Allow"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

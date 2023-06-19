@@ -1,0 +1,58 @@
+{
+  "name": "f985c961-2dca-4629-8cf7-600ede2aab2e",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Require SQL Server VM SQL Connectivity",
+    "description": "Require SQL Server Virtual Machines to have a specified SQL Connectivity setting applied",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "mode": "All",
+    "parameters": {
+      "sqlConnectivitySettings": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "SQL Connectivity Settings",
+          "description": "A list of acceptable SQL Connectivity Settings for your SQL Server Virtual Machine"
+        },
+        "allowedValues": [
+          "LOCAL",
+          "PRIVATE",
+          "PUBLIC"
+        ],
+        "defaultValue": "PUBLIC"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
+          },
+          {
+            "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/serverConfigurationsManagementSettings.sqlConnectivityUpdateSettings.connectivityType",
+            "notIn": "[parameters('sqlConnectivitySettings')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

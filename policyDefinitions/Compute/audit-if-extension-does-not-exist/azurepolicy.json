@@ -1,0 +1,81 @@
+{
+  "name": "3752bb81-7d05-4e98-852f-49fe27b0b3d7",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit if extension does not exist",
+    "description": "This policy audits if a required extension doesn't exist.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Compute"
+    },
+    "mode": "All",
+    "parameters": {
+      "publisher": {
+        "type": "String",
+        "metadata": {
+          "description": "The publisher of the extension",
+          "displayName": "Extension Publisher"
+        }
+      },
+      "type": {
+        "type": "String",
+        "metadata": {
+          "description": "The type of the extension",
+          "displayName": "Extension Type"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "field": "Microsoft.Compute/imagePublisher",
+            "in": [
+              "MicrosoftWindowsServer"
+            ]
+          },
+          {
+            "field": "Microsoft.Compute/imageOffer",
+            "in": [
+              "WindowsServer"
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+                "equals": "[parameters('publisher')]"
+              },
+              {
+                "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                "equals": "[parameters('type')]"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

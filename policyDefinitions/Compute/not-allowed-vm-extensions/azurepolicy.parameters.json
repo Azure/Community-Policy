@@ -1,0 +1,22 @@
+{
+  "notAllowedExtensions": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Denied extension",
+      "description": "The list of extensions that will be denied."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

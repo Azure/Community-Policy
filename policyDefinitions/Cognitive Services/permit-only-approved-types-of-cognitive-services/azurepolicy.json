@@ -1,0 +1,90 @@
+{
+  "name": "976f4210-7bab-43c4-a3ac-45cebb0c4b12",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Permit only approved types of Cognitive Services",
+    "description": "This policy permits only certain types of Cognitive Services resources to be deployed.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Cognitive Services"
+    },
+    "mode": "All",
+    "parameters": {
+      "listOfAllowedKind": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of Cognitive Services resources that can be deployed.",
+          "displayName": "Allowed Cognitive Services resources"
+        },
+        "allowedValues": [
+          "Academic",
+          "AnomalyDetector",
+          "Bing.Autosuggest",
+          "Bing.Autosuggest.v7",
+          "Bing.CustomSearch",
+          "Bing.Search",
+          "Bing.Search.v7",
+          "Bing.Speech",
+          "Bing.SpellCheck",
+          "Bing.SpellCheck.v7",
+          "CognitiveServices",
+          "ComputerVision",
+          "ContentModerator",
+          "CustomSpeech",
+          "CustomVision.Prediction",
+          "CustomVision.Training",
+          "Emotion",
+          "Face",
+          "FormRecognizer",
+          "ImmersiveReader",
+          "LUIS",
+          "LUIS.Authoring",
+          "MetricsAdvisor",
+          "OpenAI",
+          "Personalizer",
+          "QnAMaker",
+          "Recommendations",
+          "SpeakerRecognition",
+          "Speech",
+          "SpeechServices",
+          "SpeechTranslation",
+          "TextAnalytics",
+          "TextTranslation",
+          "WebLM"
+        ]
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.CognitiveServices/accounts"
+          },
+          {
+            "not": {
+              "field": "kind",
+              "in": "[parameters('listOfAllowedKind')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

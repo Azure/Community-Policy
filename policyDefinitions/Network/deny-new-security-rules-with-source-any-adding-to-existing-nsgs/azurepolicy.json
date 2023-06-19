@@ -1,0 +1,65 @@
+{
+  "name": "53dd9c12-ee3e-4f5e-b817-e5613fc25c30",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "deny-new-security-rules-with-source-any-adding-to-existing-nsgs",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+            "equals": "Allow"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+            "equals": "Inbound"
+          },
+          {
+            "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
+            "in": [
+              "*",
+              "Internet"
+            ]
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]",
+              "in": [
+                "*",
+                "Internet"
+              ]
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

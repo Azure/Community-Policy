@@ -1,0 +1,45 @@
+{
+  "name": "1df96548-c92f-40ee-8a01-28a104271dae",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce Admin User is disabled on all Container Registry instances",
+    "description": "This policy ensures Admin User is disabled on all Container Registry instances",
+    "metadata": {
+      "category": "Container Registry",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ContainerRegistry/registries"
+          },
+          {
+            "field": "Microsoft.ContainerRegistry/registries/adminUserEnabled",
+            "equals": "true"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

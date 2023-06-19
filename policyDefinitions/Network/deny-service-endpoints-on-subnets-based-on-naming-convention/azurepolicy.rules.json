@@ -1,0 +1,55 @@
+{
+  "if": {
+    "anyOf": [
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "not": {
+                      "field": "Microsoft.Network/virtualNetworks/subnets[*].serviceEndpoints[*].service",
+                      "notLike": "*"
+                    }
+                  },
+                  {
+                    "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                    "contains": "[parameters('targetSubnetName')]"
+                  }
+                ]
+              }
+            },
+            "greater": 0
+          }
+        ]
+      },
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks/subnets"
+          },
+          {
+            "field": "name",
+            "contains": "[parameters('targetSubnetName')]"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/virtualNetworks/subnets/serviceEndpoints[*].service",
+              "notLike": "*"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
