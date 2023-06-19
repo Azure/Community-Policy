@@ -1,0 +1,31 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Compute/virtualMachines"
+      },
+      {
+        "not": {
+          "anyOf": [
+            {
+              "field": "Microsoft.Compute/virtualMachines/imagePublisher",
+              "in": "[parameters('allowedImagePublishers')]"
+            },
+            {
+              "field": "Microsoft.Compute/virtualMachines/imageOffer",
+              "in": "[parameters('allowedImageOffers')]"
+            }
+          ]
+        }
+      },
+      {
+        "value": "[resourceGroup().name]",
+        "like": "[concat('*', parameters('resourceGroupSuffix'))]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

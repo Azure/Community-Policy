@@ -1,0 +1,55 @@
+{
+  "name": "aca94a15-a131-4a06-ab0e-89f57e28cc5c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Allowed DevTestLabs Repo URL prefix",
+    "description": "need to add description",
+    "metadata": {
+      "category": "Dev Test Labs",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "URI": {
+        "type": "String",
+        "metadata": {
+          "displayName": "URI",
+          "description": "Allowed URL for the like operator"
+        },
+        "defaultValue": "https://dev.azure.com/WorkingRemotely/*"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.DevTestLab/labs/artifactsources"
+          },
+          {
+            "field": "Microsoft.DevTestLab/labs/artifactSources/uri",
+            "notLike": "[parameters('URI')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "value": "[resourceGroup().name]",
+        "notEquals": "[concat(field('location'), parameters('resourceGroupNamingConvention'))]"
+      },
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/virtualNetworks"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

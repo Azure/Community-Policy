@@ -1,0 +1,42 @@
+{
+  "name": "2bd865e5-1348-42ee-ac24-690b44f88f1f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny deletion of storage account",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage",
+      "preview": true
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DenyAction or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DenyAction",
+          "Disabled"
+        ],
+        "defaultValue": "DenyAction"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "actionNames": [
+            "delete"
+          ]
+        }
+      }
+    }
+  }
+}

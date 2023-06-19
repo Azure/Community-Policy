@@ -1,0 +1,60 @@
+{
+  "name": "055b1d22-872e-4ba9-bf93-c6cff8b8d8cb",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Unused Disks driving cost should be avoided",
+    "description": "Optimize cost by detecting unused but chargeable resources. Leverage this Policy definition as a cost control to reveal orphaned Disks that are driving cost.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Cost Optimization"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/disks"
+          },
+          {
+            "field": "Microsoft.Compute/disks/diskState",
+            "equals": "Unattached"
+          },
+          {
+            "allof": [
+              {
+                "field": "name",
+                "notlike": "*-ASRReplica"
+              },
+              {
+                "field": "name",
+                "notlike": "ms-asr-*"
+              },
+              {
+                "field": "name",
+                "notlike": "asrseeddisk-*"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

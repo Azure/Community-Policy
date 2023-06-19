@@ -1,0 +1,14 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Manual or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Manual",
+      "Disabled"
+    ],
+    "defaultValue": "Manual"
+  }
+}

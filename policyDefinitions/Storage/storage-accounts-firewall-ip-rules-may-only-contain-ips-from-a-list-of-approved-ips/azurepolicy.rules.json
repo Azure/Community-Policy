@@ -1,0 +1,30 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      {
+        "count": {
+          "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*]",
+          "where": {
+            "count": {
+              "value": "[parameters('allowedIps')]",
+              "name": "approvedPrefix",
+              "where": {
+                "value": "[ipRangeContains(current('approvedPrefix'), current('Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value'))]",
+                "equals": false
+              }
+            },
+            "greater": 0
+          }
+        },
+        "greater": 0
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

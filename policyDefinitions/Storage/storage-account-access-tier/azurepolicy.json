@@ -1,0 +1,52 @@
+{
+  "name": "8589cbf6-c34b-425d-bbfb-7fad22d4dc74",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "storage-account-access-tier",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "kind",
+            "in": [
+              "BlobStorage",
+              "StorageV2"
+            ]
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/accessTier",
+            "equals": "cool"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

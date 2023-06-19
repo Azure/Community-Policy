@@ -1,0 +1,48 @@
+{
+  "name": "dfa7076d-65fd-4d4f-b7b2-b3485c254fbb",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce AKS aad support",
+    "description": "This policy enforces aad support for AKS.",
+    "metadata": {
+      "category": "Kubernetes",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.ContainerService/managedClusters",
+            "field": "type"
+          },
+          {
+            "exists": false,
+            "field": "Microsoft.ContainerService/managedClusters/aadProfile"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

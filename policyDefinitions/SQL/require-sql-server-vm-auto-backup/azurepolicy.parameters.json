@@ -1,0 +1,23 @@
+{
+  "autoBackupSetting": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Auto Backup Setting",
+      "description": "A boolean value for whether or not Auto Backup needs to be enabled on a SQL Server VM."
+    },
+    "defaultValue": false
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

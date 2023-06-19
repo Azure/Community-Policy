@@ -1,0 +1,20 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.DesktopVirtualization/applicationgroups"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Insights/diagnosticSettings",
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
+            "equals": "[parameters('logsEnabled')]"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "name": "4aba4c7a-7bd7-4728-92a8-b24aa3f252c0",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage Account - Read Access Logs and Metrics DENY",
+    "description": "This Azure Policy denies the deployment of an Azure Storage Account when the 'Allow read access to storage logging from any network' and 'Allow read access to storage metrics from any network' settings are 'Enabled'.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+                "contains": "Logging"
+              },
+              {
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+                "contains": "Metrics"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.SQL/servers/databases"
+      },
+      {
+        "field": "name",
+        "notEquals": "master"
+      },
+      {
+        "not": {
+          "field": "Microsoft.SQL/servers/databases/collation",
+          "in": "[parameters('listOfAllowedCollations')]"
+        }
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "servers": {
+    "type": "Array",
+    "metadata": {
+      "description": "The list of DNS servers to enforce exclusive existance of.",
+      "displayName": "DNS Servers list"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

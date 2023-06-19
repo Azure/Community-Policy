@@ -1,0 +1,17 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Network/virtualNetworks"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Network/networkWatchers",
+      "resourceGroupName": "NetworkWatcherRG",
+      "existenceCondition": {
+        "field": "location",
+        "equals": "[parameters('location')]"
+      }
+    }
+  }
+}

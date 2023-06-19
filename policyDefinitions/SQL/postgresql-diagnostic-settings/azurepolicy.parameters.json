@@ -1,0 +1,21 @@
+{
+  "logAnalytics": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Log Analytics Workspace ID",
+      "description": "The full resource ID for the Azure Log Analytics Workspace"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists"
+  }
+}

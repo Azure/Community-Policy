@@ -1,0 +1,151 @@
+{
+  "name": "151e2bb7-ae7c-4d9f-92a8-1032f180eea6",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit Cosmos DB Throughput Exceeding Max",
+    "description": "This policy audits when Cosmos DB shared or dedicated throughput exceeds a maximum. The policy audits Cosmos DB resources in accounts of any API (SQL, Cassandra, Gremlin, MongoDB, Table), where throughput can be provisioned either at the database/keyspace/table level or at the collection/container/graph/table level.",
+    "metadata": {
+      "category": "Cosmos DB",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "throughputMax": {
+        "type": "integer",
+        "defaultValue": 400,
+        "metadata": {
+          "displayName": "Max RUs"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings"
+              },
+              {
+                "field": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings/default.resource.throughput",
+                "greater": "[parameters('throughputMax')]"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/throughputSettings"
+              },
+              {
+                "field": "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/throughputSettings/default.resource.throughput",
+                "greater": "[parameters('throughputMax')]"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.DocumentDB/databaseAccounts/gremlinDatabases/throughputSettings"
+              },
+              {
+                "field": "Microsoft.DocumentDB/databaseAccounts/gremlinDatabases/throughputSettings/default.resource.throughput",
+                "greater": "[parameters('throughputMax')]"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings"
+              },
+              {
+                "field": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings/default.resource.throughput",
+                "greater": "[parameters('throughputMax')]"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.DocumentDB/databaseAccounts/tables/throughputSettings"
+              },
+              {
+                "field": "Microsoft.DocumentDB/databaseAccounts/tables/throughputSettings/default.resource.throughput",
+                "greater": "[parameters('throughputMax')]"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
+              },
+              {
+                "field": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings/default.resource.throughput",
+                "greater": "[parameters('throughputMax')]"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/tables/throughputSettings"
+              },
+              {
+                "field": "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/tables/throughputSettings/default.resource.throughput",
+                "greater": "[parameters('throughputMax')]"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.DocumentDB/databaseAccounts/gremlinDatabases/graphs/throughputSettings"
+              },
+              {
+                "field": "Microsoft.DocumentDB/databaseAccounts/gremlinDatabases/graphs/throughputSettings/default.resource.throughput",
+                "greater": "[parameters('throughputMax')]"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
+              },
+              {
+                "field": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings/default.resource.throughput",
+                "greater": "[parameters('throughputMax')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

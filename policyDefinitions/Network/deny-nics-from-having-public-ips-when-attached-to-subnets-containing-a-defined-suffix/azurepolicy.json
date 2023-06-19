@@ -1,0 +1,66 @@
+{
+  "name": "1bc24086-49a7-4226-a2a5-9d45673857c2",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny NICs from having public Ips when attached to subnets containing a defined suffix",
+    "description": "If a NIC is in a subnet that has the suffix defined in this Policy then a user will be unable to attach a public IP to that NIC.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "deniedSuffix": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Denied Subnet Suffix",
+          "description": "NICs attached to a subnet containing this suffix will be unable to attach a Public IP"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "value": "[substring(last(split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), 'subnets/')), 0, sub(length(last(split(string(field('Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id')), 'subnets/'))), 2))]",
+                    "like": "[concat('*', parameters('deniedSuffix'))]"
+                  },
+                  {
+                    "field": "Microsoft.Network/networkInterfaces/ipConfigurations[*].publicIPAddress",
+                    "exists": true
+                  }
+                ]
+              }
+            },
+            "greater": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

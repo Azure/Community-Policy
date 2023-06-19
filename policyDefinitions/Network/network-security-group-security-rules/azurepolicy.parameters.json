@@ -1,0 +1,29 @@
+{
+  "destinationPort": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "destinationPort",
+      "description": null
+    }
+  },
+  "allowedIPRanges": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "allowedIPRanges",
+      "description": null
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

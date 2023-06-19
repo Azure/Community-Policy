@@ -1,0 +1,64 @@
+{
+  "dnsZoneProductionSubscriptionId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Production DNS Zones Subscription ID",
+      "description": "The ID of the subscription where the production DNS Zones reside"
+    }
+  },
+  "dnsZoneProductionResourceGroupName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Production DNS Zones Resource Group Name",
+      "description": "Name of the resource group where all of the production DNS Zones reside"
+    }
+  },
+  "dnsZoneNonProductionSubscriptionId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Non-Production DNS Zones Subscription ID",
+      "description": "The ID of the subscription where the non-production DNS Zones reside"
+    }
+  },
+  "dnsZoneNonProductionResourceGroupName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Non-Production DNS Zones Resource Group Name",
+      "description": "Name of the resource group where all of the non-production DNS Zones reside"
+    }
+  },
+  "environmentTagName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Environment Tag Name",
+      "description": "This is the name of the tag that will be used to identify the environment type"
+    }
+  },
+  "environmentProductionTagValue": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Production Tag Value",
+      "description": "The tag value that will be assigned to production resources"
+    }
+  },
+  "environmentNonProductionTagValue": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Non-Production Tag Value",
+      "description": "The tag value that will be assigned to non-production resources"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "drive": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Drive",
+      "description": "Selects the specific disk drive to deny. Normally, Local SSD is under the D: drive"
+    },
+    "defaultValue": "D:*"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

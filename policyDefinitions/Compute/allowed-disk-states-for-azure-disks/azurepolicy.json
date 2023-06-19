@@ -1,0 +1,58 @@
+{
+  "name": "2e518796-a201-4c03-9c43-5f41ef36ee83",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Allowed Disk states for Azure Disks",
+    "description": "This policy audits or blocks certain disk states for Azure Disks. https://learn.microsoft.com/en-us/rest/api/compute/disks/get?tabs=HTTP#diskstate",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Compute"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "disallowedState": {
+        "type": "array",
+        "metaData": {
+          "displayName": "Disallowed disk state",
+          "description": "Controls what disk states are disallowed. Described at https://learn.microsoft.com/en-us/rest/api/compute/disks/get?tabs=HTTP#diskstate"
+        },
+        "allowedValues": [
+          "ActiveSAS",
+          "ActiveSASFrozen",
+          "ActiveUpload",
+          "Attached",
+          "Frozen",
+          "ReadyToUpload",
+          "Reserved",
+          "Unattached"
+        ],
+        "defaultValue": [
+          "ActiveSAS",
+          "ActiveSASFrozen"
+        ]
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "Microsoft.Compute/disks/diskState",
+        "in": "[parameters('disallowedState')]"
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

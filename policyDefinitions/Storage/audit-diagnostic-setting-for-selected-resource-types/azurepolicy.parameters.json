@@ -1,0 +1,29 @@
+{
+  "listOfResourceTypes": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Resource Types",
+      "strongType": "resourceTypes"
+    }
+  },
+  "logAnalyticsWorkspaceId": {
+    "type": "String",
+    "metadata": {
+      "description": "Specify the Log Analytics workspace the logs should be streamed to.",
+      "displayName": "Log Analytics workspaceId",
+      "strongType": "omsWorkspace"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "name": "136669a6-4321-44e7-9c64-be63d1aeb921",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Configure managed disks to disable public access",
+    "description": "This policy configures managed disks to disable public access.",
+    "metadata": {
+      "category": "Compute",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "networkAccessPolicy": {
+        "type": "String",
+        "metadata": {
+          "description": "Value for networkAccessPolicy",
+          "displayName": "Value for networkAccessPolicy"
+        },
+        "allowedValues": [
+          "DenyAll",
+          "AllowPrivate"
+        ],
+        "defaultValue": "DenyAll"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Modify, Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Modify",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Modify"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Compute/disks",
+            "field": "type"
+          },
+          {
+            "field": "Microsoft.Compute/disks/networkAccessPolicy",
+            "notEquals": "[parameters('networkAccessPolicy')]"
+          }
+        ]
+      },
+      "then": {
+        "details": {
+          "conflictEffect": "deny",
+          "operations": [
+            {
+              "field": "Microsoft.Compute/disks/networkAccessPolicy",
+              "operation": "addOrReplace",
+              "value": "[parameters('networkAccessPolicy')]"
+            }
+          ],
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ]
+        },
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

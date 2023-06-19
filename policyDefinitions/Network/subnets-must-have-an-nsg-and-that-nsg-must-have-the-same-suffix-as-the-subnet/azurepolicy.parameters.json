@@ -1,0 +1,22 @@
+{
+  "exceptionList": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Exempt Subnets",
+      "description": "Subnets with this name will be exempt from this Policy"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

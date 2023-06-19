@@ -1,0 +1,22 @@
+{
+  "listOfAllowedimagePublishers": {
+    "type": "Array",
+    "metadata": {
+      "description": "The list of publishers to audit against. Example: 'MicrosoftWindowsServer'",
+      "displayName": "Allowed image publishers"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

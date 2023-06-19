@@ -1,0 +1,52 @@
+{
+  "name": "66f16bf4-e60a-43a8-92d4-3d86926127be",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit peering between two prefixes based on first octate",
+    "description": "This policy Audits peering between two prefixes based on first octate.",
+    "metadata": {
+      "category": "Network",
+      "createdBy": "",
+      "updatedBy": "",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Network/virtualNetworks",
+            "field": "type"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/virtualnetworks/virtualNetworkPeerings[*].remoteVirtualNetworkAddressSpace.addressPrefixes[*]",
+              "where": {
+                "equals": false,
+                "value": "[contains(string(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes[*]')),concat('\"',split(current('Microsoft.Network/virtualnetworks/virtualNetworkPeerings[*].remoteVirtualNetworkAddressSpace.addressPrefixes[*]'),'.')[0]))]"
+              }
+            },
+            "greater": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

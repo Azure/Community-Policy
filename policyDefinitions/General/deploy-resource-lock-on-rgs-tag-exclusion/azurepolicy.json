@@ -1,0 +1,93 @@
+{
+  "name": "466ba28e-87e0-4202-906b-d4b399d11591",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deploy Resource Lock on RGs - tag exclusion",
+    "description": "Automatically deploys a resource lock to resources that are not in the dv environment to prevent accidental deletion.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "General"
+    },
+    "mode": "All",
+    "parameters": {
+      "TagOfExclusion": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag of environment to exclude",
+          "description": "If there is a need to exclude RGs from the audit based on a tag, you can do so. In this field, define which tag you want to check for it's value."
+        },
+        "defaultValue": "Environment"
+      },
+      "TagValue": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Value of the tag for exclusion",
+          "description": "If you decided to configure an exclusion, you need to configure a specific value of the tag you defined. Put the tag value for exclusion in this field"
+        },
+        "defaultValue": "dv"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+          },
+          {
+            "not": {
+              "field": "[concat('tags[', parameters('TagOfExclusion'), ']')]",
+              "equals": "[parameters('TagValue')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Authorization/locks",
+          "existenceCondition": {
+            "field": "Microsoft.Authorization/locks/level",
+            "equals": "CanNotDelete"
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "resources": [
+                  {
+                    "name": "Auto locked by policy",
+                    "type": "Microsoft.Authorization/locks",
+                    "apiVersion": "2020-05-01",
+                    "properties": {
+                      "level": "CanNotDelete",
+                      "notes": "This lock was deployed automatically by Azure Policy to prevent the resource group and its containing resources from accidental deletion."
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/35b50af1-b556-492f-8595-cbf5cb531055"
+          ]
+        }
+      }
+    }
+  }
+}

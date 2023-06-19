@@ -1,0 +1,24 @@
+{
+  "storageAccountId": {
+    "type": "String",
+    "metadata": {
+      "strongType": "Microsoft.Storage/storageAccounts",
+      "assignPermissions": true,
+      "displayName": "Storage Account",
+      "description": "This is the Storage Account that all log data will be sent to."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}

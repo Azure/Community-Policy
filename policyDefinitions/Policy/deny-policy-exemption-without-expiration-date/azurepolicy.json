@@ -1,0 +1,45 @@
+{
+  "name": "9f841354-ad54-4acf-903f-f3fc541a8838",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny policy exemption without expiration date",
+    "description": "Deny policy exemption without expiration date",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Policy"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Authorization/policyExemptions"
+          },
+          {
+            "field": "Microsoft.Authorization/policyExemptions/expiresOn",
+            "exists": false
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

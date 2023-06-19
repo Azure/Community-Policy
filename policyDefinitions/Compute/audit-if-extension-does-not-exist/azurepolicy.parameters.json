@@ -1,0 +1,28 @@
+{
+  "publisher": {
+    "type": "String",
+    "metadata": {
+      "description": "The publisher of the extension",
+      "displayName": "Extension Publisher"
+    }
+  },
+  "type": {
+    "type": "String",
+    "metadata": {
+      "description": "The type of the extension",
+      "displayName": "Extension Type"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists"
+  }
+}

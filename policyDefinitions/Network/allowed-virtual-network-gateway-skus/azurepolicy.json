@@ -1,0 +1,68 @@
+{
+  "name": "fc775da0-219d-472c-b643-578b622a94c3",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Allowed Virtual Network Gateway SKUs",
+    "description": "This policy enables you to specify a set of virtual network gateway SKUs that your organization can deploy.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "listOfAllowedSKUs": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of SKUs that can be specified for virtual network gateways.",
+          "displayName": "Allowed SKUs"
+        }
+      },
+      "gatewayType": {
+        "type": "String",
+        "allowedValues": [
+          "Vpn",
+          "ExpressRoute"
+        ],
+        "metadata": {
+          "displayName": "Gateway Type"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworkGateways"
+          },
+          {
+            "field": "Microsoft.Network/virtualNetworkGateways/gatewayType",
+            "equals": "[parameters('gatewayType')]"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/virtualNetworkGateways/sku.name",
+              "in": "[parameters('listOfAllowedSKUs')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "name": "58300131-ba3b-4077-aafd-ea1c5499e9c2",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny Private Endpoints if not being deployed to a specific subnet",
+    "description": "This Policy will deny the creation of Private Endpoints if not within subnets that contain a key word.",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "subnetName": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Allowed Subnet prefix name (i.e. pls)",
+          "description": "Name of subnet where Private Endpoints are allowed to be deployed into."
+        }
+      },
+      "exemptedGroupIds": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Exempted Private Endpoint Group IDs",
+          "description": "The Group IDs that are exempted from this Policy (i.e. blob)"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/privateEndpoints"
+          },
+          {
+            "field": "Microsoft.Network/privateEndpoints/subnet.id",
+            "notContains": "[parameters('subnetName')]"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].groupIds[*]",
+              "where": {
+                "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].groupIds[*]",
+                "notIn": "[parameters('exemptedGroupIds')]"
+              }
+            },
+            "greaterOrEquals": 1
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "name": "eb7bff80-fb1c-4245-9837-9036c30b4f50",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Only allow a certain VM platform image",
+    "description": "This policy ensures that only UbuntuServer, Canonical is allowed from the image repository",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Compute"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "in": [
+              "Microsoft.Compute/disks",
+              "Microsoft.Compute/virtualMachines",
+              "Microsoft.Compute/VirtualMachineScaleSets"
+            ]
+          },
+          {
+            "not": {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "in": [
+                    "Canonical"
+                  ]
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "in": [
+                    "UbuntuServer"
+                  ]
+                },
+                {
+                  "field": "Microsoft.Compute/imageSku",
+                  "in": [
+                    "14.04.2-LTS"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

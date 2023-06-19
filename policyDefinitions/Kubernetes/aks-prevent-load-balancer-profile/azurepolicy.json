@@ -1,0 +1,48 @@
+{
+  "name": "c8187ecd-531e-4889-89cc-69835860ebdf",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "AKS prevent load balancer profile",
+    "description": "This policy prevent load balancer profile for aks.",
+    "metadata": {
+      "category": "Kubernetes",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.ContainerService/managedClusters",
+            "field": "type"
+          },
+          {
+            "exists": true,
+            "field": "Microsoft.ContainerService/managedClusters/networkProfile.loadBalancerProfile"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "ac1d63e4-7296-46f7-bdbc-738f56b5aeb3",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit if Network Watcher is not enabled for region",
+    "description": "This policy audits if Network Watcher is not enabled for a selected region.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "location": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Audit if Network Watcher is not enabled for region",
+          "description": "This policy audits if Network Watcher is not enabled for a selected region.",
+          "strongType": "location"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Network/virtualNetworks"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Network/networkWatchers",
+          "resourceGroupName": "NetworkWatcherRG",
+          "existenceCondition": {
+            "field": "location",
+            "equals": "[parameters('location')]"
+          }
+        }
+      }
+    }
+  }
+}

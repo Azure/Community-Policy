@@ -1,0 +1,38 @@
+{
+  "resourceGroupSuffix": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Resource Group Suffix",
+      "description": "Resource Groups containing this suffix will be permitted to deploy only the VM images definied in other parts of this Policy."
+    }
+  },
+  "allowedImagePublishers": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed Image Publishers",
+      "description": "Publishers listed here are the only ones approved to be deployed to the target Resource Group. More granularity can be achieved with the Offers parameter below. Use this command to get a list of Publishers: Get-AzVMImagePublisher -Location ''"
+    },
+    "defaultValue": "NA"
+  },
+  "allowedImageOffers": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed Image Offers",
+      "description": "Offers listed here are the only ones approved to be deployed to the target Resource Group. If you want less granularity use the Publishers parameter. Use this command to get a list of Offers: Get-AzVMImageOffer -Location '' -PublisherName ''"
+    },
+    "defaultValue": "NA"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

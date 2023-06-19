@@ -1,0 +1,66 @@
+{
+  "name": "aceba347-1c3b-4ff8-9e62-64b29d26a709",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Adds the default route table to subnets",
+    "description": "Adds the default route table to subnets. Other route tables are replaced with the default route table.",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "routeTableSettings": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Route Table Settings",
+          "description": "Location-specific settings for route tables."
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Modify, Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Modify",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Modify"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks/subnets"
+          },
+          {
+            "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",
+            "notEquals": "[concat(subscription().id, '/resourceGroups/', parameters('routeTableSettings')[field('location')].resourceGroupName, '/providers/Microsoft.Network/routeTables/', parameters('routeTableSettings')[field('location')].routeTableName)]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+          ],
+          "conflictEffect": "audit",
+          "operations": [
+            {
+              "operation": "addOrReplace",
+              "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",
+              "value": "[concat(subscription().id, '/resourceGroups/', parameters('routeTableSettings')[field('location')].resourceGroupName, '/providers/Microsoft.Network/routeTables/', parameters('routeTableSettings')[field('location')].routeTableName)]"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

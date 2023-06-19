@@ -1,0 +1,68 @@
+{
+  "name": "4b282e56-3249-4812-8ab8-6e0f208cea7b",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Event Hub namespaces should have the specified minimum TLS version",
+    "description": "Configure a minimum TLS version for secure communication between the client application and the Event Hub Namespace. To minimize security risk, the recommended minimum TLS version is the latest released version, which is currently TLS 1.2.",
+    "metadata": {
+      "category": "Event Hub",
+      "version": "1.0.0",
+      "preview": false,
+      "depreciated": false
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "minimumTlsVersion": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Minimum TLS Version",
+          "description": "Minimum version of TLS required to access data in the Event Hub Namespace"
+        },
+        "allowedValues": [
+          "1.0",
+          "1.1",
+          "1.2"
+        ],
+        "defaultValue": "1.2"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.EventHub/namespaces"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.EventHub/namespaces/minimumTlsVersion",
+                "notEquals": "[parameters('minimumTlsVersion')]"
+              },
+              {
+                "field": "Microsoft.EventHub/namespaces/minimumTlsVersion",
+                "exists": "false"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
