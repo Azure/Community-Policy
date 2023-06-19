@@ -5,7 +5,7 @@
     "description": "This policy ensures SSL is enforced on all DB for MySQL instances",
     "mode": "Indexed",
     "metadata": {
-      "category": "DB for MySQL"
+      "category": "SQL"
     },
     "parameters": {},
     "policyRule": {

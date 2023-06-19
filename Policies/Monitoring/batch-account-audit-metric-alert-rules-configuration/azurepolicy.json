@@ -4,8 +4,8 @@
         "mode": "Indexed",
         "description": "Audit configuration of metric alert rules on Batch account to enable the required metric",
         "metadata": {
-            "category": "Batch"
-        },
+            "category": "Monitoring"
+          },
         "parameters": { 
             "metricName": {
               "type": "String",

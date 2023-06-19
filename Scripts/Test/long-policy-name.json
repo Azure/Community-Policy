@@ -2,7 +2,7 @@
     "name": "Very long Policy name .........................................................................................................................",
     "properties": {
         "description": "Test description.",
-        "displayName": "Sample display name",
+        "displayName": "long policy name and not a guid",
         "metadata": {
             "version": "1.9.9",
             "category": "Monitoring"

@@ -6,7 +6,7 @@
     "description": "Deploys CanNotDelete lock on Purview account if not exists.",
     "metadata": {
       "version": "1.0.0",
-      "category": "Purview"
+      "category": "Azure Purview"
     },
     "mode": "All",
     "parameters": {

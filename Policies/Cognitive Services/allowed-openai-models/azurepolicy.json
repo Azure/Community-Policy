@@ -1,0 +1,88 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "014bf9e4-f49f-4aed-a9b0-c56399f90784",
+    "properties": {
+        "displayName": "Permit only approved OpenAI models",
+        "mode": "All",
+        "description": "This policy permits only certain types of OpenAI models to be deployed",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Cognitive Services"
+        },
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "defaultValue": "Audit"
+            },
+            "listOfAllowedModels": {
+                "type": "Array",
+                "metadata": {
+                    "description": "The list of Open AI models that can be deployed.",
+                    "displayName": "Allowed Open AI models"
+                },
+                "allowedValues": [
+                    "gpt-4",
+                    "gpt-4-32k",
+                    "text-davinci-003",
+                    "text-curie-001",
+                    "code-davinci-002",
+                    "code-cushman-001",
+                    "text-similarity-ada-001",
+                    "text-similarity-babbage-001",
+                    "text-similarity-curie-001",
+                    "text-similarity-davinci-001",
+                    "text-search-ada-doc-001",
+                    "text-search-ada-query-001",
+                    "text-search-babbage-doc-001",
+                    "text-search-babbage-query-001",
+                    "text-search-curie-doc-001",
+                    "text-search-curie-query-001",
+                    "text-search-davinci-doc-001",
+                    "text-search-davinci-query-001",
+                    "code-search-ada-code-001",
+                    "code-search-ada-text-001",
+                    "code-search-babbage-code-001",
+                    "code-search-babbage-text-001",
+                    "gpt-35-turbo (version 0301)",
+                    "text-ada-001",
+                    "text-babbage-001",
+                    "text-davinci-001",
+                    "text-davinci-002",
+                    "text-embedding-ada-002"
+                ]
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.CognitiveServices/accounts/deployments"
+                    },
+                    {
+                        "field": "Microsoft.CognitiveServices/accounts/deployments/model.format",
+                        "equals": "OpenAI"
+                    },
+                    {
+                        "not": {
+                            "field": "Microsoft.CognitiveServices/accounts/deployments/model.name",
+                            "in": "[parameters('listOfAllowedModels')]"
+                        }
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
+        }
+    }
+}
