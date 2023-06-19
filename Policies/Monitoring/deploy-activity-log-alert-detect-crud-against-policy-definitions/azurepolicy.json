@@ -155,18 +155,18 @@
                 "description": "This is the name of the Resource Group that will contain the Activity log alert resource.",
                 "displayName": "Alert Resource Group Name"
             }
-        }
-    },
-    "effect": {
-        "type": "String",
-        "metadata": {
-            "displayName": "Effects",
-            "description": "Enable or disable the execution of the Policy."
         },
-        "allowedValues": [
-            "DeployIfNotExists",
-            "Disabled"
-        ],
-        "defaultValue": "DeployIfNotExists"
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effects",
+                "description": "Enable or disable the execution of the Policy."
+            },
+            "allowedValues": [
+                "DeployIfNotExists",
+                "Disabled"
+            ],
+            "defaultValue": "DeployIfNotExists"
+        }
     }
 }

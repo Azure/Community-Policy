@@ -51,7 +51,8 @@
                 "metadata": {
                     "displayName": "Policy Effect",
                     "description": "The Policy Effect associated with this Policy Definition"
-                }
+                },
+                "defaultValue": "AuditIfNotExists"
             }
         },
         "policyRule": {
