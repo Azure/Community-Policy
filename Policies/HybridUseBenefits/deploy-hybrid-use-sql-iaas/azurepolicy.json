@@ -4,7 +4,7 @@
     "description": "This Policy will enable HUB for any SQL IaaS enrolled in the SQL Resource Provider with the SKU of Standard or Enterprise.",
     "mode": "All",
     "metadata": {
-        "category": "SQL"
+        "category": "SQL Server"
     },
     "policyRule": {
         "if": {

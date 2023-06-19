@@ -4,8 +4,8 @@
         "mode": "Indexed",
         "description": "Audit enabling of logs and retain them up to a year. This enables recreation of activity trails for investigation purposes when a security incident occurs or your network is compromised",
         "metadata": {
-            "category": "Event Hub"
-        },
+            "category": "Monitoring"
+          },
         "parameters": { 
             "requiredRetentionDays": {
               "type": "String",

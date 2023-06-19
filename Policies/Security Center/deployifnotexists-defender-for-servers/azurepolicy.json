@@ -1,0 +1,74 @@
+{
+	"type": "Microsoft.Authorization/policyDefinitions",
+	"name": "DeployDefenderForServers",
+	"properties": {
+		"displayName": "COMPUTE - Deploy Defender for Servers",
+		"description": "Uses a DeployIfNotExists policy to automatically deploy the Defender for Servers",
+		"mode": "all",
+		"metadata": {
+			"category": "Compute"
+		},
+    "parameters": {
+			"AccountLocation": {
+				"type": "String",
+				"metadata": {
+					"description": "Location where the policy should apply"
+				}
+			}
+    },
+		"policyRule": {
+			"if": {
+              "field": "type",
+              "equals": "Microsoft.Resources/subscriptions"
+            },
+			"then": {
+				"effect": "deployIfNotExists",
+				"details": {
+          "type": "Microsoft.Security/pricings",
+          "name": "VirtualMachines",
+          "deploymentScope": "subscription",
+          "existenceScope": "subscription",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/fb1c8493-542b-48eb-b624-b4c8fea62acd"
+          ],
+          "existenceCondition": {
+            "value": "field(microsoft.security/pricings/pricingTier)",
+            "equals": "Free"
+          },
+          "deployment": {
+            "location": "[parameters('AccountLocation')]",
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "AccountLocation": {
+                    "type": "string"
+                  }
+                },
+                "variables": {},
+                "resources": [
+                    {
+                    "type": "Microsoft.Security/pricings",
+                    "apiVersion": "2018-06-01",
+                    "name": "VirtualMachines",
+                    "properties": {
+                        "pricingTier": "standard"
+                      }
+                    }
+                  ],
+                "outputs": {}
+              },
+              "parameters": {
+              "AccountLocation": {
+                "value": "[parameters('AccountLocation')]"
+                } 
+              }
+            }
+          }
+        }
+			}
+		}
+	}
+}

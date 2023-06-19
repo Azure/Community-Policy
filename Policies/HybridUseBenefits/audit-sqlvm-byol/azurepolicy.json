@@ -2,6 +2,9 @@
   "mode": "all",
   "displayName": "Audit SQL VM BYOL Compliance",
   "description": "This policy audits whether an existing SQL Server VM is enabled for SQL Server BYOL.",
+  "metadata": {
+    "category": "SQL Server"
+  },
   "policyRule": {
     "if": {
       "allOf": [

@@ -1,6 +1,6 @@
 {
   "description": "Deploys the diagnostic settings for Dev Centers to stream to a Log Analytics workspace when any Dev Center which is missing this diagnostic settings is created or updated. The policy will set the diagnostic with all categories enabled.",
-  "displayName": "Deploy Diagnostic Settings for Dev Centers to Log Analytics workspace",
+  "displayName": "effect invalid allowed valid default",
   "metadata": {
     "version": "1.9.9",
     "category": "Monitoring"
