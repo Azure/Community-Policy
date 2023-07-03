@@ -202,7 +202,13 @@ function Format-PolicyDefinition {
             $properties = $definition.Properties
         }
 
-        $name = $properties.name
+        $name = $definition.name
+        if (!$name) {
+            $name = $definition.Name
+        }
+        if (!$name) {
+            $name = $properties.name
+        }
         if (!$name) {
             $name = $properties.Name
         }
