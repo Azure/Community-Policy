@@ -1,0 +1,53 @@
+{
+  "name": "5e68f029-0f81-4ee3-b578-705b0fdb237d",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit OpenAI instances with content filtering enabled",
+    "description": "Azure OpenAI Service includes a content management system that filters content. If you are working with sensitive data, content filtering should be disabled so that Microsoft is not processing your data.",
+    "metadata": {
+      "category": "Cognitive Services",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.CognitiveServices/accounts"
+          },
+          {
+            "field": "kind",
+            "equals": "OpenAI"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.CognitiveServices/accounts/capabilities[*].name",
+                "notEquals": "ContentLogging"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
