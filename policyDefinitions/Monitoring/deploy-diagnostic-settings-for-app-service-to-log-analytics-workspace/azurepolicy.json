@@ -5,8 +5,8 @@
     "displayName": "Deploy Diagnostic Settings for App Service to Log Analytics workspace",
     "description": "Apply diagnostic settings for Azure Web Sites",
     "metadata": {
-      "version": "1.0.0",
-      "category": "App Service"
+      "version": "1.1.0",
+      "category": "Monitoring"
     },
     "mode": "Indexed",
     "parameters": {
