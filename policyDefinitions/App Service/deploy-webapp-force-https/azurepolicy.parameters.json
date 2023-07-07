@@ -3,13 +3,13 @@
     "type": "String",
     "metadata": {
       "displayName": "Effect",
-      "description": "Deny, Audit or Disabled the execution of the Policy"
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
     },
     "allowedValues": [
-      "Deny",
-      "Audit",
+      "DeployIfNotExists",
+      "AuditIfNotExists",
       "Disabled"
     ],
-    "defaultValue": "Audit"
+    "defaultValue": "DeployIfNotExists"
   }
 }

@@ -5,7 +5,7 @@
     "displayName": "deploy-webapp-force-https",
     "description": "need to add description",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "App Service"
     },
     "mode": "All",
@@ -14,14 +14,14 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Deny, Audit or Disabled the execution of the Policy"
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
         },
         "allowedValues": [
-          "Deny",
-          "Audit",
+          "DeployIfNotExists",
+          "AuditIfNotExists",
           "Disabled"
         ],
-        "defaultValue": "Audit"
+        "defaultValue": "DeployIfNotExists"
       }
     },
     "policyRule": {
