@@ -2,10 +2,10 @@
   "name": "d55c0177-f092-4797-82ef-cb2ec89cf527",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "remote-debugging-off-for-web-apps-DINE",
-    "description": "need to add description",
+    "displayName": "Remote Debugging disabled deploy for App Service",
+    "description": "Remote Debugging disabled deploy for App Service",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "App Service"
     },
     "mode": "Indexed",
