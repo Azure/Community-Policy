@@ -2,10 +2,10 @@
   "name": "20b21801-8432-4515-acf9-4dffc85b0413",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "web-app-always-on-deny",
-    "description": "need to add description",
+    "displayName": "Web app require always on",
+    "description": "Web app require always on",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "App Service"
     },
     "mode": "Indexed",
