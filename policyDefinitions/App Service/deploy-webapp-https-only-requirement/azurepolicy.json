@@ -2,8 +2,8 @@
   "name": "ed859de9-4bc2-4b49-bce3-dc620ef610ec",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "deploy-webapp-force-https",
-    "description": "need to add description",
+    "displayName": "Deploy Webapp https only requirement",
+    "description": "Deploy Webapp https only requirement",
     "metadata": {
       "version": "1.1.0",
       "category": "App Service"
