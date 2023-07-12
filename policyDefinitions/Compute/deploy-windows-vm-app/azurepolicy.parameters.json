@@ -1,0 +1,51 @@
+{
+	"effect": {
+		"type": "String",
+		"metadata": {
+			"displayName": "Effect",
+			"description": "Enable or disable the execution of the policy."
+		},
+		"allowedValues": [
+			"DeployIfNotExists",
+			"AuditIfNotExists",
+			"Disabled"
+		],
+		"defaultValue": "DeployIfNotExists"
+	},
+	"galleryApplication": {
+		"type": "String",
+		"metadata": {
+			"displayName": "VM Application Version",
+			"description": "The package reference id to vm application version to deploy",
+			"strongType": "microsoft.compute/galleries/applications/versions",
+			"portalReview": true
+		}
+	},
+	"enableAutomaticUpgrade": {
+		"type": "Boolean",
+		"metadata": {
+			"displayName": "Enable Automatic Upgrade",
+			"description": "If set to true, when a new Gallery Application version is available it will be automatically updated",
+			"portalReview": true
+		},
+		"defaultValue": true
+	},
+	"treatFailureAsDeploymentFailure": {
+		"type": "Boolean",
+		"metadata": {
+			"displayName": "Treat Failure As Deployment Success",
+			"description": "The VM application extension always returns a success regardless of whether any VM app failed while being installed/updated/removed",
+			"portalReview": true
+		},
+		"defaultValue": false
+	},
+	"configurationReference": {
+		"type": "String",
+		"metadata": {
+			"displayName": "Configuration File Reference",
+			"description": "Optional, Specifies the uri to an azure blob that will replace the default configuration for the package if provided",
+			"portalReview": true
+		},
+		"defaultValue": ""
+	}
+}

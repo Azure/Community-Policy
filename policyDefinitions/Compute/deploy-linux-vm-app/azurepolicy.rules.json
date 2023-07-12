@@ -1,0 +1,101 @@
+{
+	"if": {
+		"allOf": [
+			{
+				"field": "type",
+				"equals": "Microsoft.Compute/virtualMachines"
+			},
+			{
+				"field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+				"equals": "Linux"
+			}
+		]
+	},
+	"then": {
+		"effect": "[parameters('effect')]",
+		"details": {
+			"type": "Microsoft.Compute/virtualMachines",
+			"name": "[field('name')]",
+			"existenceCondition": {
+				"allOf": [
+					{
+						"count": {
+							"field": "Microsoft.Compute/virtualMachines/applicationProfile.galleryApplications[*]",
+							"where": {
+								"field": "Microsoft.Compute/virtualMachines/applicationProfile.galleryApplications[*].packageReferenceId",
+								"equals": "[parameters('galleryApplication')]"
+							}
+						},
+						"greater": 0
+					}
+				]
+			},
+			"roleDefinitionIds": [
+				"/providers/Microsoft.Authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
+			],
+			"deployment": {
+				"properties": {
+					"mode": "incremental",
+					"template": {
+						"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+						"contentVersion": "1.0.0.0",
+						"parameters": {
+							"vmName": {
+								"type": "string"
+							},
+							"location": {
+								"type": "string"
+							},
+							"galleryApplication": {
+								"type": "string"
+							},
+							"enableAutomaticUpgrade": {
+								"type": "Bool"
+							},
+							"treatFailureAsDeploymentFailure": {
+								"type": "Bool"
+							},
+							"configurationReference": {
+								"type": "string"
+							}
+						},
+						"resources": [
+							{
+								"apiVersion": "2023-03-01",
+								"type": "Microsoft.Compute/virtualMachines/VMapplications",
+								"name": "[concat(parameters('vmName'), '/', split(parameters('galleryApplication'), '/')[10])]",
+								"location": "[parameters('location')]",
+								"properties": {
+									"packageReferenceId": "[parameters('galleryApplication')]",
+									"enableAutomaticUpgrade": "[parameters('enableAutomaticUpgrade')]",
+									"treatFailureAsDeploymentFailure": "[parameters('treatFailureAsDeploymentFailure')]",
+									"configurationReference": ""
+								}
+							}
+						]
+					},
+					"parameters": {
+						"vmName": {
+							"value": "[field('name')]"
+						},
+						"location": {
+							"value": "[field('location')]"
+						},
+						"galleryApplication": {
+							"value": "[parameters('galleryApplication')]"
+						},
+						"enableAutomaticUpgrade": {
+							"value": "[parameters('enableAutomaticUpgrade')]"
+						},
+						"treatFailureAsDeploymentFailure": {
+							"value": "[parameters('treatFailureAsDeploymentFailure')]"
+						},
+						"configurationReference": {
+							"value": "[parameters('configurationReference')]"
+						}
+					}
+				}
+			}
+		}
+	}
+}
