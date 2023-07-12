@@ -1,7 +1,6 @@
 {
 	"properties": {
 		"displayName": "Deploy Linux VM Application",
-		"policyType": "Custom",
 		"mode": "Indexed",
 		"description": "This policy will deploy a vm application to Linux virtual machines. You will need to assign the managed identity the reader role to the Azure Compute Gallery where the application resides. Users or service principles deploying virtual machines will also need the reader role assigned to the Azure Compute Gallery for the policy to take effect during new virtual machine deployments",
 		"metadata": {
