@@ -29,12 +29,7 @@ If you plan on using the RBAC sharing method you need to perform the following:
 You can find the Managed Identity name after you create the policy assignment. 
 1. Navigate to the Azure Policy assignment you created
 2. Copy the last path on the Assignment ID uri, which is the Managed Identity name
-   
-   ![image](https://github.com/seanstark/Azure-Policy/assets/84108246/03f1034b-3e5a-43ab-a30a-1cf1a5229c1b)
-
 3. Next assign the reader role to the Azure Compute Gallery. Make sure to select User, group, or service principal
-
-   ![image](https://github.com/seanstark/Azure-Policy/assets/84108246/65764526-18c7-403c-bb4f-df209906f455)
 
 ### Using the Direct sharing method
 If you plan on using the Direct sharing method you do not need to take additional steps as the Azure Compute Gallery is already shared to all identities in the subscription or tenant
