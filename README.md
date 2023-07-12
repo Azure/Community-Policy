@@ -19,7 +19,7 @@ This project welcomes contributions and suggestions.  Most contributions require
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
 
-To get started contributing to the samples, please visit our [**contribution guide**](https://github.com/Azure/Community-Policy/blob/master/CONTRIBUTING.md). We also have a PowerShell script that will validate your Policy against the contribution guide and fix problems for you. You can find it [**here**](SubmitPolicy.ps1).
+To get started contributing to the samples, please visit our [**contribution guide**](https://github.com/Azure/Community-Policy/blob/master/CONTRIBUTING.md). We also have a PowerShell script that will validate your Policy against the contribution guide and fix problems for you. You can find it [**here**](https://github.com/Azure/Community-Policy/blob/main/Scripts/Confirm-PolicyDefinitionIsValid.ps1).
 
 When you submit a pull request, a CLA bot will automatically determine whether you need to provide
 a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
@@ -50,7 +50,7 @@ To report issues in the Azure Policy online documentation, look for a feedback a
 
 ### New built-in Policy Proposals
 
-If you have ideas for new built-in policies you want to suggest to Microsoft, you can submit them to [**Azure Governance Ideas**](https://feedback.azure.com/d365community/forum/675ae472-f324-ec11-b6e6-000d3a4f0da0#). These suggestions are actively reviewed and prioritized for implementation.
+If you have ideas for new built-in policies you want to suggest to Microsoft, you can submit them to [**Azure Governance Ideas**](https://feedback.azure.com/d365community/forum/675ae472-f324-ec11-b6e6-000d3a4f0da0). These suggestions are actively reviewed and prioritized for implementation.
 
 ### Other Support for Azure Policy
 
@@ -61,27 +61,27 @@ If you are encountering livesite issues or difficulties in implementing new poli
 
 ## Articles
 
-- [Azure Policy overview](https://docs.microsoft.com/azure/governance/policy/overview)
-- [How to assign policies using the Azure portal](https://docs.microsoft.com/azure/governance/policy/assign-policy-portal)
-- [How to assign policies using Azure PowerShell](https://docs.microsoft.com/azure/governance/policy/assign-policy-powershell)
-- [How to assign policies using Azure CLI](https://docs.microsoft.com/azure/governance/policy/assign-policy-azurecli)
-- [Export and manage Azure policies as code with GitHub](https://docs.microsoft.com/en-us/azure/governance/policy/tutorials/policy-as-code-github)
-- [Definition structure](https://docs.microsoft.com/azure/governance/policy/concepts/definition-structure)
-- [Understand Policy effects](https://docs.microsoft.com/azure/governance/policy/concepts/effects)
-- [Programmatically create policies](https://docs.microsoft.com/azure/governance/policy/how-to/programmatically-create)
-- [Get compliance data](https://docs.microsoft.com/azure/governance/policy/how-to/get-compliance-data)
-- [Remediate non-compliant resources](https://docs.microsoft.com/azure/governance/policy/how-to/remediate-resources)
+- [Azure Policy overview](https://learn.microsoft.com/azure/governance/policy/overview)
+- [How to assign policies using the Azure portal](https://learn.microsoft.com/azure/governance/policy/assign-policy-portal)
+- [How to assign policies using Azure PowerShell](https://learn.microsoft.com/azure/governance/policy/assign-policy-powershell)
+- [How to assign policies using Azure CLI](https://learn.microsoft.com/azure/governance/policy/assign-policy-azurecli)
+- [Export and manage Azure policies as code with GitHub](https://learn.microsoft.com/en-us/azure/governance/policy/tutorials/policy-as-code-github)
+- [Definition structure](https://learn.microsoft.com/azure/governance/policy/concepts/definition-structure)
+- [Understand Policy effects](https://learn.microsoft.com/azure/governance/policy/concepts/effects)
+- [Programmatically create policies](https://learn.microsoft.com/azure/governance/policy/how-to/programmatically-create)
+- [Get compliance data](https://learn.microsoft.com/azure/governance/policy/how-to/get-compliance-data)
+- [Remediate non-compliant resources](https://learn.microsoft.com/azure/governance/policy/how-to/remediate-resources)
 
 ## References
 
-- [Azure CLI](https://docs.microsoft.com/cli/azure/policy)
+- [Azure CLI](https://learn.microsoft.com/cli/azure/policy)
 - Azure PowerShell
-  - [Policy](https://docs.microsoft.com/powershell/module/az.resources/#policies)
+  - [Policy](https://learn.microsoft.com/powershell/module/az.resources/#policies)
 - REST API
-  - [Events](https://docs.microsoft.com/en-us/rest/api/policy/policy-events)
-  - [States](https://docs.microsoft.com/en-us/rest/api/policy/policy-states)
-  - [Assignments](https://docs.microsoft.com/en-us/rest/api/policy/policy-assignments)
-  - [Policy Definitions](https://docs.microsoft.com/en-us/rest/api/policy/policy-definitions)
-  - [Policy Set Definitions](https://docs.microsoft.com/en-us/rest/api/policy/policy-set-definitions)
-  - [Policy Tracked Resources](https://docs.microsoft.com/en-us/rest/api/policy/policy-tracked-resources)
-  - [Remediations](https://docs.microsoft.com/en-us/rest/api/policy/remediations)
+  - [Events](https://learn.microsoft.com/en-us/rest/api/policy/policy-events)
+  - [States](https://learn.microsoft.com/en-us/rest/api/policy/policy-states)
+  - [Assignments](https://learn.microsoft.com/rest/api/policy/policy-assignments)
+  - [Policy Definitions](https://learn.microsoft.com/rest/api/policy/policy-definitions)
+  - [Policy Set Definitions](https://learn.microsoft.com/rest/api/policy/policy-set-definitions)
+  - [Policy Tracked Resources](https://learn.microsoft.com/rest/api/policy/policy-tracked-resources)
+  - [Remediations](https://learn.microsoft.com/rest/api/policy/remediations)
