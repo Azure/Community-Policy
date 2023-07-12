@@ -1,14 +1,14 @@
 {
-  "name": "5f88ac21-a877-4270-abdb-6ef7cb842321",
+  "name": "20b21801-8432-4515-acf9-4dffc85b0413",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "deny-webapps-remote-debugging",
-    "description": "need to add description",
+    "displayName": "Web app require always on",
+    "description": "Web app require always on",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "App Service"
     },
-    "mode": "All",
+    "mode": "Indexed",
     "parameters": {
       "effect": {
         "type": "String",
@@ -32,10 +32,8 @@
             "equals": "Microsoft.Web/sites"
           },
           {
-            "not": {
-              "field": "Microsoft.Web/sites/siteConfig.remoteDebuggingEnabled",
-              "equals": "false"
-            }
+            "field": "Microsoft.Web/sites/siteConfig.alwaysOn",
+            "equals": "false"
           }
         ]
       },

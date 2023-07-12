@@ -1,27 +1,27 @@
 {
-  "name": "ed859de9-4bc2-4b49-bce3-dc620ef610ec",
+  "name": "d55c0177-f092-4797-82ef-cb2ec89cf527",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "deploy-webapp-force-https",
-    "description": "need to add description",
+    "displayName": "Remote Debugging disabled deploy for App Service",
+    "description": "Remote Debugging disabled deploy for App Service",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "App Service"
     },
-    "mode": "All",
+    "mode": "Indexed",
     "parameters": {
       "effect": {
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Deny, Audit or Disabled the execution of the Policy"
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
         },
         "allowedValues": [
-          "Deny",
-          "Audit",
+          "DeployIfNotExists",
+          "AuditIfNotExists",
           "Disabled"
         ],
-        "defaultValue": "Audit"
+        "defaultValue": "DeployIfNotExists"
       }
     },
     "policyRule": {
@@ -32,23 +32,22 @@
             "equals": "Microsoft.Web/sites"
           },
           {
-            "field": "Microsoft.Web/sites/httpsOnly",
-            "equals": false
+            "field": "kind",
+            "like": "app*"
           }
         ]
       },
       "then": {
         "effect": "[parameters('effect')]",
         "details": {
-          "type": "Microsoft.Web/sites",
-          "name": "[field('name')]",
-          "existenceCondition": {
-            "field": "Microsoft.Web/sites/httpsOnly",
-            "equals": true
-          },
+          "type": "Microsoft.Web/sites/config",
           "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772"
+            "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/config/web.remoteDebuggingEnabled",
+            "equals": "true"
+          },
           "deployment": {
             "properties": {
               "mode": "incremental",
@@ -56,7 +55,7 @@
                 "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
                 "contentVersion": "1.0.0.0",
                 "parameters": {
-                  "webAppName": {
+                  "appName": {
                     "type": "string"
                   },
                   "location": {
@@ -65,18 +64,20 @@
                 },
                 "resources": [
                   {
+                    "name": "[parameters('appName')]",
                     "type": "Microsoft.Web/sites",
-                    "apiVersion": "2018-11-01",
-                    "name": "[parameters('webAppName')]",
+                    "apiVersion": "2016-08-01",
                     "location": "[parameters('location')]",
                     "properties": {
-                      "httpsOnly": true
+                      "siteConfig": {
+                        "remoteDebuggingEnabled": "false"
+                      }
                     }
                   }
                 ]
               },
               "parameters": {
-                "webAppName": {
+                "appName": {
                   "value": "[field('name')]"
                 },
                 "location": {
