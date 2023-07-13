@@ -1,0 +1,19 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.DocumentDB/databaseAccounts"
+      },
+      {
+        "less": 2,
+        "count": {
+          "field": "Microsoft.DocumentDB/databaseAccounts/locations[*]"
+        }
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
