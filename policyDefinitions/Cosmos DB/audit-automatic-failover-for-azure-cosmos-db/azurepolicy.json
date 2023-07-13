@@ -1,8 +1,28 @@
 {
+  "name": "520f0cb0-e25c-417a-a919-7530acb05e13",
+  "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "mode": "all",
     "displayName": "Audit automatic failover for Azure Cosmos DB",
     "description": "This policy validates that automatic failover is enabled for an Azure Cosmos DB account.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Cosmos DB"
+    },
+    "mode": "all",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
     "policyRule": {
       "if": {
         "allOf": [
@@ -17,7 +37,7 @@
         ]
       },
       "then": {
-        "effect": "audit"
+        "effect": "[parameters('effect')]"
       }
     }
   }
