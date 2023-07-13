@@ -1,0 +1,26 @@
+{
+    "properties": {
+      "mode": "all",
+      "displayName": "Audit geo-replication for Azure Cosmos DB",
+      "description": "This policy validates that an Azure Cosmos DB account is deployed to at least two regions.",
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.DocumentDB/databaseAccounts"
+            },
+            {
+              "count": {
+                "field": "Microsoft.DocumentDB/databaseAccounts/locations[*]"
+              },
+              "less": 2
+            }
+          ]
+        },
+        "then": {
+          "effect": "audit"
+        }
+      }
+    }
+  }
