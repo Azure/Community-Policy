@@ -1,0 +1,26 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "DenyAction",
+      "Disabled"
+    ],
+    "defaultValue": "Disabled"
+  },
+  "cascade": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Cascade",
+      "description": "Allow or deny the deletion of the storage account along with the resource group"
+    },
+    "allowedValues": [
+      "deny",
+      "allow"
+    ],
+    "defaultValue": "allow"
+  }
+}
