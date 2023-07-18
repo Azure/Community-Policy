@@ -1,0 +1,20 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.ContainerRegistry/registries",
+        "field": "type"
+      },
+      {
+        "in": [
+          "disabled",
+          "Disabled"
+        ],
+        "field": "Microsoft.ContainerRegistry/registries/policies.retentionPolicy.status"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
