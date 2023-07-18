@@ -1,0 +1,45 @@
+{
+  "name": "d993fd71-e821-40e9-9544-e15791d100c9",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage Accounts - Default to OAuth authentication",
+    "description": "When this property is enabled, the Azure portal authorizes requests to blobs, queues, and tables with Azure Active Directory by default. It is disabled by default.",
+    "metadata": {
+      "category": "Storage",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Storage/storageAccounts",
+            "field": "type"
+          },
+          {
+            "equals": "false",
+            "field": "Microsoft.Storage/storageAccounts/defaultToOAuthAuthentication"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

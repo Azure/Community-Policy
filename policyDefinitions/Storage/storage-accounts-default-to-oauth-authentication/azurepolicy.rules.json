@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Storage/storageAccounts",
+        "field": "type"
+      },
+      {
+        "equals": "false",
+        "field": "Microsoft.Storage/storageAccounts/defaultToOAuthAuthentication"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
