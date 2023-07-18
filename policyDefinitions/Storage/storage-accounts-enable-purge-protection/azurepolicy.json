@@ -1,0 +1,45 @@
+{
+  "name": "06252028-f309-478c-8281-a54c22089d84",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage Accounts - Enable purge protection",
+    "description": "Permanent delete enables you to permanently delete a soft-deleted snapshot or blob version before the retention period ends.",
+    "metadata": {
+      "category": "Storage",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Storage/storageAccounts/blobServices",
+            "field": "type"
+          },
+          {
+            "equals": "true",
+            "field": "Microsoft.Storage/storageAccounts/blobServices/deleteRetentionPolicy.allowPermanentDelete"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
