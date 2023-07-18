@@ -1,0 +1,47 @@
+{
+  "name": "d5d7df76-e663-484c-8ff7-e60355fbec04",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage Accounts - Enable Advanced Threat Protection",
+    "description": "Ensure that Advanced Threat Protection is enabled for all Storage Accounts.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Security/advancedThreatProtectionSettings",
+          "existenceCondition": {
+            "anyOf": [
+              {
+                "field": "Microsoft.Security/advancedThreatProtectionSettings/isEnabled",
+                "equals": true
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

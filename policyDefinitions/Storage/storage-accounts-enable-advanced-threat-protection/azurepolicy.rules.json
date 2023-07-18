@@ -1,0 +1,20 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Storage/storageAccounts"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Security/advancedThreatProtectionSettings",
+      "existenceCondition": {
+        "anyOf": [
+          {
+            "field": "Microsoft.Security/advancedThreatProtectionSettings/isEnabled",
+            "equals": true
+          }
+        ]
+      }
+    }
+  }
+}
