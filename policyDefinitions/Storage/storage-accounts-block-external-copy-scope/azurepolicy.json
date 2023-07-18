@@ -1,0 +1,49 @@
+{
+  "name": "98097816-e9f1-40fe-8130-d011e3870dcb",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Storage Accounts - Block external copy scope",
+    "description": "By default, users can copy from source storage account in one Azure AD tenant and a destination account in a different tenant. It is a security concern because customer's data can be replicated to a storage account that is owned by the customer. By setting allowedCopyScope to AAD, copy operations can be done only if both source and destination accounts are in the same Azure AD tenant.",
+    "metadata": {
+      "category": "Storage",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Storage/storageAccounts",
+            "field": "type"
+          },
+          {
+            "notIn": 
+            [ 
+              "AAD", 
+              "PrivateLink" 
+            ],
+            "field": "Microsoft.Storage/storageAccounts/allowedCopyScope"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
