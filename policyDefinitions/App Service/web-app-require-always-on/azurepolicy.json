@@ -1,22 +1,15 @@
 {
-  "name": "27e36ba1-7f72-4a8e-b981-ef06d5c78c1a",
+  "name": "20b21801-8432-4515-acf9-4dffc85b0413",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "Allowed App Services Plan SKUs",
-    "description": "This policy enables you to specify a set of App Services Plan SKUs that your organization can deploy.",
+    "displayName": "Web app require always on",
+    "description": "Web app require always on",
     "metadata": {
       "version": "1.1.0",
       "category": "App Service"
     },
-    "mode": "all",
+    "mode": "Indexed",
     "parameters": {
-      "listOfAllowedSKUs": {
-        "type": "Array",
-        "metadata": {
-          "description": "The list of SKUs that can be specified for App Services Plan.",
-          "displayName": "Allowed SKUs"
-        }
-      },
       "effect": {
         "type": "String",
         "metadata": {
@@ -36,13 +29,11 @@
         "allOf": [
           {
             "field": "type",
-            "equals": "Microsoft.Web/serverfarms"
+            "equals": "Microsoft.Web/sites"
           },
           {
-            "not": {
-              "field": "Microsoft.Web/serverfarms/sku.name",
-              "in": "[parameters('listOfAllowedSKUs')]"
-            }
+            "field": "Microsoft.Web/sites/siteConfig.alwaysOn",
+            "equals": "false"
           }
         ]
       },

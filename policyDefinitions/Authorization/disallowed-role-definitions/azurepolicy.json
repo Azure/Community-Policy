@@ -3,7 +3,7 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Disallowed Role Definitions",
-    "description": "This policy defines a deny list of role deifnitions that can not be used in IAM",
+    "description": "This policy defines a list of role definitions that can not be used in IAM",
     "metadata": {
       "version": "1.0.0",
       "category": "Authorization"
@@ -13,7 +13,7 @@
       "roleDefinitionIds": {
         "type": "array",
         "metadata": {
-          "description": "The list of disallowed role definition IDs. Example: If you were to put in 8e3af657-a8ff-443c-a75c-2fe8c4bcb635 as a value then the Owner role could not be assigned.",
+          "description": "The list of disallowed role definition IDs. Example: If you were to put in '8e3af657-a8ff-443c-a75c-2fe8c4bcb635' as a value then the 'Owner' role could not be assigned.",
           "displayName": "Not Approved Role Definitions"
         }
       },

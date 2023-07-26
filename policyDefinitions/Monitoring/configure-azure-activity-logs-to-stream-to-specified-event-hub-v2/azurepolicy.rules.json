@@ -1,0 +1,265 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Resources/subscriptions"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Insights/diagnosticSettings",
+      "deploymentScope": "subscription",
+      "existenceScope": "subscription",
+      "name": "[parameters('profileName')]",
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/eventHubAuthorizationRuleId",
+            "equals": "[parameters('eventHubAuthorizationRuleId')]"
+          },
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/eventHubName",
+            "equals": "[parameters('eventHubName')]"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+              "where": {
+                "anyOf": [
+                  {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                        "like": "Administrative"
+                      },
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                        "notEquals": "[parameters('administrativeLogsEnabled')]"
+                      }
+                    ]
+                  },
+                  {
+                    "AllOf": [
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                        "like": "Alert"
+                      },
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                        "notEquals": "[parameters('alertLogsEnabled')]"
+                      }
+                    ]
+                  },
+                  {
+                    "AllOf": [
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                        "like": "Autoscale"
+                      },
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                        "notEquals": "[parameters('autoscaleLogsEnabled')]"
+                      }
+                    ]
+                  },
+                  {
+                    "AllOf": [
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                        "like": "Policy"
+                      },
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                        "notEquals": "[parameters('policyLogsEnabled')]"
+                      }
+                    ]
+                  },
+                  {
+                    "AllOf": [
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                        "like": "Recommendation"
+                      },
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                        "notEquals": "[parameters('recommendationLogsEnabled')]"
+                      }
+                    ]
+                  },
+                  {
+                    "AllOf": [
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                        "like": "ResourceHealth"
+                      },
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                        "notEquals": "[parameters('resourceHealthLogsEnabled')]"
+                      }
+                    ]
+                  },
+                  {
+                    "AllOf": [
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                        "like": "Security"
+                      },
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                        "notEquals": "[parameters('securityLogsEnabled')]"
+                      }
+                    ]
+                  },
+                  {
+                    "AllOf": [
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                        "like": "ServiceHealth"
+                      },
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                        "notEquals": "[parameters('serviceHealthLogsEnabled')]"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "equals": 0
+          }
+        ]
+      },
+      "deployment": {
+        "location": "northeurope",
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "profileName": {
+                "type": "string"
+              },
+              "eventHubAuthorizationRuleId": {
+                "type": "string"
+              },
+              "eventHubName": {
+                "type": "string"
+              },
+              "administrativeLogsEnabled": {
+                "type": "string"
+              },
+              "alertLogsEnabled": {
+                "type": "string"
+              },
+              "autoscaleLogsEnabled": {
+                "type": "string"
+              },
+              "policyLogsEnabled": {
+                "type": "string"
+              },
+              "recommendationLogsEnabled": {
+                "type": "string"
+              },
+              "resourceHealthLogsEnabled": {
+                "type": "string"
+              },
+              "securityLogsEnabled": {
+                "type": "string"
+              },
+              "serviceHealthLogsEnabled": {
+                "type": "string"
+              }
+            },
+            "variables": {},
+            "resources": [
+              {
+                "name": "[parameters('profileName')]",
+                "type": "Microsoft.Insights/diagnosticSettings",
+                "apiVersion": "2017-05-01-preview",
+                "location": "Global",
+                "properties": {
+                  "eventHubAuthorizationRuleId": "[parameters('eventHubAuthorizationRuleId')]",
+                  "eventHubName": "[parameters('eventHubName')]",
+                  "logs": [
+                    {
+                      "category": "Administrative",
+                      "enabled": "[parameters('administrativeLogsEnabled')]"
+                    },
+                    {
+                      "category": "Alert",
+                      "enabled": "[parameters('alertLogsEnabled')]"
+                    },
+                    {
+                      "category": "Autoscale",
+                      "enabled": "[parameters('autoscaleLogsEnabled')]"
+                    },
+                    {
+                      "category": "Policy",
+                      "enabled": "[parameters('policyLogsEnabled')]"
+                    },
+                    {
+                      "category": "Recommendation",
+                      "enabled": "[parameters('recommendationLogsEnabled')]"
+                    },
+                    {
+                      "category": "ResourceHealth",
+                      "enabled": "[parameters('resourceHealthLogsEnabled')]"
+                    },
+                    {
+                      "category": "Security",
+                      "enabled": "[parameters('securityLogsEnabled')]"
+                    },
+                    {
+                      "category": "ServiceHealth",
+                      "enabled": "[parameters('serviceHealthLogsEnabled')]"
+                    }
+                  ]
+                }
+              }
+            ],
+            "outputs": {}
+          },
+          "parameters": {
+            "profileName": {
+              "value": "[parameters('profileName')]"
+            },
+            "eventHubName": {
+              "value": "[parameters('eventHubName')]"
+            },
+            "eventHubAuthorizationRuleId": {
+              "value": "[parameters('eventHubAuthorizationRuleId')]"
+            },
+            "administrativeLogsEnabled": {
+              "value": "[parameters('administrativeLogsEnabled')]"
+            },
+            "alertLogsEnabled": {
+              "value": "[parameters('alertLogsEnabled')]"
+            },
+            "autoscaleLogsEnabled": {
+              "value": "[parameters('autoscaleLogsEnabled')]"
+            },
+            "policyLogsEnabled": {
+              "value": "[parameters('policyLogsEnabled')]"
+            },
+            "recommendationLogsEnabled": {
+              "value": "[parameters('recommendationLogsEnabled')]"
+            },
+            "resourceHealthLogsEnabled": {
+              "value": "[parameters('resourceHealthLogsEnabled')]"
+            },
+            "securityLogsEnabled": {
+              "value": "[parameters('securityLogsEnabled')]"
+            },
+            "serviceHealthLogsEnabled": {
+              "value": "[parameters('serviceHealthLogsEnabled')]"
+            }
+          }
+        }
+      },
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/f526a384-b230-433a-b45c-95f59c4a2dec",
+        "/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+      ]
+    }
+  }
+}
