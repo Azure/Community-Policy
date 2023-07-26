@@ -1,0 +1,136 @@
+{
+  "profileName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Profile name",
+      "description": "The diagnostic settings profile name"
+    },
+    "defaultValue": "exportToEventHub"
+  },
+  "eventHubAuthorizationRuleId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Event Hub Authorization Rule Id",
+      "description": "Event Hub Authorization Rule Id - the authorization rule needs to be at Event Hub namespace level. e.g. /subscriptions/{subscription Id}/resourceGroups/{resource group}/providers/Microsoft.EventHub/namespaces/{Event Hub namespace}/authorizationrules/{authorization rule}",
+      "strongType": "Microsoft.EventHub/Namespaces/AuthorizationRules",
+      "assignPermissions": true
+    }
+  },
+  "eventHubName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Event Hub Name",
+      "description": "Event Hub Name."
+    },
+    "defaultValue": "export"
+  },
+  "administrativeLogsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enable Administrative logs",
+      "description": "Whether to enable Administrative logs stream to the Event Hub - true or false"
+    },
+    "allowedValues": [
+      "true",
+      "false"
+    ],
+    "defaultValue": "true"
+  },
+  "alertLogsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enable Alert logs",
+      "description": "Whether to enable Alert logs stream to the Event Hub - true or false"
+    },
+    "allowedValues": [
+      "true",
+      "false"
+    ],
+    "defaultValue": "true"
+  },
+  "autoscaleLogsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enable Autoscale logs",
+      "description": "Whether to enable Autoscale logs stream to the Event Hub - true or false"
+    },
+    "allowedValues": [
+      "true",
+      "false"
+    ],
+    "defaultValue": "true"
+  },
+  "policyLogsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enable Policy logs",
+      "description": "Whether to enable Policy logs stream to the Event Hub - true or false"
+    },
+    "allowedValues": [
+      "true",
+      "false"
+    ],
+    "defaultValue": "true"
+  },
+  "recommendationLogsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enable Recommendation logs",
+      "description": "Whether to enable Recommendation logs stream to the Event Hub - true or false"
+    },
+    "allowedValues": [
+      "true",
+      "false"
+    ],
+    "defaultValue": "true"
+  },
+  "resourceHealthLogsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enable ResourceHealth logs",
+      "description": "Whether to enable ResourceHealth logs stream to the Event Hub - true or false"
+    },
+    "allowedValues": [
+      "true",
+      "false"
+    ],
+    "defaultValue": "true"
+  },
+  "securityLogsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enable Security logs",
+      "description": "Whether to enable Security logs stream to the Event Hub - true or false"
+    },
+    "allowedValues": [
+      "true",
+      "false"
+    ],
+    "defaultValue": "true"
+  },
+  "serviceHealthLogsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enable ServiceHealth logs",
+      "description": "Whether to enable ServiceHealth logs stream to the Event Hub - true or false"
+    },
+    "allowedValues": [
+      "true",
+      "false"
+    ],
+    "defaultValue": "true"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}
