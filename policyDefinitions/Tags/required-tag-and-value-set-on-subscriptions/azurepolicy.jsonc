@@ -1,0 +1,67 @@
+{
+    "name": "ce5c3d48-6096-4ed7-b2ae-a1b730f5f49d",
+    "properties": {
+        "displayName": "Require tag name and a value from a a set on Subscriptions",
+        "policyType": "Custom",
+        "mode": "All",
+        "description": "Require tag name where value is from a set (parameter allowedTagValues) on Subscriptions.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Tags"
+        },
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "Deny",
+                    "Audit",
+                    "Disabled"
+                ],
+                "defaultValue": "Audit"
+            },
+            "tagName": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Tag Name",
+                    "description": "Name of the tag, such as 'CostCenter'"
+                }
+            },
+            "allowedTagValues": {
+                "type": "array",
+                "metadata": {
+                    "displayName": "Allowable values for tag",
+                    "description": "List of allowed values for this tag."
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Resources/subscriptions"
+                    },
+                    {
+                        "anyOf": [
+                            {
+                                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                                "exists": "false"
+                            },
+                            {
+                                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                                "notIn": "[parameters('allowedTagValues')]"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
+        }
+    }
+}
