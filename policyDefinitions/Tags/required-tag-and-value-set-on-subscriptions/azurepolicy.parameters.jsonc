@@ -1,0 +1,29 @@
+{
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+            "Deny",
+            "Audit",
+            "Disabled"
+        ],
+        "defaultValue": "Audit"
+    },
+    "tagName": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Tag Name",
+            "description": "Name of the tag, such as 'CostCenter'"
+        }
+    },
+    "allowedTagValues": {
+        "type": "array",
+        "metadata": {
+            "displayName": "Allowable values for tag",
+            "description": "List of allowed values for this tag."
+        }
+    }
+}
