@@ -1,7 +1,7 @@
 {
     "name": "4f8668bc-8adc-44fc-b6e1-20cf37dc6738",
     "properties": {
-        "displayName": "Require tag name and a value from a a set on Resource Groups",
+        "displayName": "Require tag name and a value from a set on Resource Groups",
         "policyType": "Custom",
         "mode": "All",
         "description": "Require tag name where value is from a set (parameter allowedTagValues) on Resource Groups. It supports resource group exclusions.",

@@ -1,7 +1,7 @@
 {
     "name": "ce5c3d48-6096-4ed7-b2ae-a1b730f5f49d",
     "properties": {
-        "displayName": "Require tag name and a value from a a set on Subscriptions",
+        "displayName": "Require tag name and a value from a set on Subscriptions",
         "policyType": "Custom",
         "mode": "All",
         "description": "Require tag name where value is from a set (parameter allowedTagValues) on Subscriptions.",
