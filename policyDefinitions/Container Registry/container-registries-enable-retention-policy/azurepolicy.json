@@ -1,0 +1,48 @@
+{
+  "name": "8b36505e-b96f-4ab9-a5ed-aefd19476d2c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Container Registries enable retention policy",
+    "description": "Ensure registry has a retention policy for stored image manifests that don't have any associated tags (untagged manifests), which are then automatically deleted. This feature prevents the registry from filling up with artifacts that aren't needed and helps you save on storage costs.",
+    "metadata": {
+      "category": "Container Registry",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.ContainerRegistry/registries",
+            "field": "type"
+          },
+          {
+            "in": [
+              "disabled",
+              "Disabled"
+            ],
+            "field": "Microsoft.ContainerRegistry/registries/policies.retentionPolicy.status"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
