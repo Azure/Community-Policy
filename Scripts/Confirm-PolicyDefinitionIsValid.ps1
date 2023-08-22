@@ -55,14 +55,17 @@ if ($errorMessages.Count -gt 0) {
         $messagesString += (($warningMessages.ToArray()) -join "`n        ")
     }
     Write-Host $messagesString -ForegroundColor Red
+    exit 2 # Errors found
 }
 else {
     if ($warningMessages.Count -gt 0) {
         $messagesString = "'$($file.FullName)' has auto-fix warnings:`n    "
         $messagesString += (($warningMessages.ToArray()) -join "`n    ")
         Write-Host $messagesString -ForegroundColor Yellow
+        exit 3 # Warnings found
     }
     else {
         Write-Host "'$($file.FullName)' is valid." -ForegroundColor Blue
+        exit 0 # No errors or warnings foundS
     }
 }
