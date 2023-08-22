@@ -3,7 +3,7 @@
     "displayName": "Ensure only allowed SELinux options are used in a Kubernetes cluster",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
-    "description": "Test: This policy ensures only allowed SELinux options are used in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
+    "description": "Testmore: This policy ensures only allowed SELinux options are used in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
     "metadata": {
       "version": "1.0.0",
       "category": "Kubernetes",
