@@ -6,7 +6,7 @@
     "description": "This Policy will enable soft-delete and purge protection on all Key Vaults.",
     "metadata": {
       "category": "Key Vault",
-      "version": "1.1.0"
+      "version": "2.0.0"
     },
     "mode": "All",
     "parameters": {
@@ -35,19 +35,19 @@
           {
             "anyOf": [
               {
-                "field": "enableSoftDelete",
+                "field": "Microsoft.KeyVault/vaults/enableSoftDelete",
                 "exists": "false"
               },
               {
-                "field": "enablePurgeProtection",
+                "field": "Microsoft.KeyVault/vaults/enablePurgeProtection",
                 "exists": "false"
               },
               {
-                "field": "enablePurgeProtection",
+                "field": "Microsoft.KeyVault/vaults/enablePurgeProtection",
                 "equals": "false"
               },
               {
-                "field": "enableSoftDelete",
+                "field": "Microsoft.KeyVault/vaults/enableSoftDelete",
                 "equals": "false"
               }
             ]
@@ -63,12 +63,12 @@
           "operations": [
             {
               "operation": "addOrReplace",
-              "field": "enableSoftDelete",
+              "field": "Microsoft.KeyVault/vaults/enableSoftDelete",
               "value": true
             },
             {
               "operation": "addOrReplace",
-              "field": "enablePurgeProtection",
+              "field": "Microsoft.KeyVault/vaults/enablePurgeProtection",
               "value": true
             }
           ]
