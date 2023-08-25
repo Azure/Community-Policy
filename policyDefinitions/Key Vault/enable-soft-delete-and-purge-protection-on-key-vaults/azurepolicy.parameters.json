@@ -11,6 +11,6 @@
       "Audit",
       "Disabled"
     ],
-    "defaultValue": "DeployIfNotExists"
+    "defaultValue": "Modify"
   }
 }
