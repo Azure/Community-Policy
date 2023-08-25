@@ -8,19 +8,19 @@
       {
         "anyOf": [
           {
-            "field": "enableSoftDelete",
+            "field": "Microsoft.KeyVault/vaults/enableSoftDelete",
             "exists": "false"
           },
           {
-            "field": "enablePurgeProtection",
+            "field": "Microsoft.KeyVault/vaults/enablePurgeProtection",
             "exists": "false"
           },
           {
-            "field": "enablePurgeProtection",
+            "field": "Microsoft.KeyVault/vaults/enablePurgeProtection",
             "equals": "false"
           },
           {
-            "field": "enableSoftDelete",
+            "field": "Microsoft.KeyVault/vaults/enableSoftDelete",
             "equals": "false"
           }
         ]
@@ -36,12 +36,12 @@
       "operations": [
         {
           "operation": "addOrReplace",
-          "field": "enableSoftDelete",
+          "field": "Microsoft.KeyVault/vaults/enableSoftDelete",
           "value": true
         },
         {
           "operation": "addOrReplace",
-          "field": "enablePurgeProtection",
+          "field": "Microsoft.KeyVault/vaults/enablePurgeProtection",
           "value": true
         }
       ]
