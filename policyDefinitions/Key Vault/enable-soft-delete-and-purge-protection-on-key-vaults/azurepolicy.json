@@ -22,7 +22,7 @@
           "Audit",
           "Disabled"
         ],
-        "defaultValue": "DeployIfNotExists"
+        "defaultValue": "Modify"
       }
     },
     "policyRule": {
@@ -64,12 +64,12 @@
             {
               "operation": "addOrReplace",
               "field": "enableSoftDelete",
-              "value": "true"
+              "value": true
             },
             {
               "operation": "addOrReplace",
               "field": "enablePurgeProtection",
-              "value": "true"
+              "value": true
             }
           ]
         }
