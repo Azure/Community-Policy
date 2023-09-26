@@ -1,0 +1,58 @@
+{
+  "name": "bc1e3f2c-692d-4e3e-ab47-9273a71d8079",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit -  StorageAccounts Should Have Lifecycle Policy Enabled",
+    "description": "This policy audits storage accounts that do not have at least one management policy of type lifecycle enabled.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Storage/storageAccounts/managementPolicies",
+          "name": "[concat(field('name'), '/default')]",
+          "existenceCondition": {
+            "count": {
+              "field": "Microsoft.Storage/storageAccounts/managementPolicies/policy.rules[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Storage/storageAccounts/managementPolicies/policy.rules[*].enabled",
+                    "equals": true
+                  },
+                  {
+                    "field": "Microsoft.Storage/storageAccounts/managementPolicies/policy.rules[*].type",
+                    "equals": "Lifecycle"
+                  }
+                ]
+              }
+            },
+            "greater": 0
+          }
+        }
+      }
+    }
+  }
+}
