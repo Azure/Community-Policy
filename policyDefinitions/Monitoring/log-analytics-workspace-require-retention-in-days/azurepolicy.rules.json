@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.OperationalInsights/workspaces",
+        "field": "type"
+      },
+      {
+        "equals": "[parameters('retentionInDays')]",
+        "field": "microsoft.operationalinsights/workspaces/retentionInDays"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
