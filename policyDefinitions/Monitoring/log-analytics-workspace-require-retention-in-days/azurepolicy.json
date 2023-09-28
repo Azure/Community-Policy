@@ -1,0 +1,53 @@
+{
+  "name": "25b5146e-af5c-4229-9bad-2f009ef7a453",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Log Analytics Workspace require retention in days",
+    "description": "Azure Log Analytics should have retention set to the specified number of days",
+    "metadata": {
+      "category": "Monitoring",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "retentionInDays": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Retention in days",
+          "description": "This defines how long logs should be retained for"
+        },
+        "defaultValue": 90
+      },
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.OperationalInsights/workspaces",
+            "field": "type"
+          },
+          {
+            "equals": "[parameters('retentionInDays')]",
+            "field": "microsoft.operationalinsights/workspaces/retentionInDays"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

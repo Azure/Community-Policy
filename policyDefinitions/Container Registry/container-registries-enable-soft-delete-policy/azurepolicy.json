@@ -1,0 +1,45 @@
+{
+  "name": "243a97b3-575e-4513-be30-4f38fb52c1c4",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Container Registries enable soft delete policy",
+    "description": "Ensure registry has soft delete policy, to recover any accidentally deleted artifacts for a set retention period.",
+    "metadata": {
+      "category": "Container Registry",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.ContainerRegistry/registries",
+            "field": "type"
+          },
+          {
+            "equals": "Disabled",
+            "field": "Microsoft.ContainerRegistry/registries/policies.softDeletePolicy.status"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

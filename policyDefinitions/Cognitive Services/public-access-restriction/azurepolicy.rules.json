@@ -1,0 +1,45 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.CognitiveServices/accounts"
+      },
+      {
+        "field": "kind",
+        "equals": "OpenAI"
+      },
+      {
+        "anyof": [
+          {
+            "allof": [
+              {
+                "field": "Microsoft.CognitiveServices/accounts/networkAcls.defaultAction",
+                "notEquals": "Deny"
+              },
+              {
+                "field": "Microsoft.CognitiveServices/accounts/publicNetworkAccess",
+                "equals": "Enabled"
+              }
+            ]
+          },
+          {
+            "allof": [
+              {
+                "field": "Microsoft.CognitiveServices/accounts/networkAcls",
+                "exists": "false"
+              },
+              {
+                "field": "Microsoft.CognitiveServices/accounts/publicNetworkAccess",
+                "equals": "Enabled"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

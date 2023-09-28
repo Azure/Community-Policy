@@ -1,0 +1,216 @@
+{
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "equals": "Microsoft.Web/sites",
+                    "field": "type"
+                },
+                {
+                    "field": "kind",
+                    "notContains": "functionapp"
+                },
+                {
+                    "field": "kind",
+                    "notContains": "linux"
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]",
+            "details": {
+                "type": "Microsoft.Insights/diagnosticSettings",
+                "name": "[parameters('profileName')]",
+                "roleDefinitionIds": [
+                    "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                ],
+                "existenceCondition": {
+                    "allOf": [
+                        {
+                            "not": {
+                                "count": {
+                                    "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+                                    "where": {
+                                        "notEquals": "[parameters('logsEnabled')]",
+                                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled"
+                                    }
+                                },
+                                "greater": 0
+                            }
+                        },
+                        {
+                            "not": {
+                                "count": {
+                                    "field": "Microsoft.Insights/diagnosticSettings/metrics[*]",
+                                    "where": {
+                                        "notEquals": "[parameters('metricsEnabled')]",
+                                        "field": "Microsoft.Insights/diagnosticSettings/metrics[*].enabled"
+                                    }
+                                },
+                                "greater": 0
+                            }
+                        }
+                    ]
+                },
+                "deployment": {
+                    "properties": {
+                        "mode": "incremental",
+                        "parameters": {
+                            "location": {
+                                "value": "[toLower(replace(field('location'), ' ',''))]"
+                            },
+                            "logsEnabled": {
+                                "value": "[parameters('logsEnabled')]"
+                            },
+                            "metricsEnabled": {
+                                "value": "[parameters('metricsEnabled')]"
+                            },
+                            "profileName": {
+                                "value": "[parameters('profileName')]"
+                            },
+                            "resourceName": {
+                                "value": "[field('name')]"
+                            },
+                            "serverFarm": {
+                                "value": "[field('Microsoft.Web/sites/serverFarmId')]"
+                            },
+                            "logAnalytics": {
+                                "value": "[parameters('logAnalytics')]"
+                            }
+                        },
+                        "template": {
+                            "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                            "contentVersion": "1.0.0.0",
+                            "parameters": {
+                                "location": {
+                                    "type": "string"
+                                },
+                                "logsEnabled": {
+                                    "type": "string"
+                                },
+                                "metricsEnabled": {
+                                    "type": "string"
+                                },
+                                "profileName": {
+                                    "type": "string"
+                                },
+                                "resourceName": {
+                                    "type": "string"
+                                },
+                                "serverFarm": {
+                                    "type": "string"
+                                },
+                                "logAnalytics": {
+                                    "type": "string"
+                                }
+                            },
+                            "resources": [
+                                {
+                                    "apiVersion": "2018-02-01",
+                                    "type": "Microsoft.Resources/deployments",
+                                    "name": "nestedDeployment",
+                                    "properties": {
+                                        "mode": "Incremental",
+                                        "expressionEvaluationOptions": {
+                                            "scope": "inner"
+                                        },
+                                        "parameters": {
+                                            "location": {
+                                                "value": "[parameters('location')]"
+                                            },
+                                            "logsEnabled": {
+                                                "value": "[parameters('logsEnabled')]"
+                                            },
+                                            "metricsEnabled": {
+                                                "value": "[parameters('metricsEnabled')]"
+                                            },
+                                            "profileName": {
+                                                "value": "[parameters('profileName')]"
+                                            },
+                                            "resourceName": {
+                                                "value": "[parameters('resourceName')]"
+                                            },
+                                            "sku": {
+                                                "value": "[reference(parameters('serverFarm'), '2022-03-01','Full').sku.tier]"
+                                            },
+                                            "logAnalytics": {
+                                                "value": "[parameters('logAnalytics')]"
+                                            }
+                                        },
+                                        "template": {
+                                            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                                            "contentVersion": "1.0.0.0",
+                                            "parameters": {
+                                                "location": {
+                                                    "type": "string"
+                                                },
+                                                "logsEnabled": {
+                                                    "type": "string"
+                                                },
+                                                "metricsEnabled": {
+                                                    "type": "string"
+                                                },
+                                                "profileName": {
+                                                    "type": "string"
+                                                },
+                                                "resourceName": {
+                                                    "type": "string"
+                                                },
+                                                "sku": {
+                                                    "type": "string"
+                                                },
+                                                "logAnalytics": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "variables": {
+                                                "logNamesOrderSpecific": [
+                                                    "AppServiceHTTPLogs",
+                                                    "AppServiceConsoleLogs",
+                                                    "AppServiceAppLogs",
+                                                    "AppServiceAuditLogs",
+                                                    "AppServiceIPSecAuditLogs",
+                                                    "AppServicePlatformLogs",
+                                                    "AppServiceFileAuditLogs",
+                                                    "AppServiceAntivirusScanAuditLogs"
+                                                ]
+                                            },
+                                            "resources": [
+                                                {
+                                                    "apiVersion": "2021-05-01-preview",
+                                                    "dependsOn": [],
+                                                    "location": "[parameters('location')]",
+                                                    "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+                                                    "properties": {
+                                                        "workspaceId": "[parameters('logAnalytics')]",
+                                                        "copy": [
+                                                            {
+                                                                "name": "logs",
+                                                                "count": "[if(contains(parameters('sku'), 'Premium'),8,6)]",
+                                                                "input": {
+                                                                    "category": "[variables('logNamesOrderSpecific')[copyIndex('logs')]]",
+                                                                    "enabled": "[parameters('logsEnabled')]"
+                                                                }
+                                                            }
+                                                        ],
+                                                        "metrics": [
+                                                            {
+                                                                "category": "AllMetrics",
+                                                                "enabled": "[parameters('metricsEnabled')]"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "type": "Microsoft.Web/sites/providers/diagnosticSettings"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

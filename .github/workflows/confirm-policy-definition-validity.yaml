@@ -1,0 +1,46 @@
+name: Confirm Policy Definition is valid
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # -------------------------------------------------------------
+  # Using GitHub's API
+  # -------------------------------------------------------------
+  # Event `pull_request`: Returns all changed pull request files.
+  # --------------------------------------------------------------
+  job1:
+    # NOTE:
+    # - This is limited to pull_request* events and would raise an error for other events.
+    # - A maximum of 3000 files can be returned.
+    # - For more flexibility and no limitations see "Using local .git directory" below.
+
+    runs-on: ubuntu-latest  # windows-latest | macos-latest
+    name: Validate Policy Definition
+    permissions:
+      pull-requests: read
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Get changed files
+        id: changed_files
+        uses: tj-actions/changed-files@v37
+        with:
+          separator: "§"  # we need a character which isn't used within a file name or path
+
+      - name: Run if changed files are found
+        if: ${{ steps.changed_files.outputs.any_changed }} == 'true'
+        run: |
+          $files = "${{ steps.changed_files.outputs.all_changed_files }}"
+          $files = $files.Split("§")
+          foreach ( $file in $files ) {
+            Write-Host "$file changed"
+            if ($file.Contains("azurepolicy.json")) {
+              Write-Host "$file validated"
+              .\Scripts\Confirm-PolicyDefinitionIsValid.ps1 -FileName $file
+            }
+          }
+        shell: pwsh
