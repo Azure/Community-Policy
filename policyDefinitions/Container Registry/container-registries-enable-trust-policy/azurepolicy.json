@@ -1,0 +1,45 @@
+{
+  "name": "6889cb02-72b8-423a-98fe-4e24d5c79873",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Container Registries enable trust policy",
+    "description": "Ensure registry has content trust policy, which implements Docker's content trust model, enabling pushing and pulling of signed images.",
+    "metadata": {
+      "category": "Container Registry",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.ContainerRegistry/registries",
+            "field": "type"
+          },
+          {
+            "equals": "Disabled",
+            "field": "Microsoft.ContainerRegistry/registries/policies.trustPolicy.status"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

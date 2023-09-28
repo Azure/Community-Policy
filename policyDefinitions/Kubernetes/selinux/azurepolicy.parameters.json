@@ -1,17 +1,4 @@
 {
-  "effect": {
-    "type": "String",
-    "metadata": {
-      "displayName": "Effect",
-      "description": "Enable or disable the execution of the policy"
-    },
-    "allowedValues": [
-      "Audit",
-      "Deny",
-      "Disabled"
-    ],
-    "defaultValue": "Audit"
-  },
   "excludedNamespaces": {
     "type": "Array",
     "metadata": {
@@ -60,5 +47,18 @@
         "additionalProperties": false
       }
     }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
   }
 }

@@ -1,7 +1,6 @@
 {
   "properties": {
     "displayName": "Ensure only allowed SELinux options are used in a Kubernetes cluster",
-    "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
     "description": "This policy ensures only allowed SELinux options are used in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc.",
     "metadata": {
@@ -71,25 +70,25 @@
             "additionalProperties": false
           }
         }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "AKS Engine",
+          "Microsoft.Kubernetes/connectedClusters",
+          "Microsoft.ContainerService/managedClusters"
+        ]
       },
-      "policyRule": {
-        "if": {
-          "field": "type",
-          "in": [
-            "AKS Engine",
-            "Microsoft.Kubernetes/connectedClusters",
-            "Microsoft.ContainerService/managedClusters"
-          ]
-        },
-        "then": {
-          "effect": "[parameters('effect')]",
-          "details": {
-            "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/template.yaml",
-            "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/constraint.yaml",
-            "values": {
-              "excludedNamespaces": "[parameters('excludedNamespaces')]",
-              "allowedSELinuxOptions": "[parameters('allowedSELinuxOptions').options]"
-            }
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/selinux/constraint.yaml",
+          "values": {
+            "excludedNamespaces": "[parameters('excludedNamespaces')]",
+            "allowedSELinuxOptions": "[parameters('allowedSELinuxOptions').options]"
           }
         }
       }

@@ -1,0 +1,49 @@
+{
+  "name": "ce56010a-4601-40cf-98d5-53aab6fd140f",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Container Registries enable zone redundancy",
+    "description": "Ensure registry has zone redundancy, which provides resiliency and high availability to a registry or replication resource (replica) in a specific region.",
+    "metadata": {
+      "category": "Container Registry",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.ContainerRegistry/registries",
+            "field": "type"
+          },
+          {
+            "in": 
+            [
+              "disabled",
+              "Disabled"
+            ],
+            "field": "Microsoft.ContainerRegistry/registries/zoneRedundancy"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.CognitiveServices/accounts"
+      },
+      {
+        "field": "kind",
+        "equals": "OpenAI"
+      },
+      {
+        "anyOf": [
+          {
+            "field": "Microsoft.CognitiveServices/accounts/capabilities[*].name",
+            "notEquals": "ContentLogging"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
