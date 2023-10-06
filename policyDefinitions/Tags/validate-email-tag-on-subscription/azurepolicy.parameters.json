@@ -1,0 +1,29 @@
+{
+  "tagEmail": {
+    "type": "String",
+    "metadata": {
+      "displayName": "tagEmail",
+      "description": "Name of the tag containing the email address, e.g. 'SubOwner-Email'"
+    }
+  },
+  "tagValueEmailDomain": {
+    "type": "String",
+    "metadata": {
+      "displayName": "emailDomain",
+      "description": "Enter the domain name of the email address, e.g. Accenture.com"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}
