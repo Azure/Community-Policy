@@ -22,14 +22,13 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Deny, Audit or Disabled the execution of the Policy"
+          "description": "Deny or Disabled the execution of the Policy"
         },
         "allowedValues": [
           "Deny",
-          "Audit",
           "Disabled"
         ],
-        "defaultValue": "Audit"
+        "defaultValue": "Deny"
       }
     },
     "policyRule": {
