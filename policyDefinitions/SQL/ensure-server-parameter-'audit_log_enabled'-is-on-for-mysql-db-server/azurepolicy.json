@@ -2,7 +2,7 @@
   "name": "4dc90661-5d91-41f1-be00-d243f6f3fe9c",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "Deploy - Ensure server parameter 'audit_log_enabled' is set to 'ON' for MySQL Database Server",
+    "displayName": "Ensure server parameter 'audit_log_enabled' is set to 'ON' for MySQL Database Server",
     "description": "Enabling audit_log_enabled helps MySQL Database to log items such as connection attempts to the server, DDL/DML access, and more. Log data can be used to identify, troubleshoot, and repair configuration errors and suboptimal performance.",
     "metadata": {
       "version": "1.0.0",
