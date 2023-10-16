@@ -1,0 +1,46 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Sql/servers"
+      },
+      {
+        "anyOf": [
+          {
+            "field": "Microsoft.Sql/servers/minimalTlsVersion",
+            "exists": false
+          },
+          {
+            "field": "Microsoft.Sql/servers/minimalTlsVersion",
+            "notequals": "1.2"
+          },
+          {
+            "field": "Microsoft.Sql/servers/minimalTlsVersion",
+            "equals": "1.0"
+          },
+          {
+            "field": "Microsoft.Sql/servers/minimalTlsVersion",
+            "equals": "1.1"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+      ],
+      "conflictEffect": "audit",
+      "operations": [
+        {
+          "operation": "addOrReplace",
+          "field": "Microsoft.Sql/servers/minimalTlsVersion",
+          "value": "1.2"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "name": "5e68f029-0f81-4ee3-b578-705b0fdb237c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit OpenAI instances public access enabled",
+    "description": "Azure OpenAI instances should not have public access enabled. Open AI instances should only be accessible via select networks or a private endpoint.",
+    "metadata": {
+      "category": "Cognitive Services",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.CognitiveServices/accounts"
+          },
+          {
+            "field": "kind",
+            "equals": "OpenAI"
+          },
+          {
+            "anyof": [
+              {
+                "allof": [
+                  {
+                    "field": "Microsoft.CognitiveServices/accounts/networkAcls.defaultAction",
+                    "notEquals": "Deny"
+                  },
+                  {
+                    "field": "Microsoft.CognitiveServices/accounts/publicNetworkAccess",
+                    "equals": "Enabled"
+                  }
+                ]
+              },
+              {
+                "allof": [
+                  {
+                    "field": "Microsoft.CognitiveServices/accounts/networkAcls",
+                    "exists": "false"
+                  },
+                  {
+                    "field": "Microsoft.CognitiveServices/accounts/publicNetworkAccess",
+                    "equals": "Enabled"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "name": "06b50e5f-2815-4e79-bc97-02996a363c4d",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit - Sample Products should be removed from API Management",
+    "description": "API Management includes two sample products Starter and Unlimited. Accidentally adding APIs to these sample products may expose APIs more than intended.",
+    "metadata": {
+      "category": "API Management",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "field": "Microsoft.ApiManagement/service/products/displayName",
+            "equals": "Starter"
+          },
+          {
+            "field": "Microsoft.ApiManagement/service/products/displayName",
+            "equals": "Unlimited"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

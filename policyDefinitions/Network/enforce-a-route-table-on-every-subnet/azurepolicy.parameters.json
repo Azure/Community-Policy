@@ -1,0 +1,22 @@
+{
+  "rtId": {
+    "type": "String",
+    "metadata": {
+      "description": "Resource Id of the route table. example:/subscriptions/yourSubscription/resourceGroups/yourResourceGroup/providers/Microsoft.Network/routeTables/aTable",
+      "displayName": "Route table Id"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

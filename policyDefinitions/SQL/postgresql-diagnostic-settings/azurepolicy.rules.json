@@ -1,0 +1,56 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.DBforPostgreSQL/servers"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Insights/diagnosticSettings",
+      "existenceCondition": {
+        "allOf": [
+          {
+            "count": {
+              "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                    "equals": "true"
+                  },
+                  {
+                    "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                    "equals": "PostgreSQLLogs"
+                  }
+                ]
+              }
+            },
+            "equals": 1
+          },
+          {
+            "count": {
+              "field": "Microsoft.Insights/diagnosticSettings/metrics[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Insights/diagnosticSettings/metrics[*].enabled",
+                    "equals": "true"
+                  },
+                  {
+                    "field": "Microsoft.Insights/diagnosticSettings/metrics[*].category",
+                    "equals": "AllMetrics"
+                  }
+                ]
+              }
+            },
+            "equals": 1
+          },
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+            "equals": "[parameters('logAnalytics')]"
+          }
+        ]
+      }
+    }
+  }
+}

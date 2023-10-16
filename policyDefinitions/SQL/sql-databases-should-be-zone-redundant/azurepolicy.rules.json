@@ -1,0 +1,21 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.SQL/servers/databases"
+      },
+      {
+        "field": "name",
+        "notEquals": "master"
+      },
+      {
+        "field": "Microsoft.Sql/servers/databases/zoneRedundant",
+        "notEquals": "true"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

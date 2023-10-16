@@ -1,0 +1,86 @@
+{
+  "name": "43177425-57f6-442d-ab5b-6fc57f6f4ab3",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Prevent subnets without Route Table",
+    "description": "This policy prevents subnets without a UDR attached to them.",
+    "metadata": {
+      "category": "Network",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "equals": "Microsoft.Network/virtualNetworks/subnets",
+                "field": "type"
+              },
+              {
+                "exists": "false",
+                "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id"
+              },
+              {
+                "field": "name",
+                "notIn": [
+                  "AzureFirewallManagementSubnet"
+                ]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "equals": "Microsoft.Network/virtualNetworks",
+                "field": "type"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+                  "where": {
+                    "allOf": [
+                      {
+                        "exists": "false",
+                        "field": "Microsoft.Network/virtualNetworks/subnets[*].routeTable.id"
+                      },
+                      {
+                        "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
+                        "notIn": [
+                          "AzureFirewallManagementSubnet"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "notEquals": 0
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

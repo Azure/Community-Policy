@@ -1,0 +1,41 @@
+{
+  "spokeAllocations": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Regional CIDR Allocations",
+      "description": "An array of CIDR objects (environment, location and CIDR), to be compared against CIDRs allocated to VNET resources."
+    },
+    "defaultValue": [
+      {
+        "environment": "DEV",
+        "location": "westeurope",
+        "CIDR": "10.2.0.0/16"
+      },
+      {
+        "environment": "PROD",
+        "location": "northeurope",
+        "CIDR": "10.1.0.0/16"
+      }
+    ]
+  },
+  "hubSubscriptions": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "(Optional) Hub Subscription IDs",
+      "description": "An array of subscriptionIDs to which VNETs are peered; will cause the policy to only evaluate VNETs associated directly with your hubs."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

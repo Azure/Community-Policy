@@ -1,0 +1,309 @@
+{
+  "name": "0c6cd767-1a1d-484b-a897-68e398c03aeb",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deploy Diagnostic Settings for App Service to Log Analytics workspace",
+    "description": "Apply diagnostic settings for Azure Web Sites",
+    "metadata": {
+      "version": "1.1.0",
+      "category": "Monitoring"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "logAnalytics": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics workspace",
+          "description": "Select Log Analytics workspace from dropdown list. If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+          "strongType": "omsWorkspace",
+          "assignPermissions": "True"
+        }
+      },
+      "profileName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Profile name",
+          "description": "The diagnostic settings profile name"
+        },
+        "defaultValue": "setbypolicy_logAnalytics"
+      },
+      "metricsEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable metrics",
+          "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+        },
+        "allowedValues": [
+          "True",
+          "False"
+        ],
+        "defaultValue": "True"
+      },
+      "appServiceHTTPLogsEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable AppServiceHTTPLogs",
+          "description": "Whether to enable appServiceHTTPLogs stream to the Log Analytics workspace - True or False"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "appServiceConsoleLogs": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable AppServiceConsoleLogs",
+          "description": "Whether to enable AppServiceConsoleLogs stream to the Log Analytics workspace - True or False"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "appServiceAppLogs": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable AppServiceAppLogs",
+          "description": "Whether to enable AppServiceAppLogs stream to the Log Analytics workspace - True or False"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "appServiceAuditLogs": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable AppServiceAuditLogs",
+          "description": "Whether to enable AppServiceAuditLogs stream to the Log Analytics workspace - True or False"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "appServiceFileAuditLogs": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable AppServiceFileAuditLogs",
+          "description": "Whether to enable AppServiceFileAuditLogs stream to the Log Analytics workspace - True or False"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "appServiceIPSecAuditLogs": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable AppServiceIPSecAuditLogs",
+          "description": "Whether to enable AppServiceIPSecAuditLogs stream to the Log Analytics workspace - True or False"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "appServicePlatformLogs": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable AppServicePlatformLogs",
+          "description": "Whether to enable AppServicePlatformLogs stream to the Log Analytics workspace - True or False"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Web/sites"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/diagnosticSettings",
+          "name": "[parameters('profileName')]",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
+                "equals": "true"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+                "equals": "[parameters('logAnalytics')]"
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "resourceName": {
+                    "type": "string"
+                  },
+                  "logAnalytics": {
+                    "type": "string"
+                  },
+                  "metricsEnabled": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "profileName": {
+                    "type": "string"
+                  },
+                  "appServiceHTTPLogsEnabled": {
+                    "type": "string"
+                  },
+                  "appServiceConsoleLogs": {
+                    "type": "string"
+                  },
+                  "appServiceAppLogs": {
+                    "type": "string"
+                  },
+                  "appServiceFileAuditLogs": {
+                    "type": "string"
+                  },
+                  "appServiceAuditLogs": {
+                    "type": "string"
+                  },
+                  "appServiceIPSecAuditLogs": {
+                    "type": "string"
+                  },
+                  "appServicePlatformLogs": {
+                    "type": "string"
+                  }
+                },
+                "variables": {},
+                "resources": [
+                  {
+                    "type": "Microsoft.Web/sites/providers/diagnosticSettings",
+                    "apiVersion": "2017-05-01-preview",
+                    "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [],
+                    "properties": {
+                      "workspaceId": "[parameters('logAnalytics')]",
+                      "metrics": [
+                        {
+                          "category": "AllMetrics",
+                          "enabled": "[parameters('metricsEnabled')]",
+                          "retentionPolicy": {
+                            "days": 0,
+                            "enabled": false
+                          },
+                          "timeGrain": null
+                        }
+                      ],
+                      "logs": [
+                        {
+                          "category": "AppServiceHTTPLogs",
+                          "enabled": "[parameters('appServiceHTTPLogsEnabled')]"
+                        },
+                        {
+                          "category": "AppServiceConsoleLogs",
+                          "enabled": "[parameters('appServiceConsoleLogs')]"
+                        },
+                        {
+                          "category": "AppServiceAppLogs",
+                          "enabled": "[parameters('appServiceAppLogs')]"
+                        },
+                        {
+                          "category": "AppServiceFileAuditLogs",
+                          "enabled": "[parameters('appServiceAppLogs')]"
+                        },
+                        {
+                          "category": "AppServiceAuditLogs",
+                          "enabled": "[parameters('appServiceAuditLogs')]"
+                        },
+                        {
+                          "category": "AppServiceIPSecAuditLogs",
+                          "enabled": "[parameters('appServiceIPSecAuditLogs')]"
+                        },
+                        {
+                          "category": "AppServicePlatformLogs",
+                          "enabled": "[parameters('appServicePlatformLogs')]"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "outputs": {}
+              },
+              "parameters": {
+                "logAnalytics": {
+                  "value": "[parameters('logAnalytics')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                },
+                "resourceName": {
+                  "value": "[field('name')]"
+                },
+                "metricsEnabled": {
+                  "value": "[parameters('metricsEnabled')]"
+                },
+                "profileName": {
+                  "value": "[parameters('profileName')]"
+                },
+                "appServiceHTTPLogsEnabled": {
+                  "value": "[parameters('appServiceHTTPLogsEnabled')]"
+                },
+                "appServiceConsoleLogs": {
+                  "value": "[parameters('appServiceConsoleLogs')]"
+                },
+                "appServiceAppLogs": {
+                  "value": "[parameters('appServiceAppLogs')]"
+                },
+                "appServiceFileAuditLogs": {
+                  "value": "[parameters('appServiceFileAuditLogs')]"
+                },
+                "appServiceAuditLogs": {
+                  "value": "[parameters('appServiceAuditLogs')]"
+                },
+                "appServiceIPSecAuditLogs": {
+                  "value": "[parameters('appServiceIPSecAuditLogs')]"
+                },
+                "appServicePlatformLogs": {
+                  "value": "[parameters('appServicePlatformLogs')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

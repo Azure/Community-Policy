@@ -1,0 +1,21 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Web/serverfarms"
+      },
+      {
+        "field": "Microsoft.Web/serverFarms/sku.tier",
+        "notEquals": "Free"
+      },
+      {
+        "field": "Microsoft.Web/serverFarms/numberOfSites",
+        "equals": 0
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

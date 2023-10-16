@@ -1,0 +1,48 @@
+{
+  "name": "a750f8d8-8c28-4e73-af41-0dae695fb694",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "SQL databases should be zone redundant",
+    "description": "Audit if SQL databases are not configured to be zone redundant",
+    "metadata": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SQL/servers/databases"
+          },
+          {
+            "field": "name",
+            "notEquals": "master"
+          },
+          {
+            "field": "Microsoft.Sql/servers/databases/zoneRedundant",
+            "notEquals": "true"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

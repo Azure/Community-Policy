@@ -1,0 +1,67 @@
+{
+  "properties": {
+    "displayName": "Ensure only allowed FlexVolume Drivers are used in Kubernetes Cluster",
+    "policyType": "Custom",
+    "mode": "Microsoft.Kubernetes.Data",
+    "description": "This policy ensures only allowed FlexVolume Drivers are used in a Kubernetes cluster. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Kubernetes",
+      "preview": true
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+        },
+        "defaultValue": ["kube-system", "gatekeeper-system", "azure-arc"]
+      },
+      "allowedFlexVolumeDrivers": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed FlexVolume Drivers",
+          "description": "List of FlexVolume Drivers that volumes are able to use. An empty list will block all FlexVolume drivers."
+        },
+        "defaultValue": []
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "AKS Engine",
+          "Microsoft.Kubernetes/connectedClusters",
+          "Microsoft.ContainerService/managedClusters"
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/flexvolume-drivers/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/flexvolume-drivers/constraint.yaml",
+          "values": {
+            "excludedNamespaces": "[parameters('excludedNamespaces')]",
+            "allowedFlexVolumeDrivers": "[parameters('allowedFlexVolumeDrivers')]"
+          }
+        }
+      }
+    }
+  },
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "bc8be211-0548-4213-8a17-1193a8ec3c99"
+}

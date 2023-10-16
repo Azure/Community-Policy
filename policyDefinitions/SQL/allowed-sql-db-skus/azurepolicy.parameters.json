@@ -1,0 +1,29 @@
+{
+  "listOfSKUId": {
+    "type": "Array",
+    "metadata": {
+      "description": "The list of SKUs that can be specified for SQL Databases.",
+      "displayName": "Allowed SKU IDs"
+    }
+  },
+  "listOfSKUName": {
+    "type": "Array",
+    "metadata": {
+      "description": "The list of SKUs that can be specified for SQL Databases.",
+      "displayName": "Allowed SKU Names"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

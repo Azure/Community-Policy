@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Compute/virtualMachines/extensions"
+      },
+      {
+        "field": "Microsoft.Compute/virtualMachines/extensions/type",
+        "equals": "VMAccessForLinux"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

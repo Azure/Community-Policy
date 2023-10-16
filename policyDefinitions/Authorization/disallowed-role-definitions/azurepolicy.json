@@ -1,0 +1,66 @@
+{
+  "name": "c91285dc-6f65-477e-b5ca-b49f7bdca817",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Disallowed Role Definitions",
+    "description": "This policy defines a list of role definitions that can not be used in IAM",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Authorization"
+    },
+    "mode": "All",
+    "parameters": {
+      "roleDefinitionIds": {
+        "type": "array",
+        "metadata": {
+          "description": "The list of disallowed role definition IDs. Example: If you were to put in '8e3af657-a8ff-443c-a75c-2fe8c4bcb635' as a value then the 'Owner' role could not be assigned.",
+          "displayName": "Not Approved Role Definitions"
+        }
+      },
+      "exemptPrincipalIDs": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Exempt Principal IDs",
+          "description": "Any Principal IDs included in this list will not have this Policy applied to them."
+        },
+        "defaultvalue": []
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Authorization/roleAssignments"
+          },
+          {
+            "value": "[last(split(field('Microsoft.Authorization/roleAssignments/roleDefinitionId'),'/'))]",
+            "in": "[parameters('roleDefinitionIds')]"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Authorization/roleAssignments/principalId",
+              "in": "[parameters('exemptPrincipalIDs')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

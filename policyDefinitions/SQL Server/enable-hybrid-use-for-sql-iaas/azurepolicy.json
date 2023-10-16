@@ -1,0 +1,111 @@
+{
+  "name": "f37d820e-9feb-4b79-8eb5-fda7b0cf5e12",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enable hybrid use for SQL IaaS",
+    "description": "This Policy will enable HUB for any SQL IaaS enrolled in the SQL Resource Provider with the SKU of Standard or Enterprise.",
+    "metadata": {
+      "category": "SQL Server",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SqlVirtualMachine/SqlVirtualMachines"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.SqlVirtualMachine/SqlVirtualMachines/sqlImageSku",
+                "equals": "Standard"
+              },
+              {
+                "field": "Microsoft.SqlVirtualMachine/SqlVirtualMachines/sqlImageSku",
+                "equals": "Enterprise"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.SqlVirtualMachine/sqlVirtualMachines",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+          ],
+          "name": "[field('name')]",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.SqlVirtualMachine/SqlVirtualMachines/sqlServerLicenseType",
+                "equals": "AHUB"
+              }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "sqlServerName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "virtualMachineResourceId": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "name": "[parameters('sqlServerName')]",
+                    "type": "Microsoft.SqlVirtualMachine/sqlVirtualMachines",
+                    "apiVersion": "2017-03-01-preview",
+                    "location": "[parameters('location')]",
+                    "properties": {
+                      "virtualMachineResourceId": "[parameters('virtualMachineResourceId')]",
+                      "sqlServerLicenseType": "AHUB"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "sqlServerName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                },
+                "virtualMachineResourceId": {
+                  "value": "[field('Microsoft.SqlVirtualMachine/SqlVirtualMachines/virtualMachineResourceId')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

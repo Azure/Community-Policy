@@ -1,0 +1,104 @@
+{
+  "name": "2ee8d4f8-d152-4532-9f31-ab106dba8f12",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deploy hybrid use for Azure SQL Elastic Pools",
+    "description": "This Policy will enable HUB for Azure SQL Elastic Pools.",
+    "metadata": {
+      "category": "SQL",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers/elasticPools"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Sql/servers/elasticpools/sku.tier",
+                "equals": "BusinessCritical"
+              },
+              {
+                "field": "Microsoft.Sql/servers/elasticpools/sku.tier",
+                "equals": "GeneralPurpose"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Sql/servers/elasticPools",
+          "name": "[field('fullname')]",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+          ],
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Sql/servers/elasticpools/licenseType",
+                "equals": "BasePrice"
+              }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "sqlElasticPoolName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "name": "[parameters('sqlElasticPoolName')]",
+                    "type": "Microsoft.Sql/servers/elasticpools",
+                    "apiVersion": "2017-10-01-preview",
+                    "location": "[parameters('location')]",
+                    "properties": {
+                      "licenseType": "BasePrice"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "sqlElasticPoolName": {
+                  "value": "[field('fullname')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

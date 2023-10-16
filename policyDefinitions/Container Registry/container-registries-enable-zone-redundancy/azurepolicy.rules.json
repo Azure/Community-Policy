@@ -1,0 +1,21 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.ContainerRegistry/registries",
+        "field": "type"
+      },
+      {
+        "in": 
+        [
+          "disabled",
+          "Disabled"
+        ],
+        "field": "Microsoft.ContainerRegistry/registries/zoneRedundancy"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

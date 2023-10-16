@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.DataFactory/factories/integrationruntimes"
+      },
+      {
+        "allOf": [
+          {
+            "field": "Microsoft.DataFactory/factories/integrationruntimes/type",
+            "equals": "Managed"
+          },
+          {
+            "field": "Microsoft.DataFactory/factories/integrationruntimes/typeProperties.ssisProperties",
+            "exists": true
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

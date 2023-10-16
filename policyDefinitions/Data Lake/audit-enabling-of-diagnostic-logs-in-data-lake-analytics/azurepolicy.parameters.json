@@ -1,0 +1,22 @@
+{
+  "requiredRetentionDays": {
+    "type": "String",
+    "defaultValue": "365",
+    "metadata": {
+      "displayName": "Required retention (days)",
+      "description": "The required diagnostic logs retention in days"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists"
+  }
+}

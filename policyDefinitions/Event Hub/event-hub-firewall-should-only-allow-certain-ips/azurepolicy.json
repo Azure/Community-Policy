@@ -1,0 +1,63 @@
+{
+  "name": "bcb95ef4-f1df-414d-ac57-8a4e308512ba",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Event Hub firewall should only allow certain IPs",
+    "description": "This policy allows only restricted IPs for Event hub firewall",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Event Hub"
+    },
+    "mode": "All",
+    "parameters": {
+      "allowedIps": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allow IPs for event hub firewall",
+          "description": "List of IPs allowed for event hub firewall"
+        },
+        "defaultValue": []
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.EventHub/namespaces/networkRuleSets"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.EventHub/namespaces/networkRuleSets/default.defaultAction",
+                "equals": "Allow"
+              },
+              {
+                "not": {
+                  "field": "Microsoft.EventHub/namespaces/networkRuleSets/default.ipRules[*].ipMask",
+                  "in": "[parameters('allowedIps')]"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

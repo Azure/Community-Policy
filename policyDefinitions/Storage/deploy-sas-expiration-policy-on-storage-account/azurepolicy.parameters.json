@@ -1,0 +1,23 @@
+{
+  "sasExpirationTime": {
+    "type": "String",
+    "metadata": {
+      "displayName": "SAS Token expiration time interval",
+      "description": "The SAS expiration policy specifies the recommended upper limit for the signed expiry field on a service SAS or an account SAS. Shows a warning to users who wants to create a SAS token above the recommended limit. Makes log entry in 'SasExpiryStatus'. Format: DD.HH:MM:SS"
+    },
+    "defaultValue": "0.04:00:00"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "networkAccessPolicy": {
+    "type": "String",
+    "metadata": {
+      "description": "Value for networkAccessPolicy",
+      "displayName": "Value for networkAccessPolicy"
+    },
+    "allowedValues": [
+      "DenyAll",
+      "AllowPrivate"
+    ],
+    "defaultValue": "DenyAll"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Modify, Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Modify",
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Modify"
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "name": "ad1c2679-c3cc-486c-94ae-ca4e6d260ae9",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "append-backup-rsvault-cmk",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Backup"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Append, Deny, Audit or Disable the execution of the Policy"
+        },
+        "allowedValues": [
+          "Append",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Append"
+      },
+      "keyUri": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Encryption key URI",
+          "description": "The URI of the key you want to use for encrypting the backup data in your Recovery Services vaults."
+        }
+      },
+      "userAssignedIdentity": {
+        "type": "String",
+        "metadata": {
+          "displayName": "User assigned managed identity",
+          "description": "The user assigned managed identity to use to access the encryption key for encrypting backup data in your Recovery Services vaults.",
+          "strongType": "Microsoft.ManagedIdentity/UserAssignedIdentities"
+        }
+      },
+      "infrastructureEncryption": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Infrastructure Encryption",
+          "description": "Enable infrastructure encryption on your Recovery Services vaults for Backup."
+        },
+        "allowedValues": [
+          "Enabled",
+          "Disabled"
+        ],
+        "defaultValue": "Disabled"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.RecoveryServices/vaults"
+          },
+          {
+            "field": "Microsoft.RecoveryServices/vaults/encryption",
+            "exists": "false"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": [
+          {
+            "field": "Microsoft.RecoveryServices/vaults/encryption.keyVaultProperties.keyUri",
+            "value": "[parameters('keyUri')]"
+          },
+          {
+            "field": "Microsoft.RecoveryServices/vaults/encryption.kekIdentity.userAssignedIdentity",
+            "value": "[parameters('userAssignedIdentity')]"
+          },
+          {
+            "field": "Microsoft.RecoveryServices/vaults/encryption.infrastructureEncryption",
+            "value": "[parameters('infrastructureEncryption')]"
+          },
+          {
+            "field": "identity.type",
+            "value": "UserAssigned"
+          },
+          {
+            "field": "identity.userAssignedIdentities",
+            "value": {
+              "[parameters('userAssignedIdentity')]": {}
+            }
+          }
+        ]
+      }
+    }
+  }
+}

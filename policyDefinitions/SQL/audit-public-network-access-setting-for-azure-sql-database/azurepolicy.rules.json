@@ -1,0 +1,17 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Sql/servers"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "name": "default",
+      "type": "Microsoft.Sql/servers",
+      "existenceCondition": {
+        "field": "Microsoft.Sql/publicNetworkAccess",
+        "equals": "Disabled"
+      }
+    }
+  }
+}

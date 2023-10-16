@@ -1,0 +1,96 @@
+{
+  "tagName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag name",
+      "description": "Name of the tag that must be applied on NSG."
+    }
+  },
+  "nsgRegion": {
+    "type": "String",
+    "metadata": {
+      "displayName": "NSG Region",
+      "description": "This Policy will review NSGs only in the selected region. You can create other assignments to include other regions.",
+      "strongType": "location"
+    }
+  },
+  "storageId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Storage id",
+      "description": "A string with the storage id for the flowlogs to be sent to. It will be used for deployment purposes only. Make sure this storage account is located in the same region as the NSG. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Storage/storageAccounts/{storage account name}",
+      "assignPermissions": true
+    }
+  },
+  "retentionDays": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Number of days to retain flowlogs",
+      "description": "The number of days for which flowlog data will be retained in storage account. If you want to retain data forever and do not want to apply any retention policy, set retention (days) to 0."
+    },
+    "defaultValue": "30"
+  },
+  "networkWatcherRG": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Network Watchers RG",
+      "description": "The name of the resource group where the flowLog resources will be created. This will be used only if a deployment is required. This is the resource group where the Network Watchers are located.",
+      "strongType": "existingResourceGroups"
+    }
+  },
+  "networkWatcherName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Network Watcher name",
+      "description": "The name of the network watcher under which the flowLog resources will be created. Make sure it belongs to the same region as the NSG."
+    }
+  },
+  "timeInterval": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Traffic analytics processing interval in minutes",
+      "description": "Traffic analytics processes blobs at the selected frequency."
+    },
+    "allowedValues": [
+      "10",
+      "60"
+    ],
+    "defaultValue": "10"
+  },
+  "workspaceResourceId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Workspace resource ID",
+      "description": "Log Analytics workspace resource id",
+      "assignPermissions": true
+    }
+  },
+  "workspaceRegion": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Workspace region",
+      "description": "Log Analytics workspace region",
+      "strongType": "location"
+    }
+  },
+  "workspaceId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Workspace ID",
+      "description": "Log Analytics workspace GUID"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}

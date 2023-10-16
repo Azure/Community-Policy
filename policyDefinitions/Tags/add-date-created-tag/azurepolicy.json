@@ -1,0 +1,58 @@
+{
+  "name": "bf395210-23b2-49ca-b7c9-5b25faf19fda",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "add-date-created-tag",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Tags"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "defaultValue": "DateCreated",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag, such as 'Date'"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Modify, Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Modify",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Modify"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "[concat('tags[', parameters('tagName'), ']')]",
+        "exists": "false"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/4a9ae827-6dc8-4573-8ac7-8239d42aa03f"
+          ],
+          "operations": [
+            {
+              "operation": "add",
+              "field": "[concat('tags[', parameters('tagName'), ']')]",
+              "value": "[concat(substring(utcNow(),5,2), '/', substring(utcNow(),8,2), '/', substring(utcNow(),0,4))]"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

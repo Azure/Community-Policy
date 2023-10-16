@@ -1,0 +1,22 @@
+{
+  "vNetId": {
+    "type": "string",
+    "metadata": {
+      "description": "Resource Id for the vNet",
+      "displayName": "vNet Id"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

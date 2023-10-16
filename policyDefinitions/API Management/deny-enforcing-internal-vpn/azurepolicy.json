@@ -1,0 +1,45 @@
+{
+  "name": "eb969283-cfab-4a68-a8a8-2b1fdd5feef8",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Require Internal VPN",
+    "description": "The policy requires the API Manager resource to be deployed in an Internal Virtual Private Network. No Public EndPoint, no External VPN.",
+    "metadata": {
+      "category": "API Management",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ApiManagement/service"
+          },
+          {
+            "field": "Microsoft.ApiManagement/service/virtualNetworkType",
+            "notEquals": "Internal"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

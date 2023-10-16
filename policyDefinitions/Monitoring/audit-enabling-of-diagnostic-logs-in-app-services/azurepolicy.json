@@ -1,0 +1,60 @@
+{
+  "name": "65c3ae53-0826-4bd4-a9f2-6de16dd60762",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit enabling of diagnostic logs in App Services",
+    "description": "Audit enabling of diagnostic logs on the app. This enables you to recreate activity trails for investigation purposes if a security incident occurs or your network is compromised",
+    "metadata": {
+      "category": "Monitoring",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites/config"
+          },
+          {
+            "field": "name",
+            "equals": "web"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Web/sites/config/detailedErrorLoggingEnabled",
+                "notEquals": "true"
+              },
+              {
+                "field": "Microsoft.Web/sites/config/httpLoggingEnabled",
+                "notEquals": "true"
+              },
+              {
+                "field": "Microsoft.Web/sites/config/requestTracingEnabled",
+                "notEquals": "true"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

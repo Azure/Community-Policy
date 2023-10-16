@@ -1,0 +1,70 @@
+{
+  "properties": {
+    "displayName": "Forbid Pods in Kubernetes Cluster from using forbidden Sysctl Interfaces",
+    "policyType": "Custom",
+    "mode": "Microsoft.Kubernetes.Data",
+    "description": "This policy forbids pods in a Kubernetes cluster from using specified Sysctl Interfaces. For instructions on using this policy, please visit https://aka.ms/kubepolicydoc",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Kubernetes",
+      "preview": true
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. Providing a value for this parameter is optional."
+        },
+        "defaultValue": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc"
+        ]
+      },
+      "forbiddenSysctls": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Forbidden Sysctl Interfaces",
+          "description": "List of Sysctl Interfaces that pods cannot use. Use * for a wildcard match. E.g. kernel* will forbid any interface starting with kernel. * on its own will forbid all interfaces. For more information, please refer https://aka.ms/k8s-policy-sysctl-interfaces"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "in": [
+          "AKS Engine",
+          "Microsoft.Kubernetes/connectedClusters",
+          "Microsoft.ContainerService/managedClusters"
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/forbidden-sysctl-interfaces/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/forbidden-sysctl-interfaces/constraint.yaml",
+          "values": {
+            "excludedNamespaces": "[parameters('excludedNamespaces')]",
+            "forbiddenSysctls": "[parameters('forbiddenSysctls')]"
+          }
+        }
+      }
+    }
+  },
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "ff0741c1-6524-45b9-8671-9501f69a5675"
+}

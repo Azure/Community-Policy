@@ -1,0 +1,44 @@
+{
+  "name": "f795ec9f-7c96-49bd-9e68-a0265222164c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit - Databricks should use customer-managed key for encrypting managed services",
+    "description": "Customer-managed key based encryption should be configured for Databricks's managed services.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Azure Databricks"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Databricks/workspaces"
+          },
+          {
+            "field": "Microsoft.Databricks/workspaces/encryption.entities.managedServices.keySource",
+            "exists": false
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

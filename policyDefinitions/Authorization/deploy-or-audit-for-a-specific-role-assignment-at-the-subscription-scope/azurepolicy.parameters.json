@@ -1,0 +1,29 @@
+{
+  "principalId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Principal Id",
+      "description": "The principalId of the user, group, or SPN, that must be granted the role assignment"
+    }
+  },
+  "roleDefinitionId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Role Definition Id",
+      "description": "The role definition Id that must be granted to the principalId. Just the GUID is required."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}

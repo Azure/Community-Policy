@@ -1,0 +1,62 @@
+{
+  "name": "2f7442af-c8c4-4487-87ca-5ca0723b9b1b",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny creation of access policies with certificate authorities roles",
+    "description": "This policy prevent creation of key vault access policies with certificate authorities roles.",
+    "metadata": {
+      "category": "Key Vault",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "disallowed_access_policy_certificates_roles": {
+        "type": "Array",
+        "metadata": {
+          "description": "Access policy certificates roles names to disallow",
+          "displayName": "Disallowed Roles"
+        },
+        "defaultValue": [
+          "ManageIssuers",
+          "GetIssuers",
+          "ListIssuers",
+          "SetIssuers",
+          "DeleteIssuers"
+        ]
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.KeyVault/vaults",
+            "field": "type"
+          },
+          {
+            "equals": "true",
+            "value": "[greaterOrEquals(length(intersection(field('Microsoft.Keyvault/vaults/accessPolicies[*].permissions.certificates[*]'), parameters('disallowed_access_policy_certificates_roles'))), 1)]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

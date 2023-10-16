@@ -1,0 +1,36 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "anyOf": [
+                    {
+                        "field": "[concat('tags[', parameters('tagName'), ']')]",
+                        "exists": "false"
+                    },
+                    {
+                        "field": "[concat('tags[', parameters('tagName'), ']')]",
+                        "notIn": "[parameters('allowedTagValues')]"
+                    }
+                ]
+            },
+            {
+                "field": "type",
+                "notIn": "[parameters('excludedResourceTypes')]"
+            },
+            {
+                "count": {
+                    "value": "[parameters('excludedResourceGroupPatterns')]",
+                    "name": "excludedRG",
+                    "where": {
+                        "value": "[resourceGroup().name]",
+                        "like": "[current('excludedRG')]"
+                    }
+                },
+                "equals": 0
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

@@ -1,0 +1,80 @@
+{
+  "name": "8ce86601-a13e-4b74-a0ae-f5a0b193860a",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Unused Public IP addresses driving cost should be avoided",
+    "description": "Optimize cost by detecting unused but chargeable resources. Leverage this Policy definition as a cost control to reveal orphaned Public IP addresses that are driving cost.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Cost Optimization"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "microsoft.network/publicIpAddresses"
+          },
+          {
+            "field": "Microsoft.Network/publicIPAddresses/sku.name",
+            "notEquals": "Basic"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Network/publicIPAddresses/natGateway",
+                "exists": false
+              },
+              {
+                "value": "[equals(length(field('Microsoft.Network/publicIPAddresses/natGateway')), 0)]",
+                "equals": true
+              }
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Network/publicIPAddresses/ipConfiguration",
+                "exists": false
+              },
+              {
+                "value": "[equals(length(field('Microsoft.Network/publicIPAddresses/ipConfiguration')), 0)]",
+                "equals": true
+              }
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Network/publicIPAddresses/publicIPPrefix",
+                "exists": false
+              },
+              {
+                "value": "[equals(length(field('Microsoft.Network/publicIPAddresses/publicIPPrefix')), 0)]",
+                "equals": true
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

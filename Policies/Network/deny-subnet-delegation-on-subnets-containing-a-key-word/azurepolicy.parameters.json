@@ -1,8 +1,0 @@
-{
-    "subnetNamingConvention": {
-        "type": "string",
-        "metadata": {
-            "displayName": "Subnets containing this word cannot enable subnet delegation"
-        }
-    }
-}

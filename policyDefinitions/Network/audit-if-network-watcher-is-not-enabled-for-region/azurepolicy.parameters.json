@@ -1,0 +1,22 @@
+{
+  "location": {
+    "type": "string",
+    "metadata": {
+      "displayName": "Audit if Network Watcher is not enabled for region",
+      "description": "This policy audits if Network Watcher is not enabled for a selected region.",
+      "strongType": "location"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists"
+  }
+}

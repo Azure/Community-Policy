@@ -1,0 +1,157 @@
+{
+  "name": "fcf1adae-9b7f-4359-927a-5d35c93cbe89",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deploy VM auto shutdown",
+    "description": "need to add description",
+    "metadata": {
+      "category": "Compute",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "timeZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Timezone ID",
+          "description": "The timezone ID for the schedule"
+        },
+        "defaultValue": "Israel Standard Time"
+      },
+      "tag": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag, such as 'environment'"
+        },
+        "defaultValue": "environment"
+      },
+      "time": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Time to shutdown on",
+          "description": "The time of the day the schedule will occur"
+        },
+        "defaultValue": "1200"
+      },
+      "shutdownValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Tag values to set the schedule for",
+          "description": "use ; to seperate values - i.e. dev;test"
+        },
+        "defaultValue": [
+          "dev"
+        ]
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "field": "[concat('tags[', parameters('tag'), ']')]",
+            "in": "[parameters('shutdownValues')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Compute/virtualMachines",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "name",
+                "equals": "[concat('shutdown-computevm-',field('name'))]"
+              },
+              {
+                "field": "Microsoft.DevTestLab/labs/virtualMachines/schedules/targetResourceId",
+                "contains": "[field('name')]"
+              },
+              {
+                "field": "Microsoft.DevTestLab/labs/virtualMachines/schedules/status",
+                "contains": "enabled"
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "timeZoneId": {
+                    "type": "String"
+                  },
+                  "time": {
+                    "type": "String"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "vmName": {
+                    "type": "string"
+                  }
+                },
+                "variables": {},
+                "resources": [
+                  {
+                    "apiVersion": "[providers('Microsoft.DevTestLab','labs').apiVersions[0]]",
+                    "type": "microsoft.devtestlab/schedules",
+                    "name": "[concat('shutdown-computevm-',parameters('vmName'))]",
+                    "location": "[parameters('location')]",
+                    "properties": {
+                      "status": "Enabled",
+                      "taskType": "ComputeVmShutdownTask",
+                      "timeZoneId": "[parameters('timeZoneId')]",
+                      "DailyRecurrence": {
+                        "time": "[parameters('time')]"
+                      },
+                      "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines',parameters('vmName'))]"
+                    }
+                  }
+                ],
+                "outputs": {}
+              },
+              "parameters": {
+                "timeZoneId": {
+                  "value": "[parameters('timeZoneId')]"
+                },
+                "time": {
+                  "value": "[parameters('time')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                },
+                "vmName": {
+                  "value": "[field('name')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

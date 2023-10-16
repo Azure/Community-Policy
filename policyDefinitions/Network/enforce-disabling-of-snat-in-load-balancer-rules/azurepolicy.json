@@ -1,0 +1,54 @@
+{
+  "name": "886b21a3-18e1-4385-9ae1-36c3eebb5103",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce disabling of snat in load balancer rules",
+    "description": "This policy enforce disabling of snat in load balancer rules.",
+    "metadata": {
+      "category": "Network",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Network/loadBalancers",
+            "field": "type"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/loadBalancers/loadBalancingRules[*]",
+              "where": {
+                "equals": false,
+                "field": "Microsoft.Network/loadBalancers/loadBalancingRules[*].disableOutboundSnat"
+              }
+            },
+            "greaterOrEquals": 1
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

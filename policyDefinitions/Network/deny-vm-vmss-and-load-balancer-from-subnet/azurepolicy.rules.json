@@ -1,0 +1,51 @@
+{
+  "if": {
+    "anyOf": [
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/VirtualMachineScaleSets"
+          },
+          {
+            "field": "Microsoft.Compute/VirtualMachineScaleSets/networkInterfaceConfigurations[*].ipConfigurations[*].subnet.id",
+            "Contains": "[parameters('deniedSubnetName')]"
+          }
+        ]
+      },
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].subnet.id",
+            "Contains": "[parameters('deniedSubnetName')]"
+          }
+        ]
+      },
+      {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/loadBalancers"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*]",
+              "where": {
+                "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].subnet.id",
+                "like": "[concat('*',parameters('deniedSubnetName'))]"
+              }
+            },
+            "greater": 0
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

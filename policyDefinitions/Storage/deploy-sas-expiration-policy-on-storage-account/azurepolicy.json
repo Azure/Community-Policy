@@ -1,0 +1,110 @@
+{
+  "name": "98ff7ab8-1f66-4f25-9098-23d106cef495",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deploy SAS expiration policy on storage account",
+    "description": "Deploys SAS expiration policy on storage account.",
+    "metadata": {
+      "category": "Storage",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "sasExpirationTime": {
+        "type": "String",
+        "metadata": {
+          "displayName": "SAS Token expiration time interval",
+          "description": "The SAS expiration policy specifies the recommended upper limit for the signed expiry field on a service SAS or an account SAS. Shows a warning to users who wants to create a SAS token above the recommended limit. Makes log entry in 'SasExpiryStatus'. Format: DD.HH:MM:SS"
+        },
+        "defaultValue": "0.04:00:00"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Storage/storageAccounts",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Storage/storageAccounts/sasPolicy",
+                "exists": "true"
+              }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "mode": "Incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "storageAccountName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "sasExpirationPeriod": {
+                    "type": "string"
+                  }
+                },
+                "variables": {},
+                "resources": [
+                  {
+                    "name": "[parameters('storageAccountName')]",
+                    "type": "Microsoft.Storage/storageAccounts",
+                    "location": "[parameters('location')]",
+                    "apiVersion": "2022-09-01",
+                    "properties": {
+                      "sasPolicy": {
+                        "expirationAction": "Log",
+                        "sasExpirationPeriod": "[parameters('sasExpirationPeriod')]"
+                      }
+                    }
+                  }
+                ],
+                "outputs": {}
+              },
+              "parameters": {
+                "storageAccountName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                },
+                "sasExpirationPeriod": {
+                  "value": "[parameters('sasExpirationTime')]"
+                }
+              }
+            }
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "profileName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Profile Name",
+      "description": "The profile name of the Diagnostic Settings"
+    }
+  },
+  "logAnalyticsWorkspace": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Log Analytics Workspace",
+      "description": "The resource Id of the Log Analytics Workspace"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists"
+  }
+}

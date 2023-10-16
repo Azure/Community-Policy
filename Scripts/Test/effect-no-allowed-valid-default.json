@@ -1,0 +1,28 @@
+{
+    "description": "Test description.",
+    "displayName": "effect no allowed valid default",
+    "metadata": {
+        "version": "1.9.9",
+        "category": "Monitoring"
+    },
+    "mode": "Indexed",
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "defaultValue": "DeployIfNotExists"
+        }
+    },
+    "policyRule": {
+        "if": {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+        }
+    }
+}

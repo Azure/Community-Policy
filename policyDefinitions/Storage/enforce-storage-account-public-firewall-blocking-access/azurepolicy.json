@@ -1,0 +1,72 @@
+{
+  "name": "ed1e9c2b-f8e2-48e8-8bf6-43247c3c8401",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce storage account public firewall blocking access",
+    "description": "This policy prevents setting storage public firewall as allow all or have any vnet/ip rules.",
+    "metadata": {
+      "category": "Storage",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Storage/storageAccounts",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "exists": "false",
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction"
+              },
+              {
+                "equals": "Allow",
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.defaultAction"
+              },
+              {
+                "exists": "false",
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.virtualNetworkRules"
+              },
+              {
+                "notequals": "0",
+                "value": "[length(field('Microsoft.Storage/storageAccounts/networkAcls.virtualNetworkRules'))]"
+              },
+              {
+                "exists": "false",
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules"
+              },
+              {
+                "notequals": "0",
+                "value": "[length(field('Microsoft.Storage/storageAccounts/networkAcls.ipRules'))]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

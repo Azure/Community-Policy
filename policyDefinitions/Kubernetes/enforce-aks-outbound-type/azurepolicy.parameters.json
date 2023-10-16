@@ -1,0 +1,27 @@
+{
+  "OutboundType": {
+    "type": "String",
+    "metadata": {
+      "description": "The outbound (egress) routing method.",
+      "displayName": "Outbound Type"
+    },
+    "allowedValues": [
+      "loadBalancer",
+      "userDefinedRouting"
+    ],
+    "defaultValue": "userDefinedRouting"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

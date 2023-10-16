@@ -1,0 +1,49 @@
+{
+  "name": "eec5f337-bdf0-4f0e-ba31-99b14db17487",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Service Bus Namespace - Tier Setting DENY",
+    "description": "This Azure Policy denies the deployment of a Service Bus Namespace when the 'Pricing tier' setting is not set to 'Premium'.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Service Bus"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ServiceBus/namespaces"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.ServiceBus/namespaces/sku.name",
+                "notEquals": "Premium"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

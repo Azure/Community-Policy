@@ -1,0 +1,60 @@
+{
+  "name": "e2b0f415-c0e3-4ac9-bdfb-c1d4c3579c9b",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny changing VNet DNS settings from pre-defined value",
+    "description": "This Policy will prevent users from changing DNS settings on a VNet",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "dnsSettings": {
+        "type": "array",
+        "metadata": {
+          "displayname": "Enforced DNS Settings",
+          "description": "Users will be unable to change the DNS settings on a VNet from the values defined in this array."
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[if(empty(field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers')), bool('false'), equals(length(intersection(parameters('dnsSettings'), field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers'))), length(parameters('dnsSettings'))))]",
+                "equals": false
+              },
+              {
+                "value": "[if(empty(field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers')), bool('false'), equals(length(field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers')),length(parameters('dnsSettings'))))]",
+                "equals": false
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

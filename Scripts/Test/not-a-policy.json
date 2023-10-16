@@ -1,0 +1,27 @@
+{
+    "name": "bb03b2b0-3941-4f8a-be67-37025dda0d76",
+    "properties": {
+        "description": "Test description.",
+        "displayName": "not a policy",
+        "metadata": {
+            "version": "1.9.9",
+            "category": "Monitoring"
+        },
+        "mode": "Indexed",
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "DeployIfNotExists",
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "DeployIfNotExists"
+            }
+        }
+    }
+}

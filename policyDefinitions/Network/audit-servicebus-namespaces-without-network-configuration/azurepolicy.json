@@ -1,0 +1,44 @@
+{
+  "name": "0e079cd7-242c-45c4-819e-2689e16173ae",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "audit-servicebus-namespaces-without-network-configuration",
+    "description": "need to add description",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ServiceBus/namespaces/networkrulesets"
+          },
+          {
+            "field": "Microsoft.ServiceBus/namespaces/networkrulesets/default.defaultAction",
+            "notequals": "Deny"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

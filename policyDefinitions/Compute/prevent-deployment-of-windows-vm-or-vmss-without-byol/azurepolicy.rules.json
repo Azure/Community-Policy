@@ -1,0 +1,49 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "in": [
+          "Microsoft.Compute/virtualMachineScaleSets",
+          "Microsoft.Compute/virtualMachines"
+        ]
+      },
+      {
+        "anyOf": [
+          {
+            "field": "Microsoft.Compute/imagePublisher",
+            "contains": "Microsoft"
+          },
+          {
+            "field": "Microsoft.Compute/imagePublisher",
+            "contains": "Windows"
+          },
+          {
+            "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+            "contains": "Windows"
+          }
+        ]
+      },
+      {
+        "anyOf": [
+          {
+            "field": "Microsoft.Compute/licenseType",
+            "exists": false
+          },
+          {
+            "not": {
+              "field": "Microsoft.Compute/licenseType",
+              "in": [
+                "Windows_Server",
+                "Windows_Client"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

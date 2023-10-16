@@ -1,0 +1,52 @@
+{
+  "name": "85c3251e-8f6d-44d1-984a-24f7ec77b79e",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Key Vault - SKU Setting AUDIT",
+    "description": "This Azure Policy creates an audit event when the 'SKU' setting is not included in the 'allowedSKUSetting' parameter.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Key Vault"
+    },
+    "mode": "All",
+    "parameters": {
+      "allowedSKUSetting": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Allowed SKU Setting",
+          "description": "The allowed SKU setting of an Azure Key Vault"
+        },
+        "defaultValue": "Premium"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.KeyVault/vaults"
+          },
+          {
+            "field": "Microsoft.KeyVault/vaults/sku.name",
+            "notEquals": "[parameters('allowedSKUSetting')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

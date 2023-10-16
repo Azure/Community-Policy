@@ -1,0 +1,31 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.Storage/storageAccounts"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Storage/storageAccounts/managementPolicies",
+      "name": "[concat(field('name'), '/default')]",
+      "existenceCondition": {
+        "count": {
+          "field": "Microsoft.Storage/storageAccounts/managementPolicies/policy.rules[*]",
+          "where": {
+            "allOf": [
+              {
+                "field": "Microsoft.Storage/storageAccounts/managementPolicies/policy.rules[*].enabled",
+                "equals": true
+              },
+              {
+                "field": "Microsoft.Storage/storageAccounts/managementPolicies/policy.rules[*].type",
+                "equals": "Lifecycle"
+              }
+            ]
+          }
+        },
+        "greater": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "name": "d4a058a9-7180-49f7-9895-fedbdd834986",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Azure firewall policy should only allow user defined standard ports and FQDNs within network rules",
+    "description": "Enforce usage of user defined standard ports, protocols and destination addresses. This is a common requirement in many regulatory and industry compliance standards.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "priority": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "priority",
+          "description": "Validate Azure firewall network rule priority. (Example: 999)."
+        }
+      },
+      "allowedRules": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed Rules",
+          "description": "Validate and allowed destination ports, portocols and destination addresses. Example: [{'destinationPorts':['443','1688'],'protocols':['TCP'],'enforceDestinationAddresses':false,'destinationAddresses':[]},{'destinationPorts':['123'],'protocols':['UDP'],'enforceDestinationAddresses':true,'destinationAddresses':['13.86.101.172']}]"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/firewallPolicies/ruleCollectionGroups"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyFilterRuleCollection.rules[*].ruleType",
+                    "equals": "NetworkRule"
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].priority",
+                        "lessOrEquals": "[parameters('priority')]"
+                      },
+                      {
+                        "count": {
+                          "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyFilterRuleCollection.rules[*]",
+                          "where": {
+                            "count": {
+                              "value": "[parameters('allowedRules')]",
+                              "name": "allowedRule",
+                              "where": {
+                                "allOf": [
+                                  {
+                                    "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyFilterRuleCollection.rules[*].NetworkRule.destinationPorts[*]",
+                                    "in": "[array(current('allowedRule').destinationPorts)]"
+                                  },
+                                  {
+                                    "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyFilterRuleCollection.rules[*].NetworkRule.ipProtocols[*]",
+                                    "in": "[array(current('allowedRule').protocols)]"
+                                  },
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "value": "[current('allowedRule').enforceDestinationAddresses]",
+                                        "equals": false
+                                      },
+                                      {
+                                        "field": "Microsoft.Network/firewallPolicies/ruleCollectionGroups/ruleCollections[*].FirewallPolicyFilterRuleCollection.rules[*].NetworkRule.destinationAddresses[*]",
+                                        "in": "[array(current('allowedRule').destinationAddresses)]"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            "equals": 0
+                          }
+                        },
+                        "greater": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "greater": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

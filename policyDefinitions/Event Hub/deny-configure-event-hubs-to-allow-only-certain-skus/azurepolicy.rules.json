@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.EventHub/namespaces"
+      },
+      {
+        "field": "Microsoft.EventHub/namespaces/sku.name",
+        "notIn": "[parameters('allowedSkuNames')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

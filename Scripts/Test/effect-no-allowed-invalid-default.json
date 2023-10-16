@@ -1,0 +1,28 @@
+{
+    "description": "Test description.",
+    "displayName": "effect no allowed invalid default",
+    "metadata": {
+        "version": "1.9.9",
+        "category": "Azure Load Testing"
+    },
+    "mode": "Indexed",
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            },
+            "defaultValue": "Disabled"
+        }
+    },
+    "policyRule": {
+        "if": {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+        }
+    }
+}

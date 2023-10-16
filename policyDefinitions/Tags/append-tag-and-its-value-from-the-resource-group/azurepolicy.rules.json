@@ -1,0 +1,27 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "[concat('tags[', parameters('tagName'), ']')]",
+        "exists": "false"
+      },
+      {
+        "value": "[resourceGroup().tags[parameters('tagName')]]",
+        "exists": "true"
+      },
+      {
+        "value": "[resourceGroup().tags[parameters('tagName')]]",
+        "notEquals": ""
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": [
+      {
+        "field": "[concat('tags[', parameters('tagName'), ']')]",
+        "value": "[resourceGroup().tags[parameters('tagName')]]"
+      }
+    ]
+  }
+}

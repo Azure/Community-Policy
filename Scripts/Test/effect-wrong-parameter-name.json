@@ -1,0 +1,35 @@
+{
+    "name": "bb03b2b0-3941-4f8a-be67-37025dda0d76",
+    "properties": {
+        "description": "Test description.",
+        "displayName": "effect wrong parameter name",
+        "metadata": {
+            "version": "1.9.9",
+            "category": "Compute"
+        },
+        "mode": "Indexed",
+        "parameters": {
+            "effectTwo": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "effect Three",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "DeployIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "DeployIfNotExists"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+            },
+            "then": {
+                "effect": "[parameters('effectTwo')]"
+            }
+        }
+    }
+}

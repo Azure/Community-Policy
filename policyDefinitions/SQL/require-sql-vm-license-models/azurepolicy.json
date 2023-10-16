@@ -1,0 +1,58 @@
+{
+  "name": "51450983-36b8-4fa9-b56c-0d36e9457de0",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Require SQL VM License Models",
+    "description": "Require SQL Server Virtual Machines to leverage a specific License Model",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "mode": "All",
+    "parameters": {
+      "licenseModel": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "License Model",
+          "description": "A list of acceptable License Models for your SQL Server Virtual Machine"
+        },
+        "allowedValues": [
+          "AHUB",
+          "DR",
+          "PAYG"
+        ],
+        "defaultValue": "PAYG"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
+          },
+          {
+            "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/sqlServerLicenseType",
+            "notIn": "[parameters('licenseModel')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

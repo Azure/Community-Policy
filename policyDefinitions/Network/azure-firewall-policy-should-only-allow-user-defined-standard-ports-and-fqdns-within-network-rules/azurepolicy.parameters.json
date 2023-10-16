@@ -1,0 +1,29 @@
+{
+  "priority": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "priority",
+      "description": "Validate Azure firewall network rule priority. (Example: 999)."
+    }
+  },
+  "allowedRules": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed Rules",
+      "description": "Validate and allowed destination ports, portocols and destination addresses. Example: [{'destinationPorts':['443','1688'],'protocols':['TCP'],'enforceDestinationAddresses':false,'destinationAddresses':[]},{'destinationPorts':['123'],'protocols':['UDP'],'enforceDestinationAddresses':true,'destinationAddresses':['13.86.101.172']}]"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

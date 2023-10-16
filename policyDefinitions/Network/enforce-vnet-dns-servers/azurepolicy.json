@@ -1,0 +1,69 @@
+{
+  "name": "d8ebd9c5-3b41-41bc-845d-5069a808d3ea",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce VNET DNS servers",
+    "description": "This policy prevent settings non authorized dns servers for vnets.",
+    "metadata": {
+      "category": "Network",
+      "createdBy": "",
+      "updatedBy": null,
+      "updatedOn": null,
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "servers": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of DNS servers to enforce exclusive existance of.",
+          "displayName": "DNS Servers list"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "AllOf": [
+          {
+            "equals": "Microsoft.Network/virtualNetworks",
+            "field": "type"
+          },
+          {
+            "anyOf": [
+              {
+                "exists": false,
+                "field": "Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers[*]"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers[*]",
+                  "where": {
+                    "field": "Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers[*]",
+                    "notIn": "[parameters('servers')]"
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

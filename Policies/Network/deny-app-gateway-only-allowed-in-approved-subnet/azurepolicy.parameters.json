@@ -1,8 +1,0 @@
-{
-    "allowedSubnetName": {
-        "type": "string",
-        "metadata": {
-            "displayName": "Name of subnet where Application Gateway is allowed to deploy."
-        }
-    }
-}

@@ -1,0 +1,53 @@
+{
+  "name": "b91cdf09-d6fb-4150-afa9-d2a9ab7854d1",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Require SQL Server VM Auto Patching",
+    "description": "Require SQL Server Virtual Machines to have Auto Patching enabled/disabled",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "mode": "All",
+    "parameters": {
+      "autoPatchingSetting": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Auto Patching Setting",
+          "description": "A boolean value for whether or not Auto Patching needs to be enabled on a SQL Server VM."
+        },
+        "defaultValue": true
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.SqlVirtualMachine/sqlVirtualMachines"
+          },
+          {
+            "field": "Microsoft.SqlVirtualMachine/sqlVirtualMachines/autoPatchingSettings.enable",
+            "equals": "[parameters('autoPatchingSetting')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

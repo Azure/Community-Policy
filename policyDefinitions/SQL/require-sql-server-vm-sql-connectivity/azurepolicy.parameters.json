@@ -1,0 +1,28 @@
+{
+  "sqlConnectivitySettings": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "SQL Connectivity Settings",
+      "description": "A list of acceptable SQL Connectivity Settings for your SQL Server Virtual Machine"
+    },
+    "allowedValues": [
+      "LOCAL",
+      "PRIVATE",
+      "PUBLIC"
+    ],
+    "defaultValue": "PUBLIC"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

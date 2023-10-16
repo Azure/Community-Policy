@@ -1,0 +1,29 @@
+{
+  "storageId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Storage id",
+      "description": "A string with the storage id for the flowlogs to be sent to. The format must be: '/subscriptions/{subscription id}/resourceGroups/{resourceGroup name}/providers/Microsoft.Storage/storageAccounts/{storage account name}"
+    }
+  },
+  "targetRegion": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Target Region",
+      "description": "This needs to use the name format for the region found by running 'az account list-locations' or 'Get-AzLocation'"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}
