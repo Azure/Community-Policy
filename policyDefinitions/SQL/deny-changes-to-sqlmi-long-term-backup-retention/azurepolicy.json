@@ -1,0 +1,57 @@
+{
+  "name": "9d523ca4-114a-41ab-abe6-54d5213ff978",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny changes to SQLMI Long Term Backup Retention",
+    "description": "This policy denies any changes to backup long retention policies set on the SQL managed Instance. Replace 'notEquals' values with the timeframes required by the customer ",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "AnyOf": [
+              {
+                "field": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies/default.weeklyRetention",
+                "notEquals": "P4W"
+              },
+              {
+                "field": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies/default.monthlyRetention",
+                "notEquals": "P4W"
+              },
+              {
+                "field": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies/default.yearlyRetention",
+                "notEquals": "P12W"
+              },
+              {
+                "field": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies/default.weekOfYear",
+                "notEquals": 1
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "AnyOf": [
+          {
+            "field": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies/default.weeklyRetention",
+            "notEquals": "P4W"
+          },
+          {
+            "field": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies/default.monthlyRetention",
+            "notEquals": "P4W"
+          },
+          {
+            "field": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies/default.yearlyRetention",
+            "notEquals": "P12W"
+          },
+          {
+            "field": "Microsoft.Sql/managedInstances/databases/backupLongTermRetentionPolicies/default.weekOfYear",
+            "notEquals": 1
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
