@@ -1,0 +1,22 @@
+{
+  "tagExpirationDate": {
+    "type": "String",
+    "metadata": {
+      "displayName": "tagExpirationDate",
+      "description": "Name of the tag containing a date value."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

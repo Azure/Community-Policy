@@ -1,0 +1,52 @@
+{
+  "name": "28e5394c-3122-4f50-a926-c7f168f0ebcc",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Validate date tag on subscription",
+    "description": "Validate a date tag on a subscription, e.g. ExpirationDate, in a YYYY-MM-DD format.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Tags"
+    },
+    "mode": "All",
+    "parameters": {
+      "tagExpirationDate": {
+        "type": "String",
+        "metadata": {
+          "displayName": "tagExpirationDate",
+          "description": "Name of the tag containing a date value."
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions"
+          },
+          {
+            "field": "[concat('tags[',parameters('tagExpirationDate'), ']')]",
+            "notMatch": "####-##-##"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

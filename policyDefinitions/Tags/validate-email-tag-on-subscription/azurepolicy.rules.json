@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Resources/subscriptions"
+      },
+      {
+        "field": "[concat('tags[',parameters('tagEmail'), ']')]",
+        "notLike": "[concat('*@',parameters('tagValueEmailDomain'))]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

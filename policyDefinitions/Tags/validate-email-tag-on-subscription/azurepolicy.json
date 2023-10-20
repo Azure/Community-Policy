@@ -1,0 +1,59 @@
+{
+  "name": "151a7585-6199-43c8-887d-5f83dce26aa2",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Validate email tag on subscription",
+    "description": "Ensure subscription tag value for an email tag follows format *@domain.com.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Tags"
+    },
+    "mode": "All",
+    "parameters": {
+      "tagEmail": {
+        "type": "String",
+        "metadata": {
+          "displayName": "tagEmail",
+          "description": "Name of the tag containing the email address, e.g. 'SubOwner-Email'"
+        }
+      },
+      "tagValueEmailDomain": {
+        "type": "String",
+        "metadata": {
+          "displayName": "emailDomain",
+          "description": "Enter the domain name of the email address, e.g. Accenture.com"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions"
+          },
+          {
+            "field": "[concat('tags[',parameters('tagEmail'), ']')]",
+            "notLike": "[concat('*@',parameters('tagValueEmailDomain'))]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
