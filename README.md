@@ -32,7 +32,7 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 # Getting Support
 
-The general Azure Policy support role of this repository has is not supported by standard Azure support channels. See below for information about getting support help for Azure Policy.
+The general Azure Policy support role that this repository has is not supported by standard Azure support channels. See below for information about getting support help for Azure Policy.
 
 ### General Questions
 
