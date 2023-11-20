@@ -153,7 +153,7 @@
                   "groupIdMap": {
                     "sqlServer": "privatelink.database.windows.net",
                     "blob": "privatelink.blob.core.windows.net",
-                    "blob_secondary": "privatelink.blob.core.windows.ne",
+                    "blob_secondary": "privatelink.blob.core.windows.net",
                     "table": "table.core.windows.net",
                     "table_secondary": "table.core.windows.net",
                     "queue": "privatelink.queue.core.windows.net",
