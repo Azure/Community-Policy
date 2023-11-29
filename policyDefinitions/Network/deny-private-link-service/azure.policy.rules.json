@@ -4,6 +4,6 @@
     "equals": "Microsoft.Network/privateLinkServices"
   },
   "then": {
-    "effect": "deny"
+    "effect": "[parameters('effect')]"
   }
 }

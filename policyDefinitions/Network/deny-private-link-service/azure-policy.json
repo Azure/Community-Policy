@@ -10,14 +10,28 @@
             "version": "1.0.0",
             "category": "Network"
         },
-        "parameters": {},
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Deny, Audit or Disable the execution of the Policy"
+                },
+                "allowedValues": [
+                    "Deny",
+                    "Audit",
+                    "Disabled"
+                ],
+                "defaultValue": "Audit"
+            } 
+        },
         "policyRule": {
             "if": {
                 "field": "type",
                 "equals": "Microsoft.Network/privateLinkServices"
             },
             "then": {
-                "effect": "deny"
+                "effect": "[parameters('effect')]"
             }
         }
     }
