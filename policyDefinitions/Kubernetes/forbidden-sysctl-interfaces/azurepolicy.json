@@ -55,8 +55,8 @@
       "then": {
         "effect": "[parameters('effect')]",
         "details": {
-          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/forbidden-sysctl-interfaces/template.yaml",
-          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/forbidden-sysctl-interfaces/constraint.yaml",
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/forbidden-sysctl-interfaces/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/forbidden-sysctl-interfaces/constraint.yaml",
           "values": {
             "excludedNamespaces": "[parameters('excludedNamespaces')]",
             "forbiddenSysctls": "[parameters('forbiddenSysctls')]"

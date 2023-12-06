@@ -52,8 +52,8 @@
       "then": {
         "effect": "[parameters('effect')]",
         "details": {
-          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/flexvolume-drivers/template.yaml",
-          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/flexvolume-drivers/constraint.yaml",
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/flexvolume-drivers/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/flexvolume-drivers/constraint.yaml",
           "values": {
             "excludedNamespaces": "[parameters('excludedNamespaces')]",
             "allowedFlexVolumeDrivers": "[parameters('allowedFlexVolumeDrivers')]"

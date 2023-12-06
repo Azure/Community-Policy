@@ -49,8 +49,8 @@
       "then": {
         "effect": "[parameters('effect')]",
         "details": {
-          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/use-named-serviceaccount/template.yaml",
-          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/use-named-serviceaccount/constraint.yaml",
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/use-named-serviceaccount/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/use-named-serviceaccount/constraint.yaml",
           "values": {
             "excludedNamespaces": "[parameters('excludedNamespaces')]"
           }

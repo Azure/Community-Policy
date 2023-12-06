@@ -10,8 +10,8 @@
   "then": {
     "effect": "[parameters('effect')]",
     "details": {
-      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/enforce-apparmor-profile/template.yaml",
-      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/enforce-apparmor-profile/constraint.yaml",
+      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/enforce-apparmor-profile/template.yaml",
+      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/enforce-apparmor-profile/constraint.yaml",
       "values": {
         "excludedNamespaces": "[parameters('excludedNamespaces')]",
         "allowedProfiles": "[parameters('allowedProfiles')]"
