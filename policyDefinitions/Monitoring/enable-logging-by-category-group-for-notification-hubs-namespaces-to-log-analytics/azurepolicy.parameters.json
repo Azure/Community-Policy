@@ -1,0 +1,54 @@
+{
+  "diagnosticSettingName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Diagnostic Setting Name",
+      "description": "Diagnostic Setting Name"
+    },
+    "defaultValue": "setByPolicy-LogAnalytics"
+  },
+  "categoryGroup": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Category Group",
+      "description": "Diagnostic category group - none, audit, or allLogs."
+    },
+    "allowedValues": [
+      "audit",
+      "allLogs"
+    ],
+    "defaultValue": "audit"
+  },
+  "resourceLocationList": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Resource Location List",
+      "description": "Resource Location List to send logs to nearby Log Analytics. A single entry \"*\" selects all locations (default)."
+    },
+    "defaultValue": [
+      "*"
+    ]
+  },
+  "logAnalytics": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Log Analytics Workspace",
+      "description": "Log Analytics Workspace",
+      "strongType": "omsWorkspace",
+      "assignPermissions": true
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}
