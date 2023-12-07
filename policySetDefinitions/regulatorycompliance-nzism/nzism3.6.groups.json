@@ -1,0 +1,908 @@
+[
+  {
+    "name": "01.1.1.",
+    "category": "01. About information security",
+    "displayName": "01.1.1. Understanding and using the NZISM",
+    "description": "The New Zealand Information Security Manual details processes and controls essential for the protection of all New Zealand Government information and systems. Controls and processes representing good practice are also provided to enhance the baseline controls. Baseline controls are minimum acceptable levels of controls and are often described as systems hygiene .  https://www.nzism.gcsb.govt.nz/ism-document#Section-11965"
+  },
+  {
+    "name": "01.2.1.",
+    "category": "01. About information security",
+    "displayName": "01.2.1. Applicability, Authority and Compliance",
+    "description": "Agencies understand and follow the requirements of the New Zealand Information Security Manual. Protection of government information and systems is a core accountability.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12091"
+  },
+  {
+    "name": "02.1.1.",
+    "category": "02. Information Security Services within Government",
+    "displayName": "02.1.1. Government Engagement",
+    "description": "Agency security personnel and senior management are aware of and utilise information security services offered by the New Zealand Government.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12118"
+  },
+  {
+    "name": "02.2.1.",
+    "category": "02. Information Security Services within Government",
+    "displayName": "02.2.1. Non-Government Engagement and Outsourcing",
+    "description": "Non-government organisations handling classified information implement the same information security and protective measures as government agencies.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12138"
+  },
+  {
+    "name": "02.3.1.",
+    "category": "02. Information Security Services within Government",
+    "displayName": "02.3.1. Using Cloud Services",
+    "description": "Agencies understand and manage their cloud services to ensure they are secure, effective and efficient.   https://www.nzism.gcsb.govt.nz/ism-document#Section-12164"
+  },
+  {
+    "name": "02.4.1.",
+    "category": "02. Information Security Services within Government",
+    "displayName": "02.4.1. Preparation for Post-Quantum Cryptography",
+    "description": "Agencies are prepared for the impacts that widespread availability of quantum computing will have on information security.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12224"
+  },
+  {
+    "name": "03.1.1.",
+    "category": "03. Information security governance - roles and responsibilities",
+    "displayName": "03.1.1. The Agency Head",
+    "description": "The agency head is accountable for information security within their agency.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12256"
+  },
+  {
+    "name": "03.2.1.",
+    "category": "03. Information security governance - roles and responsibilities",
+    "displayName": "03.2.1. The Chief Information Security Officer",
+    "description": "The Chief Information Security Officer (CISO) sets the strategic direction for information security within their agency.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12280"
+  },
+  {
+    "name": "03.3.1.",
+    "category": "03. Information security governance - roles and responsibilities",
+    "displayName": "03.3.1. Information Technology Security Managers",
+    "description": "Information Technology Security Managers (ITSM) provide information security leadership and management within their agency.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12348"
+  },
+  {
+    "name": "03.4.1.",
+    "category": "03. Information security governance - roles and responsibilities",
+    "displayName": "03.4.1. System Owners",
+    "description": "All systems are allocated a system owner who has responsibility for the overall operation, including obtaining and maintaining any certification and accreditation, of the allocated system(s).  https://www.nzism.gcsb.govt.nz/ism-document#Section-12415"
+  },
+  {
+    "name": "03.5.1.",
+    "category": "03. Information security governance - roles and responsibilities",
+    "displayName": "03.5.1. System Users",
+    "description": "System users comply with information security policies and procedures within their agency.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12444"
+  },
+  {
+    "name": "04.1.1.",
+    "category": "04. System Certification and Accreditation",
+    "displayName": "04.1.1. The Certification and Accreditation Process",
+    "description": "Executives and Security Practitioners understand and enforce the use of the Certification and Accreditation (C&amp;A) process and its role in information security governance and assurance.  https://www.nzism.gcsb.govt.nz/ism-document/#Section-12460"
+  },
+  {
+    "name": "04.2.1.",
+    "category": "04. System Certification and Accreditation",
+    "displayName": "04.2.1. Conducting Certifications",
+    "description": "The security posture of the organisation has been incorporated into its system security design, controls are correctly implemented, are performing as intended and that changes and modifications are reviewed for any security impact or implications.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12507"
+  },
+  {
+    "name": "04.3.1.",
+    "category": "04. System Certification and Accreditation",
+    "displayName": "04.3.1. Conducting Audits",
+    "description": "The effectiveness of information security measures for systems is periodically reviewed and validated.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12537"
+  },
+  {
+    "name": "04.4.1.",
+    "category": "04. System Certification and Accreditation",
+    "displayName": "04.4.1. Accreditation Framework",
+    "description": "Accreditation is the formal authority for a system to operate, and an important element in fundamental information system governance. Accreditation requires risk identification and assessment, selection and implementation of baseline and other appropriate controls and the recognition and acceptance of residual risks relating to the operation of a system including any outsourced services such as Telecommunications or Cloud. Accreditation relies on the completion of system certification procedures.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12591"
+  },
+  {
+    "name": "04.5.1.",
+    "category": "04. System Certification and Accreditation",
+    "displayName": "04.5.1. Conducting Accreditations",
+    "description": "As a governance good practice, systems are accredited before they are used operationally.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12644"
+  },
+  {
+    "name": "05.1.1.",
+    "category": "05. Information security documentation",
+    "displayName": "05.1.1. Documentation Fundamentals",
+    "description": "Information security documentation is produced for systems, to support and demonstrate good governance.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12683"
+  },
+  {
+    "name": "05.2.1.",
+    "category": "05. Information security documentation",
+    "displayName": "05.2.1. Information Security Policies",
+    "description": "Information security policies (SecPol) set the strategic direction for information security.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12748"
+  },
+  {
+    "name": "05.3.1.",
+    "category": "05. Information security documentation",
+    "displayName": "05.3.1. Security Risk Management Plans",
+    "description": "Security Risk Management Plans (SRMP) identify security risks and appropriate treatment measures for systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12761"
+  },
+  {
+    "name": "05.4.1.",
+    "category": "05. Information security documentation",
+    "displayName": "05.4.1. System Security Plans",
+    "description": "System Security Plans (SSPs) specify the information security measures for systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12785"
+  },
+  {
+    "name": "05.5.1.",
+    "category": "05. Information security documentation",
+    "displayName": "05.5.1. Standard Operating Procedures",
+    "description": "Standard Operating Procedures (SOPs) ensure security procedures are followed in an appropriate and repeatable manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12801"
+  },
+  {
+    "name": "05.6.1.",
+    "category": "05. Information security documentation",
+    "displayName": "05.6.1. Incident Response Plans",
+    "description": "Incident Response Plans (IRP) outline actions to take in response to an information security incident.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12823"
+  },
+  {
+    "name": "05.7.1.",
+    "category": "05. Information security documentation",
+    "displayName": "05.7.1. Emergency Procedures",
+    "description": "Classified information and systems are secured before personnel evacuate a facility in the event of an emergency.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12834"
+  },
+  {
+    "name": "05.8.1.",
+    "category": "05. Information security documentation",
+    "displayName": "05.8.1. Independent Assurance Reports",
+    "description": "To provide assurance to System Owners, Certifiers, Practitioners and Accreditors and to assist system designers, enterprise and security architects where assurance reviews cannot be directly undertaken on service providers.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12847"
+  },
+  {
+    "name": "05.9.1.",
+    "category": "05. Information security documentation",
+    "displayName": "05.9.1. Vulnerability Disclosure Policy (VDP)",
+    "description": "Agencies implement a Vulnerability Disclosure Policy (VDP) to enable members of the public to report vulnerabilities in the agency s public-facing systems and applications and receive feedback on such reports.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12947"
+  },
+  {
+    "name": "06.1.1.",
+    "category": "06. Information security monitoring",
+    "displayName": "06.1.1. Information Security Reviews",
+    "description": "Information security reviews maintain the security of agency systems and detect gaps and deficiencies.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13002"
+  },
+  {
+    "name": "06.2.1.",
+    "category": "06. Information security monitoring",
+    "displayName": "06.2.1. Vulnerability Analysis",
+    "description": "Exploitable information system weaknesses can be identified by vulnerability analyses and inform assessments and controls selection.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13027"
+  },
+  {
+    "name": "06.2.5.C.01.",
+    "category": "06. Information security monitoring",
+    "displayName": "06.2.5.C.01. Vulnerability Analysis - Conducting vulnerability assessments",
+    "description": "A baseline or known point of origin is the basis of any comparison and allows measurement of changes and improvements when further information security monitoring activities are conducted.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-13035"
+  },
+  {
+    "name": "06.2.6.C.01.",
+    "category": "06. Information security monitoring",
+    "displayName": "06.2.6.C.01. Vulnerability Analysis - Resolving vulnerabilities",
+    "description": "Vulnerabilities may occur as a result of poorly designed or implemented information security practices, accidental activities or malicious activities, and not just as the result of a technical issue.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-13035"
+  },
+  {
+    "name": "06.3.1.",
+    "category": "06. Information security monitoring",
+    "displayName": "06.3.1. Change Management",
+    "description": "To ensure information security is an integral part of the change management process, it should be incorporated into the agency s IT maintenance governance and management activities.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13048"
+  },
+  {
+    "name": "06.4.1.",
+    "category": "06. Information security monitoring",
+    "displayName": "06.4.1. Business Continuity and Disaster Recovery",
+    "description": "To ensure business continuity and disaster recovery processes are established to assist in meeting the agency s business requirements, minimise any disruption to the availability of information and systems, and assist recoverability.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13074"
+  },
+  {
+    "name": "06.4.5.C.01.",
+    "category": "06. Information security monitoring",
+    "displayName": "06.4.5.C.01. Business Continuity and Disaster Recovery - Availability requirements",
+    "description": "Availability and recovery requirements will vary based on each agency s business needs and are likely to be widely variable across government. Agencies will determine their own availability and recovery requirements and implement measures consistent with the agency's SRMP to achieve them as part of their risk management and governance processes.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-13084"
+  },
+  {
+    "name": "07.1.1.",
+    "category": "07. Information Security Incidents",
+    "displayName": "07.1.1. Detecting Information Security Incidents",
+    "description": "To ensure that appropriate tools, processes and procedures are implemented to detect information security incidents, in order to minimise the impact of such incidents and as part of the suite of good IT governance activities.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13098"
+  },
+  {
+    "name": "07.1.7.C.02.",
+    "category": "07. Information Security Incidents",
+    "displayName": "07.1.7.C.02. Detecting Information Security Incidents - Preventing and detecting information security incidents",
+    "description": "Processes and procedures for the detection of information security incidents will assist in mitigating attacks using the most common vectors in systems exploits.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-13110"
+  },
+  {
+    "name": "07.2.1.",
+    "category": "07. Information Security Incidents",
+    "displayName": "07.2.1. Reporting Information Security Incidents",
+    "description": "To ensure reporting information security incidents is incorporated as an essential part of incident management, whether the reporting is within an agency or reports are provided to another government agency.   https://www.nzism.gcsb.govt.nz/ism-document#Section-13120"
+  },
+  {
+    "name": "07.2.22.C.01.",
+    "category": "07. Information Security Incidents",
+    "displayName": "07.2.22.C.01. Reporting Information Security Incidents - Outsourcing and information security incidents",
+    "description": "In the case of outsourcing of information technology services and functions, the agency remains responsible for the reporting of all information security incidents.  This includes any outsourced cloud services used by the agency.  As such, the agency MUST ensure that the service provider informs them of all information security incidents to enable them to assess the incident and provide formal reporting.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-13145"
+  },
+  {
+    "name": "07.3.1.",
+    "category": "07. Information Security Incidents",
+    "displayName": "07.3.1. Managing Information Security Incidents",
+    "description": "To identify and implement processes for incident identification, management and analysis of information security incidents, including selection of appropriate remedies which will assist in preventing or reducing the impact of future information security incidents.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13177"
+  },
+  {
+    "name": "08.1.1.",
+    "category": "08. Physical Security",
+    "displayName": "08.1.1. Facilities",
+    "description": "Physical security measures are applied to facilities in order to protect systems and their infrastructure.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13225"
+  },
+  {
+    "name": "08.2.1.",
+    "category": "08. Physical Security",
+    "displayName": "08.2.1. Servers And Network Devices",
+    "description": "Secured server and communications rooms provide appropriate physical security for servers and network devices.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13260"
+  },
+  {
+    "name": "08.3.1.",
+    "category": "08. Physical Security",
+    "displayName": "08.3.1. Network Infrastructure",
+    "description": "Network infrastructure is protected by secure facilities and the use of encryption technologies.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13284"
+  },
+  {
+    "name": "08.4.1.",
+    "category": "08. Physical Security",
+    "displayName": "08.4.1. IT Equipment",
+    "description": "IT equipment is secured outside of normal working hours, is non-operational or when work areas are unoccupied.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13306"
+  },
+  {
+    "name": "08.5.1.",
+    "category": "08. Physical Security",
+    "displayName": "08.5.1. Tamper Evident Seals",
+    "description": "Tamper evident seals and associated auditing processes identify attempts to bypass the physical security of systems and their infrastructure.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13339"
+  },
+  {
+    "name": "09.1.1.",
+    "category": "09. Personnel Security",
+    "displayName": "09.1.1. Information Security Awareness and Training",
+    "description": "A security culture is fostered through induction training and ongoing security education tailored to roles, responsibilities, changing threat environment and sensitivity of information, systems and operations.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13361"
+  },
+  {
+    "name": "09.2.1.",
+    "category": "09. Personnel Security",
+    "displayName": "09.2.1. Authorisations, Security Clearances And Briefings",
+    "description": "Only appropriately authorised, cleared and briefed personnel are allowed access to systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13391"
+  },
+  {
+    "name": "09.3.1.",
+    "category": "09. Personnel Security",
+    "displayName": "09.3.1. Using The Internet",
+    "description": "Personnel use Internet services in a responsible and security conscious manner, consistent with agency policies.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13449"
+  },
+  {
+    "name": "09.4.1.",
+    "category": "09. Personnel Security",
+    "displayName": "09.4.1. Escorting Uncleared Personnel",
+    "description": "Uncleared personnel are escorted within secure areas.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13489"
+  },
+  {
+    "name": "10.1.1.",
+    "category": "10. Infrastructure",
+    "displayName": "10.1.1. Cable Management Fundamentals",
+    "description": "Cable management systems are designed to support the integration of systems across government facilities, assist maintenance and engineering changes, as well as minimise the opportunity for tampering or unauthorised changes to cable systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13522"
+  },
+  {
+    "name": "10.2.1.",
+    "category": "10. Infrastructure",
+    "displayName": "10.2.1. Cable Management for Non-Shared Government Facilities",
+    "description": "Cable management systems in non-shared government facilities are implemented in a secure and easily inspectable and maintainable way.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13628"
+  },
+  {
+    "name": "10.3.1.",
+    "category": "10. Infrastructure",
+    "displayName": "10.3.1. Cable Management for Shared Government Facilities",
+    "description": "Cable management systems in shared government facilities are implemented in a secure and easily inspectable and maintainable way.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13656"
+  },
+  {
+    "name": "10.4.1.",
+    "category": "10. Infrastructure",
+    "displayName": "10.4.1. Cable Management for Shared Non-Government Facilities",
+    "description": "Cable management systems are implemented in shared non-government facilities to minimise risks to data and information.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13697"
+  },
+  {
+    "name": "10.5.1.",
+    "category": "10. Infrastructure",
+    "displayName": "10.5.1. Cable Labelling and Registration",
+    "description": "To facilitate cable management, and identify unauthorised additions or tampering.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13749"
+  },
+  {
+    "name": "10.6.1.",
+    "category": "10. Infrastructure",
+    "displayName": "10.6.1. Patch Panels, Patch Cables and Racks",
+    "description": "Cable termination, patch panels, patch cables and racks are designed to prevent emanations, cross-connecting or cross-patching systems of differing classifications as well as following good engineering practice.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13786"
+  },
+  {
+    "name": "10.7.1.",
+    "category": "10. Infrastructure",
+    "displayName": "10.7.1. Emanation Security Threat Assessments",
+    "description": "In order to minimise compromising emanations or the opportunity for a technical attack, a threat assessment is used to determine appropriate countermeasures.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13859"
+  },
+  {
+    "name": "10.8.1.",
+    "category": "10. Infrastructure",
+    "displayName": "10.8.1. Network Design, Architecture and IP Address Management",
+    "description": "IP Address architecture, allocation and addressing schemes enable and support system security and data protection.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13886"
+  },
+  {
+    "name": "10.8.35.C.01.",
+    "category": "10. Infrastructure",
+    "displayName": "10.8.35.C.01. Network Design, Architecture and IP Address Management - Security Architecture",
+    "description": "It is important that the principles of separation and segregation as well as the system classification are incorporated into the overall security architecture to maximise design and operational efficiency and to provide and support essential security to the network design.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-13937"
+  },
+  {
+    "name": "11.1.1.",
+    "category": "11. Communications Systems and Devices",
+    "displayName": "11.1.1. Radio Frequency and Infrared Devices",
+    "description": "To maintain the integrity of secure areas, only approved radio frequency (RF) and infrared devices (IR) are brought into secure areas.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13959"
+  },
+  {
+    "name": "11.2.1.",
+    "category": "11. Communications Systems and Devices",
+    "displayName": "11.2.1. Fax Machines, Multifunction Devices and Network Printers",
+    "description": "Fax machines, multifunction devices (MFD s) and network printers are used in a secure manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13999"
+  },
+  {
+    "name": "11.3.1.",
+    "category": "11. Communications Systems and Devices",
+    "displayName": "11.3.1. Telephones and Telephone Systems",
+    "description": "Telephone systems are prevented from communicating unauthorised classified information.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14055"
+  },
+  {
+    "name": "11.4.1.",
+    "category": "11. Communications Systems and Devices",
+    "displayName": "11.4.1. Mobile Telephony",
+    "description": "Mobile telephone systems and devices are prevented from communicating unauthorised classified information.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14100"
+  },
+  {
+    "name": "11.5.1.",
+    "category": "11. Communications Systems and Devices",
+    "displayName": "11.5.1. Personal Wearable Devices",
+    "description": "Wearable devices are prevented from unauthorised communication or from compromising secure areas.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14128"
+  },
+  {
+    "name": "11.6.1.",
+    "category": "11. Communications Systems and Devices",
+    "displayName": "11.6.1. Radio Frequency Identification Devices",
+    "description": "To ensure Radio Frequency Identification (RFID) devices are used safely and securely in order to protect privacy, prevent unauthorised access and to prevent the compromise of secure spaces.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14166"
+  },
+  {
+    "name": "11.7.1.",
+    "category": "11. Communications Systems and Devices",
+    "displayName": "11.7.1. Card Access Control Systems",
+    "description": "To ensure Access Control Systems incorporating contactless RFID or smart cards are used safely and securely in order to protect privacy, prevent unauthorised access and to prevent the compromise of secure spaces.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14321"
+  },
+  {
+    "name": "12.1.1.",
+    "category": "12. Product Security",
+    "displayName": "12.1.1. Product Selection and Acquisition",
+    "description": "Products providing security functions for the protection of classified information are formally evaluated in order to provide a degree of assurance over the integrity and performance of the product.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14398"
+  },
+  {
+    "name": "12.2.1.",
+    "category": "12. Product Security",
+    "displayName": "12.2.1. Product Installation and Configuration",
+    "description": "Evaluated products use evaluated configurations.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14485"
+  },
+  {
+    "name": "12.3.1.",
+    "category": "12. Product Security",
+    "displayName": "12.3.1. Product Classifying and Labelling",
+    "description": "IT equipment is classified and appropriately labelled.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14507"
+  },
+  {
+    "name": "12.4.1.",
+    "category": "12. Product Security",
+    "displayName": "12.4.1. Product Patching and Updating",
+    "description": "To ensure security patches are applied in a timely fashion to manage software and firmware corrections, vulnerabilities and performance risks.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14530"
+  },
+  {
+    "name": "12.4.4.C.02.",
+    "category": "12. Product Security",
+    "displayName": "12.4.4.C.02. Product Patching and Updating - Patching vulnerabilities in products",
+    "description": "The assurance provided by an evaluation is related to the date at which the results were issued. Over the course of a normal product lifecycle, patches are released to address known security vulnerabilities. Applying these patches should be considered as part of an agency s overall risk management strategy.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-14536"
+  },
+  {
+    "name": "12.5.1.",
+    "category": "12. Product Security",
+    "displayName": "12.5.1. Product Maintenance and Repairs",
+    "description": "Products are repaired by cleared or appropriately escorted personnel.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14559"
+  },
+  {
+    "name": "12.6.1.",
+    "category": "12. Product Security",
+    "displayName": "12.6.1. Product Sanitisation and Disposal",
+    "description": "All IT equipment is sanitised and disposed of in an approved and secure manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14585"
+  },
+  {
+    "name": "12.7.1.",
+    "category": "12. Product Security",
+    "displayName": "12.7.1. Supply Chain",
+    "description": "Technology supply chains are established and managed to ensure continuity of supply and protection of sensitive related information.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14623"
+  },
+  {
+    "name": "13.1.1.",
+    "category": "13. Media and IT Equipment Management, Decommissioning and Disposal",
+    "displayName": "13.1.1. System Decommissioning",
+    "description": "To ensure systems are safely decommissioned and that software, system logic and data are properly transitioned to new systems or archived in accordance with agency, legal and statutory requirements.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14679"
+  },
+  {
+    "name": "13.2.1.",
+    "category": "13. Media and IT Equipment Management, Decommissioning and Disposal",
+    "displayName": "13.2.1. Media Handling",
+    "description": "Media is properly classified, labelled and registered in order to clearly indicate the required handling instructions and degree of protection to be applied.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14679"
+  },
+  {
+    "name": "13.3.1.",
+    "category": "13. Media and IT Equipment Management, Decommissioning and Disposal",
+    "displayName": "13.3.1. Media Usage",
+    "description": "Media is used with systems in a controlled and accountable manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14767"
+  },
+  {
+    "name": "13.4.1.",
+    "category": "13. Media and IT Equipment Management, Decommissioning and Disposal",
+    "displayName": "13.4.1. Media and IT Equipment Sanitisation",
+    "description": "Media and IT Equipment that is to be redeployed or is no longer required is sanitised.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14810"
+  },
+  {
+    "name": "13.5.1.",
+    "category": "13. Media and IT Equipment Management, Decommissioning and Disposal",
+    "displayName": "13.5.1. Media and IT Equipment Destruction",
+    "description": "To ensure media and IT equipment that cannot be sanitised is safely destroyed before disposal in an environmentally responsible manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14890"
+  },
+  {
+    "name": "13.6.1.",
+    "category": "13. Media and IT Equipment Management, Decommissioning and Disposal",
+    "displayName": "13.6.1. Media and IT Equipment Disposal",
+    "description": "Media and IT equipment is declassified and approved by the CISO, or delegate, for release before disposal into the public domain.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14964"
+  },
+  {
+    "name": "14.1.1.",
+    "category": "14. Software security",
+    "displayName": "14.1.1. Standard Operating Environments",
+    "description": "Standard Operating Environments (SOE) are hardened in order to minimise attacks and compromise through known vulnerabilities and attack vectors.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15006"
+  },
+  {
+    "name": "14.1.8.C.01.",
+    "category": "14. Software security",
+    "displayName": "14.1.8.C.01. Standard Operating Environments - Developing hardened SOEs",
+    "description": "Antivirus and anti-malware software, while an important defensive measure, can be defeated by malicious code that has yet to be identified by antivirus vendors. This can include targeted attacks, where a new virus is engineered or an existing one modified to defeat the signature-based detection schemes.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15020"
+  },
+  {
+    "name": "14.1.9.C.01.",
+    "category": "14. Software security",
+    "displayName": "14.1.9.C.01. Standard Operating Environments - Maintaining hardened SOEs",
+    "description": "Whilst a SOE can be sufficiently hardened when it is deployed, its security will progressively degrade over time. Agencies can address the degradation of the security of a SOE by ensuring that patches are continually applied, system users are not able to disable or bypass security functionality and antivirus and other security software is appropriately maintained with the latest signatures and updates.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15020"
+  },
+  {
+    "name": "14.2.1.",
+    "category": "14. Software security",
+    "displayName": "14.2.1. Application Allow listing",
+    "description": "Only approved applications are used on agency controlled systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15052"
+  },
+  {
+    "name": "14.2.4.C.01.",
+    "category": "14. Software security",
+    "displayName": "14.2.4.C.01. Application Allow listing - Application allow listing",
+    "description": "Application access control can be an effective mechanism to prevent the successful compromise of an agency system resulting from the exploitation of a vulnerability in an application or the execution of malicious code.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15060"
+  },
+  {
+    "name": "14.3.1.",
+    "category": "14. Software security",
+    "displayName": "14.3.1. Web Applications",
+    "description": "Access to Web content is implemented in a secure and accountable manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15091"
+  },
+  {
+    "name": "14.4.1.",
+    "category": "14. Software security",
+    "displayName": "14.4.1. Software Application Development",
+    "description": "Secure programming methods and testing are used for application development in order to minimise the number of coding errors and introduction of security vulnerabilities.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15138"
+  },
+  {
+    "name": "14.5.1.",
+    "category": "14. Software security",
+    "displayName": "14.5.1. Web Application Development",
+    "description": "Security mechanisms are incorporated into all Web applications by design and implementation.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15160"
+  },
+  {
+    "name": "14.5.8.C.01.",
+    "category": "14. Software security",
+    "displayName": "14.5.8.C.01. Web Application Development - Web applications",
+    "description": "The Open Web Application Security Project guide provides a comprehensive resource to consult when developing Web applications.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15172"
+  },
+  {
+    "name": "15.1.1.",
+    "category": "15. Email security",
+    "displayName": "15.1.1. Email Applications",
+    "description": "Email messages have appropriate protective markings to facilitate the application of handling instructions.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15183"
+  },
+  {
+    "name": "15.2.1.",
+    "category": "15. Email security",
+    "displayName": "15.2.1. Email Infrastructure",
+    "description": "Email infrastructure is hardened, email is secured and protective marking of email messages is enforced.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15250"
+  },
+  {
+    "name": "16.1.1.",
+    "category": "16. Access Control and Passwords",
+    "displayName": "16.1.1. Identification, Authentication and Passwords",
+    "description": "Identification and authentication requirements are implemented in order to provide a secure means of access to information and systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15349"
+  },
+  {
+    "name": "16.1.32.C.01.",
+    "category": "16. Access Control and Passwords",
+    "displayName": "16.1.32.C.01. Identification, Authentication and Passwords - System user identification",
+    "description": "Having uniquely identifiable system users ensures accountability.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15392"
+  },
+  {
+    "name": "16.2.1.",
+    "category": "16. Access Control and Passwords",
+    "displayName": "16.2.1. System Access and Passwords",
+    "description": "Access to information on systems is controlled in accordance with agency policy and this manual.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15483"
+  },
+  {
+    "name": "16.3.1.",
+    "category": "16. Access Control and Passwords",
+    "displayName": "16.3.1. Privileged User Access",
+    "description": "Only trusted personnel are granted privileged access to systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15503"
+  },
+  {
+    "name": "16.3.5.C.02.",
+    "category": "16. Access Control and Passwords",
+    "displayName": "16.3.5.C.02. Privileged User Access - Use of privileged accounts",
+    "description": "Inappropriate use of any feature or facility of a system that enables a privileged user to override system or application controls can be a major contributory factor to failures, information security incidents, or system breaches.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15513"
+  },
+  {
+    "name": "16.4.1.",
+    "category": "16. Access Control and Passwords",
+    "displayName": "16.4.1. Privileged Access Management",
+    "description": "To ensure Privileged Access Management (PAM) is incorporated into IT Governance and that privileged accounts are managed in accordance with agency s PAM policy.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15526"
+  },
+  {
+    "name": "16.4.30.C.01.",
+    "category": "16. Access Control and Passwords",
+    "displayName": "16.4.30.C.01. Privileged Access Management - Policy Creation and Implementation",
+    "description": "The requirement for an agency security policy is discussed and described in Chapter 5  Information Security Documentation.&nbsp; A fundamental part of any security policy is the inclusion of requirements for the treatment of Privileged Accounts.&nbsp; This is most conveniently contained in a Privileged Access Management (PAM) section within the agency s security policy.&nbsp; A PAM policy is a fundamental component of an agency s IT Governance.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15563"
+  },
+  {
+    "name": "16.4.32.C.01.",
+    "category": "16. Access Control and Passwords",
+    "displayName": "16.4.32.C.01. Privileged Access Management - Strong Authentication process",
+    "description": "The approval and authorisation process for the granting of privileged access should be based on the requirement to manage and protect agency systems and assets or as an operational necessity only.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15563"
+  },
+  {
+    "name": "16.5.1.",
+    "category": "16. Access Control and Passwords",
+    "displayName": "16.5.1. Remote Access",
+    "description": "Remote access to systems is minimised, secure, controlled, authorised and authenticated.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15599"
+  },
+  {
+    "name": "16.6.1.",
+    "category": "16. Access Control and Passwords",
+    "displayName": "16.6.1. Event Logging and Auditing",
+    "description": "Information security related events are logged and audited for accountability, incident management, forensic and system monitoring purposes.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15629"
+  },
+  {
+    "name": "16.7.1.",
+    "category": "16. Access Control and Passwords",
+    "displayName": "16.7.1. Multi-Factor Authentication",
+    "description": "To ensure authentication systems incorporate Multi-Factor Authentication mechanisms to secure Privileged Accounts and in accordance with the Agency s Privileged Access Management (PAM) policy.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15681"
+  },
+  {
+    "name": "17.1.1.",
+    "category": "17. Cryptography",
+    "displayName": "17.1.1. Cryptographic Fundamentals",
+    "description": "Agencies use cryptographic products, algorithms and protocols that are approved by the GCSB and are implemented in accordance with this guidance.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15746"
+  },
+  {
+    "name": "17.1.58.C.01.",
+    "category": "17. Cryptography",
+    "displayName": "17.1.58.C.01. Cryptographic Fundamentals - Key Refresh and Retirement",
+    "description": "All cryptographic keys have a limited useful life after which the key should be replaced or retired. Typically the useful life of the cryptographic key (cryptoperiod) is use, product and situation dependant. Product guidance is the best source of information on establishing cryptoperiods for individual products. A more practical control is the use of data, disk or volume encryption where key changes are more easily managed. Selection of cryptoperiods should be based on a risk assessment.&nbsp;Refer also to section 17.9  Key Management.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15814"
+  },
+  {
+    "name": "17.2.1.",
+    "category": "17. Cryptography",
+    "displayName": "17.2.1. Approved Cryptographic Algorithms",
+    "description": "Information is protected by a properly implemented, Approved Cryptographic Algorithm.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15853"
+  },
+  {
+    "name": "17.2.19.C.01.",
+    "category": "17. Cryptography",
+    "displayName": "17.2.19.C.01. Approved Cryptographic Algorithms - Using DH",
+    "description": "While ECDH should be used in preference to DH, there are instances where DH is still in use.  A modulus of at least 3072 bits for DH is now considered good practice by the cryptographic community.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15876"
+  },
+  {
+    "name": "17.2.22.C.01.",
+    "category": "17. Cryptography",
+    "displayName": "17.2.22.C.01. Approved Cryptographic Algorithms - Using ECDH",
+    "description": "A field/key size of at least 384 bits for ECDH is now considered good practice by the cryptographic community.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15876"
+  },
+  {
+    "name": "17.2.24.C.01.",
+    "category": "17. Cryptography",
+    "displayName": "17.2.24.C.01. Approved Cryptographic Algorithms - Using RSA",
+    "description": "A modulus of at least 3072 bits for RSA is considered good practice by the cryptographic community.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15876"
+  },
+  {
+    "name": "17.3.1.",
+    "category": "17. Cryptography",
+    "displayName": "17.3.1. Approved Cryptographic Protocols",
+    "description": "Classified information in transit is protected by an Approved Cryptographic Protocol implementing an Approved Cryptographic Algorithm.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15924"
+  },
+  {
+    "name": "17.4.1.",
+    "category": "17. Cryptography",
+    "displayName": "17.4.1. Transport Layer Security",
+    "description": "Transport Layer Security is implemented correctly as an approved protocol.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15940"
+  },
+  {
+    "name": "17.4.16.C.01.",
+    "category": "17. Cryptography",
+    "displayName": "17.4.16.C.01. Transport Layer Security - Using TLS",
+    "description": "Whilst version 1.0 of SSL was never released, version 2.0 had significant security flaws leading to the development of SSL 3.0. SSL has since been superseded by TLS with the latest version being TLS 1.3 which was released in August 2018. SSL is no longer an approved cryptographic protocol.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15963"
+  },
+  {
+    "name": "17.5.1.",
+    "category": "17. Cryptography",
+    "displayName": "17.5.1. Secure Shell",
+    "description": "Secure Shell (SSH) is implemented correctly as an Approved Cryptographic Protocol.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15968"
+  },
+  {
+    "name": "17.5.6.C.01.",
+    "category": "17. Cryptography",
+    "displayName": "17.5.6.C.01. Secure Shell - Using SSH",
+    "description": "The configuration directives provided are based on the OpenSSH implementation of SSH. Agencies implementing SSH will need to adapt these settings to suit other SSH implementations.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15978"
+  },
+  {
+    "name": "17.5.7.C.01.",
+    "category": "17. Cryptography",
+    "displayName": "17.5.7.C.01. Secure Shell - Authentication mechanisms",
+    "description": "Public key-based systems have greater potential for strong authentication, put simply, people are not able to remember particularly strong passwords. Password-based authentication schemes are also more susceptible to interception than public key-based authentication schemes.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15978"
+  },
+  {
+    "name": "17.6.1.",
+    "category": "17. Cryptography",
+    "displayName": "17.6.1. Secure Multipurpose Internet Mail Extension",
+    "description": "Secure Multipurpose Internal Mail Extension (S/MIME) is implemented correctly as an approved cryptographic protocol.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16007"
+  },
+  {
+    "name": "17.7.1.",
+    "category": "17. Cryptography",
+    "displayName": "17.7.1. OpenPGP Message Format",
+    "description": "OpenPGP Message Format is implemented correctly as an Approved Cryptographic Protocol.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16026"
+  },
+  {
+    "name": "17.8.1.",
+    "category": "17. Cryptography",
+    "displayName": "17.8.1. Internet Protocol Security (IPSec)",
+    "description": "Internet Protocol Security (IPSec) is correctly implemented.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16040"
+  },
+  {
+    "name": "17.9.1.",
+    "category": "17. Cryptography",
+    "displayName": "17.9.1. Key Management",
+    "description": "Cryptographic keying material is protected by key management procedures.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16086"
+  },
+  {
+    "name": "18.1.1.",
+    "category": "18. Network security",
+    "displayName": "18.1.1. Network Management",
+    "description": "Any change to the configuration of networks is authorised and controlled through appropriate change management processes to ensure security, functionality and capability is maintained.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16189"
+  },
+  {
+    "name": "18.1.10.C.01.",
+    "category": "18. Network security",
+    "displayName": "18.1.10.C.01. Network Management - Configuration management",
+    "description": "If the network is not centrally managed, there could be sections of the network that do not comply with the agency s security policies, and thus create a vulnerability.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-16204"
+  },
+  {
+    "name": "18.1.13.C.02.",
+    "category": "18. Network security",
+    "displayName": "18.1.13.C.02. Network Management - Limiting network access",
+    "description": "If an attacker has limited opportunities to connect to a given network, they have limited opportunities to attack that network. Network access controls not only prevent against attackers traversing a network but also prevent system users carelessly connecting a network to another network of a different classification. It is also useful in segregating sensitive or compartmented information for specific system users with a need-to-know.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-16204"
+  },
+  {
+    "name": "18.2.1.",
+    "category": "18. Network security",
+    "displayName": "18.2.1. Wireless Local Area Networks",
+    "description": "Wireless local area networks are deployed in a secure manner that does not compromise the security of information and systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16241"
+  },
+  {
+    "name": "18.3.1.",
+    "category": "18. Network security",
+    "displayName": "18.3.1. Video & Telephony Conferencing and Internet Protocol Telephony",
+    "description": "Video &amp; Telephony Conferencing (VTC), Internet Protocol Telephony (IPT) and Voice over Internet Protocol (VoIP) systems are implemented in a secure manner that does not compromise security, information or systems and that they operate securely.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16369"
+  },
+  {
+    "name": "18.4.1.",
+    "category": "18. Network security",
+    "displayName": "18.4.1. Intrusion Detection and Prevention",
+    "description": "An intrusion detection and prevention strategy is implemented for systems in order to respond promptly to incidents and preserve availability, confidentiality and integrity of systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16436"
+  },
+  {
+    "name": "18.4.7.C.02.",
+    "category": "18. Network security",
+    "displayName": "18.4.7.C.02. Intrusion Detection and Prevention - Intrusion Detection and Prevention strategy (IDS/IPS)",
+    "description": "An IDS/IPS when configured correctly, kept up to date and supported by appropriate processes, can be an effective way of identifying, responding to and containing known attack types, specific attack profiles or anomalous or suspicious network activities.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-16449"
+  },
+  {
+    "name": "18.4.8.C.01.",
+    "category": "18. Network security",
+    "displayName": "18.4.8.C.01. Intrusion Detection and Prevention - IDS/IPSs on gateways",
+    "description": "If the firewall is configured to block all traffic on a particular range of port numbers, then the IDS should inspect traffic for these port numbers and alert if they are detected.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-16449"
+  },
+  {
+    "name": "18.5.1.",
+    "category": "18. Network security",
+    "displayName": "18.5.1. Internet Protocol Version 6",
+    "description": "IPv6 is disabled until it is ready to be deployed.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16482"
+  },
+  {
+    "name": "18.6.1.",
+    "category": "18. Network security",
+    "displayName": "18.6.1. Peripheral (KVM) Switches",
+    "description": "An evaluated peripheral switch is used when sharing keyboards, monitors and mice or other user interface devices, between different systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16519"
+  },
+  {
+    "name": "18.7.1.",
+    "category": "18. Network security",
+    "displayName": "18.7.1. Inverse split tunnel VPN",
+    "description": "Agencies identify and effectively manage the risks and compensating controls involved in utilising inverse split tunnelling as part of remote access virtual private network (VPN) configurations.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16544"
+  },
+  {
+    "name": "19.1.1.",
+    "category": "19. Gateway security",
+    "displayName": "19.1.1. Gateways",
+    "description": "To ensure that gateways are properly configured to protect agency systems and information transferred between systems from different security domains.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16568"
+  },
+  {
+    "name": "19.2.1.",
+    "category": "19. Gateway security",
+    "displayName": "19.2.1. Cross Domain Solutions (CDS)",
+    "description": "Cross-Domain Solutions secure transfers between systems of differing classifications or trust levels with high assurance over the security of systems and information.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16643"
+  },
+  {
+    "name": "19.3.1.",
+    "category": "19. Gateway security",
+    "displayName": "19.3.1. Firewalls",
+    "description": "Agencies operating bi-directional gateways implement firewalls and traffic flow filters to provide a protective layer to their networks in both discrete and virtual environments.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16688"
+  },
+  {
+    "name": "19.4.1.",
+    "category": "19. Gateway security",
+    "displayName": "19.4.1. Diodes",
+    "description": "Networks connected to one-way (uni-directional) gateways implement diodes in order to protect the higher classified system.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16715"
+  },
+  {
+    "name": "19.5.1.",
+    "category": "19. Gateway security",
+    "displayName": "19.5.1. Session Border Controllers",
+    "description": "To ensure the use of Session Border Controllers (SBCs) is integrated with the agency s security architecture and that use is consistent with other requirements for gateway security in this chapter.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16735"
+  },
+  {
+    "name": "20.1.1.",
+    "category": "20. Data management",
+    "displayName": "20.1.1. Data Transfers",
+    "description": "Data transfers between systems are controlled and accountable.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16836"
+  },
+  {
+    "name": "20.2.1.",
+    "category": "20. Data management",
+    "displayName": "20.2.1. Data Import and Export",
+    "description": "Data is transferred through gateways in a controlled and accountable manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16876"
+  },
+  {
+    "name": "20.3.1.",
+    "category": "20. Data management",
+    "displayName": "20.3.1. Content Filtering",
+    "description": "The flow of data within gateways is examined and controls applied in accordance with the agency s security policy. To prevent unauthorised or malicious content crossing security domain boundaries.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16919"
+  },
+  {
+    "name": "20.4.1.",
+    "category": "20. Data management",
+    "displayName": "20.4.1. Databases",
+    "description": "Database content is protected from personnel without a need-to-know.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16978"
+  },
+  {
+    "name": "21.1.1.",
+    "category": "21. Distributed Working",
+    "displayName": "21.1.1. Agency-owned Mobile Devices",
+    "description": "Information on agency-owned mobile devices is protected from unauthorised disclosure.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17004"
+  },
+  {
+    "name": "21.2.1.",
+    "category": "21. Distributed Working",
+    "displayName": "21.2.1. Working Outside the Office",
+    "description": "Information on mobile devices is not accessed from public or insecure locations.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17085"
+  },
+  {
+    "name": "21.3.1.",
+    "category": "21. Distributed Working",
+    "displayName": "21.3.1. Working From Home",
+    "description": "Personnel working from home protect classified information in the same manner as in the office environment.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17108"
+  },
+  {
+    "name": "21.4.1.",
+    "category": "21. Distributed Working",
+    "displayName": "21.4.1. Non-Agency Owned Devices and Bring Your Own Device (BYOD)",
+    "description": "Where an Agency permits personnel to supply their own mobile devices (such as smartphones, tablets and laptops), Official Information and agency information systems are protected to a level equivalent to an agency provided and managed office environment.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17126"
+  },
+  {
+    "name": "22.1.1.",
+    "category": "22. Enterprise systems security",
+    "displayName": "22.1.1. Cloud Computing",
+    "description": "Cloud systems risks are identified and managed and that Official Information and agency information systems are protected in accordance with Cabinet Directives, the PSR, the New Zealand Government Security Classification System, the NZISM and with other government security&nbsp;requirements and guidance.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17217"
+  },
+  {
+    "name": "22.2.1.",
+    "category": "22. Enterprise systems security",
+    "displayName": "22.2.1. Virtualisation",
+    "description": "To identify virtualisation specific risks and apply mitigations to minimise risk and secure the virtual environment.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17306"
+  },
+  {
+    "name": "22.3.1.",
+    "category": "22. Enterprise systems security",
+    "displayName": "22.3.1. Virtual Local Area Networks",
+    "description": "Virtual local area networks (VLANs) are deployed in a secure manner that does not compromise the security of information and systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17362"
+  },
+  {
+    "name": "23.1.1.",
+    "category": "23. Public Cloud Security",
+    "displayName": "23.1.1. Public Cloud Security Concepts",
+    "description": "Agencies understand key concepts and implement controls related to securing their use of public cloud services.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17393"
+  },
+  {
+    "name": "23.2.1.",
+    "category": "23. Public Cloud Security",
+    "displayName": "23.2.1. Governance, Risk Assessment & Assurance",
+    "description": "Agency cloud initiatives follow the risk management, assurance, governance, and control requirements in this manual.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17478"
+  },
+  {
+    "name": "23.3.1.",
+    "category": "23. Public Cloud Security",
+    "displayName": "23.3.1. Identity Management and Access Control",
+    "description": "Identities used for public cloud services are managed, protected, and consistently used to form a secure basis for controlling access to resources.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17530"
+  },
+  {
+    "name": "23.3.19.C.01.",
+    "category": "23. Public Cloud Security",
+    "displayName": "23.3.19.C.01. Identity Management and Access Control - Username and passwords",
+    "description": "Credentials used to access public cloud services can be reused across cloud service providers, and are at risk of discovery or being easily guessed.&nbsp; Due to these services being directly accessible from the internet, authentication should not rely on a single factor for standard users, and must not for privileged users. Refer to section 16.4 Privileged Access Management (PAM).  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-17556"
+  },
+  {
+    "name": "23.4.1.",
+    "category": "23. Public Cloud Security",
+    "displayName": "23.4.1. Data Protection in Public Cloud",
+    "description": "Data is protected throughout its lifecycle on public cloud platforms.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17573"
+  },
+  {
+    "name": "23.4.9.C.01.",
+    "category": "23. Public Cloud Security",
+    "displayName": "23.4.9.C.01. Data Protection in Public Cloud - Data protection mechanisms",
+    "description": "Agencies remain accountable for the confidentiality, integrity, and availability of their data, even though cloud service providers may define and implement the mechanisms used to protect their data in the cloud environment.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-17588"
+  },
+  {
+    "name": "23.5.1.",
+    "category": "23. Public Cloud Security",
+    "displayName": "23.5.1. Logging and Alerting in Public Cloud",
+    "description": "Security-related events are recorded from across an agency s public cloud platforms and are able to be analysed for timely notification of potential threats or incidents.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17613"
+  },
+  {
+    "name": "23.5.11.C.01.",
+    "category": "23. Public Cloud Security",
+    "displayName": "23.5.11.C.01. Logging and Alerting in Public Cloud - Logging requirements",
+    "description": "It may not be possible, or desirable, to centralise all public cloud log information into a single protected repository. However it is vital that log information is still collected and maintained to meet legislative, regulatory and incident response requirements (see 16.6.8 - Logging requirements).  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-17630"
+  },
+  {
+    "name": "24.1.1.",
+    "category": "24. Supporting Information",
+    "displayName": "24.1.1. Glossary of Abbreviations",
+    "description": "See NZISM Section 24.1.1 for the Glossary of Abreviations  https://www.nzism.gcsb.govt.nz/ism-document#Section-17642"
+  },
+  {
+    "name": "24.2.1.",
+    "category": "24. Supporting Information",
+    "displayName": "24.2.1. Glossary of Terms",
+    "description": "See the NZISM Section 24.2 for the Glossary of Terms  https://www.nzism.gcsb.govt.nz/ism-document#Section-17645"
+  }
+]

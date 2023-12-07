@@ -1,0 +1,52 @@
+{
+  "name": "64b026ea-d1f4-429d-b580-8d41c760bece",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Validate length of subscription tag",
+    "description": "Validate the length of a subscription tag value.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Tags"
+    },
+    "mode": "All",
+    "parameters": {
+      "tagCostCenter": {
+        "type": "String",
+        "metadata": {
+          "displayName": "tagCostCenter",
+          "description": "Name of the tag, e.g. CostCenter"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions"
+          },
+          {
+            "value": "[string(length(field(concat('tags[', parameters('tagCostCenter'), ']'))))]",
+            "notEquals": "6"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

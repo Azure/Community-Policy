@@ -1,0 +1,22 @@
+{
+  "retentionInDays": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "retentionInDays",
+      "description": "retentionInDays"
+    },
+    "defaultValue": 179
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Disabled"
+    ],
+    "defaultValue": "Deny"
+  }
+}

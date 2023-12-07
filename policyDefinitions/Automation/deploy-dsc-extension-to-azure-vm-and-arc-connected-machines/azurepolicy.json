@@ -22,6 +22,24 @@
           "Disabled"
         ],
         "defaultValue": "DeployIfNotExists"
+      },
+      "configurationUrl": {
+        "type": "String",
+        "metadata": {
+          "description": "URL for the configuration"
+        }
+      },
+      "configurationScript": {
+        "type": "String",
+        "metadata": {
+          "description": "Script for the configuration (e.g. ExampleDSC.zip)"
+        }
+      },
+      "configurationFunction": {
+        "type": "String",
+        "metadata": {
+          "description": "Configuration Function (e.g. ExampleDSC.ps1\\ExampleDSC)"
+        }
       }
     },
     "policyRule": {

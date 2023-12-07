@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Resources/subscriptions"
+      },
+      {
+        "value": "[string(length(field(concat('tags[', parameters('tagCostCenter'), ']'))))]",
+        "notEquals": "6"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
