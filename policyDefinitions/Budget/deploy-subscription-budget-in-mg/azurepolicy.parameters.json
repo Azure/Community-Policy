@@ -1,0 +1,81 @@
+{
+  "amount": {
+    "defaultValue": "1000",
+    "metadata": {
+      "description": "The total amount of cost or usage to track with the budget",
+      "displayName": "amount"
+    },
+    "type": "String"
+  },
+  "budgetName": {
+    "defaultValue": "budget-set-by-policy",
+    "metadata": {
+      "description": "The name for the budget to be created",
+      "displayName": "budgetName"
+    },
+    "type": "String"
+  },
+  "contactRoles": {
+    "defaultValue": [
+      "Contributor"
+    ],
+    "metadata": {
+      "description": "The list of contact RBAC roles, in an array, to send the budget notification to when the threshold is exceeded.",
+      "displayName": "contactRoles"
+    },
+    "type": "Array"
+  },
+  "firstThreshold": {
+    "defaultValue": "50",
+    "metadata": {
+      "description": "Threshold value associated with a notification. Notification is sent when the cost exceeded the threshold. It is always percent and has to be between 0 and 1000.",
+      "displayName": "firstThreshold"
+    },
+    "type": "String"
+  },
+  "secondThreshold": {
+    "defaultValue": "90",
+    "metadata": {
+      "description": "Threshold value associated with a notification. Notification is sent when the cost exceeded the threshold. It is always percent and has to be between 0 and 1000.",
+      "displayName": "secondThreshold"
+    },
+    "type": "String"
+  },
+  "thirdThreshold": {
+    "defaultValue": "100",
+    "metadata": {
+      "description": "Threshold value associated with a notification. Notification is sent when the cost exceeded the threshold. It is always percent and has to be between 0 and 1000.",
+      "displayName": "thirdThreshold"
+    },
+    "type": "String"
+  },
+  "timeGrain": {
+    "allowedValues": [
+      "Monthly",
+      "Quarterly",
+      "Annually",
+      "BillingMonth",
+      "BillingQuarter",
+      "BillingAnnual"
+    ],
+    "defaultValue": "BillingMonth",
+    "metadata": {
+      "description": "The time covered by a budget. Tracking of the amount will be reset based on the time grain.",
+      "displayName": "timeGrain"
+    },
+    "type": "String"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}
