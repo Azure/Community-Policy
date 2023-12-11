@@ -1,0 +1,2746 @@
+{
+    "properties": {
+      "displayName": "New Zealand ISM Restricted v3.6",
+      "description": "This initiative includes policies that address a subset of New Zealand Information Security Manual v3.6 controls. Additional policies will be added in upcoming releases. For more information, visit https://aka.ms/nzism-initiative.",
+      "metadata": {
+        "category": "Regulatory Compliance"
+      },
+      "parameters": {
+        "minimumRSAKeySize-cee51871-e572-4576-855c-047c820360f0": {
+          "type": "Integer",
+          "metadata": {
+            "displayName": "Minimum RSA key size for Certificates",
+            "description": "The minimum key size for RSA certificates."
+          },
+          "allowedValues": [
+            2048,
+            3072,
+            4096
+          ],
+          "defaultValue": 3072
+        },
+        "requiredRetentionDays": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Required retention period (days) for resource logs",
+            "description": ""
+          },
+          "defaultValue": "365"
+        },
+        "labelSelector": {
+          "type": "Object",
+          "metadata": {
+            "displayName": "Kubernetes label selector for resources included for evaluation of Kubernetes cluster policies in this initiative",
+            "description": "Label query to select Kubernetes resources to include for policy evaluation; an empty label selector will result in policies evaluated on all Kubernetes resources"
+          },
+          "defaultValue": {}
+        },
+        "minimumRSAKeySize-82067dbb-e53b-4e06-b631-546d197452d9": {
+          "type": "Integer",
+          "metadata": {
+            "displayName": "Minimum RSA key size for Keys",
+            "description": "The minimum key size for RSA certificates."
+          },
+          "allowedValues": [
+            2048,
+            3072,
+            4096
+          ],
+          "defaultValue": 3072
+        },
+        "auditonly-ulc": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Setting the default parameter for the policy to Audit as this is a Compliance policy initiative",
+            "description": "'Audit' allows a non-compliant resource to be created, but flags it as non-compliant. 'Deny' blocks the resource creation. 'Disable' turns off the policy."
+          },
+          "allowedValues": [
+            "audit",
+            "Audit",
+            "deny",
+            "Deny",
+            "disabled",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        },
+        "auditonly-three": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Policy Effect",
+            "description": "The desired effect of the policy."
+          },
+          "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        }
+      },
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "Vulnerability assessment should be enabled on your SQL servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ef2a8f2a-b3d9-49cd-a8a8-9a3aaaf647d9",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "06.2.5.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "A vulnerability assessment solution should be enabled on your virtual machines_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/501541f7-f7e7-4cd6-868c-4190fdad3ac9",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "06.2.5.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Vulnerability assessment should be enabled on SQL Managed Instance_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1b7aa243-30e4-4c9e-bca8-d0d3022b634a",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "06.2.5.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "SQL servers on machines should have vulnerability findings resolved_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6ba6d016-e7c3-4842-b8f2-4992ebc0d72d",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "06.2.6.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Running container images should have vulnerability findings resolved_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0fc39691-5a3f-4e3e-94ee-2e6447309ad9",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "06.2.6.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Vulnerabilities in container security configurations should be remediated_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e8cbc669-f12d-49eb-93e7-9273119e9933",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "06.2.6.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Container registry images should have vulnerability findings resolved_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5f0f936f-2f01-4bf5-b6be-d423792fa562",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "06.2.6.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Vulnerabilities in security configuration on your machines should be remediated_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e1e5fd5d-3e4c-4ce1-8661-7d1873ae6b15",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "06.2.6.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Vulnerabilities in security configuration on your virtual machine scale sets should be remediated_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3c735d8a-a4ba-4a3a-b7cf-db7754cf57f4",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "06.2.6.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "SQL databases should have vulnerability findings resolved_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/feedbf84-6b99-488c-acc2-71c829aa5ffc",
+          "definitionVersion": "4.*.*",
+          "parameters": {},
+          "groupNames": [
+            "06.2.6.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Audit virtual machines without disaster recovery configured_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0015ea4d-51ff-4ce3-8d8c-f3f8f0179a56",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "06.4.5.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Defender for DNS should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bdc59948-5574-49b3-bb91-76b7c986428d",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.1.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Defender for App Service should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2913021d-f2fd-4f3d-b958-22354e2bdbcb",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.1.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Defender for Azure SQL Database servers should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7fe3b40f-802b-4cdd-8bd4-fd799c948cc2",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.1.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Defender for open-source relational databases should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0a9fbe0d-c5c4-4da8-87d8-f4fd77338835",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.1.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Defender for Resource Manager should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c3d20c29-b36d-48fe-808b-99a87530ad99",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.1.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Defender for servers should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4da35fc9-c9e7-4960-aec9-797fe7d9051d",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.1.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Defender for SQL servers on machines should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6581d072-105e-4418-827f-bd446d56421b",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.1.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Defender for SQL should be enabled for unprotected Azure SQL servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/abfb4388-5bf4-4ad7-ba82-2cd2f41ceae9",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.1.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Defender for SQL should be enabled for unprotected SQL Managed Instances_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/abfb7388-5bf4-4ad7-ba99-2cd2f41cebb9",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.1.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Microsoft Defender for Storage (Classic) should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/308fbb08-4ab8-4e67-9b29-592e93fb94fa",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.1.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Microsoft Defender for Containers should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1c988dd6-ade4-430f-a608-2a3e5b0a6d38",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.1.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Kubernetes Service clusters should have Defender profile enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a1840de2-8088-4ea8-b153-b4c723e9cb01",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.1.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Defender for Key Vault should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0e6763cc-5078-4e64-889d-ff4d9a839047",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.1.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Email notification for high severity alerts should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6e2593d9-add6-4083-9c9b-4b7d2188c899",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.2.22.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Subscriptions should have a contact email address for security issues_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4f4f78b8-e367-4b10-a341-d9a4ad5cf1c7",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.2.22.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Email notification to subscription owner for high severity alerts should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0b15565f-aa9e-48ba-8619-45960f2c314d",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "07.2.22.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "API Management services should use a virtual network_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ef619a2c-cc4d-4d03-b2ba-8c94a834d85b",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Public network access should be disabled for PostgreSQL flexible servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5e1de0e3-42cb-4ebc-a86d-61d0c619ca48",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Key Vaults should use private link_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a6abeaec-4d90-4a02-805f-6b26c4d3fbe9",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Public network access should be disabled for MySQL flexible servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c9299215-ae47-4f50-9c54-8a392f68a052",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure SignalR Service should use private link_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2393d2cf-a342-44cd-a2e2-fe0188fd1234",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Cache for Redis should use private link_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7803067c-7d34-46e3-8c79-0ca68fc4036d",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Private endpoint connections on Batch accounts should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/009a0c92-f5b4-4776-9b66-4ed2b4775563",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Storage accounts should restrict network access using virtual network rules_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2a1a9cdf-e04d-429a-8416-3bfb72a1b26f",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure API for FHIR should use private link_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1ee56206-5dd1-42ab-b02d-8aae8b1634ce",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Private endpoint should be enabled for PostgreSQL servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0564d078-92f5-4f97-8398-b9f58a51f70b",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Private endpoint should be enabled for MySQL servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7595c971-233d-4bcf-bd18-596129188c49",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Private endpoint should be enabled for MariaDB servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0a1302fb-a631-4106-9753-f3d494733990",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "VM Image Builder templates should use private link_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2154edb9-244f-4741-9970-660785bccdaa",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Private endpoint connections on Azure SQL Database should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7698e800-9299-47a6-b3b6-5a0fee576eed",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Container registries should use private link_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e8eef0a8-67cf-4eb4-9386-14b0e78733d4",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Storage accounts should use private link_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6edd7eda-6dd8-40f7-810d-67160c639cd9",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Spring Cloud should use network injection_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/af35e2a4-ef96-44e7-a9ae-853dd97032c4",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Machine Learning workspaces should use private link_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/45e05259-1eb5-4f70-9574-baf73e9d219b",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Event Grid topics should use private link_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4b90e17e-8448-49db-875e-bd83fb6f804f",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Event Grid domains should use private link_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/9830b652-8523-49cc-b1b3-e17dce1127ca",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Configuration should use private link_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ca610c1d-041c-4332-9d88-7ed3094967c7",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "10.8.35.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "System updates on virtual machine scale sets should be installed_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c3f317a7-a95c-4547-b7e7-11017ebdf2fe",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "12.4.4.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "System updates should be installed on your machines_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/86b3d65f-7626-441e-b690-81a8b71cff60",
+          "definitionVersion": "4.*.*",
+          "parameters": {},
+          "groupNames": [
+            "12.4.4.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Management ports should be closed on your virtual machines_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/22730e10-96f6-4aac-ad84-9383d35b5917",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Function apps should have remote debugging turned off_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0e60b895-3786-45da-8377-9c6b4b6ac5f9",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Service apps should have remote debugging turned off_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/cb510bfd-1cba-4d9f-a230-cb0976f4bb71",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Microsoft IaaSAntimalware extension should be deployed on Windows servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/9b597639-28e4-48eb-b506-56b05d366257",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Policy Add-on for Kubernetes service (AKS) should be installed and enabled on your clusters_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0a15ec92-a229-4763-bb14-0ea34a568f8d",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Role-Based Access Control (RBAC) should be used on Kubernetes Services_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ac4a19c2-fa67-49b4-8ae5-0b2e78c49457",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Microsoft Antimalware for Azure should be configured to automatically update protection signatures_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c43e4a30-77cb-48ab-a4dd-93f175c63b57",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Kubernetes clusters should not grant CAP_SYS_ADMIN security capabilities_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d2e7ea85-6b44-4317-a0be-1b951587f626",
+          "definitionVersion": "5.*.*",
+          "parameters": {
+            "labelSelector": {
+              "value": "[parameters('labelSelector')]"
+            }
+          },
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Endpoint protection health issues should be resolved on your machines_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/8e42c1f2-a2ab-49bc-994a-12bcd0dc4ac2",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Kubernetes clusters should not use the default namespace_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/9f061a12-e40d-4183-a00e-171812443373",
+          "definitionVersion": "4.*.*",
+          "parameters": {
+            "labelSelector": {
+              "value": "[parameters('labelSelector')]"
+            }
+          },
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Management ports of virtual machines should be protected with just-in-time network access control_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b0f33259-77d7-4c9e-aac6-3aabcfae693c",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Monitor missing Endpoint Protection in Azure Security Center_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/af6cd1bd-1635-48cb-bde7-5b15693900b9",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Kubernetes clusters should disable automounting API credentials_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/423dd1ba-798e-40e4-9c4d-b6902674b423",
+          "definitionVersion": "4.*.*",
+          "parameters": {
+            "labelSelector": {
+              "value": "[parameters('labelSelector')]"
+            }
+          },
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Windows Defender Exploit Guard should be enabled on your machines_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bed48b13-6647-468e-aa2f-1af1d3f4dd40",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Kubernetes clusters should not allow container privilege escalation_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1c6e92c9-99f0-4e55-9cf2-0c234dc48f99",
+          "definitionVersion": "7.*.*",
+          "parameters": {
+            "labelSelector": {
+              "value": "[parameters('labelSelector')]"
+            }
+          },
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Virtual machines' Guest Configuration extension should be deployed with system-assigned managed identity_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d26f7642-7545-4e18-9b75-8c9bbdee3a9a",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Kubernetes cluster should not allow privileged containers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/95edb821-ddaf-4404-9732-666045e056b4",
+          "definitionVersion": "9.*.*",
+          "parameters": {
+            "labelSelector": {
+              "value": "[parameters('labelSelector')]"
+            },
+            "effect": {
+              "value": "[parameters('auditonly-ulc')]"
+            }
+          },
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Kubernetes cluster containers should run with a read only root file system_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/df49d893-a74c-421d-bc95-c663042e5b80",
+          "definitionVersion": "6.*.*",
+          "parameters": {
+            "labelSelector": {
+              "value": "[parameters('labelSelector')]"
+            }
+          },
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Kubernetes cluster containers should not share host process ID or host IPC namespace_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/47a1ee2f-2a2a-4576-bf2a-e0e36709c2b8",
+          "definitionVersion": "5.*.*",
+          "parameters": {
+            "labelSelector": {
+              "value": "[parameters('labelSelector')]"
+            }
+          },
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Guest Configuration extension should be installed on your machines_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ae89ebca-1c92-4898-ac2c-9f63decb045c",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Endpoint protection solution should be installed on virtual machine scale sets_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/26a828e1-e88f-464e-bbb3-c134a282b9de",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Endpoint protection should be installed on your machines_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1f7c564c-0a90-4d44-b7e1-9d456cffaee8",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Kubernetes clusters should be accessible only over HTTPS_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1a5b4dca-0b6f-4cf5-907c-56316bc1bf3d",
+          "definitionVersion": "8.*.*",
+          "parameters": {
+            "labelSelector": {
+              "value": "[parameters('labelSelector')]"
+            },
+            "effect": {
+              "value": "[parameters('auditonly-ulc')]"
+            }
+          },
+          "groupNames": [
+            "14.1.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Adaptive application controls for defining safe applications should be enabled on your machines_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/47a6b606-51aa-4496-8bb7-64b11cf66adc",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.2.4.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Allowlist rules in your adaptive application control policy should be updated_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/123a3936-f020-408a-ba0c-47873faf1534",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.2.4.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Function apps should require FTPS only_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/399b2637-a50f-4f95-96f8-3a145476eb15",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Function apps should only be accessible over HTTPS_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6d555dd1-86f2-4f1c-8ed7-5abae7c6cbab",
+          "definitionVersion": "5.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Service apps should have authentication enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/95bccee9-a7f8-4bec-9ee9-62c3473701fc",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Service apps should have 'Client Certificates (Incoming client certificates)' enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5bb220d9-2698-4ee4-8404-b9c30c9df609",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Service apps should not have CORS configured to allow every resource to access your apps_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5744710e-cc2f-4ee8-8809-3b11e89f4bc9",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Service apps should only be accessible over HTTPS_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a4af4a39-4135-47fb-b175-47fbdf85311d",
+          "definitionVersion": "4.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Service apps should require FTPS only_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4d24b6d4-5e53-4a4f-a7f4-618fa573ee4b",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Service apps should use latest 'HTTP Version'_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/8c122334-9d20-4eb8-89ea-ac9a705b74ae",
+          "definitionVersion": "4.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Service apps that use Java should use a specified 'Java version'_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/496223c3-ad65-4ecd-878a-bae78737e9ed",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Service apps that use PHP should use a specified 'PHP version'_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7261b898-8a84-4db8-9e04-18527132abb3",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Service apps that use Python should use a specified 'Python version'_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7008174a-fd10-4ef0-817e-fc820a951d73",
+          "definitionVersion": "4.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Function apps should have authentication enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c75248c1-ea1d-4a9c-8fc9-29a6aabd5da8",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Function apps should have 'Client Certificates (Incoming client certificates)' enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/eaebaea7-8013-4ceb-9d14-7eb32271373c",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Function apps should not have CORS configured to allow every resource to access your apps_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0820b7b9-23aa-4725-a1ce-ae4558f718e5",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Function apps that use Python should use a specified 'Python version'_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7238174a-fd10-4ef0-817e-fc820a951d73",
+          "definitionVersion": "4.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Function apps that use Java should use a specified 'Java version'_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/9d0b6ea4-93e2-4578-bf2f-6bb17d22b4bc",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Function apps should use latest 'HTTP Version'_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e2c1c086-2d84-4019-bff3-c44ccd95113c",
+          "definitionVersion": "4.*.*",
+          "parameters": {},
+          "groupNames": [
+            "14.5.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Cosmos DB database accounts should have local authentication methods disabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5450f5bd-9c72-4390-a9c4-a7aba4edfdd2",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "16.1.32.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Service apps should use managed identity_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2b9ad585-36bc-4615-b300-fd4435808332",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "16.1.32.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Function apps should use managed identity_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0da106f2-4ca3-48e8-bc85-c638fe6aea8f",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "16.1.32.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Service Fabric clusters should only use Azure Active Directory for client authentication_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b54ed75b-3e1a-44ac-a333-05ba39b99ff0",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "16.1.32.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure SQL Database should have Azure Active Directory Only Authentication enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/abda6d70-9778-44e7-84a8-06713e6db027",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "16.1.32.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "A maximum of 3 owners should be designated for your subscription_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4f11b553-d42e-4e3a-89be-32ca364cad4c",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "16.3.5.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "There should be more than one owner assigned to your subscription_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/09024ccc-0c5f-475e-9457-b7c0d9ed487b",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "16.4.30.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Guest accounts with read permissions on Azure resources should be removed_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e9ac8f8e-ce22-4355-8f04-99b911d6be52",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "16.4.30.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Blocked accounts with owner permissions on Azure resources should be removed_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0cfea604-3201-4e14-88fc-fae4c427a6c5",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "16.4.30.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Guest accounts with write permissions on Azure resources should be removed_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/94e1c2ac-cbbe-4cac-a2b5-389c812dee87",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "16.4.30.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Guest accounts with owner permissions on Azure resources should be removed_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/339353f6-2387-4a45-abe4-7f529d121046",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "16.4.30.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Blocked accounts with read and write permissions on Azure resources should be removed_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/8d7e1fde-fe26-4b5f-8108-f8e432cbc2be",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "16.4.30.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "An Azure Active Directory administrator should be provisioned for SQL servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1f314764-cb73-4fc9-b863-8eca98ac36e9",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "16.4.32.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Key Vault keys should have an expiration date_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/152b15f7-8e1f-4c1f-ab71-8c010ba5dbc0",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "17.1.58.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Key Vault secrets should have an expiration date_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/98728c90-32c7-4049-8429-847dc0f4fe37",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "17.1.58.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Storage account keys should not be expired_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/044985bb-afe1-42cd-8a36-9d5d42424537",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "17.1.58.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Keys using RSA cryptography should have a specified minimum key size_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/82067dbb-e53b-4e06-b631-546d197452d9",
+          "definitionVersion": "1.*.*",
+          "parameters": {
+            "minimumRSAKeySize": {
+              "value": "[parameters('minimumRSAKeySize-82067dbb-e53b-4e06-b631-546d197452d9')]"
+            }
+          },
+          "groupNames": [
+            "17.2.19.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Keys using elliptic curve cryptography should have the specified curve names_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ff25f3c8-b739-4538-9d07-3d6d25cfb255",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "17.2.22.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Certificates using RSA cryptography should have the specified minimum key size_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/cee51871-e572-4576-855c-047c820360f0",
+          "definitionVersion": "2.*.*",
+          "parameters": {
+            "minimumRSAKeySize": {
+              "value": "[parameters('minimumRSAKeySize-cee51871-e572-4576-855c-047c820360f0')]"
+            }
+          },
+          "groupNames": [
+            "17.2.24.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Service apps should use the latest TLS version_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f0e6e85b-9b9f-4a4b-b67b-f730d42f1b0b",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "17.4.16.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Function apps should use the latest TLS version_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f9d614c5-c173-4d56-95a7-b4437057d193",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "17.4.16.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Windows web servers should be configured to use secure communication protocols_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5752e6d6-1206-46d8-8ab1-ecc2f71a8112",
+          "definitionVersion": "4.*.*",
+          "parameters": {},
+          "groupNames": [
+            "17.4.16.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "IP Forwarding on your virtual machine should be disabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bd352bd5-2853-4985-bf0d-73806b4a5744",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "17.5.6.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Authentication to Linux machines should require SSH keys_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/630c64f9-8b6b-4c64-b511-6544ceff6fd6",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "17.5.7.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Adaptive network hardening recommendations should be applied on internet facing virtual machines_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/08e6af2d-db70-460a-bfe9-d5bd474ba9d6",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.10.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Internet-facing virtual machines should be protected with network security groups_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f6de0be7-9a8a-4b8a-b349-43cf02d22f7c",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Enforce SSL connection should be enabled for MySQL database servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e802a67a-daf5-4436-9ea6-f6d821dd0c5d",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Only secure connections to your Azure Cache for Redis should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/22bee202-a82f-4305-9a2a-6d7f44d4dedb",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Secure transfer to storage accounts should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/404c3081-a854-4457-ae30-26a93ef643f9",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Authorized IP ranges should be defined on Kubernetes Services_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0e246bcf-5f6f-4f87-bc6f-775d4712c7ea",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "CORS should not allow every domain to access your API for FHIR_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0fea8f8a-4169-495d-8307-30ec335f387d",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Key Vault should have firewall enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/55615ac9-af46-4a59-874e-391cc3dfb490",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Subnets should be associated with a Network Security Group_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e71308d3-144b-4262-b144-efdc3cc90517",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Cognitive Services accounts should disable public network access_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0725b4dd-7e76-479c-a735-68e7ee23d5ca",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Container registries should not allow unrestricted network access_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d0793b48-0edc-4296-a390-4c75d1bdfd71",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Storage accounts should restrict network access_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/34c877ad-507e-4c82-993e-3452a6e0ad3c",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Cosmos DB accounts should have firewall rules_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/862e97cf-49fc-4a5c-9de4-40d4e2e7c8eb",
+          "definitionVersion": "2.*.*",
+          "parameters": {
+            "effect": {
+              "value": "[parameters('auditonly-three')]"
+            }
+          },
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Enforce SSL connection should be enabled for PostgreSQL database servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d158790f-bfb0-486c-8631-2dc6b4e8e6af",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Public network access should be disabled for PostgreSQL servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b52376f7-9612-48a1-81cd-1ffe4b61032c",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Public network access should be disabled for MySQL servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d9844e8a-1437-4aeb-a32c-0c992f056095",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Public network access should be disabled for MariaDB servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/fdccbe47-f3e3-4213-ad5d-ea459b2fa077",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Public network access on Azure SQL Database should be disabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1b8ca024-1d5c-4dec-8995-b1a932b41780",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Non-internet-facing virtual machines should be protected with network security groups_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bb91dfba-c30d-4263-9add-9c2384e659a6",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Cognitive Services accounts should restrict network access_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/037eea7a-bd0a-46c5-9a66-03aea78705d3",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "All network ports should be restricted on network security groups associated to your virtual machine_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/9daedab3-fb2d-461e-b861-71790eead4f6",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.1.13.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Connection throttling should be enabled for PostgreSQL database servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5345bb39-67dc-4960-a1bf-427e16b9a0bd",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.4.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure DDoS Protection Standard should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a7aca53f-2ed4-4466-a25e-0b45ade68efd",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.4.7.C.02."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Web Application Firewall should be enabled for Azure Front Door entry-points_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/055aa869-bc98-4af8-bafc-23f1ab6ffe2c",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.4.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Web Application Firewall (WAF) should be enabled for Application Gateway_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/564feb30-bf6a-4854-b4bb-0d2d2d1e6c66",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.4.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "All authorization rules except RootManageSharedAccessKey should be removed from Service Bus namespace_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a1817ec0-a368-432a-8057-8371e17ac6ee",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.4.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Web Application Firewall (WAF) should use the specified mode for Azure Front Door Service_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/425bea59-a659-4cbb-8d31-34499bd030b8",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.4.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Web Application Firewall (WAF) should use the specified mode for Application Gateway_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/12430be1-6cc8-4527-a9a8-e3d38f250096",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "18.4.8.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Accounts with owner permissions on Azure resources should be MFA enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e3e008c3-56b9-4133-8fd7-d3347377402a",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.3.19.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Accounts with write permissions on Azure resources should be MFA enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/931e118d-50a1-4457-a5e4-78550e086c52",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.3.19.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Accounts with read permissions on Azure resources should be MFA enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/81b3ccb4-e6e8-4e4a-8d05-5df25cd29fd4",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.3.19.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Key vaults should have deletion protection enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0b60c0b2-2dc2-4e1c-b5c9-abbed971de53",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Key vaults should have soft delete enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1e66c121-a66a-4b1f-9b83-0fd99bf0fc2d",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Automation account variables should be encrypted_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3657f5a0-770e-44a3-b44e-9431ba1e9735",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "MySQL servers should use customer-managed keys to encrypt data at rest_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/83cef61d-dbd1-4b20-a4fc-5fbc7da10833",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Machine Learning workspaces should be encrypted with a customer-managed key_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ba769a63-b8cc-4b2d-abf6-ac33c7204be8",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Key Vault Managed HSM should have purge protection enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c39ba22d-4428-4149-b981-70acb31fc383",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "PostgreSQL servers should use customer-managed keys to encrypt data at rest_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/18adea5e-f416-4d0f-8aa8-d24321e3e274",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Virtual machines should encrypt temp disks, caches, and data flows between Compute and Storage resources_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0961003e-5a0a-4549-abde-af6a37f2724d",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Transparent Data Encryption on SQL databases should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/17k78e20-9358-41c9-923c-fb736d382a12",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Azure Cosmos DB accounts should use customer-managed keys to encrypt data at rest_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1f905d99-2ab7-462c-a6b0-f709acca6c8f",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Storage accounts should use customer-managed key for encryption_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6fac406b-40ca-413b-bf8e-0bf964659c25",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "SQL servers should use customer-managed keys to encrypt data at rest_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0a370ff3-6cab-4e85-8995-295fd854c5b8",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Service Fabric clusters should have the ClusterProtectionLevel property set to EncryptAndSign_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/617c02be-7f02-4efd-8836-3180d47b6c68",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Cognitive Services accounts should enable data encryption with a customer-managed key_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/67121cc7-ff39-4ab8-b7e3-95b84dab487d",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "SQL managed instances should use customer-managed keys to encrypt data at rest_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ac01ad65-10e5-46df-bdd9-6b0cad13e1d2",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Disk encryption should be enabled on Azure Data Explorer_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f4b53539-8df9-40e4-86c6-6b607703bd4e",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Container registries should be encrypted with a customer-managed key_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5b9159ae-1701-4a6f-9a7a-aa9c8ddd0580",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.4.9.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Resource logs in Key Vault should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/cf820ca0-f99e-4f3e-84fb-66e913812d21",
+          "definitionVersion": "5.*.*",
+          "parameters": {
+            "requiredRetentionDays": {
+              "value": "[parameters('requiredRetentionDays')]"
+            }
+          },
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Auto provisioning of the Log Analytics agent should be enabled on your subscription_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/475aae12-b88a-4572-8b36-9b712b2b3a17",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "App Service apps should have resource logs enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/91a78b24-f231-4a8a-8da9-02c35b2b6510",
+          "definitionVersion": "2.*.*",
+          "parameters": {
+            "requiredRetentionDays": {
+              "value": "[parameters('requiredRetentionDays')]"
+            }
+          },
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Audit usage of custom RBAC roles_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a451c1ef-c6ca-483d-87ed-f49761e3ffb5",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Auditing on SQL server should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a6fb4358-5bf4-4ad7-ba82-2cd2f41ce5e9",
+          "definitionVersion": "2.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Disconnections should be logged for PostgreSQL database servers._1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/eb6f77b9-bd53-4e35-a23d-7f65d5f0e446",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Log Analytics agent should be installed on your virtual machine for Azure Security Center monitoring_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a4fe33eb-e377-4efb-ab31-0784311bc499",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "SQL servers with auditing to storage account destination should be configured with 90 days retention or higher_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/89099bee-89e0-4b26-a5f4-165451757743",
+          "definitionVersion": "3.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Log connections should be enabled for PostgreSQL database servers_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/eb6f77b9-bd53-4e35-a23d-7f65d5f0e442",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Resource logs in Logic Apps should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/34f95f76-5386-4de7-b824-0d8478470c9d",
+          "definitionVersion": "5.*.*",
+          "parameters": {
+            "requiredRetentionDays": {
+              "value": "[parameters('requiredRetentionDays')]"
+            }
+          },
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Resource logs in Azure Data Lake Store should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/057ef27e-665e-4328-8ea3-04b3122bd9fb",
+          "definitionVersion": "5.*.*",
+          "parameters": {
+            "requiredRetentionDays": {
+              "value": "[parameters('requiredRetentionDays')]"
+            }
+          },
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Resource logs in Azure Kubernetes Service should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/245fc9df-fa96-4414-9a0b-3738c2f7341c",
+          "definitionVersion": "1.*.*",
+          "parameters": {
+            "requiredRetentionDays": {
+              "value": "[parameters('requiredRetentionDays')]"
+            }
+          },
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Resource logs in Service Bus should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f8d36e2f-389b-4ee4-898d-21aeb69a0f45",
+          "definitionVersion": "5.*.*",
+          "parameters": {
+            "requiredRetentionDays": {
+              "value": "[parameters('requiredRetentionDays')]"
+            }
+          },
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Resource logs in Search services should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b4330a05-a843-4bc8-bf9a-cacce50c67f4",
+          "definitionVersion": "5.*.*",
+          "parameters": {
+            "requiredRetentionDays": {
+              "value": "[parameters('requiredRetentionDays')]"
+            }
+          },
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Resource logs in Batch accounts should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/428256e6-1fac-4f48-a757-df34c2b3336d",
+          "definitionVersion": "5.*.*",
+          "parameters": {
+            "requiredRetentionDays": {
+              "value": "[parameters('requiredRetentionDays')]"
+            }
+          },
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Resource logs in Data Lake Analytics should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c95c74d9-38fe-4f0d-af86-0c7d626a315c",
+          "definitionVersion": "5.*.*",
+          "parameters": {
+            "requiredRetentionDays": {
+              "value": "[parameters('requiredRetentionDays')]"
+            }
+          },
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Resource logs in Event Hub should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/83a214f7-d01a-484b-91a9-ed54470c9a6a",
+          "definitionVersion": "5.*.*",
+          "parameters": {
+            "requiredRetentionDays": {
+              "value": "[parameters('requiredRetentionDays')]"
+            }
+          },
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Resource logs in IoT Hub should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/383856f8-de7f-44a2-81fc-e5135b5c2aa4",
+          "definitionVersion": "3.*.*",
+          "parameters": {
+            "requiredRetentionDays": {
+              "value": "[parameters('requiredRetentionDays')]"
+            }
+          },
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Log Analytics agent should be installed on your virtual machine scale sets for Azure Security Center monitoring_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a3a6ea0c-e018-4933-9ef0-5aaa1501449b",
+          "definitionVersion": "1.*.*",
+          "parameters": {},
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        },
+        {
+          "policyDefinitionReferenceId": "Resource logs in Azure Stream Analytics should be enabled_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f9be5368-9bf5-4b84-9e0a-7850da98bb46",
+          "definitionVersion": "5.*.*",
+          "parameters": {
+            "requiredRetentionDays": {
+              "value": "[parameters('requiredRetentionDays')]"
+            }
+          },
+          "groupNames": [
+            "23.5.11.C.01."
+          ]
+        }
+      ],
+      "policyDefinitionGroups": [
+        {
+          "name": "01.1.1.",
+          "category": "01. About information security",
+          "displayName": "01.1.1. Understanding and using the NZISM",
+          "description": "The New Zealand Information Security Manual details processes and controls essential for the protection of all New Zealand Government information and systems. Controls and processes representing good practice are also provided to enhance the baseline controls. Baseline controls are minimum acceptable levels of controls and are often described as systems hygiene .  https://www.nzism.gcsb.govt.nz/ism-document#Section-11965"
+        },
+        {
+          "name": "01.2.1.",
+          "category": "01. About information security",
+          "displayName": "01.2.1. Applicability, Authority and Compliance",
+          "description": "Agencies understand and follow the requirements of the New Zealand Information Security Manual. Protection of government information and systems is a core accountability.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12091"
+        },
+        {
+          "name": "02.1.1.",
+          "category": "02. Information Security Services within Government",
+          "displayName": "02.1.1. Government Engagement",
+          "description": "Agency security personnel and senior management are aware of and utilise information security services offered by the New Zealand Government.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12118"
+        },
+        {
+          "name": "02.2.1.",
+          "category": "02. Information Security Services within Government",
+          "displayName": "02.2.1. Non-Government Engagement and Outsourcing",
+          "description": "Non-government organisations handling classified information implement the same information security and protective measures as government agencies.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12138"
+        },
+        {
+          "name": "02.3.1.",
+          "category": "02. Information Security Services within Government",
+          "displayName": "02.3.1. Using Cloud Services",
+          "description": "Agencies understand and manage their cloud services to ensure they are secure, effective and efficient.   https://www.nzism.gcsb.govt.nz/ism-document#Section-12164"
+        },
+        {
+          "name": "02.4.1.",
+          "category": "02. Information Security Services within Government",
+          "displayName": "02.4.1. Preparation for Post-Quantum Cryptography",
+          "description": "Agencies are prepared for the impacts that widespread availability of quantum computing will have on information security.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12224"
+        },
+        {
+          "name": "03.1.1.",
+          "category": "03. Information security governance - roles and responsibilities",
+          "displayName": "03.1.1. The Agency Head",
+          "description": "The agency head is accountable for information security within their agency.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12256"
+        },
+        {
+          "name": "03.2.1.",
+          "category": "03. Information security governance - roles and responsibilities",
+          "displayName": "03.2.1. The Chief Information Security Officer",
+          "description": "The Chief Information Security Officer (CISO) sets the strategic direction for information security within their agency.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12280"
+        },
+        {
+          "name": "03.3.1.",
+          "category": "03. Information security governance - roles and responsibilities",
+          "displayName": "03.3.1. Information Technology Security Managers",
+          "description": "Information Technology Security Managers (ITSM) provide information security leadership and management within their agency.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12348"
+        },
+        {
+          "name": "03.4.1.",
+          "category": "03. Information security governance - roles and responsibilities",
+          "displayName": "03.4.1. System Owners",
+          "description": "All systems are allocated a system owner who has responsibility for the overall operation, including obtaining and maintaining any certification and accreditation, of the allocated system(s).  https://www.nzism.gcsb.govt.nz/ism-document#Section-12415"
+        },
+        {
+          "name": "03.5.1.",
+          "category": "03. Information security governance - roles and responsibilities",
+          "displayName": "03.5.1. System Users",
+          "description": "System users comply with information security policies and procedures within their agency.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12444"
+        },
+        {
+          "name": "04.1.1.",
+          "category": "04. System Certification and Accreditation",
+          "displayName": "04.1.1. The Certification and Accreditation Process",
+          "description": "Executives and Security Practitioners understand and enforce the use of the Certification and Accreditation (C&amp;A) process and its role in information security governance and assurance.  https://www.nzism.gcsb.govt.nz/ism-document/#Section-12460"
+        },
+        {
+          "name": "04.2.1.",
+          "category": "04. System Certification and Accreditation",
+          "displayName": "04.2.1. Conducting Certifications",
+          "description": "The security posture of the organisation has been incorporated into its system security design, controls are correctly implemented, are performing as intended and that changes and modifications are reviewed for any security impact or implications.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12507"
+        },
+        {
+          "name": "04.3.1.",
+          "category": "04. System Certification and Accreditation",
+          "displayName": "04.3.1. Conducting Audits",
+          "description": "The effectiveness of information security measures for systems is periodically reviewed and validated.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12537"
+        },
+        {
+          "name": "04.4.1.",
+          "category": "04. System Certification and Accreditation",
+          "displayName": "04.4.1. Accreditation Framework",
+          "description": "Accreditation is the formal authority for a system to operate, and an important element in fundamental information system governance. Accreditation requires risk identification and assessment, selection and implementation of baseline and other appropriate controls and the recognition and acceptance of residual risks relating to the operation of a system including any outsourced services such as Telecommunications or Cloud. Accreditation relies on the completion of system certification procedures.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12591"
+        },
+        {
+          "name": "04.5.1.",
+          "category": "04. System Certification and Accreditation",
+          "displayName": "04.5.1. Conducting Accreditations",
+          "description": "As a governance good practice, systems are accredited before they are used operationally.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12644"
+        },
+        {
+          "name": "05.1.1.",
+          "category": "05. Information security documentation",
+          "displayName": "05.1.1. Documentation Fundamentals",
+          "description": "Information security documentation is produced for systems, to support and demonstrate good governance.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12683"
+        },
+        {
+          "name": "05.2.1.",
+          "category": "05. Information security documentation",
+          "displayName": "05.2.1. Information Security Policies",
+          "description": "Information security policies (SecPol) set the strategic direction for information security.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12748"
+        },
+        {
+          "name": "05.3.1.",
+          "category": "05. Information security documentation",
+          "displayName": "05.3.1. Security Risk Management Plans",
+          "description": "Security Risk Management Plans (SRMP) identify security risks and appropriate treatment measures for systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12761"
+        },
+        {
+          "name": "05.4.1.",
+          "category": "05. Information security documentation",
+          "displayName": "05.4.1. System Security Plans",
+          "description": "System Security Plans (SSPs) specify the information security measures for systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12785"
+        },
+        {
+          "name": "05.5.1.",
+          "category": "05. Information security documentation",
+          "displayName": "05.5.1. Standard Operating Procedures",
+          "description": "Standard Operating Procedures (SOPs) ensure security procedures are followed in an appropriate and repeatable manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12801"
+        },
+        {
+          "name": "05.6.1.",
+          "category": "05. Information security documentation",
+          "displayName": "05.6.1. Incident Response Plans",
+          "description": "Incident Response Plans (IRP) outline actions to take in response to an information security incident.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12823"
+        },
+        {
+          "name": "05.7.1.",
+          "category": "05. Information security documentation",
+          "displayName": "05.7.1. Emergency Procedures",
+          "description": "Classified information and systems are secured before personnel evacuate a facility in the event of an emergency.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12834"
+        },
+        {
+          "name": "05.8.1.",
+          "category": "05. Information security documentation",
+          "displayName": "05.8.1. Independent Assurance Reports",
+          "description": "To provide assurance to System Owners, Certifiers, Practitioners and Accreditors and to assist system designers, enterprise and security architects where assurance reviews cannot be directly undertaken on service providers.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12847"
+        },
+        {
+          "name": "05.9.1.",
+          "category": "05. Information security documentation",
+          "displayName": "05.9.1. Vulnerability Disclosure Policy (VDP)",
+          "description": "Agencies implement a Vulnerability Disclosure Policy (VDP) to enable members of the public to report vulnerabilities in the agency s public-facing systems and applications and receive feedback on such reports.  https://www.nzism.gcsb.govt.nz/ism-document#Section-12947"
+        },
+        {
+          "name": "06.1.1.",
+          "category": "06. Information security monitoring",
+          "displayName": "06.1.1. Information Security Reviews",
+          "description": "Information security reviews maintain the security of agency systems and detect gaps and deficiencies.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13002"
+        },
+        {
+          "name": "06.2.1.",
+          "category": "06. Information security monitoring",
+          "displayName": "06.2.1. Vulnerability Analysis",
+          "description": "Exploitable information system weaknesses can be identified by vulnerability analyses and inform assessments and controls selection.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13027"
+        },
+        {
+          "name": "06.2.5.C.01.",
+          "category": "06. Information security monitoring",
+          "displayName": "06.2.5.C.01. Vulnerability Analysis - Conducting vulnerability assessments",
+          "description": "A baseline or known point of origin is the basis of any comparison and allows measurement of changes and improvements when further information security monitoring activities are conducted.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-13035"
+        },
+        {
+          "name": "06.2.6.C.01.",
+          "category": "06. Information security monitoring",
+          "displayName": "06.2.6.C.01. Vulnerability Analysis - Resolving vulnerabilities",
+          "description": "Vulnerabilities may occur as a result of poorly designed or implemented information security practices, accidental activities or malicious activities, and not just as the result of a technical issue.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-13035"
+        },
+        {
+          "name": "06.3.1.",
+          "category": "06. Information security monitoring",
+          "displayName": "06.3.1. Change Management",
+          "description": "To ensure information security is an integral part of the change management process, it should be incorporated into the agency s IT maintenance governance and management activities.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13048"
+        },
+        {
+          "name": "06.4.1.",
+          "category": "06. Information security monitoring",
+          "displayName": "06.4.1. Business Continuity and Disaster Recovery",
+          "description": "To ensure business continuity and disaster recovery processes are established to assist in meeting the agency s business requirements, minimise any disruption to the availability of information and systems, and assist recoverability.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13074"
+        },
+        {
+          "name": "06.4.5.C.01.",
+          "category": "06. Information security monitoring",
+          "displayName": "06.4.5.C.01. Business Continuity and Disaster Recovery - Availability requirements",
+          "description": "Availability and recovery requirements will vary based on each agency s business needs and are likely to be widely variable across government. Agencies will determine their own availability and recovery requirements and implement measures consistent with the agency's SRMP to achieve them as part of their risk management and governance processes.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-13084"
+        },
+        {
+          "name": "07.1.1.",
+          "category": "07. Information Security Incidents",
+          "displayName": "07.1.1. Detecting Information Security Incidents",
+          "description": "To ensure that appropriate tools, processes and procedures are implemented to detect information security incidents, in order to minimise the impact of such incidents and as part of the suite of good IT governance activities.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13098"
+        },
+        {
+          "name": "07.1.7.C.02.",
+          "category": "07. Information Security Incidents",
+          "displayName": "07.1.7.C.02. Detecting Information Security Incidents - Preventing and detecting information security incidents",
+          "description": "Processes and procedures for the detection of information security incidents will assist in mitigating attacks using the most common vectors in systems exploits.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-13110"
+        },
+        {
+          "name": "07.2.1.",
+          "category": "07. Information Security Incidents",
+          "displayName": "07.2.1. Reporting Information Security Incidents",
+          "description": "To ensure reporting information security incidents is incorporated as an essential part of incident management, whether the reporting is within an agency or reports are provided to another government agency.   https://www.nzism.gcsb.govt.nz/ism-document#Section-13120"
+        },
+        {
+          "name": "07.2.22.C.01.",
+          "category": "07. Information Security Incidents",
+          "displayName": "07.2.22.C.01. Reporting Information Security Incidents - Outsourcing and information security incidents",
+          "description": "In the case of outsourcing of information technology services and functions, the agency remains responsible for the reporting of all information security incidents.  This includes any outsourced cloud services used by the agency.  As such, the agency MUST ensure that the service provider informs them of all information security incidents to enable them to assess the incident and provide formal reporting.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-13145"
+        },
+        {
+          "name": "07.3.1.",
+          "category": "07. Information Security Incidents",
+          "displayName": "07.3.1. Managing Information Security Incidents",
+          "description": "To identify and implement processes for incident identification, management and analysis of information security incidents, including selection of appropriate remedies which will assist in preventing or reducing the impact of future information security incidents.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13177"
+        },
+        {
+          "name": "08.1.1.",
+          "category": "08. Physical Security",
+          "displayName": "08.1.1. Facilities",
+          "description": "Physical security measures are applied to facilities in order to protect systems and their infrastructure.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13225"
+        },
+        {
+          "name": "08.2.1.",
+          "category": "08. Physical Security",
+          "displayName": "08.2.1. Servers And Network Devices",
+          "description": "Secured server and communications rooms provide appropriate physical security for servers and network devices.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13260"
+        },
+        {
+          "name": "08.3.1.",
+          "category": "08. Physical Security",
+          "displayName": "08.3.1. Network Infrastructure",
+          "description": "Network infrastructure is protected by secure facilities and the use of encryption technologies.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13284"
+        },
+        {
+          "name": "08.4.1.",
+          "category": "08. Physical Security",
+          "displayName": "08.4.1. IT Equipment",
+          "description": "IT equipment is secured outside of normal working hours, is non-operational or when work areas are unoccupied.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13306"
+        },
+        {
+          "name": "08.5.1.",
+          "category": "08. Physical Security",
+          "displayName": "08.5.1. Tamper Evident Seals",
+          "description": "Tamper evident seals and associated auditing processes identify attempts to bypass the physical security of systems and their infrastructure.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13339"
+        },
+        {
+          "name": "09.1.1.",
+          "category": "09. Personnel Security",
+          "displayName": "09.1.1. Information Security Awareness and Training",
+          "description": "A security culture is fostered through induction training and ongoing security education tailored to roles, responsibilities, changing threat environment and sensitivity of information, systems and operations.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13361"
+        },
+        {
+          "name": "09.2.1.",
+          "category": "09. Personnel Security",
+          "displayName": "09.2.1. Authorisations, Security Clearances And Briefings",
+          "description": "Only appropriately authorised, cleared and briefed personnel are allowed access to systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13391"
+        },
+        {
+          "name": "09.3.1.",
+          "category": "09. Personnel Security",
+          "displayName": "09.3.1. Using The Internet",
+          "description": "Personnel use Internet services in a responsible and security conscious manner, consistent with agency policies.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13449"
+        },
+        {
+          "name": "09.4.1.",
+          "category": "09. Personnel Security",
+          "displayName": "09.4.1. Escorting Uncleared Personnel",
+          "description": "Uncleared personnel are escorted within secure areas.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13489"
+        },
+        {
+          "name": "10.1.1.",
+          "category": "10. Infrastructure",
+          "displayName": "10.1.1. Cable Management Fundamentals",
+          "description": "Cable management systems are designed to support the integration of systems across government facilities, assist maintenance and engineering changes, as well as minimise the opportunity for tampering or unauthorised changes to cable systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13522"
+        },
+        {
+          "name": "10.2.1.",
+          "category": "10. Infrastructure",
+          "displayName": "10.2.1. Cable Management for Non-Shared Government Facilities",
+          "description": "Cable management systems in non-shared government facilities are implemented in a secure and easily inspectable and maintainable way.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13628"
+        },
+        {
+          "name": "10.3.1.",
+          "category": "10. Infrastructure",
+          "displayName": "10.3.1. Cable Management for Shared Government Facilities",
+          "description": "Cable management systems in shared government facilities are implemented in a secure and easily inspectable and maintainable way.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13656"
+        },
+        {
+          "name": "10.4.1.",
+          "category": "10. Infrastructure",
+          "displayName": "10.4.1. Cable Management for Shared Non-Government Facilities",
+          "description": "Cable management systems are implemented in shared non-government facilities to minimise risks to data and information.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13697"
+        },
+        {
+          "name": "10.5.1.",
+          "category": "10. Infrastructure",
+          "displayName": "10.5.1. Cable Labelling and Registration",
+          "description": "To facilitate cable management, and identify unauthorised additions or tampering.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13749"
+        },
+        {
+          "name": "10.6.1.",
+          "category": "10. Infrastructure",
+          "displayName": "10.6.1. Patch Panels, Patch Cables and Racks",
+          "description": "Cable termination, patch panels, patch cables and racks are designed to prevent emanations, cross-connecting or cross-patching systems of differing classifications as well as following good engineering practice.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13786"
+        },
+        {
+          "name": "10.7.1.",
+          "category": "10. Infrastructure",
+          "displayName": "10.7.1. Emanation Security Threat Assessments",
+          "description": "In order to minimise compromising emanations or the opportunity for a technical attack, a threat assessment is used to determine appropriate countermeasures.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13859"
+        },
+        {
+          "name": "10.8.1.",
+          "category": "10. Infrastructure",
+          "displayName": "10.8.1. Network Design, Architecture and IP Address Management",
+          "description": "IP Address architecture, allocation and addressing schemes enable and support system security and data protection.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13886"
+        },
+        {
+          "name": "10.8.35.C.01.",
+          "category": "10. Infrastructure",
+          "displayName": "10.8.35.C.01. Network Design, Architecture and IP Address Management - Security Architecture",
+          "description": "It is important that the principles of separation and segregation as well as the system classification are incorporated into the overall security architecture to maximise design and operational efficiency and to provide and support essential security to the network design.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-13937"
+        },
+        {
+          "name": "11.1.1.",
+          "category": "11. Communications Systems and Devices",
+          "displayName": "11.1.1. Radio Frequency and Infrared Devices",
+          "description": "To maintain the integrity of secure areas, only approved radio frequency (RF) and infrared devices (IR) are brought into secure areas.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13959"
+        },
+        {
+          "name": "11.2.1.",
+          "category": "11. Communications Systems and Devices",
+          "displayName": "11.2.1. Fax Machines, Multifunction Devices and Network Printers",
+          "description": "Fax machines, multifunction devices (MFD s) and network printers are used in a secure manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-13999"
+        },
+        {
+          "name": "11.3.1.",
+          "category": "11. Communications Systems and Devices",
+          "displayName": "11.3.1. Telephones and Telephone Systems",
+          "description": "Telephone systems are prevented from communicating unauthorised classified information.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14055"
+        },
+        {
+          "name": "11.4.1.",
+          "category": "11. Communications Systems and Devices",
+          "displayName": "11.4.1. Mobile Telephony",
+          "description": "Mobile telephone systems and devices are prevented from communicating unauthorised classified information.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14100"
+        },
+        {
+          "name": "11.5.1.",
+          "category": "11. Communications Systems and Devices",
+          "displayName": "11.5.1. Personal Wearable Devices",
+          "description": "Wearable devices are prevented from unauthorised communication or from compromising secure areas.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14128"
+        },
+        {
+          "name": "11.6.1.",
+          "category": "11. Communications Systems and Devices",
+          "displayName": "11.6.1. Radio Frequency Identification Devices",
+          "description": "To ensure Radio Frequency Identification (RFID) devices are used safely and securely in order to protect privacy, prevent unauthorised access and to prevent the compromise of secure spaces.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14166"
+        },
+        {
+          "name": "11.7.1.",
+          "category": "11. Communications Systems and Devices",
+          "displayName": "11.7.1. Card Access Control Systems",
+          "description": "To ensure Access Control Systems incorporating contactless RFID or smart cards are used safely and securely in order to protect privacy, prevent unauthorised access and to prevent the compromise of secure spaces.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14321"
+        },
+        {
+          "name": "12.1.1.",
+          "category": "12. Product Security",
+          "displayName": "12.1.1. Product Selection and Acquisition",
+          "description": "Products providing security functions for the protection of classified information are formally evaluated in order to provide a degree of assurance over the integrity and performance of the product.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14398"
+        },
+        {
+          "name": "12.2.1.",
+          "category": "12. Product Security",
+          "displayName": "12.2.1. Product Installation and Configuration",
+          "description": "Evaluated products use evaluated configurations.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14485"
+        },
+        {
+          "name": "12.3.1.",
+          "category": "12. Product Security",
+          "displayName": "12.3.1. Product Classifying and Labelling",
+          "description": "IT equipment is classified and appropriately labelled.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14507"
+        },
+        {
+          "name": "12.4.1.",
+          "category": "12. Product Security",
+          "displayName": "12.4.1. Product Patching and Updating",
+          "description": "To ensure security patches are applied in a timely fashion to manage software and firmware corrections, vulnerabilities and performance risks.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14530"
+        },
+        {
+          "name": "12.4.4.C.02.",
+          "category": "12. Product Security",
+          "displayName": "12.4.4.C.02. Product Patching and Updating - Patching vulnerabilities in products",
+          "description": "The assurance provided by an evaluation is related to the date at which the results were issued. Over the course of a normal product lifecycle, patches are released to address known security vulnerabilities. Applying these patches should be considered as part of an agency s overall risk management strategy.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-14536"
+        },
+        {
+          "name": "12.5.1.",
+          "category": "12. Product Security",
+          "displayName": "12.5.1. Product Maintenance and Repairs",
+          "description": "Products are repaired by cleared or appropriately escorted personnel.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14559"
+        },
+        {
+          "name": "12.6.1.",
+          "category": "12. Product Security",
+          "displayName": "12.6.1. Product Sanitisation and Disposal",
+          "description": "All IT equipment is sanitised and disposed of in an approved and secure manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14585"
+        },
+        {
+          "name": "12.7.1.",
+          "category": "12. Product Security",
+          "displayName": "12.7.1. Supply Chain",
+          "description": "Technology supply chains are established and managed to ensure continuity of supply and protection of sensitive related information.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14623"
+        },
+        {
+          "name": "13.1.1.",
+          "category": "13. Media and IT Equipment Management, Decommissioning and Disposal",
+          "displayName": "13.1.1. System Decommissioning",
+          "description": "To ensure systems are safely decommissioned and that software, system logic and data are properly transitioned to new systems or archived in accordance with agency, legal and statutory requirements.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14679"
+        },
+        {
+          "name": "13.2.1.",
+          "category": "13. Media and IT Equipment Management, Decommissioning and Disposal",
+          "displayName": "13.2.1. Media Handling",
+          "description": "Media is properly classified, labelled and registered in order to clearly indicate the required handling instructions and degree of protection to be applied.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14679"
+        },
+        {
+          "name": "13.3.1.",
+          "category": "13. Media and IT Equipment Management, Decommissioning and Disposal",
+          "displayName": "13.3.1. Media Usage",
+          "description": "Media is used with systems in a controlled and accountable manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14767"
+        },
+        {
+          "name": "13.4.1.",
+          "category": "13. Media and IT Equipment Management, Decommissioning and Disposal",
+          "displayName": "13.4.1. Media and IT Equipment Sanitisation",
+          "description": "Media and IT Equipment that is to be redeployed or is no longer required is sanitised.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14810"
+        },
+        {
+          "name": "13.5.1.",
+          "category": "13. Media and IT Equipment Management, Decommissioning and Disposal",
+          "displayName": "13.5.1. Media and IT Equipment Destruction",
+          "description": "To ensure media and IT equipment that cannot be sanitised is safely destroyed before disposal in an environmentally responsible manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14890"
+        },
+        {
+          "name": "13.6.1.",
+          "category": "13. Media and IT Equipment Management, Decommissioning and Disposal",
+          "displayName": "13.6.1. Media and IT Equipment Disposal",
+          "description": "Media and IT equipment is declassified and approved by the CISO, or delegate, for release before disposal into the public domain.  https://www.nzism.gcsb.govt.nz/ism-document#Section-14964"
+        },
+        {
+          "name": "14.1.1.",
+          "category": "14. Software security",
+          "displayName": "14.1.1. Standard Operating Environments",
+          "description": "Standard Operating Environments (SOE) are hardened in order to minimise attacks and compromise through known vulnerabilities and attack vectors.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15006"
+        },
+        {
+          "name": "14.1.8.C.01.",
+          "category": "14. Software security",
+          "displayName": "14.1.8.C.01. Standard Operating Environments - Developing hardened SOEs",
+          "description": "Antivirus and anti-malware software, while an important defensive measure, can be defeated by malicious code that has yet to be identified by antivirus vendors. This can include targeted attacks, where a new virus is engineered or an existing one modified to defeat the signature-based detection schemes.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15020"
+        },
+        {
+          "name": "14.1.9.C.01.",
+          "category": "14. Software security",
+          "displayName": "14.1.9.C.01. Standard Operating Environments - Maintaining hardened SOEs",
+          "description": "Whilst a SOE can be sufficiently hardened when it is deployed, its security will progressively degrade over time. Agencies can address the degradation of the security of a SOE by ensuring that patches are continually applied, system users are not able to disable or bypass security functionality and antivirus and other security software is appropriately maintained with the latest signatures and updates.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15020"
+        },
+        {
+          "name": "14.2.1.",
+          "category": "14. Software security",
+          "displayName": "14.2.1. Application Allow listing",
+          "description": "Only approved applications are used on agency controlled systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15052"
+        },
+        {
+          "name": "14.2.4.C.01.",
+          "category": "14. Software security",
+          "displayName": "14.2.4.C.01. Application Allow listing - Application allow listing",
+          "description": "Application access control can be an effective mechanism to prevent the successful compromise of an agency system resulting from the exploitation of a vulnerability in an application or the execution of malicious code.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15060"
+        },
+        {
+          "name": "14.3.1.",
+          "category": "14. Software security",
+          "displayName": "14.3.1. Web Applications",
+          "description": "Access to Web content is implemented in a secure and accountable manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15091"
+        },
+        {
+          "name": "14.4.1.",
+          "category": "14. Software security",
+          "displayName": "14.4.1. Software Application Development",
+          "description": "Secure programming methods and testing are used for application development in order to minimise the number of coding errors and introduction of security vulnerabilities.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15138"
+        },
+        {
+          "name": "14.5.1.",
+          "category": "14. Software security",
+          "displayName": "14.5.1. Web Application Development",
+          "description": "Security mechanisms are incorporated into all Web applications by design and implementation.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15160"
+        },
+        {
+          "name": "14.5.8.C.01.",
+          "category": "14. Software security",
+          "displayName": "14.5.8.C.01. Web Application Development - Web applications",
+          "description": "The Open Web Application Security Project guide provides a comprehensive resource to consult when developing Web applications.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15172"
+        },
+        {
+          "name": "15.1.1.",
+          "category": "15. Email security",
+          "displayName": "15.1.1. Email Applications",
+          "description": "Email messages have appropriate protective markings to facilitate the application of handling instructions.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15183"
+        },
+        {
+          "name": "15.2.1.",
+          "category": "15. Email security",
+          "displayName": "15.2.1. Email Infrastructure",
+          "description": "Email infrastructure is hardened, email is secured and protective marking of email messages is enforced.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15250"
+        },
+        {
+          "name": "16.1.1.",
+          "category": "16. Access Control and Passwords",
+          "displayName": "16.1.1. Identification, Authentication and Passwords",
+          "description": "Identification and authentication requirements are implemented in order to provide a secure means of access to information and systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15349"
+        },
+        {
+          "name": "16.1.32.C.01.",
+          "category": "16. Access Control and Passwords",
+          "displayName": "16.1.32.C.01. Identification, Authentication and Passwords - System user identification",
+          "description": "Having uniquely identifiable system users ensures accountability.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15392"
+        },
+        {
+          "name": "16.2.1.",
+          "category": "16. Access Control and Passwords",
+          "displayName": "16.2.1. System Access and Passwords",
+          "description": "Access to information on systems is controlled in accordance with agency policy and this manual.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15483"
+        },
+        {
+          "name": "16.3.1.",
+          "category": "16. Access Control and Passwords",
+          "displayName": "16.3.1. Privileged User Access",
+          "description": "Only trusted personnel are granted privileged access to systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15503"
+        },
+        {
+          "name": "16.3.5.C.02.",
+          "category": "16. Access Control and Passwords",
+          "displayName": "16.3.5.C.02. Privileged User Access - Use of privileged accounts",
+          "description": "Inappropriate use of any feature or facility of a system that enables a privileged user to override system or application controls can be a major contributory factor to failures, information security incidents, or system breaches.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15513"
+        },
+        {
+          "name": "16.4.1.",
+          "category": "16. Access Control and Passwords",
+          "displayName": "16.4.1. Privileged Access Management",
+          "description": "To ensure Privileged Access Management (PAM) is incorporated into IT Governance and that privileged accounts are managed in accordance with agency s PAM policy.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15526"
+        },
+        {
+          "name": "16.4.30.C.01.",
+          "category": "16. Access Control and Passwords",
+          "displayName": "16.4.30.C.01. Privileged Access Management - Policy Creation and Implementation",
+          "description": "The requirement for an agency security policy is discussed and described in Chapter 5  Information Security Documentation.&nbsp; A fundamental part of any security policy is the inclusion of requirements for the treatment of Privileged Accounts.&nbsp; This is most conveniently contained in a Privileged Access Management (PAM) section within the agency s security policy.&nbsp; A PAM policy is a fundamental component of an agency s IT Governance.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15563"
+        },
+        {
+          "name": "16.4.32.C.01.",
+          "category": "16. Access Control and Passwords",
+          "displayName": "16.4.32.C.01. Privileged Access Management - Strong Authentication process",
+          "description": "The approval and authorisation process for the granting of privileged access should be based on the requirement to manage and protect agency systems and assets or as an operational necessity only.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15563"
+        },
+        {
+          "name": "16.5.1.",
+          "category": "16. Access Control and Passwords",
+          "displayName": "16.5.1. Remote Access",
+          "description": "Remote access to systems is minimised, secure, controlled, authorised and authenticated.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15599"
+        },
+        {
+          "name": "16.6.1.",
+          "category": "16. Access Control and Passwords",
+          "displayName": "16.6.1. Event Logging and Auditing",
+          "description": "Information security related events are logged and audited for accountability, incident management, forensic and system monitoring purposes.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15629"
+        },
+        {
+          "name": "16.7.1.",
+          "category": "16. Access Control and Passwords",
+          "displayName": "16.7.1. Multi-Factor Authentication",
+          "description": "To ensure authentication systems incorporate Multi-Factor Authentication mechanisms to secure Privileged Accounts and in accordance with the Agency s Privileged Access Management (PAM) policy.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15681"
+        },
+        {
+          "name": "17.1.1.",
+          "category": "17. Cryptography",
+          "displayName": "17.1.1. Cryptographic Fundamentals",
+          "description": "Agencies use cryptographic products, algorithms and protocols that are approved by the GCSB and are implemented in accordance with this guidance.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15746"
+        },
+        {
+          "name": "17.1.58.C.01.",
+          "category": "17. Cryptography",
+          "displayName": "17.1.58.C.01. Cryptographic Fundamentals - Key Refresh and Retirement",
+          "description": "All cryptographic keys have a limited useful life after which the key should be replaced or retired. Typically the useful life of the cryptographic key (cryptoperiod) is use, product and situation dependant. Product guidance is the best source of information on establishing cryptoperiods for individual products. A more practical control is the use of data, disk or volume encryption where key changes are more easily managed. Selection of cryptoperiods should be based on a risk assessment.&nbsp;Refer also to section 17.9  Key Management.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15814"
+        },
+        {
+          "name": "17.2.1.",
+          "category": "17. Cryptography",
+          "displayName": "17.2.1. Approved Cryptographic Algorithms",
+          "description": "Information is protected by a properly implemented, Approved Cryptographic Algorithm.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15853"
+        },
+        {
+          "name": "17.2.19.C.01.",
+          "category": "17. Cryptography",
+          "displayName": "17.2.19.C.01. Approved Cryptographic Algorithms - Using DH",
+          "description": "While ECDH should be used in preference to DH, there are instances where DH is still in use.  A modulus of at least 3072 bits for DH is now considered good practice by the cryptographic community.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15876"
+        },
+        {
+          "name": "17.2.22.C.01.",
+          "category": "17. Cryptography",
+          "displayName": "17.2.22.C.01. Approved Cryptographic Algorithms - Using ECDH",
+          "description": "A field/key size of at least 384 bits for ECDH is now considered good practice by the cryptographic community.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15876"
+        },
+        {
+          "name": "17.2.24.C.01.",
+          "category": "17. Cryptography",
+          "displayName": "17.2.24.C.01. Approved Cryptographic Algorithms - Using RSA",
+          "description": "A modulus of at least 3072 bits for RSA is considered good practice by the cryptographic community.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15876"
+        },
+        {
+          "name": "17.3.1.",
+          "category": "17. Cryptography",
+          "displayName": "17.3.1. Approved Cryptographic Protocols",
+          "description": "Classified information in transit is protected by an Approved Cryptographic Protocol implementing an Approved Cryptographic Algorithm.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15924"
+        },
+        {
+          "name": "17.4.1.",
+          "category": "17. Cryptography",
+          "displayName": "17.4.1. Transport Layer Security",
+          "description": "Transport Layer Security is implemented correctly as an approved protocol.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15940"
+        },
+        {
+          "name": "17.4.16.C.01.",
+          "category": "17. Cryptography",
+          "displayName": "17.4.16.C.01. Transport Layer Security - Using TLS",
+          "description": "Whilst version 1.0 of SSL was never released, version 2.0 had significant security flaws leading to the development of SSL 3.0. SSL has since been superseded by TLS with the latest version being TLS 1.3 which was released in August 2018. SSL is no longer an approved cryptographic protocol.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15963"
+        },
+        {
+          "name": "17.5.1.",
+          "category": "17. Cryptography",
+          "displayName": "17.5.1. Secure Shell",
+          "description": "Secure Shell (SSH) is implemented correctly as an Approved Cryptographic Protocol.  https://www.nzism.gcsb.govt.nz/ism-document#Section-15968"
+        },
+        {
+          "name": "17.5.6.C.01.",
+          "category": "17. Cryptography",
+          "displayName": "17.5.6.C.01. Secure Shell - Using SSH",
+          "description": "The configuration directives provided are based on the OpenSSH implementation of SSH. Agencies implementing SSH will need to adapt these settings to suit other SSH implementations.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15978"
+        },
+        {
+          "name": "17.5.7.C.01.",
+          "category": "17. Cryptography",
+          "displayName": "17.5.7.C.01. Secure Shell - Authentication mechanisms",
+          "description": "Public key-based systems have greater potential for strong authentication, put simply, people are not able to remember particularly strong passwords. Password-based authentication schemes are also more susceptible to interception than public key-based authentication schemes.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-15978"
+        },
+        {
+          "name": "17.6.1.",
+          "category": "17. Cryptography",
+          "displayName": "17.6.1. Secure Multipurpose Internet Mail Extension",
+          "description": "Secure Multipurpose Internal Mail Extension (S/MIME) is implemented correctly as an approved cryptographic protocol.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16007"
+        },
+        {
+          "name": "17.7.1.",
+          "category": "17. Cryptography",
+          "displayName": "17.7.1. OpenPGP Message Format",
+          "description": "OpenPGP Message Format is implemented correctly as an Approved Cryptographic Protocol.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16026"
+        },
+        {
+          "name": "17.8.1.",
+          "category": "17. Cryptography",
+          "displayName": "17.8.1. Internet Protocol Security (IPSec)",
+          "description": "Internet Protocol Security (IPSec) is correctly implemented.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16040"
+        },
+        {
+          "name": "17.9.1.",
+          "category": "17. Cryptography",
+          "displayName": "17.9.1. Key Management",
+          "description": "Cryptographic keying material is protected by key management procedures.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16086"
+        },
+        {
+          "name": "18.1.1.",
+          "category": "18. Network security",
+          "displayName": "18.1.1. Network Management",
+          "description": "Any change to the configuration of networks is authorised and controlled through appropriate change management processes to ensure security, functionality and capability is maintained.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16189"
+        },
+        {
+          "name": "18.1.10.C.01.",
+          "category": "18. Network security",
+          "displayName": "18.1.10.C.01. Network Management - Configuration management",
+          "description": "If the network is not centrally managed, there could be sections of the network that do not comply with the agency s security policies, and thus create a vulnerability.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-16204"
+        },
+        {
+          "name": "18.1.13.C.02.",
+          "category": "18. Network security",
+          "displayName": "18.1.13.C.02. Network Management - Limiting network access",
+          "description": "If an attacker has limited opportunities to connect to a given network, they have limited opportunities to attack that network. Network access controls not only prevent against attackers traversing a network but also prevent system users carelessly connecting a network to another network of a different classification. It is also useful in segregating sensitive or compartmented information for specific system users with a need-to-know.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-16204"
+        },
+        {
+          "name": "18.2.1.",
+          "category": "18. Network security",
+          "displayName": "18.2.1. Wireless Local Area Networks",
+          "description": "Wireless local area networks are deployed in a secure manner that does not compromise the security of information and systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16241"
+        },
+        {
+          "name": "18.3.1.",
+          "category": "18. Network security",
+          "displayName": "18.3.1. Video & Telephony Conferencing and Internet Protocol Telephony",
+          "description": "Video &amp; Telephony Conferencing (VTC), Internet Protocol Telephony (IPT) and Voice over Internet Protocol (VoIP) systems are implemented in a secure manner that does not compromise security, information or systems and that they operate securely.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16369"
+        },
+        {
+          "name": "18.4.1.",
+          "category": "18. Network security",
+          "displayName": "18.4.1. Intrusion Detection and Prevention",
+          "description": "An intrusion detection and prevention strategy is implemented for systems in order to respond promptly to incidents and preserve availability, confidentiality and integrity of systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16436"
+        },
+        {
+          "name": "18.4.7.C.02.",
+          "category": "18. Network security",
+          "displayName": "18.4.7.C.02. Intrusion Detection and Prevention - Intrusion Detection and Prevention strategy (IDS/IPS)",
+          "description": "An IDS/IPS when configured correctly, kept up to date and supported by appropriate processes, can be an effective way of identifying, responding to and containing known attack types, specific attack profiles or anomalous or suspicious network activities.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-16449"
+        },
+        {
+          "name": "18.4.8.C.01.",
+          "category": "18. Network security",
+          "displayName": "18.4.8.C.01. Intrusion Detection and Prevention - IDS/IPSs on gateways",
+          "description": "If the firewall is configured to block all traffic on a particular range of port numbers, then the IDS should inspect traffic for these port numbers and alert if they are detected.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-16449"
+        },
+        {
+          "name": "18.5.1.",
+          "category": "18. Network security",
+          "displayName": "18.5.1. Internet Protocol Version 6",
+          "description": "IPv6 is disabled until it is ready to be deployed.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16482"
+        },
+        {
+          "name": "18.6.1.",
+          "category": "18. Network security",
+          "displayName": "18.6.1. Peripheral (KVM) Switches",
+          "description": "An evaluated peripheral switch is used when sharing keyboards, monitors and mice or other user interface devices, between different systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16519"
+        },
+        {
+          "name": "18.7.1.",
+          "category": "18. Network security",
+          "displayName": "18.7.1. Inverse split tunnel VPN",
+          "description": "Agencies identify and effectively manage the risks and compensating controls involved in utilising inverse split tunnelling as part of remote access virtual private network (VPN) configurations.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16544"
+        },
+        {
+          "name": "19.1.1.",
+          "category": "19. Gateway security",
+          "displayName": "19.1.1. Gateways",
+          "description": "To ensure that gateways are properly configured to protect agency systems and information transferred between systems from different security domains.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16568"
+        },
+        {
+          "name": "19.2.1.",
+          "category": "19. Gateway security",
+          "displayName": "19.2.1. Cross Domain Solutions (CDS)",
+          "description": "Cross-Domain Solutions secure transfers between systems of differing classifications or trust levels with high assurance over the security of systems and information.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16643"
+        },
+        {
+          "name": "19.3.1.",
+          "category": "19. Gateway security",
+          "displayName": "19.3.1. Firewalls",
+          "description": "Agencies operating bi-directional gateways implement firewalls and traffic flow filters to provide a protective layer to their networks in both discrete and virtual environments.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16688"
+        },
+        {
+          "name": "19.4.1.",
+          "category": "19. Gateway security",
+          "displayName": "19.4.1. Diodes",
+          "description": "Networks connected to one-way (uni-directional) gateways implement diodes in order to protect the higher classified system.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16715"
+        },
+        {
+          "name": "19.5.1.",
+          "category": "19. Gateway security",
+          "displayName": "19.5.1. Session Border Controllers",
+          "description": "To ensure the use of Session Border Controllers (SBCs) is integrated with the agency s security architecture and that use is consistent with other requirements for gateway security in this chapter.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16735"
+        },
+        {
+          "name": "20.1.1.",
+          "category": "20. Data management",
+          "displayName": "20.1.1. Data Transfers",
+          "description": "Data transfers between systems are controlled and accountable.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16836"
+        },
+        {
+          "name": "20.2.1.",
+          "category": "20. Data management",
+          "displayName": "20.2.1. Data Import and Export",
+          "description": "Data is transferred through gateways in a controlled and accountable manner.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16876"
+        },
+        {
+          "name": "20.3.1.",
+          "category": "20. Data management",
+          "displayName": "20.3.1. Content Filtering",
+          "description": "The flow of data within gateways is examined and controls applied in accordance with the agency s security policy. To prevent unauthorised or malicious content crossing security domain boundaries.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16919"
+        },
+        {
+          "name": "20.4.1.",
+          "category": "20. Data management",
+          "displayName": "20.4.1. Databases",
+          "description": "Database content is protected from personnel without a need-to-know.  https://www.nzism.gcsb.govt.nz/ism-document#Section-16978"
+        },
+        {
+          "name": "21.1.1.",
+          "category": "21. Distributed Working",
+          "displayName": "21.1.1. Agency-owned Mobile Devices",
+          "description": "Information on agency-owned mobile devices is protected from unauthorised disclosure.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17004"
+        },
+        {
+          "name": "21.2.1.",
+          "category": "21. Distributed Working",
+          "displayName": "21.2.1. Working Outside the Office",
+          "description": "Information on mobile devices is not accessed from public or insecure locations.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17085"
+        },
+        {
+          "name": "21.3.1.",
+          "category": "21. Distributed Working",
+          "displayName": "21.3.1. Working From Home",
+          "description": "Personnel working from home protect classified information in the same manner as in the office environment.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17108"
+        },
+        {
+          "name": "21.4.1.",
+          "category": "21. Distributed Working",
+          "displayName": "21.4.1. Non-Agency Owned Devices and Bring Your Own Device (BYOD)",
+          "description": "Where an Agency permits personnel to supply their own mobile devices (such as smartphones, tablets and laptops), Official Information and agency information systems are protected to a level equivalent to an agency provided and managed office environment.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17126"
+        },
+        {
+          "name": "22.1.1.",
+          "category": "22. Enterprise systems security",
+          "displayName": "22.1.1. Cloud Computing",
+          "description": "Cloud systems risks are identified and managed and that Official Information and agency information systems are protected in accordance with Cabinet Directives, the PSR, the New Zealand Government Security Classification System, the NZISM and with other government security&nbsp;requirements and guidance.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17217"
+        },
+        {
+          "name": "22.2.1.",
+          "category": "22. Enterprise systems security",
+          "displayName": "22.2.1. Virtualisation",
+          "description": "To identify virtualisation specific risks and apply mitigations to minimise risk and secure the virtual environment.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17306"
+        },
+        {
+          "name": "22.3.1.",
+          "category": "22. Enterprise systems security",
+          "displayName": "22.3.1. Virtual Local Area Networks",
+          "description": "Virtual local area networks (VLANs) are deployed in a secure manner that does not compromise the security of information and systems.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17362"
+        },
+        {
+          "name": "23.1.1.",
+          "category": "23. Public Cloud Security",
+          "displayName": "23.1.1. Public Cloud Security Concepts",
+          "description": "Agencies understand key concepts and implement controls related to securing their use of public cloud services.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17393"
+        },
+        {
+          "name": "23.2.1.",
+          "category": "23. Public Cloud Security",
+          "displayName": "23.2.1. Governance, Risk Assessment & Assurance",
+          "description": "Agency cloud initiatives follow the risk management, assurance, governance, and control requirements in this manual.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17478"
+        },
+        {
+          "name": "23.3.1.",
+          "category": "23. Public Cloud Security",
+          "displayName": "23.3.1. Identity Management and Access Control",
+          "description": "Identities used for public cloud services are managed, protected, and consistently used to form a secure basis for controlling access to resources.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17530"
+        },
+        {
+          "name": "23.3.19.C.01.",
+          "category": "23. Public Cloud Security",
+          "displayName": "23.3.19.C.01. Identity Management and Access Control - Username and passwords",
+          "description": "Credentials used to access public cloud services can be reused across cloud service providers, and are at risk of discovery or being easily guessed.&nbsp; Due to these services being directly accessible from the internet, authentication should not rely on a single factor for standard users, and must not for privileged users. Refer to section 16.4 Privileged Access Management (PAM).  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-17556"
+        },
+        {
+          "name": "23.4.1.",
+          "category": "23. Public Cloud Security",
+          "displayName": "23.4.1. Data Protection in Public Cloud",
+          "description": "Data is protected throughout its lifecycle on public cloud platforms.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17573"
+        },
+        {
+          "name": "23.4.9.C.01.",
+          "category": "23. Public Cloud Security",
+          "displayName": "23.4.9.C.01. Data Protection in Public Cloud - Data protection mechanisms",
+          "description": "Agencies remain accountable for the confidentiality, integrity, and availability of their data, even though cloud service providers may define and implement the mechanisms used to protect their data in the cloud environment.  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-17588"
+        },
+        {
+          "name": "23.5.1.",
+          "category": "23. Public Cloud Security",
+          "displayName": "23.5.1. Logging and Alerting in Public Cloud",
+          "description": "Security-related events are recorded from across an agency s public cloud platforms and are able to be analysed for timely notification of potential threats or incidents.  https://www.nzism.gcsb.govt.nz/ism-document#Section-17613"
+        },
+        {
+          "name": "23.5.11.C.01.",
+          "category": "23. Public Cloud Security",
+          "displayName": "23.5.11.C.01. Logging and Alerting in Public Cloud - Logging requirements",
+          "description": "It may not be possible, or desirable, to centralise all public cloud log information into a single protected repository. However it is vital that log information is still collected and maintained to meet legislative, regulatory and incident response requirements (see 16.6.8 - Logging requirements).  https://www.nzism.gcsb.govt.nz/ism-document#SubSection-17630"
+        },
+        {
+          "name": "24.1.1.",
+          "category": "24. Supporting Information",
+          "displayName": "24.1.1. Glossary of Abbreviations",
+          "description": "See NZISM Section 24.1.1 for the Glossary of Abreviations  https://www.nzism.gcsb.govt.nz/ism-document#Section-17642"
+        },
+        {
+          "name": "24.2.1.",
+          "category": "24. Supporting Information",
+          "displayName": "24.2.1. Glossary of Terms",
+          "description": "See the NZISM Section 24.2 for the Glossary of Terms  https://www.nzism.gcsb.govt.nz/ism-document#Section-17645"
+        }
+      ]
+    }
+}

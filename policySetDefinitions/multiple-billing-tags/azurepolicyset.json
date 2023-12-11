@@ -62,8 +62,5 @@
                 }
             }
         ]
-    },
-    "id": "/subscriptions/a48a924d-6007-4c39-a3c0-5466b9012f42/providers/Microsoft.Authorization/policySetDefinitions/billingTagsPolicy",
-    "type": "Microsoft.Authorization/policySetDefinitions",
-    "name": "billingTagsPolicy"
+    }
 }
