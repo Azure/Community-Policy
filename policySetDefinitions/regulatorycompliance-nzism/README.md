@@ -24,13 +24,13 @@ In this GitHub repo, select the deployment subfolder and download all of the fil
 ## Files in this package
 
 Included in this package should be the following files:
-1. nzism3.6.definitions.json - definitions file
+1. azurepolicyset.definitions.json - definitions file
 >The definitions file contains all of the policies and their linked groups and parameters for the NZISM initiative.  The definitions file is used to create the initiative in your subscription or management group.  The definitions file is also used to create the policy assignments for the initiative.
-2. nzism3.6.groups.json - groups file
+2. azurepolicyset.groups.json - groups file
 >The groups file contains the details of each control from the NZISM, including links to the initiative published on the NCSC website.
-3. nzism3.6.parameters.json
+3. azurepolicyset.parameters.json
 >The parameters file contains any configurable parameter for each policy in the initiative and the appropriate values for each parameter where it is not covered by the default value.  All of these are set to Audit or have a specific value that mateches the NZISM control requirement.  e.g. Minimum RSA Key size is 3072
-4. nzism_deployment.md
+4. README.md
 >This document
 5. deploy-initiative.ps1
 >Sample PowerShell script to deploy the initiative to your subscription or management group
@@ -49,7 +49,7 @@ Once complete with no errors, you will see the initiative in the Azure portal un
 
 FYI - if you want to output the policy file that gets created as part of this deployment, you can append the command above with the following
 ```powershell
-.\deploy-initiative.ps1 -subscriptionId <subscriptionId> -managementGroupId <managementGroupId> | Out-File -FilePath .\nzism3.6.policy.json
+.\deploy-initiative.ps1 -subscriptionId <subscriptionId> -managementGroupId <managementGroupId> | Out-File -FilePath .\azurepolicyset.json
 ```
 
 ## Deploy initiative using Azure shell
