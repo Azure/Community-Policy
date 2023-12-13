@@ -10,8 +10,8 @@
   "then": {
     "effect": "[parameters('effect')]",
     "details": {
-      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/allowed-seccomp-profiles/template.yaml",
-      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/allowed-seccomp-profiles/constraint.yaml",
+      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/allowed-seccomp-profiles/template.yaml",
+      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/allowed-seccomp-profiles/constraint.yaml",
       "values": {
         "excludedNamespaces": "[parameters('excludedNamespaces')]",
         "allowedProfiles": "[parameters('allowedProfiles')]"

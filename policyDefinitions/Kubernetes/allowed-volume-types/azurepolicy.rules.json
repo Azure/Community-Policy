@@ -10,8 +10,8 @@
   "then": {
     "effect": "[parameters('effect')]",
     "details": {
-      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/allowed-volume-types/template.yaml",
-      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/Policies/Kubernetes/allowed-volume-types/constraint.yaml",
+      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/allowed-volume-types/template.yaml",
+      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/allowed-volume-types/constraint.yaml",
       "values": {
         "excludedNamespaces": "[parameters('excludedNamespaces')]",
         "allowedVolumeTypes": "[parameters('allowedVolumeTypes')]"
