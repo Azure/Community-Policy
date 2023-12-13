@@ -29,9 +29,9 @@ $initname = "nzism-3.6-policyset"
 $initdisplayname = "New Zealand ISM Restricted v3.6" 
 $initdescription = "This initiative includes policies that address a subset of New Zealand Information Security Manual v3.6 controls. Additional policies will be added in upcoming releases. For more information, visit https://aka.ms/nzism-initiative." 
 $initmetadata = "category=Regulatory Compliance","version=1.1"
-$initdefinitionsfile = 'nzism3.6.definitions.json'
-$initparamsfile = 'nzism3.6.parameters.json'
-$initgroupfile = 'nzism3.6.groups.json'
+$initdefinitionsfile = 'azurepolicyset.definitions.json'
+$initparamsfile = 'azurepolicyset.parameters.json'
+$initgroupfile = 'azurepolicyset.groups.json'
 
 #connect to Azure and auth
 Connect-AzAccount
