@@ -5,7 +5,7 @@
     "displayName": "Deploy Resource Lock on RGs - tag exclusion",
     "description": "Automatically deploys a resource lock to resources that are not in the dv environment to prevent accidental deletion.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "General"
     },
     "mode": "All",
@@ -84,7 +84,7 @@
             }
           },
           "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/35b50af1-b556-492f-8595-cbf5cb531055"
+            "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
           ]
         }
       }
