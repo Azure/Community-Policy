@@ -59,6 +59,7 @@
         "effect": "[parameters('effect')]",
         "details": {
           "type": "Microsoft.Authorization/locks",
+          "evaluationDelay": "AfterProvisioning",
           "existenceCondition": {
             "field": "Microsoft.Authorization/locks/level",
             "equals": "CanNotDelete"
