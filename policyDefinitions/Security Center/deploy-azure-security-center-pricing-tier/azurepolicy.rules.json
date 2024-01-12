@@ -114,6 +114,90 @@
                 "equals": "VirtualMachines"
               }
             ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Security/pricings/pricingTier",
+                "equals": "[parameters('apiTier')]"
+              },
+              {
+                "field": "name",
+                "equals": "Api"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Security/pricings/pricingTier",
+                "equals": "[parameters('armTier')]"
+              },
+              {
+                "field": "name",
+                "equals": "Arm"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Security/pricings/pricingTier",
+                "equals": "[parameters('dnsTier')]"
+              },
+              {
+                "field": "name",
+                "equals": "Dns"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Security/pricings/pricingTier",
+                "equals": "[parameters('cosmosDbsTier')]"
+              },
+              {
+                "field": "name",
+                "equals": "CosmosDbs"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Security/pricings/pricingTier",
+                "equals": "[parameters('openSourceRelationalDatabasesTier')]"
+              },
+              {
+                "field": "name",
+                "equals": "OpenSourceRelationalDatabases"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Security/pricings/pricingTier",
+                "equals": "[parameters('cloudPostureTier')]"
+              },
+              {
+                "field": "name",
+                "equals": "CloudPosture"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.Security/pricings/pricingTier",
+                "equals": "[parameters('containersTier')]"
+              },
+              {
+                "field": "name",
+                "equals": "Containers"
+              }
+            ]
           }
         ]
       },
@@ -145,6 +229,27 @@
             },
             "keyVaultsTier": {
               "value": "[parameters('keyVaultsTier')]"
+            },
+            "apiTier": {
+              "value": "[parameters('apiTier')]"
+            },
+            "armTier": {
+              "value": "[parameters('armTier')]"
+            },
+            "dnsTier": {
+              "value": "[parameters('dnsTier')]"
+            },
+            "cosmosDbsTier": {
+              "value": "[parameters('cosmosDbsTier')]"
+            },
+            "openSourceRelationalDatabasesTier": {
+              "value": "[parameters('openSourceRelationalDatabasesTier')]"
+            },
+            "cloudPostureTier": {
+              "value": "[parameters('cloudPostureTier')]"
+            },
+            "containersTier": {
+              "value": "[parameters('containersTier')]"
             }
           },
           "template": {
@@ -173,6 +278,27 @@
                 "type": "string"
               },
               "keyVaultsTier": {
+                "type": "string"
+              },
+              "apiTier": {
+                "type": "string"
+              },
+              "armTier": {
+                "type": "string"
+              },
+              "dnsTier": {
+                "type": "string"
+              },
+              "cosmosDbsTier": {
+                "type": "string"
+              },
+              "openSourceRelationalDatabasesTier": {
+                "type": "string"
+              },
+              "cloudPostureTier": {
+                "type": "string"
+              },
+              "containersTier": {
                 "type": "string"
               }
             },
@@ -261,6 +387,83 @@
                 ],
                 "properties": {
                   "pricingTier": "[parameters('keyVaultsTier')]"
+                }
+              },
+              {
+                "type": "Microsoft.Security/pricings",
+                "apiVersion": "2018-06-01",
+                "name": "Api",
+                "dependsOn": [
+                  "[concat('Microsoft.Security/pricings/KeyVaults')]"
+                ],
+                "properties": {
+                  "pricingTier": "[parameters('apiTier')]"
+                }
+              },
+              {
+                "type": "Microsoft.Security/pricings",
+                "apiVersion": "2018-06-01",
+                "name": "Arm",
+                "dependsOn": [
+                  "[concat('Microsoft.Security/pricings/Api')]"
+                ],
+                "properties": {
+                  "pricingTier": "[parameters('armTier')]"
+                }
+              },
+              {
+                "type": "Microsoft.Security/pricings",
+                "apiVersion": "2018-06-01",
+                "name": "Dns",
+                "dependsOn": [
+                  "[concat('Microsoft.Security/pricings/Arm')]"
+                ],
+                "properties": {
+                  "pricingTier": "[parameters('dnsTier')]"
+                }
+              },
+              {
+                "type": "Microsoft.Security/pricings",
+                "apiVersion": "2018-06-01",
+                "name": "CosmosDbs",
+                "dependsOn": [
+                  "[concat('Microsoft.Security/pricings/Dns')]"
+                ],
+                "properties": {
+                  "pricingTier": "[parameters('cosmosDbsTier')]"
+                }
+              },
+              {
+                "type": "Microsoft.Security/pricings",
+                "apiVersion": "2018-06-01",
+                "name": "OpenSourceRelationalDatabases",
+                "dependsOn": [
+                  "[concat('Microsoft.Security/pricings/CosmosDbs')]"
+                ],
+                "properties": {
+                  "pricingTier": "[parameters('openSourceRelationalDatabasesTier')]"
+                }
+              },
+              {
+                "type": "Microsoft.Security/pricings",
+                "apiVersion": "2018-06-01",
+                "name": "CloudPosture",
+                "dependsOn": [
+                  "[concat('Microsoft.Security/pricings/OpenSourceRelationalDatabases')]"
+                ],
+                "properties": {
+                  "pricingTier": "[parameters('cloudPostureTier')]"
+                }
+              },
+              {
+                "type": "Microsoft.Security/pricings",
+                "apiVersion": "2018-06-01",
+                "name": "Containers",
+                "dependsOn": [
+                  "[concat('Microsoft.Security/pricings/CloudPosture')]"
+                ],
+                "properties": {
+                  "pricingTier": "[parameters('containersTier')]"
                 }
               }
             ],
