@@ -146,7 +146,7 @@
         "type": "String",
         "metadata": {
           "displayName": "cosmosDbsTier",
-          "description": "Specify whether you want to enable Standard tier for dns resource type"
+          "description": "Specify whether you want to enable Standard tier for cosmosDb resource type"
         },
         "allowedValues": [
           "Standard",
@@ -158,7 +158,7 @@
         "type": "String",
         "metadata": {
           "displayName": "openSourceRelationalDatabasesTier",
-          "description": "Specify whether you want to enable Standard tier for dns resource type"
+          "description": "Specify whether you want to enable Standard tier for openSourceRelationalDatabase resource type"
         },
         "allowedValues": [
           "Standard",
@@ -170,7 +170,7 @@
         "type": "String",
         "metadata": {
           "displayName": "cloudPostureTier",
-          "description": "Specify whether you want to enable Standard tier for dns resource type"
+          "description": "Specify whether you want to enable Standard tier for cloudPosture resource type"
         },
         "allowedValues": [
           "Standard",
@@ -182,7 +182,7 @@
         "type": "String",
         "metadata": {
           "displayName": "containersTier",
-          "description": "Specify whether you want to enable Standard tier for dns resource type"
+          "description": "Specify whether you want to enable Standard tier for containers resource type"
         },
         "allowedValues": [
           "Standard",
