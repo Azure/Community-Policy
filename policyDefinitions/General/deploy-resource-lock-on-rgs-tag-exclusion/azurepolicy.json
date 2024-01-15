@@ -3,7 +3,7 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Deploy Resource Lock on RGs - tag exclusion",
-    "description": "Automatically deploys a resource lock to resources that are not in the dv environment to prevent accidental deletion.",
+    "description": "Automatically deploys a resource lock to resources that are not in the dev environment to prevent accidental deletion.",
     "metadata": {
       "version": "1.0.1",
       "category": "General"
@@ -24,7 +24,7 @@
           "displayName": "Value of the tag for exclusion",
           "description": "If you decided to configure an exclusion, you need to configure a specific value of the tag you defined. Put the tag value for exclusion in this field"
         },
-        "defaultValue": "dv"
+        "defaultValue": "dev"
       },
       "effect": {
         "type": "String",
