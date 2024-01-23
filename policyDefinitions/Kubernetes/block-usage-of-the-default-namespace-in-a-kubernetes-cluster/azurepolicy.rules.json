@@ -10,8 +10,8 @@
   "then": {
     "effect": "[parameters('effect')]",
     "details": {
-      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/block-default-namespace/template.yaml",
-      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/block-default-namespace/constraint.yaml",
+      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/block-usage-of-the-default-namespace-in-a-kubernetes-cluster/template.yaml",
+      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/block-usage-of-the-default-namespace-in-a-kubernetes-cluster/constraint.yaml",
       "values": {
         "excludedNamespaces": "[parameters('excludedNamespaces')]"
       }

@@ -10,8 +10,8 @@
   "then": {
     "effect": "[parameters('effect')]",
     "details": {
-      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/use-named-serviceaccount/template.yaml",
-      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/use-named-serviceaccount/constraint.yaml",
+      "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/kubernetes-clusters-should-disable-automounting-api-credentials/template.yaml",
+      "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/kubernetes-clusters-should-disable-automounting-api-credentials/constraint.yaml",
       "values": {
         "excludedNamespaces": "[parameters('excludedNamespaces')]"
       }

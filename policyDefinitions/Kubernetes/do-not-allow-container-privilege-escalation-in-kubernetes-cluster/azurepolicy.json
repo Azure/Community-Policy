@@ -49,8 +49,8 @@
       "then": {
         "effect": "[parameters('effect')]",
         "details": {
-          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/container-no-privilege-escalation/template.yaml",
-          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/container-no-privilege-escalation/constraint.yaml",
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/do-not-allow-container-privilege-escalation-in-kubernetes-cluster/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/do-not-allow-container-privilege-escalation-in-kubernetes-cluster/constraint.yaml",
           "values": {
             "excludedNamespaces": "[parameters('excludedNamespaces')]"
           }
