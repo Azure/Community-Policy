@@ -83,7 +83,7 @@
                   "where": {
                     "allOf": [
                       {
-                        "value": "[string( split( string( if( empty(field('Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id')), '', field('Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id') ) ), '/' )[2]) ]",
+                        "value": "[string( split( string( field('Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id') ), '/' )[2]) ]",
                         "in": "[parameters('hubSubscriptions')]"
                       }
                     ]
