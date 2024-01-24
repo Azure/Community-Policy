@@ -1,0 +1,22 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+      },
+      {
+        "field": "name",
+        "equals": "[parameters('peeringName')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "actionNames": [
+        "delete"
+      ]
+    }
+  }
+}

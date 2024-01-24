@@ -1,0 +1,22 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DenyAction or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DenyAction",
+      "Disabled"
+    ],
+    "defaultValue": "DenyAction"
+  },
+  "peeringName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "VNet peering name",
+      "description": "Name of the VNet peering that is not allowed to be removed"
+    },
+    "defaultValue": "Spoke-to-Hub"
+  }
+}
