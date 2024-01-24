@@ -95,6 +95,90 @@
     ],
     "defaultValue": "Standard"
   },
+  "apiTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "apiTier",
+      "description": "Specify whether you want to enable Standard tier for api resource type"
+    },
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "armTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "armTier",
+      "description": "Specify whether you want to enable Standard tier for arm resource type"
+    },
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "dnsTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "dnsTier",
+      "description": "Specify whether you want to enable Standard tier for dns resource type"
+    },
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "cosmosDbsTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "cosmosDbsTier",
+      "description": "Specify whether you want to enable Standard tier for cosmosDb resource type"
+    },
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "openSourceRelationalDatabasesTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "openSourceRelationalDatabasesTier",
+      "description": "Specify whether you want to enable Standard tier for openSourceRelationalDatabase resource type"
+    },
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "cloudPostureTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "cloudPostureTier",
+      "description": "Specify whether you want to enable Standard tier for cloudPosture resource type"
+    },
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
+  "containersTier": {
+    "type": "String",
+    "metadata": {
+      "displayName": "containersTier",
+      "description": "Specify whether you want to enable Standard tier for containers resource type"
+    },
+    "allowedValues": [
+      "Standard",
+      "Free"
+    ],
+    "defaultValue": "Standard"
+  },
   "effect": {
     "type": "String",
     "metadata": {
