@@ -23,7 +23,8 @@
     "metadata": {
       "displayName": "(Optional) Hub Subscription IDs",
       "description": "An array of subscriptionIDs to which VNETs are peered; will cause the policy to only evaluate VNETs associated directly with your hubs."
-    }
+    },
+    "defaultValue": []
   },
   "effect": {
     "type": "String",

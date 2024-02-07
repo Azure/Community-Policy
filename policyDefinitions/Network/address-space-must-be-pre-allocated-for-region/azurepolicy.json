@@ -35,7 +35,8 @@
         "metadata": {
           "displayName": "(Optional) Hub Subscription IDs",
           "description": "An array of subscriptionIDs to which VNETs are peered; will cause the policy to only evaluate VNETs associated directly with your hubs."
-        }
+        },
+        "defaultValue": []
       },
       "effect": {
         "type": "String",
@@ -82,7 +83,7 @@
                   "where": {
                     "allOf": [
                       {
-                        "value": "[split(field('Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id'), '/')[2]]",
+                        "value": "[ split( string( field('Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id') ), '/' )[2] ]",
                         "in": "[parameters('hubSubscriptions')]"
                       }
                     ]
