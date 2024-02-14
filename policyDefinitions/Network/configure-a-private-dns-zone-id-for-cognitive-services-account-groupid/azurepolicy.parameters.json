@@ -1,0 +1,30 @@
+{
+  "defaultPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Default Private DNS Zone ID",
+      "description": "The default Private DNS Zone ID for Cognitive Services resources (except Azure OpenAI).",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "openaiPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "OpenAI Private DNS Zone ID",
+      "description": "The Private DNS Zone ID for Azure OpenAI resources.",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}
