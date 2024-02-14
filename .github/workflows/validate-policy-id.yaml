@@ -44,7 +44,7 @@ jobs:
 
           for file in "${files[@]}"; do
             echo "      Checking file name: ${file}"
-            if echo "$file" | grep -q '.github/workflows'; then
+            if echo "$file" | grep -q 'github/workflows'; then
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
               echo '   |                  -   VALIDATION EXEMPT   -                     |'
@@ -53,6 +53,7 @@ jobs:
               echo '   |                                                                |'
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
+              
             if echo "$file" | grep -q 'Scripts/'; then
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
@@ -62,6 +63,7 @@ jobs:
               echo '   |                                                                |'
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
+              
             if echo "$file" | grep -q 'azurepolicy.json'; then
               policyFile=$file
               echo "      Success: azurepolicy.json file found... policyFile <-- $file"
