@@ -2,7 +2,7 @@
     "name": "5d34e716-cc45-4649-8a05-f1f7deaf2f36",
     "type": "Microsoft.Authorization/policyDefinitions",
     "properties": {
-        "displayName": "Configure a private DNS Zone ID for Cognitive Services 'account' groupID",
+        "displayName": "Configure a private DNS Zone ID for Cognitive Services account groupID",
         "mode": "Indexed",
         "description": "Configure private DNS zone group to override the DNS resolution for Cognitive Services 'account' groupID private endpoint. The policy distinguishes the correct Azure Private DNS Zone for Cognitive Services of kind OpenAI and other Cognitive Services. Reference: https://github.com/microsoft/industry/issues/380 Kudos @adforeman (GitHub)",
         "metadata": {
