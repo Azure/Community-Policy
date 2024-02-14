@@ -53,7 +53,7 @@ jobs:
               echo '   |                                                                |'
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
-              
+            fi
             if echo "$file" | grep -q 'Scripts/'; then
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
@@ -63,7 +63,7 @@ jobs:
               echo '   |                                                                |'
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
-              
+            fi
             if echo "$file" | grep -q 'azurepolicy.json'; then
               policyFile=$file
               echo "      Success: azurepolicy.json file found... policyFile <-- $file"
