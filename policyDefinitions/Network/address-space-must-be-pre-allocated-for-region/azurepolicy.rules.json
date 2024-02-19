@@ -29,7 +29,7 @@
               "where": {
                 "allOf": [
                   {
-                    "value": "[split(field('Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id'), '/')[2]]",
+                    "value": "[ split( string( field('Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id') ), '/' )[2] ]",
                     "in": "[parameters('hubSubscriptions')]"
                   }
                 ]

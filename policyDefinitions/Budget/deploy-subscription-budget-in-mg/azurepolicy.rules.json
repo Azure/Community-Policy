@@ -1,0 +1,160 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.Resources/subscriptions",
+        "field": "type"
+      }
+    ]
+  },
+  "then": {
+    "details": {
+      "deployment": {
+        "location": "westeurope",
+        "properties": {
+          "mode": "Incremental",
+          "parameters": {
+            "amount": {
+              "value": "[parameters('amount')]"
+            },
+            "budgetName": {
+              "value": "[parameters('budgetName')]"
+            },
+            "contactEmails": {
+              "value": [
+                "[field(concat('tags[','Owner-Email', ']'))]",
+                "[field(concat('tags[','Technical-Contact-Email', ']'))]"
+              ]
+            },
+            "contactRoles": {
+              "value": "[parameters('contactRoles')]"
+            },
+            "firstThreshold": {
+              "value": "[parameters('firstThreshold')]"
+            },
+            "secondThreshold": {
+              "value": "[parameters('secondThreshold')]"
+            },
+            "thirdThreshold": {
+              "value": "[parameters('thirdThreshold')]"
+            },
+            "timeGrain": {
+              "value": "[parameters('timeGrain')]"
+            }
+          },
+          "template": {
+            "$schema": "http://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "amount": {
+                "type": "String"
+              },
+              "budgetName": {
+                "type": "String"
+              },
+              "contactEmails": {
+                "type": "Array"
+              },
+              "contactRoles": {
+                "type": "Array"
+              },
+              "firstThreshold": {
+                "type": "String"
+              },
+              "secondThreshold": {
+                "type": "String"
+              },
+              "thirdThreshold": {
+                "type": "String"
+              },
+              "startDate": {
+                "defaultValue": "[concat(utcNow('MM'), '/01/', utcNow('yyyy'))]",
+                "type": "String"
+              },
+              "timeGrain": {
+                "type": "String"
+              }
+            },
+            "resources": [
+              {
+                "apiVersion": "2021-10-01",
+                "name": "[parameters('budgetName')]",
+                "properties": {
+                  "amount": "[parameters('amount')]",
+                  "category": "Cost",
+                  "notifications": {
+                    "NotificationForExceededBudget1": {
+                      "contactEmails": "[parameters('contactEmails')]",
+                      "contactRoles": "[parameters('contactRoles')]",
+                      "enabled": true,
+                      "operator": "GreaterThan",
+                      "threshold": "[parameters('firstThreshold')]"
+                    },
+                    "NotificationForExceededBudget2": {
+                      "contactEmails": "[parameters('contactEmails')]",
+                      "contactRoles": "[parameters('contactRoles')]",
+                      "enabled": true,
+                      "operator": "GreaterThan",
+                      "threshold": "[parameters('secondThreshold')]"
+                    },
+                    "NotificationForExceededBudget3": {
+                      "contactEmails": "[parameters('contactEmails')]",
+                      "contactRoles": "[parameters('contactRoles')]",
+                      "enabled": true,
+                      "operator": "GreaterThan",
+                      "threshold": "[parameters('thirdThreshold')]"
+                    },
+                    "NotificationForExceededBudget4": {
+                      "contactEmails": "[parameters('contactEmails')]",
+                      "contactRoles": "[parameters('contactRoles')]",
+                      "enabled": true,
+                      "operator": "GreaterThan",
+                      "threshold": "[parameters('firstThreshold')]",
+                      "thresholdType": "Forecasted"
+                    },
+                    "NotificationForExceededBudget5": {
+                      "contactEmails": "[parameters('contactEmails')]",
+                      "contactRoles": "[parameters('contactRoles')]",
+                      "enabled": true,
+                      "operator": "GreaterThan",
+                      "threshold": "[parameters('thirdThreshold')]",
+                      "thresholdType": "Forecasted"
+                    }
+                  },
+                  "timeGrain": "[parameters('timeGrain')]",
+                  "timePeriod": {
+                    "startDate": "[parameters('startDate')]"
+                  }
+                },
+                "type": "Microsoft.Consumption/budgets"
+              }
+            ]
+          }
+        }
+      },
+      "deploymentScope": "subscription",
+      "existenceCondition": {
+        "allOf": [
+          {
+            "equals": "[parameters('amount')]",
+            "field": "Microsoft.Consumption/budgets/amount"
+          },
+          {
+            "equals": "[parameters('timeGrain')]",
+            "field": "Microsoft.Consumption/budgets/timeGrain"
+          },
+          {
+            "equals": "Cost",
+            "field": "Microsoft.Consumption/budgets/category"
+          }
+        ]
+      },
+      "existenceScope": "subscription",
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/434105ed-43f6-45c7-a02f-909b2ba83430"
+      ],
+      "type": "Microsoft.Consumption/budgets"
+    },
+    "effect": "[parameters('effect')]"
+  }
+}

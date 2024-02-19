@@ -3,9 +3,9 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Deploy Resource Lock on RGs - tag exclusion",
-    "description": "Automatically deploys a resource lock to resources that are not in the dv environment to prevent accidental deletion.",
+    "description": "Automatically deploys a resource lock to resources that are not in the dev environment to prevent accidental deletion.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "General"
     },
     "mode": "All",
@@ -24,7 +24,7 @@
           "displayName": "Value of the tag for exclusion",
           "description": "If you decided to configure an exclusion, you need to configure a specific value of the tag you defined. Put the tag value for exclusion in this field"
         },
-        "defaultValue": "dv"
+        "defaultValue": "dev"
       },
       "effect": {
         "type": "String",
@@ -59,6 +59,7 @@
         "effect": "[parameters('effect')]",
         "details": {
           "type": "Microsoft.Authorization/locks",
+          "evaluationDelay": "AfterProvisioning",
           "existenceCondition": {
             "field": "Microsoft.Authorization/locks/level",
             "equals": "CanNotDelete"
@@ -84,7 +85,7 @@
             }
           },
           "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/35b50af1-b556-492f-8595-cbf5cb531055"
+            "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
           ]
         }
       }
