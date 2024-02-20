@@ -6,40 +6,48 @@ on:
       - main
 
 jobs:
-  # -------------------------------------------------------------
-  # Using GitHub's API
-  # -------------------------------------------------------------
-  # Event `pull_request`: Returns all changed pull request files.
-  # --------------------------------------------------------------
-  job1:
-    # NOTE:
-    # - This is limited to pull_request* events and would raise an error for other events.
-    # - A maximum of 3000 files can be returned.
-    # - For more flexibility and no limitations see "Using local .git directory" below.
-
-    runs-on: ubuntu-latest  # windows-latest | macos-latest
+  validate_policy_definition:
+    runs-on: ubuntu-latest
     name: Validate Policy Definition
     permissions:
       pull-requests: read
 
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Get changed files
         id: changed_files
-        uses: tj-actions/changed-files@v41
+        uses: tj-actions/changed-files@v42.0.2
         with:
-          separator: "§"  # we need a character which isn't used within a file name or path
+          separator: "§" # Character not used within a file name or path
+          safe_output: true # Enable safe_output for security
+
+      - name: Sanitize file paths
+        id: sanitize_paths
+        shell: pwsh
+        run: |
+          $files = "${{ steps.changed_files.outputs.all_changed_files }}".Replace('\§', '§').TrimEnd('\')
+          echo "Sanitized files: $files"
+          # Use Environment Files to set the output
+          echo "SANITIZED_FILES=$files" | Out-File -FilePath $Env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Debug output for sanitized changed files
+        run: |
+          echo "Sanitized changed files: $SANITIZED_FILES"
+        shell: pwsh
+        env:
+          SANITIZED_FILES: ${{ env.SANITIZED_FILES }}
 
       - name: Run if changed files are found
         if: ${{ steps.changed_files.outputs.any_changed }} == 'true'
         run: |
-          $files = "${{ steps.changed_files.outputs.all_changed_files }}"
+          $files = "${{ env.SANITIZED_FILES }}"
           $files = $files.Split("§")
           foreach ( $file in $files ) {
             Write-Host "$file changed"
             if ($file.Contains("azurepolicy.json")) {
               Write-Host "$file validated"
+              Write-Host "Processing file: $file"
               .\Scripts\Confirm-PolicyDefinitionIsValid.ps1 -FileName $file
             }
           }
