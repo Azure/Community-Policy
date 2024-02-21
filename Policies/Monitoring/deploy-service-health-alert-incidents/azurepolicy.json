@@ -51,7 +51,7 @@
                 },
                 "deploymentScope": "subscription",
                 "deployment": {
-                    "location": "eastus",
+                    "location": "switzerlandnorth",
                     "properties": {
                         "mode": "incremental",
                         "template": {
@@ -79,7 +79,7 @@
                                     "type": "Microsoft.Resources/resourceGroups",
                                     "apiVersion": "2022-09-01",
                                     "name": "[parameters('resourceGroupName')]",
-                                    "location": "eastus",
+                                    "location": "switzerlandnorth",
                                     "properties": {}
                                 },
                                 {

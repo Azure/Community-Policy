@@ -1,13 +1,27 @@
 {
     "properties": {
     "displayName": "Add multiple tags to resource if missing",
-    "policyType": "Custom",
     "mode": "Indexed",
     "description": "Adds multiple tags with its value from the parent resource group when any resource missing this tag is created or updated. Existing resources can be remediated by triggering a remediation task. If the tag exists with a different value it will not be changed.",
+    "metadata": {
+      "category": "Tags"
+   },
     "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Modify"
+        ],
+        "defaultValue": "Modify"
+      },
       "tagName1": {
         "type": "String",
         "metadata": {
+          "version": "1.0.0",
           "displayName": "First Tag Name",
           "description": "Name of the tag, such as 'environment'"
         }
@@ -67,7 +81,7 @@
         ]
       },
       "then": {
-        "effect": "modify",
+        "effect": "[parameters('effect')]",
         "details": {
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
@@ -102,5 +116,8 @@
         }
       }
     }
-  }
+  },
+  "id": "/providers/Microsoft.Authorization/policyDefinitions/201ba468-cfef-47c4-8026-c055f7367c15",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "201ba468-cfef-47c4-8026-c055f7367c15"
 }

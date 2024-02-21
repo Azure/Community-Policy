@@ -1,7 +1,19 @@
 {
-    "tagName1": {
+  "effect": {
     "type": "String",
     "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "Modify"
+    ],
+    "defaultValue": "Modify"
+  },
+  "tagName1": {
+    "type": "String",
+    "metadata": {
+      "version": "1.0.0",
       "displayName": "First Tag Name",
       "description": "Name of the tag, such as 'environment'"
     }
