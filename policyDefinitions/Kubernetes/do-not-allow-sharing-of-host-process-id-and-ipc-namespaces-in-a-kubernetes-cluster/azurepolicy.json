@@ -49,8 +49,8 @@
       "then": {
         "effect": "[parameters('effect')]",
         "details": {
-          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/block-host-namespace/template.yaml",
-          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/block-host-namespace/constraint.yaml",
+          "constraintTemplate": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/do-not-allow-sharing-of-host-process-id-and-ipc-namespaces-in-a-kubernetes-cluster/template.yaml",
+          "constraint": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Kubernetes/do-not-allow-sharing-of-host-process-id-and-ipc-namespaces-in-a-kubernetes-cluster/constraint.yaml",
           "values": {
             "excludedNamespaces": "[parameters('excludedNamespaces')]"
           }
