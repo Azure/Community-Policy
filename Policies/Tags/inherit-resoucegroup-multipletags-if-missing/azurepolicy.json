@@ -4,7 +4,8 @@
     "mode": "Indexed",
     "description": "Adds multiple tags with its value from the parent resource group when any resource missing this tag is created or updated. Existing resources can be remediated by triggering a remediation task. If the tag exists with a different value it will not be changed.",
     "metadata": {
-      "category": "Tags"
+      "category": "Tags",
+      "version": "1.0.0"
    },
     "parameters": {
       "effect": {
