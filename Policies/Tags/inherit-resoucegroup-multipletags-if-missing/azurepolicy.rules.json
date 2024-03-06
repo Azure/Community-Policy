@@ -1,0 +1,61 @@
+{
+    "if": {
+      "anyOf": [
+        {
+          "field": "[concat('tags[', parameters('tagName1'), ']')]",
+          "exists": "false"
+        },
+        {
+          "field": "[concat('tags[', parameters('tagName2'), ']')]",
+          "exists": "false"
+        },
+        {
+          "field": "[concat('tags[', parameters('tagName3'), ']')]",
+          "exists": "false"
+        },
+        {
+          "field": "[concat('tags[', parameters('tagName4'), ']')]",
+          "exists": "false"
+        },
+        {
+          "field": "[concat('tags[', parameters('tagName5'), ']')]",
+          "exists": "false"
+        }
+      ]
+    },
+    "then": {
+      "effect": "modify",
+      "details": {
+        "roleDefinitionIds": [
+          "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+        ],
+        "operations": [
+          {
+            "operation": "add",
+            "field": "[concat('tags[', parameters('tagName1'), ']')]",
+            "value": "[resourceGroup().tags[parameters('tagName1')]]"
+          },
+          {
+            "operation": "add",
+            "field": "[concat('tags[', parameters('tagName2'), ']')]",
+            "value": "[resourceGroup().tags[parameters('tagName2')]]"
+          },
+          {
+            "operation": "add",
+            "field": "[concat('tags[', parameters('tagName3'), ']')]",
+            "value": "[resourceGroup().tags[parameters('tagName3')]]"
+          },
+          {
+            "operation": "add",
+            "field": "[concat('tags[', parameters('tagName4'), ']')]",
+            "value": "[resourceGroup().tags[parameters('tagName4')]]"
+          },
+          {
+            "operation": "add",
+            "field": "[concat('tags[', parameters('tagName5'), ']')]",
+            "value": "[resourceGroup().tags[parameters('tagName5')]]"
+          }
+        ]
+      }
+    }
+  }

@@ -1,0 +1,49 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "Modify"
+    ],
+    "defaultValue": "Modify"
+  },
+  "tagName1": {
+    "type": "String",
+    "metadata": {
+      "version": "1.0.0",
+      "displayName": "First Tag Name",
+      "description": "Name of the tag, such as 'environment'"
+    }
+  },
+  "tagName2": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Second Tag Name",
+      "description": "Name of the tag, such as 'environment'"
+    }
+  },
+  "tagName3": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Third Tag Name",
+      "description": "Name of the tag, such as 'environment'"
+    }
+  },
+  "tagName4": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Forth Tag Name",
+      "description": "Name of the tag, such as 'environment'"
+    }
+  },
+  "tagName5": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Fifth Tag Name",
+      "description": "Name of the tag, such as 'environment'"
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+    "properties": {
+    "displayName": "Add multiple tags to resource if missing",
+    "mode": "Indexed",
+    "description": "Adds multiple tags with its value from the parent resource group when any resource missing this tag is created or updated. Existing resources can be remediated by triggering a remediation task. If the tag exists with a different value it will not be changed.",
+    "metadata": {
+      "category": "Tags",
+      "version": "1.0.0"
+   },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Modify"
+        ],
+        "defaultValue": "Modify"
+      },
+      "tagName1": {
+        "type": "String",
+        "metadata": {
+          "version": "1.0.0",
+          "displayName": "First Tag Name",
+          "description": "Name of the tag, such as 'environment'"
+        }
+      },
+      "tagName2": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Second Tag Name",
+          "description": "Name of the tag, such as 'environment'"
+        }
+      },
+      "tagName3": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Third Tag Name",
+          "description": "Name of the tag, such as 'environment'"
+        }
+      },
+      "tagName4": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Forth Tag Name",
+          "description": "Name of the tag, such as 'environment'"
+        }
+      },
+      "tagName5": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Fifth Tag Name",
+          "description": "Name of the tag, such as 'environment'"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "field": "[concat('tags[', parameters('tagName1'), ']')]",
+            "exists": "false"
+          },
+          {
+            "field": "[concat('tags[', parameters('tagName2'), ']')]",
+            "exists": "false"
+          },
+          {
+            "field": "[concat('tags[', parameters('tagName3'), ']')]",
+            "exists": "false"
+          },
+          {
+            "field": "[concat('tags[', parameters('tagName4'), ']')]",
+            "exists": "false"
+          },
+          {
+            "field": "[concat('tags[', parameters('tagName5'), ']')]",
+            "exists": "false"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "operations": [
+            {
+              "operation": "add",
+              "field": "[concat('tags[', parameters('tagName1'), ']')]",
+              "value": "[resourceGroup().tags[parameters('tagName1')]]"
+            },
+            {
+              "operation": "add",
+              "field": "[concat('tags[', parameters('tagName2'), ']')]",
+              "value": "[resourceGroup().tags[parameters('tagName2')]]"
+            },
+            {
+              "operation": "add",
+              "field": "[concat('tags[', parameters('tagName3'), ']')]",
+              "value": "[resourceGroup().tags[parameters('tagName3')]]"
+            },
+            {
+              "operation": "add",
+              "field": "[concat('tags[', parameters('tagName4'), ']')]",
+              "value": "[resourceGroup().tags[parameters('tagName4')]]"
+            },
+            {
+              "operation": "add",
+              "field": "[concat('tags[', parameters('tagName5'), ']')]",
+              "value": "[resourceGroup().tags[parameters('tagName5')]]"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "id": "/providers/Microsoft.Authorization/policyDefinitions/201ba468-cfef-47c4-8026-c055f7367c15",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "201ba468-cfef-47c4-8026-c055f7367c15"
+}
