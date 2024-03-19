@@ -50,7 +50,7 @@
         "type": "Boolean",
         "metadata": {
             "displayName": "Scope Policy to Azure Monitor Agent-Supported Operating Systems",
-            "description": "If set to true, the policy will apply only to virtual machines with supported operating systems. Otherwise, the policy will apply to all virtual machine resources in the assignment scope. For supported operating systems, see https://aka.ms/AMAOverview."
+            "description": "If set to true, the policy will apply only to virtual machine scale sets with supported operating systems. Otherwise, the policy will apply to all virtual machine scale set resources in the assignment scope. For supported operating systems, see https://aka.ms/AMAOverview."
         },
         "allowedValues": [
             true,
@@ -65,5 +65,60 @@
             "description": "List of virtual machine images that have supported Windows OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
         },
         "defaultValue": []
+    },
+    "allowedLocations": {
+        "type": "Array",
+        "metadata": {
+            "displayName": "Allowed Virtual Machine Locations",
+            "description": "List of Allowed Virtual Machine Locations"
+        },
+        "defaultValue": [
+            "australiacentral",
+            "australiaeast",
+            "australiasoutheast",
+            "brazilsouth",
+            "canadacentral",
+            "canadaeast",
+            "centralindia",
+            "centralus",
+            "eastasia",
+            "eastus2euap",
+            "eastus",
+            "eastus2",
+            "francecentral",
+            "germanywestcentral",
+            "japaneast",
+            "japanwest",
+            "jioindiawest",
+            "koreacentral",
+            "koreasouth",
+            "northcentralus",
+            "northeurope",
+            "norwayeast",
+            "southafricanorth",
+            "southcentralus",
+            "southeastasia",
+            "southindia",
+            "switzerlandnorth",
+            "uaenorth",
+            "uksouth",
+            "ukwest",
+            "westcentralus",
+            "westeurope",
+            "westindia",
+            "westus",
+            "westus2",
+            "chinaeast",
+            "chinaeast2",
+            "chinaeast3",
+            "chinanorth",
+            "chinanorth2",
+            "chinanorth3",
+            "usgovarizona",
+            "usgovtexas",
+            "usgovvirginia",
+            "usdodeast",
+            "usdodcentral"
+        ]
     }
 }

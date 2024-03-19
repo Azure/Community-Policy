@@ -1,10 +1,10 @@
 {
-    "name": "e2464615-862b-5b44-901b-df87360c25ee",
+    "name": "7a38a53e-958c-50af-acca-fe2785e0cf7c",
     "type": "Microsoft.Authorization/policyDefinitions",
     "properties": {
-      "displayName": "Assign Cross Subscription User-Assigned Managed Identity to Virtual Machines",
+      "displayName": "Assign Cross Subscription User-Assigned Managed Identity to Virtual Machine Scale Set",
       "mode": "Indexed",
-      "description": "Assign User-Assigned Managed Identity that can be located in a different subscription to Virtual Machines.",
+      "description": "Assign User-Assigned Managed Identity that can be located in a different subscription to Virtual Machine Scale Set.",
       "metadata": {
         "version": "1.0.0",
         "category": "Managed Identity"
@@ -56,7 +56,7 @@
           "effect": {
               "type": "String",
               "metadata": {
-                  "displayName": "Effect",
+                  "displayName": "Policy Effect",
                   "description": "The effect determines what happens when the policy rule is evaluated to match."
               },
               "allowedValues": [
@@ -72,7 +72,7 @@
               "allOf": [
                   {
                       "field": "type",
-                      "equals": "Microsoft.Compute/virtualMachines"
+                      "equals": "Microsoft.Compute/virtualMachineScaleSets"
                   },
                   {
                       "value": "[requestContext().apiVersion]",
@@ -83,7 +83,7 @@
           "then": {
               "effect": "[parameters('effect')]",
               "details": {
-                  "type": "Microsoft.Compute/virtualMachines",
+                  "type": "Microsoft.Compute/virtualMachineScaleSets",
                   "name": "[field('name')]",
                   "evaluationDelay": "AfterProvisioning",
                   "deploymentScope": "subscription",
@@ -384,7 +384,7 @@
                                                   {
                                                       "condition": "[not(variables('resourceWithSingleUAI'))]",
                                                       "apiVersion": "2019-07-01",
-                                                      "type": "Microsoft.Compute/virtualMachines",
+                                                      "type": "Microsoft.Compute/virtualMachineScaleSets",
                                                       "name": "[parameters('vmName')]",
                                                       "location": "[parameters('location')]",
                                                       "identity": {
