@@ -45,6 +45,7 @@
         "effect": "[parameters('effect')]",
         "details": {
           "type": "Microsoft.Storage/storageAccounts",
+          "name": "[field('name')]",
           "existenceCondition": {
             "allOf": [
               {
