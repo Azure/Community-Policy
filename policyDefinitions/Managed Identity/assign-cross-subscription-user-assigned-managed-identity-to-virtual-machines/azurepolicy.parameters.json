@@ -1,0 +1,58 @@
+{
+    "bringYourOwnUserAssignedManagedIdentity": {
+        "type": "Boolean",
+        "metadata": {
+            "displayName": "Bring Your Own User-Assigned Identity",
+            "description": "Enable this to use your pre-created user-assigned managed identity. The pre-created identity MUST exist within the subscription otherwise the policy deployment will fail. If enabled, ensure that the User-Assigned Identity Name and Identity Resource Group Name parameters match the pre-created identity. If not enabled, the policy will create per subscription, per resource user-assigned managed identities in a new resource group named 'Built-In-Identity-RG'."
+        },
+        "allowedValues": [
+            true,
+            false
+        ]
+    },
+    "userAssignedIdentityName": {
+        "type": "String",
+        "metadata": {
+            "displayName": "User-Assigned Managed Identity Name",
+            "description": "The name of the pre-created user-assigned managed identity."
+        },
+        "defaultValue": ""
+    },
+    "identityResourceGroup": {
+        "type": "String",
+        "metadata": {
+            "displayName": "User-Assigned Managed Identity Resource Group Name",
+            "description": "The resource group in which the pre-created user-assigned managed identity resides."
+        },
+        "defaultValue": ""
+    },
+    "identitySubscription": {
+        "type": "String",
+        "metadata": {
+            "displayName": "User-Assigned Managed Identity Subscription ID",
+            "description": "The Subscription id of the pre-created user-assigned managed identity."
+        },
+        "defaultValue": ""
+    },
+    "builtInIdentityResourceGroupLocation": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Built-In-Identity-RG Location",
+            "description": "The location of the resource group 'Built-In-Identity-RG' created by the policy. This parameter is only used when 'Bring Your Own User Assigned Identity' parameter is false."
+        },
+        "defaultValue": "eastus"
+    },
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "The effect determines what happens when the policy rule is evaluated to match."
+        },
+        "allowedValues": [
+            "AuditIfNotExists",
+            "DeployIfNotExists",
+            "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+    }
+}
