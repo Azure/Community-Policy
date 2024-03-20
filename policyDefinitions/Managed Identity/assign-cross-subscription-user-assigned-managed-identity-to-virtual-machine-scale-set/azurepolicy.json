@@ -56,7 +56,7 @@
           "effect": {
               "type": "String",
               "metadata": {
-                  "displayName": "Policy Effect",
+                  "displayName": "Effect",
                   "description": "The effect determines what happens when the policy rule is evaluated to match."
               },
               "allowedValues": [
