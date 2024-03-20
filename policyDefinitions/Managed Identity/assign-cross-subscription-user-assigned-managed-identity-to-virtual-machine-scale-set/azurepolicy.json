@@ -4,7 +4,7 @@
     "properties": {
       "displayName": "Assign Cross Subscription User-Assigned Managed Identity to Virtual Machine Scale Set",
       "mode": "Indexed",
-      "description": "Assign User-Assigned Managed Identity that can be located in a different subscription to Virtual Machine Scale Set.",
+      "description": "Assign User-Assigned Managed Identity that can be located in a different subscription to Virtual Machine Scale Set. Adapted from built-in /providers/Microsoft.Authorization/policyDefinitions/516187d4-ef64-4a1b-ad6b-a7348502976c. This policy is meant to be assigned at Management Group Level, otherwise you must assign manualy the permissions (Microsoft.Authorization/locks/write + Microsoft.Resources/deployments/* + */read) to the Policy Managed Idenity on the cross subscription UAMI.",
       "metadata": {
         "version": "1.0.0",
         "category": "Managed Identity"
