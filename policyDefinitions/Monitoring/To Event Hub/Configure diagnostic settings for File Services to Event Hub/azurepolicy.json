@@ -1,0 +1,265 @@
+{
+  "name": "469fed44-24a2-467e-9ead-800f55c2f062",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Configure diagnostic settings for File Services to Event Hub",
+    "description": "Deploys the diagnostic settings for File Services to stream resource logs to an Event Hub when any file Service which is missing this diagnostic settings is created or updated. The policy will set the diagnostic with Transaction metric and categories enabled. Made from the built-in policy for 'to Log Analytics workspace'.",
+    "metadata": {
+      "category": "Storage",
+      "version": "4.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "profileName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Profile name",
+          "description": "The diagnostic settings profile name"
+        },
+        "defaultValue": "setbypolicy_fileServicesDiagnosticsLogsToEventHub"
+      },
+      "metricsEnabled": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Enable metrics",
+          "description": "Whether to enable metrics stream to the Event Hub - True or False"
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": true
+      },
+      "logsEnabled": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Enable logs",
+          "description": "Whether to enable logs stream to the Event Hub - True or False"
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": true
+      },
+      "eventHubRuleId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Event Hub Authorization Rule Id",
+          "description": "The Event Hub authorization rule Id for Azure Diagnostics. The authorization rule needs to be at Event Hub namespace level. e.g. /subscriptions/{subscription Id}/resourceGroups/{resource group}/providers/Microsoft.EventHub/namespaces/{Event Hub namespace}/authorizationrules/{authorization rule}",
+          "strongType": "Microsoft.EventHub/Namespaces/AuthorizationRules",
+          "assignPermissions": true
+        }
+      },
+      "eventHubName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Event Hub Name",
+          "description": "Specify the name of the Event Hub"
+        }
+      },
+      "eventHubLocation": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Event Hub Location",
+          "description": "Resource Location must be in the same location as the Event Hub Namespace.",
+          "strongType": "location"
+        },
+        "allowedValues": [
+          "swedencentral",
+          "westeurope"
+        ],
+        "defaultValue": "westeurope"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts/fileServices"
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[parameters('eventHubLocation')]",
+                "equals": ""
+              },
+              {
+                "field": "location",
+                "equals": "[parameters('eventHubLocation')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/diagnosticSettings",
+          "name": "[parameters('profileName')]",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "count": {
+                  "field": "Microsoft.Insights/diagnosticSettings/metrics[*]",
+                  "where": {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/metrics[*].category",
+                        "equals": "Transaction"
+                      },
+                      {
+                        "field": "Microsoft.Insights/diagnosticSettings/metrics[*].enabled",
+                        "equals": "[parameters('metricsEnabled')]"
+                      }
+                    ]
+                  }
+                },
+                "equals": 1
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
+                "equals": "[parameters('logsEnabled')]"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/eventHubAuthorizationRuleId",
+                "matchInsensitively": "[parameters('eventHubRuleId')]"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/eventHubName",
+                "matchInsensitively": "[parameters('eventHubName')]"
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/f526a384-b230-433a-b45c-95f59c4a2dec",
+            "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "resourceName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "eventHubRuleId": {
+                    "type": "string"
+                  },
+                  "eventHubName": {
+                    "type": "string"
+                  },
+                  "metricsEnabled": {
+                    "type": "bool"
+                  },
+                  "logsEnabled": {
+                    "type": "bool"
+                  },
+                  "profileName": {
+                    "type": "string"
+                  }
+                },
+                "variables": {},
+                "resources": [
+                  {
+                    "type": "Microsoft.Storage/storageAccounts/fileServices/providers/diagnosticSettings",
+                    "apiVersion": "2021-05-01-preview",
+                    "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [],
+                    "properties": {
+                      "eventHubAuthorizationRuleId": "[parameters('eventHubRuleId')]",
+                      "eventHubName": "[parameters('eventHubName')]",
+                      "metrics": [
+                        {
+                          "timeGrain": null,
+                          "enabled": false,
+                          "retentionPolicy": {
+                            "days": 0,
+                            "enabled": false
+                          },
+                          "category": "Capacity"
+                        },
+                        {
+                          "timeGrain": null,
+                          "enabled": "[parameters('metricsEnabled')]",
+                          "retentionPolicy": {
+                            "days": 0,
+                            "enabled": false
+                          },
+                          "category": "Transaction"
+                        }
+                      ],
+                      "logs": [
+                        {
+                          "category": "StorageRead",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "StorageWrite",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "StorageDelete",
+                          "enabled": "[parameters('logsEnabled')]"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "outputs": {
+                  "policy": {
+                    "type": "string",
+                    "value": "[concat('Diagnostic setting ', parameters('profileName'), ' for type File Services (Microsoft.Storage/storageAccounts/fileServices), resourceName ', parameters('resourceName'), ' to EventHub ', parameters('eventHubRuleId'), ':', parameters('eventHubName'), ' configured')]"
+                  }
+                }
+              },
+              "parameters": {
+                "location": {
+                  "value": "[field('location')]"
+                },
+                "resourceName": {
+                  "value": "[field('fullName')]"
+                },
+                "eventHubRuleId": {
+                  "value": "[parameters('eventHubRuleId')]"
+                },
+                "eventHubName": {
+                  "value": "[parameters('eventHubName')]"
+                },
+                "metricsEnabled": {
+                  "value": "[parameters('metricsEnabled')]"
+                },
+                "logsEnabled": {
+                  "value": "[parameters('logsEnabled')]"
+                },
+                "profileName": {
+                  "value": "[parameters('profileName')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

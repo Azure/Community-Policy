@@ -1,0 +1,76 @@
+{
+  "profileName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Profile name",
+      "description": "The diagnostic settings profile name"
+    },
+    "defaultValue": "setbypolicy_tableServicesDiagnosticsLogsToEventHub"
+  },
+  "metricsEnabled": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Enable metrics",
+      "description": "Whether to enable metrics stream to the Event Hub - True or False"
+    },
+    "allowedValues": [
+      true,
+      false
+    ],
+    "defaultValue": true
+  },
+  "logsEnabled": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Enable logs",
+      "description": "Whether to enable logs stream to the Event Hub - True or False"
+    },
+    "allowedValues": [
+      true,
+      false
+    ],
+    "defaultValue": true
+  },
+  "eventHubRuleId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Event Hub Authorization Rule Id",
+      "description": "The Event Hub authorization rule Id for Azure Diagnostics. The authorization rule needs to be at Event Hub namespace level. e.g. /subscriptions/{subscription Id}/resourceGroups/{resource group}/providers/Microsoft.EventHub/namespaces/{Event Hub namespace}/authorizationrules/{authorization rule}",
+      "strongType": "Microsoft.EventHub/Namespaces/AuthorizationRules",
+      "assignPermissions": true
+    }
+  },
+  "eventHubName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Event Hub Name",
+      "description": "Specify the name of the Event Hub"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  },
+  "eventHubLocation": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Event Hub Location",
+      "description": "Resource Location must be in the same location as the Event Hub Namespace.",
+      "strongType": "location"
+    },
+    "allowedValues": [
+      "swedencentral",
+      "westeurope"
+    ],
+    "defaultValue": "westeurope"
+  }
+}
