@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Web/sites"
+      },
+      {
+        "field": "kind",
+        "notContains": "functionapp"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "name": "ftp",
+      "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+      "existenceCondition": {
+        "field": "Microsoft.Web/sites/basicPublishingCredentialsPolicies/allow",
+        "equals": "false"
+      }
+    }
+  }
+}
