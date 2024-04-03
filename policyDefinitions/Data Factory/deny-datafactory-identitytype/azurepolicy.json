@@ -1,0 +1,45 @@
+{
+  "name": "333fc656-a811-49ab-ab07-66796c9a21d5",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny-DataFactory-IdentityType",
+    "description": "Enforces use of system assigned identity for data factory.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Data Factory"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.DataFactory/factories"
+          },
+          {
+            "field": "identity.type",
+            "exists": false
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

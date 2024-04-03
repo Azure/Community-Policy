@@ -1,0 +1,267 @@
+{
+  "name": "C8586D4AF28A1CEC8539D9FCE8F59B71",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Apply Diagnostic Settings for AKS Microsoft.ContainerService/managedClusters to a Regional Event Hub",
+    "description": "This policy automatically deploys diagnostic settings to Apply Diagnostic Settings for AKS Microsoft.ContainerService/managedClusters to a Regional Event Hub.",
+    "metadata": {
+      "category": "Monitoring",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "profileName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Profile Name for Diagnostic Setting",
+          "description": "The diagnostic settings profile name"
+        },
+        "defaultValue": "setbypolicy_eventHub"
+      },
+      "eventHubName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Event Hub Name",
+          "description": "The event hub for Azure Diagnostics"
+        }
+      },
+      "eventHubAuthorizationRuleId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Event Hub Authorization Rule Id",
+          "description": "The Event Hub authorization rule Id for Azure Diagnostics. The authorization rule needs to be at Event Hub namespace level. e.g. /subscriptions/{subscription Id}/resourceGroups/{resource group}/providers/Microsoft.EventHub/namespaces/{Event Hub namespace}/authorizationrules/{authorization rule}",
+          "strongType": "Microsoft.EventHub/Namespaces/AuthorizationRules",
+          "assignPermissions": true
+        }
+      },
+      "resourceLocation": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Event Hub Location",
+          "description": "Resource Location must be in the same location as the Event Hub Namespace.",
+          "strongType": "location"
+        },
+        "defaultValue": ""
+      },
+      "metricsEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable Metrics",
+          "description": "Whether to enable metrics stream to the Event Hub - True or False"
+        },
+        "allowedValues": [
+          "True",
+          "False"
+        ],
+        "defaultValue": "False"
+      },
+      "logsEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable Logs",
+          "description": "Whether to enable logs stream to the Event Hub  - True or False"
+        },
+        "allowedValues": [
+          "True",
+          "False"
+        ],
+        "defaultValue": "True"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ContainerService/managedClusters"
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[parameters('resourceLocation')]",
+                "equals": ""
+              },
+              {
+                "field": "location",
+                "equals": "[parameters('resourceLocation')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/diagnosticSettings",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
+                "equals": "[parameters('logsEnabled')]"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
+                "equals": "[parameters('metricsEnabled')]"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/eventHubName",
+                "equals": "[parameters('eventHubName')]"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/eventHubAuthorizationRuleId",
+                "equals": "[parameters('eventHubAuthorizationRuleId')]"
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293",
+            "/providers/Microsoft.Authorization/roleDefinitions/f526a384-b230-433a-b45c-95f59c4a2dec"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "resourceName": {
+                    "type": "string"
+                  },
+                  "resourceLocation": {
+                    "type": "string"
+                  },
+                  "eventHubName": {
+                    "type": "string"
+                  },
+                  "eventHubAuthorizationRuleId": {
+                    "type": "string"
+                  },
+                  "metricsEnabled": {
+                    "type": "string"
+                  },
+                  "logsEnabled": {
+                    "type": "string"
+                  },
+                  "profileName": {
+                    "type": "string"
+                  }
+                },
+                "variables": {},
+                "resources": [
+                  {
+                    "type": "Microsoft.ContainerService/managedClusters/providers/diagnosticSettings",
+                    "apiVersion": "2021-05-01-preview",
+                    "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+                    "location": "[parameters('resourceLocation')]",
+                    "properties": {
+                      "eventHubName": "[parameters('eventHubName')]",
+                      "eventHubAuthorizationRuleId": "[parameters('eventHubAuthorizationRuleId')]",
+                      "metrics": [
+                        {
+                          "category": "AllMetrics",
+                          "enabled": "[parameters('metricsEnabled')]",
+                          "retentionPolicy": {
+                            "enabled": false,
+                            "days": 0
+                          }
+                        }
+                      ],
+                      "logs": [
+                        {
+                          "category": "kube-apiserver",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "kube-audit",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "kube-audit-admin",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "kube-controller-manager",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "kube-scheduler",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "cluster-autoscaler",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "cloud-controller-manager",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "guard",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "csi-azuredisk-controller",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "csi-azurefile-controller",
+                          "enabled": "[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "csi-snapshot-controller",
+                          "enabled": "[parameters('logsEnabled')]"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "outputs": {
+                  "policy": {
+                    "type": "string",
+                    "value": "[concat(parameters('eventHubName'), 'configured for diagnostic logs for ', ': ', parameters('resourceName'))]"
+                  }
+                }
+              },
+              "parameters": {
+                "eventHubName": {
+                  "value": "[parameters('eventHubName')]"
+                },
+                "resourceLocation": {
+                  "value": "[field('location')]"
+                },
+                "resourceName": {
+                  "value": "[field('name')]"
+                },
+                "eventHubAuthorizationRuleId": {
+                  "value": "[parameters('eventHubAuthorizationRuleId')]"
+                },
+                "metricsEnabled": {
+                  "value": "[parameters('metricsEnabled')]"
+                },
+                "logsEnabled": {
+                  "value": "[parameters('logsEnabled')]"
+                },
+                "profileName": {
+                  "value": "[parameters('profileName')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
