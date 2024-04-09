@@ -1,0 +1,113 @@
+{
+    "name": "61098a25-cd61-4423-936f-ecc853c526fd",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "properties": {
+      "displayName": "Configure Windows Arc-enabled machines to enable Windows Admin Center Extension",
+      "description": "This policy installs the Windows Admin Center Extension on Azure Arc Enabled Servers",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "Azure Arc"
+      },
+      "mode": "All",
+      "parameters": {
+        "effect": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy."
+          },
+          "allowedValues": [
+            "DeployIfNotExists",
+            "Disabled"
+          ],
+          "defaultValue": "DeployIfNotExists"
+        }
+      },
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.HybridCompute/machines"
+            },
+            {
+              "field": "Microsoft.HybridCompute/machines/osName",
+              "equals": "Windows"
+            }
+          ]
+        },
+        "then": {
+          "effect": "[parameters('effect')]",
+          "details": {
+            "type": "Microsoft.HybridCompute/machines/extensions",
+            "roleDefinitionIds": [
+              "/providers/Microsoft.Authorization/roleDefinitions/cd570a14-e51a-42ad-bac8-bafd67325302"
+            ],
+            "existenceCondition": {
+              "allOf": [
+                {
+                  "field": "Microsoft.HybridCompute/machines/extensions/type",
+                  "equals": "AdminCenter"
+                },
+                {
+                  "field": "Microsoft.HybridCompute/machines/extensions/publisher",
+                  "equals": "Microsoft.AdminCenter.AdminCenter"
+                },
+                {
+                  "field": "Microsoft.HybridCompute/machines/extensions/provisioningState",
+                  "equals": "Succeeded"
+                }
+              ]
+            },
+            "deployment": {
+              "properties": {
+                "mode": "incremental",
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "parameters": {
+                    "vmName": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    }
+                  },
+                  "variables": {
+                    "extensionName": "AdminCenter",
+                    "extensionPublisher": "Microsoft.AdminCenter",
+                    "extensionType": "AdminCenter"
+                  },
+                  "resources": [
+                    {
+                      "name": "[concat(parameters('vmName'), '/', variables('extensionName'))]",
+                      "type": "Microsoft.HybridCompute/machines/extensions",
+                      "location": "[parameters('location')]",
+                      "apiVersion": "2023-06-20-preview",
+                      "properties": {
+                        "publisher": "[variables('extensionPublisher')]",
+                        "type": "[variables('extensionType')]",
+                        "autoUpgradeMinorVersion": true,
+                        "enableAutomaticUpgrade": true,
+                        "settings": {
+                            "port": 6516
+                        }
+                      }
+                    }
+                  ]
+                },
+                "parameters": {
+                  "vmName": {
+                    "value": "[field('name')]"
+                  },
+                  "location": {
+                    "value": "[field('location')]"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }

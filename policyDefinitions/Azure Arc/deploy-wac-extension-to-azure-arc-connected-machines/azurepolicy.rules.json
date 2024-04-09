@@ -1,0 +1,86 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.HybridCompute/machines"
+      },
+      {
+        "field": "Microsoft.HybridCompute/machines/osName",
+        "equals": "Windows"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.HybridCompute/machines/extensions",
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/cd570a14-e51a-42ad-bac8-bafd67325302"
+      ],
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.HybridCompute/machines/extensions/type",
+            "equals": "AdminCenter"
+          },
+          {
+            "field": "Microsoft.HybridCompute/machines/extensions/publisher",
+            "equals": "Microsoft.AdminCenter.AdminCenter"
+          },
+          {
+            "field": "Microsoft.HybridCompute/machines/extensions/provisioningState",
+            "equals": "Succeeded"
+          }
+        ]
+      },
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "vmName": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              }
+            },
+            "variables": {
+              "extensionName": "AdminCenter",
+              "extensionPublisher": "Microsoft.AdminCenter",
+              "extensionType": "AdminCenter"
+            },
+            "resources": [
+              {
+                "name": "[concat(parameters('vmName'), '/', variables('extensionName'))]",
+                "type": "Microsoft.HybridCompute/machines/extensions",
+                "location": "[parameters('location')]",
+                "apiVersion": "2023-06-20-preview",
+                "properties": {
+                  "publisher": "[variables('extensionPublisher')]",
+                  "type": "[variables('extensionType')]",
+                  "autoUpgradeMinorVersion": true,
+                  "enableAutomaticUpgrade": true,
+                  "settings": {
+                    "port": 6516
+                  }
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "vmName": {
+              "value": "[field('name')]"
+            },
+            "location": {
+              "value": "[field('location')]"
+            }
+          }
+        }
+      }
+    }
+  }
+}
