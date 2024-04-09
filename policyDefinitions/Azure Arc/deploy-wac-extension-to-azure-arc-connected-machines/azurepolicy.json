@@ -51,7 +51,7 @@
                 },
                 {
                   "field": "Microsoft.HybridCompute/machines/extensions/publisher",
-                  "equals": "Microsoft.AdminCenter.AdminCenter"
+                  "equals": "Microsoft.AdminCenter"
                 },
                 {
                   "field": "Microsoft.HybridCompute/machines/extensions/provisioningState",
