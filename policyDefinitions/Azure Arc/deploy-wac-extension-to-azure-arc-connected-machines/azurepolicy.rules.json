@@ -16,7 +16,7 @@
     "details": {
       "type": "Microsoft.HybridCompute/machines/extensions",
       "roleDefinitionIds": [
-        "/providers/Microsoft.Authorization/roleDefinitions/cd570a14-e51a-42ad-bac8-bafd67325302"
+        "/providers/Microsoft.Authorization/roleDefinitions/a6333a3e-0164-44c3-b281-7a577aff287f"
       ],
       "existenceCondition": {
         "allOf": [
@@ -26,7 +26,7 @@
           },
           {
             "field": "Microsoft.HybridCompute/machines/extensions/publisher",
-            "equals": "Microsoft.AdminCenter.AdminCenter"
+            "equals": "Microsoft.AdminCenter"
           },
           {
             "field": "Microsoft.HybridCompute/machines/extensions/provisioningState",
@@ -37,6 +37,20 @@
       "deployment": {
         "properties": {
           "mode": "incremental",
+          "parameters": {
+            "vmName": {
+              "value": "[field('name')]"
+            },
+            "location": {
+              "value": "[field('location')]"
+            },
+            "proxyURL": {
+              "value": "[parameters('proxyURL')]"
+            },
+            "port": {
+              "value": "[parameters('port')]"
+            }
+          },
           "template": {
             "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
             "contentVersion": "1.0.0.0",
@@ -46,6 +60,12 @@
               },
               "location": {
                 "type": "string"
+              },
+              "proxyURL": {
+                "type": "string"
+              },
+              "port": {
+                "type": "int"
               }
             },
             "variables": {
@@ -55,29 +75,45 @@
             },
             "resources": [
               {
+                "condition": "[empty(parameters('proxyURL'))]",
                 "name": "[concat(parameters('vmName'), '/', variables('extensionName'))]",
                 "type": "Microsoft.HybridCompute/machines/extensions",
                 "location": "[parameters('location')]",
-                "apiVersion": "2023-06-20-preview",
+                "apiVersion": "2019-12-12",
                 "properties": {
                   "publisher": "[variables('extensionPublisher')]",
                   "type": "[variables('extensionType')]",
                   "autoUpgradeMinorVersion": true,
                   "enableAutomaticUpgrade": true,
                   "settings": {
-                    "port": 6516
+                    "port": "[parameters('port')]",
+                    "proxy": {
+                      "mode": "none"
+                    }
+                  }
+                }
+              },
+              {
+                "condition": "[not(empty(parameters('proxyURL')))]",
+                "name": "[concat(parameters('vmName'), '/', variables('extensionName'))]",
+                "type": "Microsoft.HybridCompute/machines/extensions",
+                "location": "[parameters('location')]",
+                "apiVersion": "2019-12-12",
+                "properties": {
+                  "publisher": "[variables('extensionPublisher')]",
+                  "type": "[variables('extensionType')]",
+                  "autoUpgradeMinorVersion": true,
+                  "enableAutomaticUpgrade": true,
+                  "settings": {
+                    "port": "[parameters('port')]",
+                    "proxy": {
+                      "address": "[toLower(parameters('proxyURL'))]",
+                      "mode": "application"
+                    }
                   }
                 }
               }
             ]
-          },
-          "parameters": {
-            "vmName": {
-              "value": "[field('name')]"
-            },
-            "location": {
-              "value": "[field('location')]"
-            }
           }
         }
       }

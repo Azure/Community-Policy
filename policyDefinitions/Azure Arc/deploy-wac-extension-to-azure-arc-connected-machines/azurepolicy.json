@@ -1,109 +1,161 @@
 {
-    "name": "61098a25-cd61-4423-936f-ecc853c526fd",
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "properties": {
-      "displayName": "Configure Windows Arc-enabled machines to enable Windows Admin Center Extension",
-      "description": "This policy installs the Windows Admin Center Extension on Azure Arc Enabled Servers",
-      "metadata": {
-        "version": "1.0.0",
-        "category": "Azure Arc"
-      },
-      "mode": "All",
-      "parameters": {
-        "effect": {
-          "type": "String",
-          "metadata": {
-            "displayName": "Effect",
-            "description": "Enable or disable the execution of the policy."
-          },
-          "allowedValues": [
-            "DeployIfNotExists",
-            "Disabled"
-          ],
-          "defaultValue": "DeployIfNotExists"
-        }
-      },
-      "policyRule": {
-        "if": {
-          "allOf": [
-            {
-              "field": "type",
-              "equals": "Microsoft.HybridCompute/machines"
-            },
-            {
-              "field": "Microsoft.HybridCompute/machines/osName",
-              "equals": "Windows"
-            }
-          ]
+  "name": "0e4b8929-3957-46e0-bc05-0e34ce4c5f3e",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Configure Windows Arc-enabled machines to enable Windows Admin Center Extension",
+    "description": "This policy installs the Windows Admin Center Extension on Azure Arc Enabled Servers",
+    "metadata": {
+      "version": "1.0.1",
+      "category": "Azure Arc"
+    },
+    "assignPermissions": "false",
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy."
         },
-        "then": {
-          "effect": "[parameters('effect')]",
-          "details": {
-            "type": "Microsoft.HybridCompute/machines/extensions",
-            "roleDefinitionIds": [
-              "/providers/Microsoft.Authorization/roleDefinitions/cd570a14-e51a-42ad-bac8-bafd67325302"
-            ],
-            "existenceCondition": {
-              "allOf": [
-                {
-                  "field": "Microsoft.HybridCompute/machines/extensions/type",
-                  "equals": "AdminCenter"
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "port": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Port",
+          "description": "Define the Port on which Windows Admin Center Extension works."
+        },
+        "defaultValue": 6516
+      },
+      "proxyURL": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Proxy URL",
+          "description": "Define the Proxy URL. If Proxy URL is empty Proxy URL will NOT be set."
+        },
+        "defaultValue": ""
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.HybridCompute/machines"
+          },
+          {
+            "field": "Microsoft.HybridCompute/machines/osName",
+            "equals": "Windows"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.HybridCompute/machines/extensions",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/a6333a3e-0164-44c3-b281-7a577aff287f"
+          ],
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.HybridCompute/machines/extensions/type",
+                "equals": "AdminCenter"
+              },
+              {
+                "field": "Microsoft.HybridCompute/machines/extensions/publisher",
+                "equals": "Microsoft.AdminCenter"
+              },
+              {
+                "field": "Microsoft.HybridCompute/machines/extensions/provisioningState",
+                "equals": "Succeeded"
+              }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "vmName": {
+                  "value": "[field('name')]"
                 },
-                {
-                  "field": "Microsoft.HybridCompute/machines/extensions/publisher",
-                  "equals": "Microsoft.AdminCenter"
+                "location": {
+                  "value": "[field('location')]"
                 },
-                {
-                  "field": "Microsoft.HybridCompute/machines/extensions/provisioningState",
-                  "equals": "Succeeded"
+                "proxyURL": {
+                  "value": "[parameters('proxyURL')]"
+                },
+                "port": {
+                  "value": "[parameters('port')]"
                 }
-              ]
-            },
-            "deployment": {
-              "properties": {
-                "mode": "incremental",
-                "template": {
-                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
-                  "parameters": {
-                    "vmName": {
-                      "type": "string"
-                    },
-                    "location": {
-                      "type": "string"
-                    }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "vmName": {
+                    "type": "string"
                   },
-                  "variables": {
-                    "extensionName": "AdminCenter",
-                    "extensionPublisher": "Microsoft.AdminCenter",
-                    "extensionType": "AdminCenter"
+                  "location": {
+                    "type": "string"
                   },
-                  "resources": [
-                    {
-                      "name": "[concat(parameters('vmName'), '/', variables('extensionName'))]",
-                      "type": "Microsoft.HybridCompute/machines/extensions",
-                      "location": "[parameters('location')]",
-                      "apiVersion": "2023-06-20-preview",
-                      "properties": {
-                        "publisher": "[variables('extensionPublisher')]",
-                        "type": "[variables('extensionType')]",
-                        "autoUpgradeMinorVersion": true,
-                        "enableAutomaticUpgrade": true,
-                        "settings": {
-                            "port": 6516
+                  "proxyURL": {
+                    "type": "string"
+                  },
+                  "port": {
+                    "type": "int"
+                  }
+                },
+                "variables": {
+                  "extensionName": "AdminCenter",
+                  "extensionPublisher": "Microsoft.AdminCenter",
+                  "extensionType": "AdminCenter"
+                },
+                "resources": [
+                  {
+                    "condition": "[empty(parameters('proxyURL'))]",
+                    "name": "[concat(parameters('vmName'), '/', variables('extensionName'))]",
+                    "type": "Microsoft.HybridCompute/machines/extensions",
+                    "location": "[parameters('location')]",
+                    "apiVersion": "2019-12-12",
+                    "properties": {
+                      "publisher": "[variables('extensionPublisher')]",
+                      "type": "[variables('extensionType')]",
+                      "autoUpgradeMinorVersion": true,
+                      "enableAutomaticUpgrade": true,
+                      "settings": {
+                        "port": "[parameters('port')]",
+                        "proxy": {
+                          "mode": "none"
                         }
                       }
                     }
-                  ]
-                },
-                "parameters": {
-                  "vmName": {
-                    "value": "[field('name')]"
                   },
-                  "location": {
-                    "value": "[field('location')]"
+                  {
+                    "condition": "[not(empty(parameters('proxyURL')))]",
+                    "name": "[concat(parameters('vmName'), '/', variables('extensionName'))]",
+                    "type": "Microsoft.HybridCompute/machines/extensions",
+                    "location": "[parameters('location')]",
+                    "apiVersion": "2019-12-12",
+                    "properties": {
+                      "publisher": "[variables('extensionPublisher')]",
+                      "type": "[variables('extensionType')]",
+                      "autoUpgradeMinorVersion": true,
+                      "enableAutomaticUpgrade": true,
+                      "settings": {
+                        "port": "[parameters('port')]",
+                        "proxy": {
+                          "address": "[toLower(parameters('proxyURL'))]",
+                          "mode": "application"
+                        }
+                      }
+                    }
                   }
-                }
+                ]
               }
             }
           }
@@ -111,3 +163,4 @@
       }
     }
   }
+}
