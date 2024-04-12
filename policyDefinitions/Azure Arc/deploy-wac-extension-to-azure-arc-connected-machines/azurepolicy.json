@@ -58,7 +58,7 @@
         "details": {
           "type": "Microsoft.HybridCompute/machines/extensions",
           "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/a6333a3e-0164-44c3-b281-7a577aff287f"
+            "/providers/Microsoft.Authorization/roleDefinitions/cd570a14-e51a-42ad-bac8-bafd67325302"
           ],
           "existenceCondition": {
             "allOf": [
