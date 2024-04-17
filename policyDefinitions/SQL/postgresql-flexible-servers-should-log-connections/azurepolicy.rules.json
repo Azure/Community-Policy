@@ -1,0 +1,17 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.DBforPostgreSQL/flexibleServers"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
+      "name": "log_connections",
+      "existenceCondition": {
+        "field": "Microsoft.DBforPostgreSQL/flexibleServers/configurations/value",
+        "equals": "ON"
+      }
+    }
+  }
+}

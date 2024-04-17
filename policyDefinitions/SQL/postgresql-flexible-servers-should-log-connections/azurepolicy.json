@@ -1,0 +1,44 @@
+{
+  "name": "c869af6e-714a-4efc-b750-f5462b43b9c1",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "PostgreSQL flexible servers should Log connections.",
+    "description": "This policy helps audit any PostgreSQL databases in your environment without log_connections setting enabled.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.DBforPostgreSQL/flexibleServers"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
+          "name": "log_connections",
+          "existenceCondition": {
+            "field": "Microsoft.DBforPostgreSQL/flexibleServers/configurations/value",
+            "equals": "ON"
+          }
+        }
+      }
+    }
+  }
+}
