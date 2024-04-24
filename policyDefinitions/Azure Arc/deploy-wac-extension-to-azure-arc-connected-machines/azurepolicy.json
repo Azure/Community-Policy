@@ -6,9 +6,10 @@
     "description": "This policy installs the Windows Admin Center Extension on Azure Arc Enabled Servers",
     "metadata": {
       "version": "1.0.1",
-      "category": "Azure Arc"
+      "category": "Azure Arc",
+      "assignPermissions": "false"
     },
-    "assignPermissions": "false",
+    
     "mode": "All",
     "parameters": {
       "effect": {
