@@ -1,0 +1,23 @@
+{
+  "privateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS zone",
+      "description": "Specifies the private DNS zone to use to configure private endpoint. Make sure to have a dedicated DNS zone for each possible partition id, i.e. 'privatelink.2.azurestaticapps.net' for partition id 2 and so on.",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    },
+    "defaultValue": "/subscriptions/2d028fdd-9fba-467a-8180-722e8ac4d690/resourceGroups/sharedresources/providers/Microsoft.Network/privateDnsZones/privatelink.azurestaticapps.net"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}
