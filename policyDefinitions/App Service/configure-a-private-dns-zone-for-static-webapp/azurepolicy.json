@@ -6,7 +6,7 @@
     "description": "Use private DNS zones to override the DNS resolution for a private endpoint. This policy automatically selects the private DNS zone with the corresponding partition id used by the Static Web App.",
     "metadata": {
       "version": "1.0.0",
-      "category": "Static Web App"
+      "category": "App Service"
     },
     "mode": "Indexed",
     "parameters": {
