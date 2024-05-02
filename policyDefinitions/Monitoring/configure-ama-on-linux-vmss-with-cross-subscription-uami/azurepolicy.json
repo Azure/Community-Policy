@@ -4,7 +4,7 @@
     "properties": {
         "displayName": "Configure Linux virtual machine scale sets to run Azure Monitor Agent with cross subscription user-assigned managed identity-based authentication",
         "mode": "Indexed",
-        "description": "Automate the deployment of Azure Monitor Agent extension on your Linux virtual machines for collecting telemetry data from the guest OS. This policy will install the extension and configure it to use the specified user-assigned managed identity if the OS and region are supported, and skip install otherwise. Learn more: https://aka.ms/AMAOverview. Adapted from built-in /providers/Microsoft.Authorization/policyDefinitions/59c3d93f-900b-4827-a8bd-562e7b956e7c with minimal changes to support a cross subscription UAMI. This policy is meant to be assigned at Management Group Level, otherwise you must assign manualy the permissions */read to the Policy Managed Idenity on the cross subscription UAMI.",
+        "description": "Adapted from built-in /providers/Microsoft.Authorization/policyDefinitions/59c3d93f-900b-4827-a8bd-562e7b956e7c with minimal changes to support a cross subscription UAMI. This policy is meant to be assigned at Management Group Level, otherwise you must assign manualy the permissions */read to the Policy Managed Idenity on the cross subscription UAMI. Automate the deployment of Azure Monitor Agent extension on your Linux VMSS for collecting telemetry data from the guest OS.",
         "metadata": {
             "version": "1.0.0",
             "category": "Monitoring"

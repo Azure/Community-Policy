@@ -2,9 +2,9 @@
     "name": "2bf130ac-424c-570d-aadf-3cd38fbf1157",
     "type": "Microsoft.Authorization/policyDefinitions",
     "properties": {
-        "displayName": "Configure Linux virtual machines to run Azure Monitor Agent with cross subscription user-assigned managed identity-based authentication",
+        "displayName": "Configure Linux virtual machines to run AMA with cross subscription user-assigned managed identity-based authentication",
         "mode": "Indexed",
-        "description": "Automate the deployment of Azure Monitor Agent extension on your Linux virtual machines for collecting telemetry data from the guest OS. This policy will install the extension and configure it to use the specified user-assigned managed identity if the OS and region are supported, and skip install otherwise. Learn more: https://aka.ms/AMAOverview. Adapted from built-in /providers/Microsoft.Authorization/policyDefinitions/ae8a10e6-19d6-44a3-a02d-a2bdfc707742 with minimal changes to support a cross subscription UAMI. This policy is meant to be assigned at Management Group Level, if you don't do this then you must assign manualy the permissions */read to the Policy Managed Idenity on the cross subscription UAMI.",
+        "description": "Adapted from built-in /providers/Microsoft.Authorization/policyDefinitions/ae8a10e6-19d6-44a3-a02d-a2bdfc707742 with minimal changes to support a cross subscription UAMI. This policy is meant to be assigned at Management Group Level, if you don't do this then you must assign manualy the permissions */read to the Policy Managed Idenity on the cross subscription UAMI.Automate the deployment of Azure Monitor Agent extension on your Linux virtual machines for collecting telemetry data from the guest OS.",
         "metadata": {
             "version": "1.0.0",
             "category": "Monitoring"
