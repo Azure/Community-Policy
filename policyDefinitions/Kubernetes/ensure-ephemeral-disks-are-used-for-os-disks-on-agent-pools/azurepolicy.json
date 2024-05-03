@@ -1,0 +1,45 @@
+{
+  "name": "2cec5f47-bc40-40d1-8c7d-a39d9d6808d1",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Ensure ephemeral disks are used for OS disks on Agent Pools",
+    "description": "Ephemeral OS disks are created on the local virtual machine (VM) storage and not saved to the remote Azure Storage, as when using managed OS disks.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Kubernetes"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ContainerService/managedClusters/agentPools"
+          },
+          {
+            "field": "Microsoft.ContainerService/managedClusters/agentPools/osDiskType",
+            "notequals": "Ephemeral"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
