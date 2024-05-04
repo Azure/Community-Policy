@@ -68,7 +68,7 @@
                       {
                         "name": "websites-privateDnsZone",
                         "properties": {
-                          "privateDnsZoneId": "[if(endsWith(reference(parameters('privateLinkServiceId'), '2023-12-01').defaultHostname, 'appserviceenvironment.net'), parameters('privateDnsZoneIdAppServiceEnvironment'), if(endsWith(reference(parameters('privateLinkServiceId'), '2023-12-01').defaultHostname, 'azurewebsites.net'), parameters('privateDnsZoneIdAzureWebsites'), parameters('privateDnsZoneIdAzureWebsites')))]"
+                          "privateDnsZoneId": "[if(endsWith(reference(parameters('privateLinkServiceId')[0], '2023-12-01').defaultHostname, 'appserviceenvironment.net'), parameters('privateDnsZoneIdAppServiceEnvironment'), if(endsWith(reference(parameters('privateLinkServiceId')[0], '2023-12-01').defaultHostname, 'azurewebsites.net'), parameters('privateDnsZoneIdAzureWebsites'), parameters('privateDnsZoneIdAzureWebsites')))]"
                         }
                       }
                     ]
