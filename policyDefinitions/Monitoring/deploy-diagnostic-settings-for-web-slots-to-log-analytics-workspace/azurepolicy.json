@@ -4,6 +4,10 @@
     "properties": {
         "displayName": "Deploy Diagnostic Settings for Web Slots to Log Analytics workspace",
         "description": "Deploys the diagnostic settings for Web Slots to stream to a regional Log Analytics workspace when any Web Slots which is missing this diagnostic settings is created or updated.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Monitoring"
+        },
         "mode": "All",
         "policyRule": {
             "if": {
