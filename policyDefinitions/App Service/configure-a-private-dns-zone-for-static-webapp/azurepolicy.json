@@ -1,0 +1,128 @@
+{
+  "name": "ee8e785b-1d5a-4e73-971e-e54bb75450f8",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Configure private DNS zones for private endpoints connected to Static Web App",
+    "description": "Use private DNS zones to override the DNS resolution for a private endpoint. This policy automatically selects the private DNS zone with the corresponding partition id used by the Static Web App.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "App Service"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "privateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS zone",
+          "description": "Specifies the private DNS zone to use to configure private endpoint. Make sure to have a dedicated DNS zone for each possible partition id, i.e. 'privatelink.2.azurestaticapps.net' for partition id 2 and so on.",
+          "strongType": "Microsoft.Network/privateDnsZones"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/privateEndpoints"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
+                    "contains": "Microsoft.Web/staticSites"
+                  },
+                  {
+                    "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].groupIds[*]",
+                    "equals": "staticSites"
+                  }
+                ]
+              }
+            },
+            "greaterOrEquals": 1
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+          "evaluationDelay": "AfterProvisioning",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "privateDnsZoneId": {
+                    "type": "string"
+                  },
+                  "privateEndpointName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "privateLinkServiceId": {
+                    "type": "array"
+                  }
+                },
+                "resources": [
+                  {
+                    "apiVersion": "2023-04-01",
+                    "location": "[parameters('location')]",
+                    "name": "[concat(parameters('privateEndpointName'), '/deployedByPolicy')]",
+                    "properties": {
+                      "privateDnsZoneConfigs": [
+                        {
+                          "name": "privatelink-staticWebApp",
+                          "properties": {
+                            "privateDnsZoneId": "[if(greaterOrEquals(length(split(reference(parameters('privateLinkServiceId')[0], '2023-12-01').defaultHostname, '.')), 4), replace(parameters('privateDnsZoneId'),'azurestaticapps.net', concat(split(reference(parameters('privateLinkServiceId')[0], '2023-12-01').defaultHostname, '.')[1],'.azurestaticapps.net')), parameters('privateDnsZoneId'))]"
+                          }
+                        }
+                      ]
+                    },
+                    "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups"
+                  }
+                ]
+              },
+              "parameters": {
+                "privateDnsZoneId": {
+                  "value": "[parameters('privateDnsZoneId')]"
+                },
+                "privateEndpointName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                },
+                "privateLinkServiceId": {
+                  "value": "[field('Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
