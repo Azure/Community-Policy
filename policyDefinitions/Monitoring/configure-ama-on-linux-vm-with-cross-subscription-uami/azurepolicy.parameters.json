@@ -1,0 +1,124 @@
+{
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy."
+        },
+        "allowedValues": [
+            "DeployIfNotExists",
+            "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+    },
+    "bringYourOwnUserAssignedManagedIdentity": {
+        "type": "Boolean",
+        "metadata": {
+            "displayName": "Bring Your Own User-Assigned Managed Identity",
+            "description": "If set to true, Azure Monitor Agent will use the user-assigned managed identity specified via the 'User-Assigned Managed Identity ...' parameters for authentication. Otherwise, Azure Monitor Agent will use the user-assigned managed identity /subscriptions/<subscription-id>/resourceGroups/built-in-identity-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/built-in-identity-<location> for authentication."
+        },
+        "allowedValues": [
+            false,
+            true
+        ]
+    },
+    "userAssignedManagedIdentityName": {
+        "type": "String",
+        "metadata": {
+            "displayName": "User-Assigned Managed Identity Name",
+            "description": "The name of the user-assigned managed identity which Azure Monitor Agent will use for authentication when 'Bring Your Own User-Assigned Managed Identity' is set to true."
+        },
+        "defaultValue": ""
+    },
+    "userAssignedManagedIdentityResourceGroup": {
+        "type": "String",
+        "metadata": {
+            "displayName": "User-Assigned Managed Identity Resource Group",
+            "description": "The resource group of the user-assigned managed identity which Azure Monitor Agent will use for authentication when 'Bring Your Own User-Assigned Managed Identity' is set to true."
+        },
+        "defaultValue": ""
+    },
+    "userAssignedManagedIdentitySubscription": {
+        "type": "String",
+        "metadata": {
+            "displayName": "User-Assigned Managed Identity Subscription Id",
+            "description": "The subscription id of the user-assigned managed identity which Azure Monitor Agent will use for authentication when 'Bring Your Own User-Assigned Managed Identity' is set to true."
+        },
+        "defaultValue": ""
+    },
+    "scopeToSupportedImages": {
+        "type": "Boolean",
+        "metadata": {
+            "displayName": "Scope Policy to Azure Monitor Agent-Supported Operating Systems",
+            "description": "If set to true, the policy will apply only to virtual machines with supported operating systems. Otherwise, the policy will apply to all virtual machine resources in the assignment scope. For supported operating systems, see https://aka.ms/AMAOverview."
+        },
+        "allowedValues": [
+            true,
+            false
+        ],
+        "defaultValue": true
+    },
+    "listOfLinuxImageIdToInclude": {
+        "type": "Array",
+        "metadata": {
+            "displayName": "Additional Virtual Machine Images",
+            "description": "List of virtual machine images that have supported Linux OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": []
+    },
+    "allowedLocations": {
+        "type": "Array",
+        "metadata": {
+            "displayName": "Allowed Virtual Machine Locations",
+            "description": "List of Allowed Virtual Machine Locations"
+        },
+        "defaultValue": [
+            "australiacentral",
+            "australiaeast",
+            "australiasoutheast",
+            "brazilsouth",
+            "canadacentral",
+            "canadaeast",
+            "centralindia",
+            "centralus",
+            "eastasia",
+            "eastus2euap",
+            "eastus",
+            "eastus2",
+            "francecentral",
+            "germanywestcentral",
+            "japaneast",
+            "japanwest",
+            "jioindiawest",
+            "koreacentral",
+            "koreasouth",
+            "northcentralus",
+            "northeurope",
+            "norwayeast",
+            "southafricanorth",
+            "southcentralus",
+            "southeastasia",
+            "southindia",
+            "switzerlandnorth",
+            "uaenorth",
+            "uksouth",
+            "ukwest",
+            "westcentralus",
+            "westeurope",
+            "westindia",
+            "westus",
+            "westus2",
+            "chinaeast",
+            "chinaeast2",
+            "chinaeast3",
+            "chinanorth",
+            "chinanorth2",
+            "chinanorth3",
+            "usgovarizona",
+            "usgovtexas",
+            "usgovvirginia",
+            "usdodeast",
+            "usdodcentral"
+        ]
+    }
+}
