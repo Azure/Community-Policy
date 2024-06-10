@@ -66,8 +66,20 @@
 						"equals": "Microsoft.Compute/virtualMachines"
 					},
 					{
-						"field": "Microsoft.Compute/imageOffer",
-						"equals": "Windows"
+						"anyOf": [
+							{
+								"field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+								"contains", "Windows"
+							},
+							{
+						                "field": "Microsoft.Compute/imageOffer",
+						                "contains": "Windows"
+							},
+							{
+								"field": "Microsoft.Compute/imagePublisher",
+								"contains": "microsoftsqlserver"
+							},
+						]
 					}
 				]
 			},
