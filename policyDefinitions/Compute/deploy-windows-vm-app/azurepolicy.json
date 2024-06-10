@@ -72,8 +72,8 @@
 								"contains", "Windows"
 							},
 							{
-						                "field": "Microsoft.Compute/imageOffer",
-						                "contains": "Windows"
+								"field": "Microsoft.Compute/imageOffer",
+								"contains": "Windows"
 							},
 							{
 								"field": "Microsoft.Compute/imagePublisher",
