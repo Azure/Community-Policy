@@ -79,6 +79,10 @@
 								"field": "Microsoft.Compute/imagePublisher",
 								"contains": "microsoftsqlserver"
 							},
+							{
+								"field": "Microsoft.Compute/imagePublisher",
+								"contains": "microsoftwindowsdesktop"
+							}
 						]
 					}
 				]
