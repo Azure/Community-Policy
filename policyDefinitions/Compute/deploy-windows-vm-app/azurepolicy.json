@@ -69,7 +69,7 @@
 						"anyOf": [
 							{
 								"field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
-								"contains", "Windows"
+								"contains": "Windows"
 							},
 							{
 								"field": "Microsoft.Compute/imageOffer",
