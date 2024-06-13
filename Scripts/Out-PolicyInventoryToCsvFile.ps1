@@ -21,7 +21,15 @@ foreach ($fileInfo in $files) {
     }
     $json = Get-Content $fullName -Raw
     $definition = ConvertFrom-Json $json
+
+    # set $directory to current working directory
+
+
+    #create subfolder relative to current directory
+    $directory = Join-Path -Path $pwd -ChildPath "policyDefinitions"
     $subFolder = $directoryName -replace [regex]::Escape($directory), ''
+    $subFolderTrimmed = $subFolder -replace '^\\', '' -replace '\\$', '' -replace '^/', '' -replace '/$', ''
+
     $name = $definition.Name
     $properties = $definition.properties
     $displayName = $properties.displayName
@@ -35,7 +43,7 @@ foreach ($fileInfo in $files) {
     $row = [ordered]@{
         category    = $category
         displayName = $displayName
-        subFolder   = $subFolder
+        subFolder   = $subFolderTrimmed
         name        = $name
     }
     $null = $rows.Add($row)
