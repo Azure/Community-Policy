@@ -3,7 +3,7 @@
     "name": "582b01ec-5ed4-408e-ad80-d7667d7b8de2",
     "properties": {
       "displayName": "Deploy a Traffic Analytics enabled Flow Log resource with target virtual network",
-      "policyType": "BuiltIn",
+      "policyType": "Custom",
       "mode": "Indexed",
       "description": "Configures flow log with enabled Traffic Analytics for specific virtual network. It will allow to log information about IP traffic flowing through an virtual network. Virtual Netowork Flow logs help to identify unknown or undesired traffic, verify network isolation and compliance with enterprise access rules, analyze network flows from compromised IPs and network interfaces.",
       "metadata": {
