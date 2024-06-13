@@ -46,4 +46,4 @@ $sortedRows = $rows | Sort-Object -Property { $_.category }, { $_.displayName },
 if (-not (Test-Path "Output")) {
     $null = New-Item -Path "Output" -ItemType Directory
 }
-$sortedRows | Export-Csv -Path "Output/PolicyInventory.csv" -NoTypeInformation -Force
+$sortedRows | Export-Csv -Path "$PSScriptRoot/PolicyInventory.csv" -NoTypeInformation -Force
