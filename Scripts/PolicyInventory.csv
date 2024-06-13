@@ -323,6 +323,7 @@
 "Network","Deny NSG rule inbound from internet - Network Security Group","C:\Src\Azure\Community-Policy\\Network\deny-nsg-rule-inbound-from-internet-network-security-group","125e78be-b7cd-4fa9-a269-729e6ef27d49"
 "Network","Deny Private Endpoints if not being deployed to a specific subnet","C:\Src\Azure\Community-Policy\\Network\deny-private-endpoints-if-not-being-deployed-to-a-specific-subnet","58300131-ba3b-4077-aafd-ea1c5499e9c2"
 "Network","Deny Private Endpoints in specific subnets based on a naming convention","C:\Src\Azure\Community-Policy\\Network\deny-private-endpoints-in-specific-subnets-based-on-a-naming-convention","24d34d23-dd31-4300-8d5c-92bd3bda6136"
+"Network","Deny Private Link Service","C:\Src\Azure\Community-Policy\\Network\deny-private-link-service","795feb0a-d94b-4bd4-84a0-9d4b311a7bb7"
 "Network","Deny route with address prefix 0.0.0.0/0 not pointing to the virtual appliance","C:\Src\Azure\Community-Policy\\Network\deny-route-with-address-prefix-0.0.0.0-0-not-pointing-to-the-virtual-appliance","00f51d76-8d35-478a-b447-aaee861e794e"
 "Network","Deny route with next hop type internet","C:\Src\Azure\Community-Policy\\Network\deny-route-with-next-hop-type-internet","0206980b-8fa9-4dc5-b9fb-0a7b706a00b9"
 "Network","Deny Service Endpoints on Subnets Based on Naming Convention","C:\Src\Azure\Community-Policy\\Network\deny-service-endpoints-on-subnets-based-on-naming-convention","0baf3b25-fb0f-4160-842c-ace6e622feda"
