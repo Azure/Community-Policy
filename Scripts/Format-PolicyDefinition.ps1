@@ -190,8 +190,8 @@ function Format-PolicyDefinition {
         if (!(Test-Json $content -ErrorAction SilentlyContinue)) {
             throw "'$($file.FullName)' is not valid JSON."
         }
-        $definition = ConvertFrom-Json $content -AsHashtable -Depth 100
-
+        #$definition = ConvertFrom-Json $content -AsHashtable -Depth 100
+        $definition = $content | ConvertFrom-Json
         #region fix tolerate flat or nested properties structure, wrong capiatalization of property members
 
         $properties = $definition
