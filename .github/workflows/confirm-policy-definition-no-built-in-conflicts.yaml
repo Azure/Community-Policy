@@ -7,7 +7,7 @@ on:
 
 jobs:
   # -------------------------------------------------------------
-  # Using GitHub's API
+  # Using AzAdvertizer to check for Built-In Policy Conflicts
   # -------------------------------------------------------------
   # Event `pull_request`: Returns all changed pull request files.
   # --------------------------------------------------------------
@@ -30,10 +30,15 @@ jobs:
         shell: bash
         run: >
           echo 'Step 1: Checking if azurepolicy.json file exists...'
+
           filesString="${{ steps.changed_files.outputs.all_changed_files }}"
+
           echo "   Info: found changed files - $filesString"
+
           IFS='§' read -ra files <<< "$filesString"
+
           echo "   Info: changed files converted to array, ready to check each file..."
+
           for file in "${files[@]}"; do
             echo "      Checking file name: ${file}"
             if echo "$file" | grep -q 'github/workflows'; then
@@ -85,9 +90,13 @@ jobs:
             echo ""
             exit 1
           fi
+
           echo "Step 2: Attempting to return policy name from $policyFile"
+
           policyName=$(jq -r '.name' "${policyFile}")
+
           echo "   Success: name field found in azurepolicy.json... policyName <-- ${policyName}"
+
           if [ -z "$policyName" ]; then
             echo ""
             echo ""
@@ -138,19 +147,24 @@ jobs:
           else
             echo "   Success: Policy Name $policyName exists and is a valid GUID."
             echo 'Step 3: Sending request to AzAdvertizer API to search for Policy Name in existing resources.'
+
             response=$(curl -s "https://www.azadvertizer.net/AzPolicyAdvertizerRuleThemAllData.json")
+            
             if [ -z "$response" ]; then
               echo '   Error: API Response - No response from AzAdvertizer.'
               exit 1
             else
               echo '   Success: Response from GitHub API received.'
             fi
+
             if [ "$(echo $response | jq length)" <= 0 ]; then
               echo '   Error: API Response - No data found in response body.'
               echo '      Next Steps: This one is on us, please open a GitHub issue if you see this error.'
               exit 1
             fi
+
             filteredResponse=$(echo $response | jq --arg a "$policyName" '.[] | select(.n == $a)')
+            
             if [ ! -z "$filteredResponse" ]; then
               echo ""
               echo ""
