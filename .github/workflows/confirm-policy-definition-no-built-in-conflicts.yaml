@@ -27,8 +27,6 @@ jobs:
 
       - name: Validate Policy Definition Unique ID & Check for Built-In Policy Conflicts
         if: ${{ steps.changed_files.outputs.any_changed }} == 'true'
-        env:
-          GH_SEARCH_TOKEN: ${{ secrets.GH_SEARCH_TOKEN }}
         shell: bash
         run: >
           echo 'Step 1: Checking if azurepolicy.json file exists...'
