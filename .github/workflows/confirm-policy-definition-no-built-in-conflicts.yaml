@@ -21,7 +21,7 @@ jobs:
 
       - name: Get changed files
         id: changed_files
-        uses: tj-actions/changed-files@v37
+        uses: tj-actions/changed-files@v45
         with:
           separator: "§"  # we need a character which isn't used within a file name or path
 
@@ -164,7 +164,7 @@ jobs:
             fi
 
             filteredResponse=$(echo $response | jq --arg a "$policyName" '.[] | select(.n == $a)')
-            
+
             if [ ! -z "$filteredResponse" ]; then
               echo ""
               echo ""
