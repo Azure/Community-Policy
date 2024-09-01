@@ -158,7 +158,7 @@ jobs:
               echo '   Success: Response from AzAdvertizer received.'
             fi
 
-            if [ "$(echo $response | jq length)" <= 0 ]; then
+            if [ "$(echo $response | jq length)" -le 0 ]; then
               echo '   Error: API Response - No data found in response body.'
               echo '      Next Steps: This one is on us, please open a GitHub issue if you see this error.'
               exit 1
