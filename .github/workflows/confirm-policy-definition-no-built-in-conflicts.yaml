@@ -146,6 +146,7 @@ jobs:
             exit 1
           else
             echo "   Success: Policy Name $policyName exists and is a valid GUID."
+            
             echo 'Step 3: Sending request to AzAdvertizer API to search for Policy Name in existing resources.'
 
             response=$(curl -s "https://www.azadvertizer.net/AzPolicyAdvertizerRuleThemAllData.json")
@@ -154,16 +155,20 @@ jobs:
               echo '   Error: API Response - No response from AzAdvertizer.'
               exit 1
             else
-              echo '   Success: Response from GitHub API received.'
+              echo '   Success: Response from AzAdvertizer received.'
             fi
 
             if [ "$(echo $response | jq length)" <= 0 ]; then
               echo '   Error: API Response - No data found in response body.'
               echo '      Next Steps: This one is on us, please open a GitHub issue if you see this error.'
               exit 1
+            else
+              echo '   Success: Data found in response body.'
             fi
 
+            echo "   Info: Searching for policy name in response body..."
             filteredResponse=$(echo $response | jq --arg a "$policyName" '.[] | select(.n == $a)')
+            echo "   Info: Search complete"
 
             if [ ! -z "$filteredResponse" ]; then
               echo ""
