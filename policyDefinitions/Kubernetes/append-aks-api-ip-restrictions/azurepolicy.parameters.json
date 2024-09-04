@@ -1,18 +1,18 @@
 {
-      "listOfAllowedIps": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Allowed IP's",
-          "description": "A list of IP's that are allowed to access the AKS API server."
-        }
-      },
-      "effect": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Effect",
-          "description": "Append, Deny, Audit or Disable the execution of the Policy"
-        },
-        "allowedValues": ["Append", "Deny", "Audit", "Disabled"],
-        "defaultValue": "Append"
-      }
+  "listOfAllowedIps": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed IP's",
+      "description": "A list of IP's that are allowed to access the AKS API server."
     }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Append, Deny, Audit or Disable the execution of the Policy"
+    },
+    "allowedValues": ["Append", "Deny", "Audit", "Disabled"],
+    "defaultValue": "Append"
+  }
+}
