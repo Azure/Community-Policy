@@ -1,43 +1,43 @@
 {
-      "if": {
-        "allOf": [
-          {
-            "field": "type",
-            "equals": "Microsoft.ContainerService/managedClusters"
-          },
-          {
-            "anyOf": [
-              {
-                "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges",
-                "exists": "false"
-              },
-              {
-                "count": {
-                  "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges[*]",
-                  "where": {
-                    "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges[*]",
-                    "in": "[parameters('listOfAllowedIps')]"
-                  }
-                },
-                "less": "[length(parameters('listOfAllowedIps'))]"
-              },
-              {
-                "count": {
-                  "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges[*]"
-                },
-                "notEquals": "[length(parameters('listOfAllowedIps'))]"
-              }
-            ]
-          }
-        ]
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.ContainerService/managedClusters"
       },
-      "then": {
-        "effect": "[parameters('effect')]",
-        "details": [
+      {
+        "anyOf": [
           {
             "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges",
-            "value": "[parameters('listOfAllowedIps')]"
+            "exists": "false"
+          },
+          {
+            "count": {
+              "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges[*]",
+              "where": {
+                "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges[*]",
+                "in": "[parameters('listOfAllowedIps')]"
+              }
+            },
+            "less": "[length(parameters('listOfAllowedIps'))]"
+          },
+          {
+            "count": {
+              "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges[*]"
+            },
+            "notEquals": "[length(parameters('listOfAllowedIps'))]"
           }
         ]
       }
-    }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": [
+      {
+        "field": "Microsoft.ContainerService/managedClusters/apiServerAccessProfile.authorizedIPRanges",
+        "value": "[parameters('listOfAllowedIps')]"
+      }
+    ]
+  }
+}
