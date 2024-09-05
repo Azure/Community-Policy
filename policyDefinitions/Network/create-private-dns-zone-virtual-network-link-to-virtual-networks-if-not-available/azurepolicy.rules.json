@@ -16,8 +16,14 @@
             "field": "type"
           },
           {
-            "in": "[parameters('virtualNetworkResourceId')]",
-            "field": "Microsoft.Network/privateDnsZones/virtualNetworkLinks/virtualNetwork.id"
+            "count": {
+              "value": "[parameters('virtualNetworkResourceId')]",
+              "where": {
+                "field": "Microsoft.Network/privateDnsZones/virtualNetworkLinks/virtualNetwork.id",
+                "equals": "[current()]"
+              }
+            },
+            "equals": "[length(parameters('virtualNetworkResourceId'))]"
           }
         ]
       },
