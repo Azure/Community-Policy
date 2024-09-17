@@ -32,12 +32,12 @@
             "equals": "Microsoft.SQL/servers/databases/transparentDataEncryption"
           },
           {
-            "field": "Microsoft.Sql/transparentDataEncryption.status",
+            "field": "Microsoft.Sql/servers/databases/transparentDataEncryption/state",
             "notEquals": "enabled"
           },
           {
-            "field": "Microsoft.Sql/servers/databases/transparentDataEncryption/state",
-            "notEquals": "enabled"
+            "value": "[indexOf(split(field('fullName'),'/'), 'master')]",
+            "notEquals": 1
           }
         ]
       },
