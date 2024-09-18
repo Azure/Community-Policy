@@ -43,7 +43,7 @@ jobs:
             echo "      Checking file name: ${rawfile}"
 
             echo "      For Testing only, appending \\ to the file name"
-            rawfile="${rawfile\\}"
+            rawfile="${rawfile}\\"
             echo "      Pre-Trim Validation file name: ${rawfile}"
 
             # Trim backspaces from the file name
