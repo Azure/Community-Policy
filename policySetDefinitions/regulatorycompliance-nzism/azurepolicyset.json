@@ -3,7 +3,8 @@
       "displayName": "New Zealand ISM Restricted v3.6",
       "description": "This initiative includes policies that address a subset of New Zealand Information Security Manual v3.6 controls. Additional policies will be added in upcoming releases. For more information, visit https://aka.ms/nzism-initiative.",
       "metadata": {
-        "category": "Regulatory Compliance"
+        "category": "Regulatory Compliance",
+        "version": "1.1-deprecated"
       },
       "parameters": {
         "minimumRSAKeySize-cee51871-e572-4576-855c-047c820360f0": {
