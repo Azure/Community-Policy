@@ -39,8 +39,15 @@ jobs:
 
           echo "   Info: changed files converted to array, ready to check each file..."
 
-          for file in "${files[@]}"; do
-            echo "      Checking file name: ${file}"
+          for rawfile in "${files[@]}"; do
+            echo "      Checking file name: ${rawfile}"
+
+            # Trim backspaces from the file name
+            file=$(echo $rawfile | tr -d '\\')
+
+            echo "      Trimmed file name: ${file}"
+            echo ""
+
             if echo "$file" | grep -q 'github/workflows'; then
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
