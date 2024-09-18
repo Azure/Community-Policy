@@ -1,0 +1,21 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Cache/Redis"
+      },
+      {
+        "field": "Microsoft.Cache/Redis/sku.family",
+        "equals": "C"
+      },
+      {
+        "field": "Microsoft.Cache/Redis/sku.name",
+        "equals": "Basic"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

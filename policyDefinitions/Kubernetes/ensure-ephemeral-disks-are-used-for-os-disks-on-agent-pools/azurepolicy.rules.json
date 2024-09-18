@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.ContainerService/managedClusters/agentPools"
+      },
+      {
+        "field": "Microsoft.ContainerService/managedClusters/agentPools/osDiskType",
+        "notequals": "Ephemeral"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

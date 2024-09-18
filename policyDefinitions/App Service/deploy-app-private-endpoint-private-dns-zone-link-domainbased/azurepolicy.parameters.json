@@ -1,0 +1,30 @@
+{
+  "privateDnsZoneIdAzureWebsites": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private Dns Zone Id for azurewebsites.net",
+      "description": "The private DNS zone to deploy in a new private DNS zone group and link to the private endpoint for apps on azurewebsites.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "privateDnsZoneIdAppServiceEnvironment": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private Dns Zone Id for appserviceenvironment.net",
+      "description": "The private DNS zone to deploy in a new private DNS zone group and link to the private endpoint for apps on appserviceenvironment.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}

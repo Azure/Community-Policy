@@ -1,0 +1,49 @@
+{
+  "name": "8fefe846-bf48-4882-a717-a451275655ef",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Azure Redis Cache should supports 'Standard replication'",
+    "description": "Use 'Standard replication' in order to have an a high availability architecture that ensures your managed instance is functioning, even when outages affect the underlying virtual machines (VMs)",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Cache"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Cache/Redis"
+          },
+          {
+            "field": "Microsoft.Cache/Redis/sku.family",
+            "equals": "C"
+          },
+          {
+            "field": "Microsoft.Cache/Redis/sku.name",
+            "equals": "Basic"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

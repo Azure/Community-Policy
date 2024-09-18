@@ -1,0 +1,90 @@
+{
+  "name": "acba9d48-2ea1-44e0-8769-43808cdf4522",
+  "properties": {
+    "displayName": "Require tag name and a value from a set on Resources",
+    "mode": "Indexed",
+    "description": "Require tag name where value is from a set (parameter allowedTagValues) on Resources. It supports resource group and resource type exclusions.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Tags"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": ["Deny", "Audit", "Disabled"],
+        "defaultValue": "Audit"
+      },
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag, such as 'CostCenter'"
+        }
+      },
+      "allowedTagValues": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Allowable values for tag",
+          "description": "List of allowed values for this tag."
+        }
+      },
+      "excludedResourceTypes": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Excluded Resource Types",
+          "description": "Exclude certain resource types from this policy, if all resourceTypes are selected by using an empty resourceTypeList",
+          "strongType": "ResourceType"
+        },
+        "defaultValue": []
+      },
+      "excludedResourceGroupPatterns": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Excluded Resource Groups; wild card patterns are supported. Example: 'rg-*, rg-abc-*'",
+          "description": "This array contains all excluded RGs from this policy"
+        },
+        "defaultValue": []
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "anyOf": [
+              {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "exists": "false"
+              },
+              {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "notIn": "[parameters('allowedTagValues')]"
+              }
+            ]
+          },
+          {
+            "field": "type",
+            "notIn": "[parameters('excludedResourceTypes')]"
+          },
+          {
+            "count": {
+              "value": "[parameters('excludedResourceGroupPatterns')]",
+              "name": "excludedRG",
+              "where": {
+                "value": "[resourceGroup().name]",
+                "like": "[current('excludedRG')]"
+              }
+            },
+            "equals": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

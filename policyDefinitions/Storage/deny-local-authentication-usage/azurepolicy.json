@@ -1,0 +1,49 @@
+{
+  "name": "a27baf66-45ee-4d9c-bad6-aa292155e1af",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny local authentication usage on Azure Storage",
+    "description": "Deny the creation and update of Storage Accounts if local authentication enabled.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage",
+      "preview": true
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DenyAction or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "field": "Microsoft.Storage/storageAccounts/allowSharedKeyAccess",
+            "equals": true
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/allowBlobPublicAccess",
+            "equals": true
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/defaultToOAuthAuthentication",
+            "equals": false
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

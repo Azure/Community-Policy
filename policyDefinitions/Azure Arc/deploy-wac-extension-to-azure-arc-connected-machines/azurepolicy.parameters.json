@@ -1,0 +1,30 @@
+  {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Enable or disable the execution of the policy."
+      },
+      "allowedValues": [
+        "DeployIfNotExists",
+        "Disabled"
+      ],
+      "defaultValue": "DeployIfNotExists"
+    },
+    "port": {
+      "type": "Integer",
+      "metadata": {
+        "displayName": "Port",
+        "description": "Define the Port on which Windows Admin Center Extension works."
+      },
+      "defaultValue": 6516
+    },
+    "proxyURL": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Proxy URL",
+        "description": "Define the Proxy URL. If Proxy URL is empty Proxy URL will NOT be set."
+      },
+      "defaultValue": ""
+    }
+  }

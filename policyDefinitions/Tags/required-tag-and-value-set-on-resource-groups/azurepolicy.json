@@ -1,0 +1,81 @@
+{
+  "name": "4f8668bc-8adc-44fc-b6e1-20cf37dc6738",
+  "properties": {
+    "displayName": "Require tag name and a value from a set on Resource Groups",
+    "mode": "All",
+    "description": "Require tag name where value is from a set (parameter allowedTagValues) on Resource Groups. It supports resource group exclusions.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Tags"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": ["Deny", "Audit", "Disabled"],
+        "defaultValue": "Audit"
+      },
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag, such as 'CostCenter'"
+        }
+      },
+      "allowedTagValues": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Allowable values for tag",
+          "description": "List of allowed values for this tag."
+        }
+      },
+      "excludedResourceGroupPattern": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Excluded Resource Groups; wild card patterns are supported. Example: 'rg-*, rg-abc-*'",
+          "description": "This array contains all excluded RGs from this policy"
+        },
+        "defaultValue": []
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "exists": "false"
+              },
+              {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "notIn": "[parameters('allowedTagValues')]"
+              }
+            ]
+          },
+          {
+            "count": {
+              "value": "[parameters('excludedResourceGroupPattern')]",
+              "name": "excludedRG",
+              "where": {
+                "field": "name",
+                "like": "[current('excludedRG')]"
+              }
+            },
+            "equals": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

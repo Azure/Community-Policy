@@ -1,0 +1,21 @@
+{
+  "if": {
+    "anyOf": [
+      {
+        "field": "Microsoft.Storage/storageAccounts/allowSharedKeyAccess",
+        "equals": true
+      },
+      {
+        "field": "Microsoft.Storage/storageAccounts/allowBlobPublicAccess",
+        "equals": true
+      },
+      {
+        "field": "Microsoft.Storage/storageAccounts/defaultToOAuthAuthentication",
+        "equals": false
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

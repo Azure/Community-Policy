@@ -1,0 +1,17 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.DBforPostgreSQL/flexibleServers"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
+      "name": "require_secure_transport",
+      "existenceCondition": {
+        "field": "Microsoft.DBforPostgreSQL/flexibleServers/configurations/value",
+        "equals": "ON"
+      }
+    }
+  }
+}

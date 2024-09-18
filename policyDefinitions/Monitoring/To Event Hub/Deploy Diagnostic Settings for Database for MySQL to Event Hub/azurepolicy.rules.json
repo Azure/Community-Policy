@@ -1,0 +1,145 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.DBforMySQL/servers"
+      },
+      {
+        "anyOf": [
+          {
+            "value": "[parameters('eventHubLocation')]",
+            "equals": ""
+          },
+          {
+            "field": "location",
+            "equals": "[parameters('eventHubLocation')]"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Insights/diagnosticSettings",
+      "name": "[parameters('profileName')]",
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
+            "equals": "[parameters('logsEnabled')]"
+          },
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
+            "equals": "[parameters('metricsEnabled')]"
+          },
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/eventHubAuthorizationRuleId",
+            "matchInsensitively": "[parameters('eventHubRuleId')]"
+          },
+          {
+            "field": "Microsoft.Insights/diagnosticSettings/eventHubName",
+            "matchInsensitively": "[parameters('eventHubName')]"
+          }
+        ]
+      },
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/f526a384-b230-433a-b45c-95f59c4a2dec",
+        "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+      ],
+      "deployment": {
+        "properties": {
+          "mode": "Incremental",
+          "template": {
+            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "resourceName": {
+                "type": "String"
+              },
+              "eventHubRuleId": {
+                "type": "string"
+              },
+              "eventHubName": {
+                "type": "string"
+              },
+              "location": {
+                "type": "String"
+              },
+              "profileName": {
+                "type": "String"
+              },
+              "metricsEnabled": {
+                "type": "String"
+              },
+              "logsEnabled": {
+                "type": "String"
+              }
+            },
+            "variables": {},
+            "resources": [
+              {
+                "type": "Microsoft.DBforMySQL/servers/providers/diagnosticSettings",
+                "apiVersion": "2021-05-01-preview",
+                "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+                "location": "[parameters('location')]",
+                "dependsOn": [],
+                "properties": {
+                  "eventHubAuthorizationRuleId": "[parameters('eventHubRuleId')]",
+                  "eventHubName": "[parameters('eventHubName')]",
+                  "metrics": [
+                    {
+                      "category": "AllMetrics",
+                      "enabled": "[parameters('metricsEnabled')]",
+                      "retentionPolicy": {
+                        "days": 0,
+                        "enabled": false
+                      },
+                      "timeGrain": null
+                    }
+                  ],
+                  "logs": [
+                    {
+                      "categoryGroup": "allLogs",
+                      "enabled": "[parameters('logsEnabled')]"
+                    }
+                  ]
+                }
+              }
+            ],
+            "outputs": {
+              "policy": {
+                "type": "string",
+                "value": "[concat('Diagnostic setting ', parameters('profileName'), ' for type Database for MySQL (Microsoft.DBforMySQL/servers), resourceName ', parameters('resourceName'), ' to EventHub ', parameters('eventHubRuleId'), ':', parameters('eventHubName'), ' configured')]"
+              }
+            }
+          },
+          "parameters": {
+            "eventHubRuleId": {
+              "value": "[parameters('eventHubRuleId')]"
+            },
+            "eventHubName": {
+              "value": "[parameters('eventHubName')]"
+            },
+            "location": {
+              "value": "[field('location')]"
+            },
+            "resourceName": {
+              "value": "[field('name')]"
+            },
+            "profileName": {
+              "value": "[parameters('profileName')]"
+            },
+            "metricsEnabled": {
+              "value": "[parameters('metricsEnabled')]"
+            },
+            "logsEnabled": {
+              "value": "[parameters('logsEnabled')]"
+            }
+          }
+        }
+      }
+    }
+  }
+}
