@@ -1,0 +1,45 @@
+{
+  "name": "e369a998-a653-4e19-a058-a6256c3f999b",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": { 
+    "displayName": "Audit Allow Azure services and resources to access this server",
+    "description": "This option configures the firewall to allow connections from IP addresses allocated to any Azure service or asset, including connections from the subscriptions of other customers. Rather than allowing any service in any tenant to access this server, network access should be limited using the virtual network option or private access.",
+    "metadata": {
+      "category": "SQL",
+      "version": "1.0.0",
+      "preview": true
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers/firewallrules"
+          },
+          {
+            "field": "name",
+            "like": "AllowAllWindowsAzureIps"
+          }
+        ]
+      },  
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
