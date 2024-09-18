@@ -3,7 +3,7 @@ name: Confirm Policy Definition has Unique ID and does not conflict with Built-I
 on:
   pull_request:
     branches:
-      - main
+      - GUID-Validation
 
 jobs:
   # -------------------------------------------------------------
