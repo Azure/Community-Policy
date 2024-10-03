@@ -1,4 +1,12 @@
 {
+    "excludedRoleNames": {
+        "type": "array",
+        "metadata": {
+            "displayName": "Excluded Role Names",
+            "description": "Names of Roles to be excluded from the policy."
+        },
+        "defaultValue": []
+    },
     "effect": {
         "type": "string",
         "metadata": {
@@ -11,13 +19,5 @@
             "Disabled"
         ],
         "defaultValue": "Audit"
-    },
-    "excludedRoleNames": {
-        "type": "array",
-        "metadata": {
-            "displayName": "Excluded Role Names",
-            "description": "Names of Roles to be excluded from the policy."
-        },
-        "defaultValue": []
     }
 }
