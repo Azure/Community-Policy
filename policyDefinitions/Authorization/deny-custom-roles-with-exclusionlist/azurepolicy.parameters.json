@@ -1,0 +1,23 @@
+{
+    "effect": {
+        "type": "string",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+            "Deny",
+            "Audit",
+            "Disabled"
+        ],
+        "defaultValue": "Audit"
+    },
+    "excludedRoleNames": {
+        "type": "array",
+        "metadata": {
+            "displayName": "Excluded Role Names",
+            "description": "Names of Roles to be excluded from the policy."
+        },
+        "defaultValue": []
+    }
+}

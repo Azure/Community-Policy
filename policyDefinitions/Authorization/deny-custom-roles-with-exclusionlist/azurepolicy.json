@@ -1,0 +1,57 @@
+{
+  "name": "4eaae358-7df4-4338-ae26-c4547ebe9403",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Custom roles are not allowed, except excluded role definition names",
+    "description": "This policy will audit or deny the creation of RBAC custom roles, excluding specified role definition names.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Authorization"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "excludedRoleNames": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Excluded Role Names",
+          "description": "Names of Roles to be excluded from the policy."
+        },
+        "defaultValue": []
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Authorization/roleDefinitions"
+          },
+          {
+            "field": "Microsoft.Authorization/roleDefinitions/type",
+            "notEquals": "BuiltInRole"
+          },
+          {
+            "field": "Microsoft.Authorization/roleDefinitions/roleName",
+            "notIn": "[parameters('ExcludedRoleNames')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
