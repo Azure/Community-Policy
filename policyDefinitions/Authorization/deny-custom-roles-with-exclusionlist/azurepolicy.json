@@ -2,7 +2,7 @@
   "name": "4eaae358-7df4-4338-ae26-c4547ebe9403",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "Custom roles are not allowed, except excluded role definition names",
+    "displayName": "Deny custom roles with exclusionlist",
     "description": "This policy will audit or deny the creation of RBAC custom roles, excluding specified role definition names.",
     "metadata": {
       "version": "1.0.0",
