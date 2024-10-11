@@ -1,0 +1,57 @@
+{
+  "name": "537cd074-8c79-48c3-b896-d73c72ea7a12",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Audit Storage Accounts having configured firewall rules",
+    "description": "This policy audits storage accounts that are configured with unknown IP-addresses.",
+    "metadata": {
+      "category": "Storage",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "allowedAddressRanges": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed IP addresses",
+          "description": "Add IP-addresses using the format x.x.x.x or x.x.x.x/xx"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value",
+            "notEquals": ""
+          },
+          {
+            "not": {
+              "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value",
+              "in": "[parameters('allowedAddressRanges')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
