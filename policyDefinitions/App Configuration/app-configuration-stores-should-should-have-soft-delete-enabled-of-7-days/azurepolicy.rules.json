@@ -19,7 +19,7 @@
           },
           {
             "field": "Microsoft.AppConfiguration/configurationStores/softDeleteRetentionInDays",
-            "notequals": 7
+            "notequals": "[parameters('softDeleteValue')]"
           }
         ]
       }
