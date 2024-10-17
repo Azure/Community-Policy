@@ -1,0 +1,21 @@
+{
+  "allowedAddressRanges": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed IP addresses",
+      "description": "Add IP-addresses using the format x.x.x.x or x.x.x.x/xx"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}
