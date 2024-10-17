@@ -11,8 +11,12 @@
       },
       {
         "not": {
-          "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value",
-          "in": "[parameters('allowedAddressRanges')]"
+          "anyOf": [
+            {
+              "field": "Microsoft.Storage/storageAccounts/networkAcls.ipRules[*].value",
+              "in": "[parameters('allowedAddressRanges')]"
+            }
+          ]
         }
       }
     ]
