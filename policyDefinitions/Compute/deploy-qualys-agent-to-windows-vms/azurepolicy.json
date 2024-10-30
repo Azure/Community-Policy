@@ -1,7 +1,7 @@
 {
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "f926c206-3ea7-434c-9613-252390995744",
   "properties": {
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "f926c206-3ea7-434c-9613-252390995744",
     "displayName": "Deploy Qualys Agent on Windows Virtual Machine",
     "mode": "Indexed",
     "description": "This policy ensures that every Windows-based Azure Virtual Machine has the Qualys Agent extension installed. If the Qualys Agent is not present, the policy will automatically deploy it based on the specified parameters.",
