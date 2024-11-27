@@ -1,0 +1,44 @@
+{
+  "name": "b1f2a4d3-6e89-41a7-bb1f-2d8c5e7a9f25",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny Key Vault resource access - Azure Resource Manager",
+    "description": "Requires Key Vaults to be deployed with 'Azure Resource Manager for template deployment' disabled.",
+    "metadata": {
+      "category": "Key Vault"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.KeyVault/vaults",
+            "field": "type"
+          },
+          {
+            "equals": "true",
+            "field": "Microsoft.KeyVault/vaults/enabledForTemplateDeployment"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
