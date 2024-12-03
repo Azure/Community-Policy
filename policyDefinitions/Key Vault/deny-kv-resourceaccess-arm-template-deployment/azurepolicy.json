@@ -5,6 +5,7 @@
     "displayName": "Deny Key Vault resource access - Azure Resource Manager",
     "description": "Requires Key Vaults to be deployed with 'Azure Resource Manager for template deployment' disabled.",
     "metadata": {
+      "version": "1.0.0",
       "category": "Key Vault"
     },
     "mode": "All",

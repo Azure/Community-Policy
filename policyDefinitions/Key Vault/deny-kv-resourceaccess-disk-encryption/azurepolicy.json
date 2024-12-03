@@ -5,6 +5,7 @@
     "displayName": "Deny Key Vault resource access - Azure Disk Encryption",
     "description": "Requires Key Vaults to be deployed with 'Azure Disk Encryption for volume encryption' disabled.",
     "metadata": {
+      "version": "1.0.0",
       "category": "Key Vault"
     },
     "mode": "All",

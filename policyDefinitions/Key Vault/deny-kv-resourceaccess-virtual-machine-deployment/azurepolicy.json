@@ -5,6 +5,7 @@
     "displayName": "Deny Key Vault resource access - Virtual Machines",
     "description": "Requires Key Vaults to be deployed with 'Azure Virtual Machines for deployment' disabled.",
     "metadata": {
+      "version": "1.0.0",
       "category": "Key Vault"
     },
     "mode": "All",
