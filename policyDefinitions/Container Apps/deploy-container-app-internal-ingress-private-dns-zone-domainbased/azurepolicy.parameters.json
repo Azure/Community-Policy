@@ -1,0 +1,29 @@
+{
+  "azureContainerAppsPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID",
+      "description": "ID of the Private DNS Zone for CAE (e.g., /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{dnsZoneName})",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "dnsZoneName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "DNS Zone Name",
+      "description": "Name of the DNS Zone for the A record"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}
