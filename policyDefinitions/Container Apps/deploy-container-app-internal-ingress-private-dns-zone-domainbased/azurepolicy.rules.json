@@ -1,0 +1,80 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.App/managedEnvironments"
+      },
+      {
+        "field": "Microsoft.App/managedEnvironments/vnetConfiguration.internal",
+        "equals": "True"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.Network/privateDnsZones/A",
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.Network/privateDnsZones/A/fqdn",
+            "equals": "[concat('*.',split(field('Microsoft.App/managedEnvironments/defaultDomain'),'.')[0],'.',parameters('dnsZoneName'),'.')]"
+          }
+        ]
+      },
+      "name": "[concat(parameters('dnsZoneName'), '/', concat('*.',split(field('Microsoft.App/managedEnvironments/defaultDomain'),'.')[0]))]",
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+      ],
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "subscriptionId": "[split(parameters('azureContainerAppsPrivateDnsZoneId'),'/')[2]]",
+          "resourceGroup": "[split(parameters('azureContainerAppsPrivateDnsZoneId'),'/')[4]]",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.1",
+            "parameters": {
+              "dnsZoneName": {
+                "type": "string"
+              },
+              "staticIp": {
+                "type": "string"
+              },
+              "recordName": {
+                "type": "string"
+              }
+            },
+            "resources": [
+              {
+                "type": "Microsoft.Network/privateDnsZones/A",
+                "apiVersion": "2024-06-01",
+                "name": "[concat(parameters('dnsZoneName'), '/', parameters('recordName'))]",
+                "properties": {
+                  "ttl": 3600,
+                  "aRecords": [
+                    {
+                      "ipv4Address": "[parameters('staticIp')]"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "dnsZoneName": {
+              "value": "[last(split(parameters('azureContainerAppsPrivateDnsZoneId'),'/'))]"
+            },
+            "staticIp": {
+              "value": "[field('Microsoft.App/managedEnvironments/staticIp')]"
+            },
+            "recordName": {
+              "value": "[concat('*.',split(field('Microsoft.App/managedEnvironments/defaultDomain'),'.')[0])]"
+            }
+          }
+        }
+      }
+    }
+  }
+}
