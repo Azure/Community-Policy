@@ -50,6 +50,10 @@
           {
             "field": "Microsoft.App/managedEnvironments/vnetConfiguration.internal",
             "equals": "True"
+          },
+          {
+            "field": "Microsoft.App/managedEnvironments/defaultDomain",
+            "contains": "[parameters('dnsZoneName')]"
           }
         ]
       },
