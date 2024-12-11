@@ -11,7 +11,7 @@
     "type": "String",
     "metadata": {
       "displayName": "DNS Zone Name",
-      "description": "Name of the DNS Zone for the A record"
+      "description": "Name of the DNS Zone for the A record (e.g., swedencentral.azurecontainerapps.io)"
     }
   },
   "effect": {
