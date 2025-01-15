@@ -24,7 +24,7 @@
         "defaultValue": "Deny"
       },
       "retentionInDays": {
-        "type": "Int",
+        "type": "Integer",
         "metadata": {
           "displayName": "Retention in Days",
           "description": "Minimum soft delete retention in days for blobs and containers."
