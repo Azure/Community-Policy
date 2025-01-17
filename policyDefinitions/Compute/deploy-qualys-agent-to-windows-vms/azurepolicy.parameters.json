@@ -1,0 +1,41 @@
+{
+    "effect": {
+      "type": "string",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Define the enforcement action for non-compliant VMs."
+      },
+      "allowedValues": [
+        "DeployIfNotExists",
+        "Disabled"
+      ],
+      "defaultValue": "DeployIfNotExists"
+    },
+    "autoUpgradeMinorVersion": {
+      "type": "string",
+      "metadata": {
+        "displayName": "Auto Upgrade Minor Version",
+        "description": "Enable or disable automatic minor version upgrades of the Qualys Agent extension."
+      },
+      "allowedValues": [
+        "true",
+        "false"
+      ],
+      "defaultValue": "false"
+    },
+    "LicenseCode": {
+      "type": "string",
+      "metadata": {
+        "displayName": "License Code",
+        "description": "The license code required for the Qualys Agent."
+      }
+    },
+    "listOfWindowsImageIdToInclude": {
+      "type": "array",
+      "metadata": {
+        "displayName": "Additional Virtual Machine Images",
+        "description": "List of virtual machine images that have supported Windows OS to add to scope. Example values: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+      },
+      "defaultValue": []
+    }
+  }

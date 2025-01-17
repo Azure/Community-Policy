@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "equals": "Microsoft.KeyVault/vaults",
+        "field": "type"
+      },
+      {
+        "equals": "true",
+        "field": "Microsoft.KeyVault/vaults/enabledForDeployment"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

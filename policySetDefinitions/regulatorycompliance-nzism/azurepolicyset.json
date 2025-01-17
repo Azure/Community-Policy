@@ -1,7 +1,7 @@
 {
     "properties": {
       "displayName": "New Zealand ISM Restricted v3.6",
-      "description": "This initiative includes policies that address a subset of New Zealand Information Security Manual v3.6 controls. Additional policies will be added in upcoming releases. For more information, visit https://aka.ms/nzism-initiative.",
+      "description": "This initiative has been deprecated",
       "metadata": {
         "category": "Regulatory Compliance"
       },

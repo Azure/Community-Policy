@@ -1,0 +1,45 @@
+{
+  "name": "c4a9f6e2-1b34-4f56-8a2d-9e7c3b5d1f83",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny Key Vault resource access - Virtual Machines",
+    "description": "Requires Key Vaults to be deployed with 'Azure Virtual Machines for deployment' disabled.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Key Vault"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.KeyVault/vaults",
+            "field": "type"
+          },
+          {
+            "equals": "true",
+            "field": "Microsoft.KeyVault/vaults/enabledForDeployment"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  },
+  "softDeleteValue": {
+    "type": "int",
+    "metadata": {
+      "displayName": "Retention in days",
+      "description": "Value to set the Soft Delete retention in days"
+    }
+  }
+}

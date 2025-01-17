@@ -1,0 +1,31 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.AppConfiguration/configurationStores"
+      },
+      {
+        "not": {
+          "field": "Microsoft.AppConfiguration/configurationStores/createMode",
+          "equals": "recover"
+        }
+      },
+      {
+        "anyOf": [
+          {
+            "field": "Microsoft.AppConfiguration/configurationStores/softDeleteRetentionInDays",
+            "exists": "false"
+          },
+          {
+            "field": "Microsoft.AppConfiguration/configurationStores/softDeleteRetentionInDays",
+            "notequals": "[parameters('softDeleteValue')]"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
