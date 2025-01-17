@@ -1,0 +1,45 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "anyOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions"
+          },
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+          }
+        ]
+      },
+      {
+        "field": "[concat('tags[', parameters('tagName'), ']')]",
+        "exists": true
+      },
+      {
+        "value": "[if(empty(field('tags')), bool('false'), if(contains(field('tags'), parameters('tagName')), bool('true'), bool('false')))]",
+        "equals": true
+      },
+      {
+        "value": "[if(empty(field('tags')), bool('false'), if(contains(field('tags'), parameters('tagName')), if(equals(parameters('applyCaseToValue'), bool('true')),if(equals(parameters('toLowerOrToUpper'), 'Lowercase'), not(equals(base64(toLower(string(field(concat('tags[', parameters('tagName'), ']'))))), base64(string(field(concat('tags[', parameters('tagName'), ']')))))), not(equals(base64(toUpper(string(field(concat('tags[', parameters('tagName'), ']'))))), base64(string(field(concat('tags[', parameters('tagName'), ']'))))))), bool('false')), bool('false')))]",
+        "equals": true
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+      ],
+      "operations": [
+        {
+          "operation": "addOrReplace",
+          "field": "tags",
+          "value": "[json(if(empty(field('tags')), '{}', if(equals(parameters('toLowerOrToUpper'), 'Lowercase'), string(union(field('tags'), createObject(tolower(parameters('tagName')), if(parameters('applyCaseToValue'),toLower(string(field(concat('tags[', parameters('tagName'), ']')))) , string(field(concat('tags[', parameters('tagName'), ']'))))))), string(union(field('tags'), createObject(toUpper(parameters('tagName')), if(parameters('applyCaseToValue'),toUpper(string(field(concat('tags[', parameters('tagName'), ']')))) , string(field(concat('tags[', parameters('tagName'), ']'))))))))))]"
+        }
+      ]
+    }
+  }
+}
