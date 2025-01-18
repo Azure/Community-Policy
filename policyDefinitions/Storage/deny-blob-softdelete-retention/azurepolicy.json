@@ -1,5 +1,5 @@
 {
-  "name": "859759cb-533c-c5eb-e3a9-36f6909df619",
+  "name": "10fef8bf-2c9c-4a62-8848-6e92ac17dedd",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Deny - Minimum soft delete retention for Blob services",
