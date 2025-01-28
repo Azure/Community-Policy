@@ -1,5 +1,5 @@
 {
-  "name": "f73c65c4-8baf-4e81-9ab6-77e64211f6ba",
+  "name": "4c79587a-c4a1-5c28-8806-d7d29d3c114c",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Enforce tag Name and Value casing on resource groups and subscriptions",
