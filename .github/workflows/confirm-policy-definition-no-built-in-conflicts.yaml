@@ -188,22 +188,26 @@ jobs:
               echo '   |                                                                |'
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo ""
-              echo "   This: ${policyName} == built-in: $(echo $filteredResponse | jq -r '.n')"
+              echo "   This pull request: ${policyName} == existing definition: $(echo $filteredResponse | jq -r '.n')"
               echo ""
-              echo '   Conflicting Built-In Policy Definition Details:'
+              echo '   Conflicting Policy Definition Details:'
               echo "      Name: $(echo $filteredResponse | jq -r '.n')"
               echo "      Display Name: $(echo $filteredResponse | jq -r '.def' | jq -r '.displayName')"
               echo "      Description: $(echo $filteredResponse | jq -r '.def' | jq -r '.description')"
               echo ""
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
-              echo '   |                                                                |'
-              echo '   |                       -   NEXT STEPS   -                       |'
-              echo '   |         Please change the policy name to a unique GUID         |'
-              echo '   |  Please do not submit only slightly altered built-in policies  |'
-              echo '   |                                                                |'
-              echo '   |     What is a GUID? https://www.rfc-editor.org/rfc/rfc4122     |'
-              echo '   |     Make a new GUID in PowerShell: https://aka.ms/new-guid     |'
-              echo '   |                                                                |'
+              echo '   |                                                                 |'
+              echo '   |                       -   NEXT STEPS   -                        |'
+              echo '   |         Please change the policy name to a unique GUID          |'
+              echo '   |  Please do not submit only slightly altered built-in policies   |'
+              echo '   |                                                                 |'
+              echo '   |                      ----   NOTE   ----                         |'
+              echo '   | If you are intentionally updating an existing Community Policy  |'
+              echo '   | Azure Policy Definition, then this check failure can be ignored |'
+              echo '   |                                                                 |'
+              echo '   |     What is a GUID? https://www.rfc-editor.org/rfc/rfc4122      |'
+              echo '   |     Make a new GUID in PowerShell: https://aka.ms/new-guid      |'
+              echo '   |                                                                 |'
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo ""
               echo ""
