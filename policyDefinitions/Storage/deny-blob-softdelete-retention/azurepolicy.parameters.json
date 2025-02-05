@@ -1,0 +1,22 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "Audit",
+      "Deny",
+      "Disabled"
+    ],
+    "defaultValue": "Deny"
+  },
+  "retentionInDays": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "Retention in Days",
+      "description": "Minimum soft delete retention in days for blobs and containers."
+    }
+  }
+}

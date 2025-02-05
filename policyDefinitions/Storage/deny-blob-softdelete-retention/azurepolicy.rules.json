@@ -1,0 +1,33 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts/blobServices"
+      },
+      {
+        "anyOf": [
+          {
+            "field": "Microsoft.Storage/storageAccounts/blobServices/containerDeleteRetentionPolicy.enabled",
+            "equals": false
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/blobServices/containerDeleteRetentionPolicy.days",
+            "less": "[parameters('retentionInDays')]"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/blobServices/deleteRetentionPolicy.enabled",
+            "equals": false
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/blobServices/deleteRetentionPolicy.days",
+            "less": "[parameters('retentionInDays')]"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
