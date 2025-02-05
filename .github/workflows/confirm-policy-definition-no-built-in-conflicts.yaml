@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - fix-file-read-error
 
 jobs:
   # -------------------------------------------------------------
@@ -156,7 +157,7 @@ jobs:
             
             echo 'Step 3: Sending request to AzAdvertizer API to search for Policy Name in existing resources.'
 
-            response=$(curl -s "https://www.azadvertizer.net/AzPolicyAdvertizerRuleThemAllData.json")
+            response=$(curl -s --compressed "https://www.azadvertizer.net/AzPolicyAdvertizerRuleThemAllData.json")
             
             if [ -z "$response" ]; then
               echo '   Error: API Response - No response from AzAdvertizer.'
@@ -183,7 +184,7 @@ jobs:
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
               echo '   |                   -   VALIDATION FAILED   -                    |'
-              echo '   |    Policy name exists as a Built-In Azure Policy Definition    |'
+              echo '   | Policy name exists as another existing Azure Policy Definition |'
               echo '   |                                                                |'
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo ""
