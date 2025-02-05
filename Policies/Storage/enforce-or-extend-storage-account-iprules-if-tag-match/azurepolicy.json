@@ -1,7 +1,7 @@
 {
     "name": "7e5e7a22-32fe-4537-aca8-786a5f871e13",
     "properties": {
-        "displayName": "Enforce or extend Storage Account IPRules if tag match ",
+        "displayName": "Enforce or extend Storage Account IPRules if tag match",
         "description": "This policy enforces or extends IP ranges if the Storage Account has a matching tag/value (deviating existing IP ranges may be kept or overwritten (parameter: existingIPRangesHandling)). 'publicNetworkAccess' will be enabled if disabled.",
         "mode": "Indexed",
         "metadata": {
