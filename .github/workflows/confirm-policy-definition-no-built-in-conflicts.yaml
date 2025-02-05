@@ -183,11 +183,11 @@ jobs:
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
               echo '   |                   -   VALIDATION FAILED   -                    |'
-              echo '   | Policy name exists as another existing Azure Policy Definition |'
+              echo '   |     Policy name exists as another Azure Policy Definition      |'
               echo '   |                                                                |'
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo ""
-              echo "   This pull request: ${policyName} == existing definition: $(echo $filteredResponse | jq -r '.n')"
+              echo "   This pull request's name: ${policyName} == existing definition name: $(echo $filteredResponse | jq -r '.n')"
               echo ""
               echo '   Conflicting Policy Definition Details:'
               echo "      Name: $(echo $filteredResponse | jq -r '.n')"
