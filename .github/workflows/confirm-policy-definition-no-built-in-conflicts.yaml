@@ -213,12 +213,12 @@ jobs:
               echo ""
               exit 1
             else
-              echo '   Success: GUID not found in Built-In Azure Policy Repo.'
+              echo '   Success: GUID not found in Built-In or Community Azure Policy Repo.'
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
               echo '   |                  -   VALIDATION SUCCESS   -                    |'
               echo '   |                  Policy name is a valid GUID                   |'
-              echo '   |     and does not match existing built-in Policy Definition     |'
+              echo '   |        and does not match an existing Policy Definition        |'
               echo '   |                                                                |'
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
