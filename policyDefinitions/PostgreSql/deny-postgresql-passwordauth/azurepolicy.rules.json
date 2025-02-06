@@ -1,0 +1,41 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.DBforPostgreSQL/flexibleServers"
+      },
+      {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.DBForPostgreSql/flexibleServers/authConfig.passwordAuthEnabled",
+                "notEquals": "false"
+              },
+              {
+                "field": "Microsoft.DBForPostgreSql/flexibleServers/authConfig.passwordAuthEnabled",
+                "exists": "true"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.DBForPostgreSql/flexibleServers/authConfig.passwordAuth",
+                "notEquals": "Disabled"
+              },
+              {
+                "field": "Microsoft.DBForPostgreSql/flexibleServers/authConfig.passwordAuth",
+                "exists": "true"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
