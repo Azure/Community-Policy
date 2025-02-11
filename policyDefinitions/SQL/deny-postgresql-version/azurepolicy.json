@@ -8,7 +8,7 @@
     "description": "PostgreSQL flexible servers supports multiple Postgres version(s), This policy will only allow set version(s).",
     "metadata": {
       "version": "1.0.0",
-      "category": "PostgreSql"
+      "category": "SQL"
     },
     "parameters": {
       "effect": {
