@@ -7,7 +7,7 @@
       },
       {
         "value": "[contains(parameters('allowedVersions'),field('Microsoft.DBForPostgreSql/flexibleServers/version'))]",
-        "notEquals": "true"
+        "equals": "false"
       }
     ]
   },

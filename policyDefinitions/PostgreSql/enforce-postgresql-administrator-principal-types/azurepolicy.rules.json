@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.DBforPostgreSQL/flexibleServers/administrators"
+      },
+      {
+        "value": "[contains(parameters('allowedTypes'),field('Microsoft.DBforPostgreSQL/flexibleServers/administrators/principalType'))]",
+        "notEquals": "true"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

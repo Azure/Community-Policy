@@ -1,0 +1,21 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.DBforPostgreSQL/flexibleServers/administrators"
+      },
+      {
+        "field": "Microsoft.DBforPostgreSQL/flexibleServers/administrators/principalType",
+        "equals": "Group"
+      },
+      {
+        "field": "Microsoft.DBforPostgreSQL/flexibleServers/administrators/principalName",
+        "notLike": "[parameters('namePattern')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

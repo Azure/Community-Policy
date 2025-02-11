@@ -1,0 +1,41 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.DBforPostgreSQL/flexibleServers"
+      },
+      {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.DBForPostgreSql/flexibleServers/administratorLogin",
+                "exists": "true"
+              },
+              {
+                "value": "empty(Microsoft.DBForPostgreSql/flexibleServers/administratorLogin)",
+                "notEquals": "true"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "Microsoft.DBForPostgreSql/flexibleServers/administratorLoginPassword",
+                "exists": "true"
+              },
+              {
+                "value": "empty(Microsoft.DBForPostgreSql/flexibleServers/administratorLoginPassword)",
+                "notEquals": "true"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

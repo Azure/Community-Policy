@@ -12,15 +12,11 @@
       "description": "Enable or disable the execution of the policy"
     }
   },
-  "allowedVersions": {
-    "type": "array",
-    "defaultValue": [
-      "16",
-      "17"
-    ],
+  "namePattern": {
+    "type": "string",
     "metadata": {
-      "displayName": "Postgres Version",
-      "description": "Array of Postgres Server Versions allowed"
+      "displayName": "Naming pattern to enforce",
+      "description": "Allowed Entra ID Security group name pattern to enforce, for example Admin_* will enforce that the group starts with Admin_"
     }
   }
 }

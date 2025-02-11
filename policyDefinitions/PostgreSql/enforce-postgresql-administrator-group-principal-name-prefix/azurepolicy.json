@@ -1,0 +1,57 @@
+{
+  "name": "d78f353a-a5e7-4747-8d31-62f361bafac5",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "policyType": "Custom",
+    "mode": "All",
+    "displayName": "PostgreSQL flexible servers administrator - Enforce a naming convention to be used for Administrator groups",
+    "description": "PostgreSQL flexible servers supports Entra ID Security groups to be PostgreSQL Administrator, This policy will only allow groups following a certain naming convention to be allowed as Administrator.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "PostgreSql"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "Deny",
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        }
+      },
+      "namePattern": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Naming pattern to enforce",
+          "description": "Allowed Entra ID Security group name pattern to enforce, for example Admin_* will enforce that the group starts with Admin_"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.DBforPostgreSQL/flexibleServers/administrators"
+          },
+          {
+            "field": "Microsoft.DBforPostgreSQL/flexibleServers/administrators/principalType",
+            "equals": "Group"
+          },
+          {
+            "field": "Microsoft.DBforPostgreSQL/flexibleServers/administrators/principalName",
+            "notLike": "[parameters('namePattern')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

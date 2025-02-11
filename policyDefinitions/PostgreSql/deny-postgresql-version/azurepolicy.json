@@ -2,13 +2,14 @@
   "name": "d78f353a-a5e7-4747-8d31-62f361bafac5",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "PostgreSQL database servers - Allow certain version(s)",
-    "description": "Azure Database for PostgreSQL supports multiple Postgres version(s), This policy will only allow set version(s).",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "displayName": "PostgreSQL flexible servers - Allow certain version(s)",
+    "description": "PostgreSQL flexible servers supports multiple Postgres version(s), This policy will only allow set version(s).",
     "metadata": {
       "version": "1.0.0",
       "category": "PostgreSql"
     },
-    "mode": "Indexed",
     "parameters": {
       "effect": {
         "type": "String",
@@ -26,7 +27,6 @@
       "allowedVersions": {
         "type": "array",
         "defaultValue": [
-          "15",
           "16",
           "17"
         ],
@@ -45,7 +45,7 @@
           },
           {
             "value": "[contains(parameters('allowedVersions'),field('Microsoft.DBForPostgreSql/flexibleServers/version'))]",
-            "notEquals": "true"
+            "equals": "false"
           }
         ]
       },

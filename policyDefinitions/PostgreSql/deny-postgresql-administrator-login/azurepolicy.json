@@ -1,0 +1,70 @@
+{
+    "name": "7c90f6d1-f79a-4c1c-b44a-4a655d4774f0",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "properties": {
+      "policyType": "Custom",
+      "mode": "Indexed",
+      "displayName": "PostgreSQL flexible servers - Disable local administrator login",
+      "description": "PostgreSQL flexible servers supports local administrator login",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "PostgreSql"
+      },
+      "parameters": {
+        "effect": {
+          "type": "String",
+          "defaultValue": "Deny",
+          "allowedValues": [
+            "Audit",
+            "Disabled",
+            "Deny"
+          ],
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          }
+        }
+      },
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.DBforPostgreSQL/flexibleServers"
+            },
+            {
+              "anyOf": [
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.DBForPostgreSql/flexibleServers/administratorLogin",
+                      "exists": "true"
+                    },
+                    {
+                      "value": "empty(Microsoft.DBForPostgreSql/flexibleServers/administratorLogin)",
+                      "notEquals": "true"
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.DBForPostgreSql/flexibleServers/administratorLoginPassword",
+                      "exists": "true"
+                    },
+                    {
+                      "value": "empty(Microsoft.DBForPostgreSql/flexibleServers/administratorLoginPassword)",
+                      "notEquals": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "then": {
+          "effect": "[parameters('effect')]"
+        }
+      }
+    }
+}
