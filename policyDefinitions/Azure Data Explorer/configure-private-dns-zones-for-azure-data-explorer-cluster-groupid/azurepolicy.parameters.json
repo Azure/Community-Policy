@@ -35,10 +35,11 @@
     "type": "String",
     "metadata": {
       "displayName": "Effect",
-      "description": "Enable or disable the execution of the policy"
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
     },
     "allowedValues": [
       "DeployIfNotExists",
+      "AuditIfNotExists",
       "Disabled"
     ],
     "defaultValue": "DeployIfNotExists"
