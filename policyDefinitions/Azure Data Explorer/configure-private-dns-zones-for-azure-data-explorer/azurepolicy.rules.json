@@ -12,11 +12,11 @@
             "allOf": [
               {
                 "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
-                "contains": "Microsoft.CognitiveServices/accounts"
+                "contains": "Microsoft.Kusto/clusters"
               },
               {
                 "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].groupIds[*]",
-                "equals": "account"
+                "equals": "cluster"
               }
             ]
           }
@@ -40,10 +40,16 @@
             "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
             "contentVersion": "1.0.0.0",
             "parameters": {
-              "defaultPrivateDnsZoneId": {
+              "blobStoragePrivateDnsZoneId": {
                 "type": "string"
               },
-              "openaiPrivateDnsZoneId": {
+              "tableStoragePrivateDnsZoneId": {
+                "type": "string"
+              },
+              "queueStoragePrivateDnsZoneId": {
+                "type": "string"
+              },
+              "kustoPrivateDnsZoneId": {
                 "type": "string"
               },
               "privateEndpointName": {
@@ -51,9 +57,6 @@
               },
               "location": {
                 "type": "string"
-              },
-              "privateLinkServiceId": {
-                "type": "array"
               }
             },
             "resources": [
@@ -65,9 +68,27 @@
                 "properties": {
                   "privateDnsZoneConfigs": [
                     {
-                      "name": "privateDnsZone",
+                      "name": "privateDnsZoneBlobStorage",
                       "properties": {
-                        "privateDnsZoneId": "[if(equals(reference(parameters('privateLinkServiceId')[0], '2022-12-01', 'Full').kind, 'OpenAI'), parameters('openaiPrivateDnsZoneId'), parameters('defaultPrivateDnsZoneId'))]"
+                        "privateDnsZoneId": "[parameters('blobStoragePrivateDnsZoneId')]"
+                      }
+                    },
+                    {
+                      "name": "privateDnsZoneTableStorage",
+                      "properties": {
+                        "privateDnsZoneId": "[parameters('tableStoragePrivateDnsZoneId')]"
+                      }
+                    },
+                    {
+                      "name": "privateDnsZoneQueueStorage",
+                      "properties": {
+                        "privateDnsZoneId": "[parameters('queueStoragePrivateDnsZoneId')]"
+                      }
+                    },
+                    {
+                      "name": "privateDnsZoneKusto",
+                      "properties": {
+                        "privateDnsZoneId": "[parameters('kustoPrivateDnsZoneId')]"
                       }
                     }
                   ]
@@ -76,20 +97,23 @@
             ]
           },
           "parameters": {
-            "defaultPrivateDnsZoneId": {
-              "value": "[parameters('defaultPrivateDnsZoneId')]"
+            "blobStoragePrivateDnsZoneId": {
+              "value": "[parameters('blobStoragePrivateDnsZoneId')]"
             },
-            "openaiPrivateDnsZoneId": {
-              "value": "[parameters('openaiPrivateDnsZoneId')]"
+            "tableStoragePrivateDnsZoneId": {
+              "value": "[parameters('tableStoragePrivateDnsZoneId')]"
+            },
+            "queueStoragePrivateDnsZoneId": {
+              "value": "[parameters('queueStoragePrivateDnsZoneId')]"
+            },
+            "kustoPrivateDnsZoneId": {
+              "value": "[parameters('kustoPrivateDnsZoneId')]"
             },
             "privateEndpointName": {
               "value": "[field('name')]"
             },
             "location": {
               "value": "[field('location')]"
-            },
-            "privateLinkServiceId": {
-              "value": "[field('Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId')]"
             }
           }
         }
