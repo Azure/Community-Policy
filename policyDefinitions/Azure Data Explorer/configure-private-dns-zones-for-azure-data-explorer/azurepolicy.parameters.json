@@ -1,17 +1,33 @@
 {
-  "defaultPrivateDnsZoneId": {
+  "blobStoragePrivateDnsZoneId": {
     "type": "String",
     "metadata": {
-      "displayName": "Default Private DNS Zone ID",
-      "description": "The default Private DNS Zone ID for Cognitive Services resources (except Azure OpenAI).",
+      "displayName": "Private DNS Zone for blob endpoints",
+      "description": "One of the four private DNS zone IDs required for Microsoft.Kusto/clusters to resolve a private DNS Zone to your Azure Data Explorer Cluster.",
       "strongType": "Microsoft.Network/privateDnsZones"
     }
   },
-  "openaiPrivateDnsZoneId": {
+  "tableStoragePrivateDnsZoneId": {
     "type": "String",
     "metadata": {
-      "displayName": "OpenAI Private DNS Zone ID",
-      "description": "The Private DNS Zone ID for Azure OpenAI resources.",
+      "displayName": "Private DNS Zone for table endpoints",
+      "description": "One of the four private DNS zone IDs required for Microsoft.Kusto/clusters to resolve a private DNS Zone to your Azure Data Explorer Cluster.",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "queueStoragePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone for queue endpoints",
+      "description": "One of the four private DNS zone IDs required for Microsoft.Kusto/clusters to resolve a private DNS Zone to your Azure Data Explorer Cluster.",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "kustoPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone for kusto endpoints",
+      "description": "One of the four private DNS zone IDs required for Microsoft.Kusto/clusters to resolve a private DNS Zone.",
       "strongType": "Microsoft.Network/privateDnsZones"
     }
   },
