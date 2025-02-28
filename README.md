@@ -1,11 +1,9 @@
 # Community Policy Repo
 
 <!-- 
-Guidelines on README format: https://review.docs.microsoft.com/help/onboard/admin/samples/concepts/readme-template?branch=master
+Guidelines on README format: https://review.learn.microsoft.com/help/contribute/samples/concepts/readme-template
 
-Guidance on onboarding samples to docs.microsoft.com/samples: https://review.docs.microsoft.com/help/onboard/admin/samples/process/onboarding?branch=master
-
-Taxonomies for products and languages: https://review.docs.microsoft.com/new-hope/information-architecture/metadata/taxonomies?branch=master
+Guidance on onboarding samples to learn.microsoft.com/samples: https://review.learn.microsoft.com/help/contribute/samples/process/onboarding
 -->
 
 The purpose of this repo is for Azure Policy users and Microsoft internal teams to share and collaborate on custom policies. These policies are built either by customers or Microsoft Support engineers for customers. These are NOT Built-in policies hence are not check, tested or validated in any form by the Azure Policy Release Team. Please be wary of this and always TEST your policies before enforcing. Happy Coding! 
@@ -46,7 +44,7 @@ If your questions are more in-depth or involve information that is not public, o
 
 ### Documentation Corrections
 
-To report issues in the Azure Policy online documentation, look for a feedback area at the bottom of the page. If you don't see a place to enter feedback, you can also directly open a new issue at the [**Microsoft Docs GitHub**](https://github.com/MicrosoftDocs/feedback/issues).
+To report issues in the Azure Policy online documentation, look for a feedback area at the bottom of the page.
 
 ### New built-in Policy Proposals
 
