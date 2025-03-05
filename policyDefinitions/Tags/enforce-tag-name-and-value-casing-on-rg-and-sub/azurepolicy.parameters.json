@@ -1,0 +1,42 @@
+{
+  "toLowerOrToUpper": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enforce lowercase or uppercase",
+      "description": "If set to lowercase/uppercase then the Policy will convert the tag name and value on existing and new resources groups to lowercase/Uppercase "
+    },
+    "allowedValues": [
+      "Lowercase",
+      "Uppercase"
+    ]
+  },
+  "tagName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "TagName",
+      "description": "Tag name that will be used for enforcement of lowercase/uppercase case."
+    }
+  },
+  "applyCaseToValue": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Apply Case to Value",
+      "description": "Control if the same case applied to the tag name should be applied to the value."
+    },
+    "defaultValue": true
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Modify, Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Modify",
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Modify"
+  }
+}
