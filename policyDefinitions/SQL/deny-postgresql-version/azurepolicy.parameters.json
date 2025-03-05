@@ -1,0 +1,26 @@
+{
+  "effect": {
+    "type": "String",
+    "defaultValue": "Deny",
+    "allowedValues": [
+      "Audit",
+      "Disabled",
+      "Deny"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    }
+  },
+  "allowedVersions": {
+    "type": "array",
+    "defaultValue": [
+      "16",
+      "17"
+    ],
+    "metadata": {
+      "displayName": "Postgres Version",
+      "description": "Array of Postgres Server Versions allowed"
+    }
+  }
+}

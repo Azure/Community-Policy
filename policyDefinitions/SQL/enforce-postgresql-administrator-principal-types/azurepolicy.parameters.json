@@ -1,0 +1,25 @@
+{
+  "effect": {
+    "type": "String",
+    "defaultValue": "Deny",
+    "allowedValues": [
+      "Audit",
+      "Disabled",
+      "Deny"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    }
+  },
+  "allowedTypes": {
+    "type": "Array",
+    "defaultValue": [
+      "Group"
+    ],
+    "metadata": {
+      "displayName": "Allowed Administrator Prinicpal Types.",
+      "description": "Valid values are; Group, ServicePrincipal, Unknown, User - https://learn.microsoft.com/en-us/azure/templates/microsoft.dbforpostgresql/flexibleservers/administrators?pivots=deployment-language-bicep#administratorpropertiesforaddoradministratorproperties"
+    }
+  }
+}
