@@ -68,6 +68,56 @@ jobs:
               echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
             fi
+            if echo "$file" | grep -q 'README.md'; then
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   |                                                                |'
+              echo '   |                  -   VALIDATION EXEMPT   -                     |'
+              echo '   |                    readme file detected                        |'
+              echo '   |          This file is exempt from policy validation            |'
+              echo '   |                                                                |'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              exit 0
+            fi
+            if echo "$file" | grep -q 'CODE_OF_CONDUCT.md'; then
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   |                                                                |'
+              echo '   |                  -   VALIDATION EXEMPT   -                     |'
+              echo '   |                code of conduct file detected                   |'
+              echo '   |          This file is exempt from policy validation            |'
+              echo '   |                                                                |'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              exit 0
+            fi
+            if echo "$file" | grep -q 'CONTRIBUTING.md'; then
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   |                                                                |'
+              echo '   |                  -   VALIDATION EXEMPT   -                     |'
+              echo '   |                contributing file detected                      |'
+              echo '   |          This file is exempt from policy validation            |'
+              echo '   |                                                                |'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              exit 0
+            fi
+            if echo "$file" | grep -q 'SECURITY.md'; then
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   |                                                                |'
+              echo '   |                  -   VALIDATION EXEMPT   -                     |'
+              echo '   |                   security file detected                       |'
+              echo '   |          This file is exempt from policy validation            |'
+              echo '   |                                                                |'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              exit 0
+            fi
+            if echo "$file" | grep -q 'LICENSE'; then
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   |                                                                |'
+              echo '   |                  -   VALIDATION EXEMPT   -                     |'
+              echo '   |                    license file detected                       |'
+              echo '   |          This file is exempt from policy validation            |'
+              echo '   |                                                                |'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              exit 0
+            fi
             if echo "$file" | grep -q 'azurepolicy.json'; then
               policyFile=$file
               echo "      Success: azurepolicy.json file found... policyFile <-- $file"
