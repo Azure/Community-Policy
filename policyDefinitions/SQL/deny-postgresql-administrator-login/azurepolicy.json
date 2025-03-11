@@ -44,7 +44,7 @@
                     "exists": "true"
                   },
                   {
-                    "value": "empty(Microsoft.DBForPostgreSql/flexibleServers/administratorLogin)",
+                    "value": "empty(field(Microsoft.DBForPostgreSql/flexibleServers/administratorLogin))",
                     "notEquals": "true"
                   }
                 ]
@@ -56,7 +56,7 @@
                     "exists": "true"
                   },
                   {
-                    "value": "empty(Microsoft.DBForPostgreSql/flexibleServers/administratorLoginPassword)",
+                    "value": "empty(field(Microsoft.DBForPostgreSql/flexibleServers/administratorLoginPassword))",
                     "notEquals": "true"
                   }
                 ]
