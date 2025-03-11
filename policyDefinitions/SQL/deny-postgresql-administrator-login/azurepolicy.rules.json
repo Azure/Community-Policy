@@ -8,6 +8,10 @@
       {
         "anyOf": [
           {
+            "field": "Microsoft.DBForPostgreSql/flexibleServers/authConfig.passwordAuth",
+            "equals": "Enabled"
+          },
+          {
             "allOf": [
               {
                 "field": "Microsoft.DBForPostgreSql/flexibleServers/administratorLogin",
