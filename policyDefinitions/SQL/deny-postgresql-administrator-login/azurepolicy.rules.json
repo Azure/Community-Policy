@@ -3,37 +3,17 @@
     "allOf": [
       {
         "field": "type",
-        "equals": "Microsoft.DBforPostgreSQL/flexibleServers"
+        "equals": "Microsoft.DBForPostgreSql/flexibleServers"
       },
       {
         "anyOf": [
           {
+            "field": "Microsoft.DBForPostgreSql/flexibleServers/authConfig.activeDirectoryAuth",
+            "notEquals": "Enabled"
+          },
+          {
             "field": "Microsoft.DBForPostgreSql/flexibleServers/authConfig.passwordAuth",
-            "equals": "Enabled"
-          },
-          {
-            "allOf": [
-              {
-                "field": "Microsoft.DBForPostgreSql/flexibleServers/administratorLogin",
-                "exists": "true"
-              },
-              {
-                "value": "empty(field(Microsoft.DBForPostgreSql/flexibleServers/administratorLogin))",
-                "notEquals": "true"
-              }
-            ]
-          },
-          {
-            "allOf": [
-              {
-                "field": "Microsoft.DBForPostgreSql/flexibleServers/administratorLoginPassword",
-                "exists": "true"
-              },
-              {
-                "value": "empty(field(Microsoft.DBForPostgreSql/flexibleServers/administratorLoginPassword))",
-                "notEquals": "true"
-              }
-            ]
+            "notEquals": "Disabled"
           }
         ]
       }
