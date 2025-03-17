@@ -1,0 +1,10 @@
+{
+    "if": {
+      "field": "type",
+      "like": "Microsoft.Fabric/capacities*"
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  }
+  
