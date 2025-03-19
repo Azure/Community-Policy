@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.DBForPostgreSql/flexibleServers"
+      },
+      {
+        "anyOf": [
+          {
+            "field": "Microsoft.DBForPostgreSql/flexibleServers/authConfig.activeDirectoryAuth",
+            "notEquals": "Enabled"
+          },
+          {
+            "field": "Microsoft.DBForPostgreSql/flexibleServers/authConfig.passwordAuth",
+            "notEquals": "Disabled"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

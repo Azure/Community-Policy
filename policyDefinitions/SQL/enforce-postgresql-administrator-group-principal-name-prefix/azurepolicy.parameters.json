@@ -1,0 +1,22 @@
+{
+  "effect": {
+    "type": "String",
+    "defaultValue": "Deny",
+    "allowedValues": [
+      "Audit",
+      "Disabled",
+      "Deny"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    }
+  },
+  "namePattern": {
+    "type": "string",
+    "metadata": {
+      "displayName": "Naming pattern to enforce",
+      "description": "Allowed Entra ID Security group name pattern to enforce, for example Admin_* will enforce that the group starts with Admin_"
+    }
+  }
+}

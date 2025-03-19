@@ -1,0 +1,56 @@
+{
+  "name": "d78f353a-a5e7-4747-8d31-62f361bafac5",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "mode": "Indexed",
+    "displayName": "PostgreSQL flexible servers - Allow certain version(s)",
+    "description": "PostgreSQL flexible servers supports multiple Postgres version(s), This policy will only allow set version(s).",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "Deny",
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        }
+      },
+      "allowedVersions": {
+        "type": "array",
+        "defaultValue": [
+          "16",
+          "17"
+        ],
+        "metadata": {
+          "displayName": "Postgres Version",
+          "description": "Array of Postgres Server Versions allowed"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.DBforPostgreSQL/flexibleServers"
+          },
+          {
+            "value": "[contains(parameters('allowedVersions'),field('Microsoft.DBForPostgreSql/flexibleServers/version'))]",
+            "equals": "false"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
