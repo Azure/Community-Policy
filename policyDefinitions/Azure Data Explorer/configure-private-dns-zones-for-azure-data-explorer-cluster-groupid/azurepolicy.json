@@ -1,0 +1,183 @@
+{
+  "name": "85e69e4d-9953-49b9-b864-dcddea977455",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Configure private DNS Zones for an Azure Data Explorer cluster groupID",
+    "description": "Configure private DNS zone group to override the DNS resolution for Azure Data Explorer 'cluster' groupID private endpoint.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Azure Data Explorer"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "blobStoragePrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone for blob endpoints",
+          "description": "One of the four private DNS zone IDs required for Microsoft.Kusto/clusters to resolve a private DNS Zone to your Azure Data Explorer Cluster.",
+          "strongType": "Microsoft.Network/privateDnsZones"
+        }
+      },
+      "tableStoragePrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone for table endpoints",
+          "description": "One of the four private DNS zone IDs required for Microsoft.Kusto/clusters to resolve a private DNS Zone to your Azure Data Explorer Cluster.",
+          "strongType": "Microsoft.Network/privateDnsZones"
+        }
+      },
+      "queueStoragePrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone for queue endpoints",
+          "description": "One of the four private DNS zone IDs required for Microsoft.Kusto/clusters to resolve a private DNS Zone to your Azure Data Explorer Cluster.",
+          "strongType": "Microsoft.Network/privateDnsZones"
+        }
+      },
+      "kustoPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone for kusto endpoints",
+          "description": "One of the four private DNS zone IDs required for Microsoft.Kusto/clusters to resolve a private DNS Zone.",
+          "strongType": "Microsoft.Network/privateDnsZones"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Network/privateEndpoints",
+            "field": "type"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
+                    "contains": "Microsoft.Kusto/clusters"
+                  },
+                  {
+                    "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].groupIds[*]",
+                    "equals": "cluster"
+                  }
+                ]
+              }
+            },
+            "greaterOrEquals": 1
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7",
+            "/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "blobStoragePrivateDnsZoneId": {
+                    "type": "string"
+                  },
+                  "tableStoragePrivateDnsZoneId": {
+                    "type": "string"
+                  },
+                  "queueStoragePrivateDnsZoneId": {
+                    "type": "string"
+                  },
+                  "kustoPrivateDnsZoneId": {
+                    "type": "string"
+                  },
+                  "privateEndpointName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "name": "[concat(parameters('privateEndpointName'), '/deployedByPolicy')]",
+                    "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+                    "apiVersion": "2024-05-01",
+                    "location": "[parameters('location')]",
+                    "properties": {
+                      "privateDnsZoneConfigs": [
+                        {
+                          "name": "privateDnsZoneBlobStorage",
+                          "properties": {
+                            "privateDnsZoneId": "[parameters('blobStoragePrivateDnsZoneId')]"
+                          }
+                        },
+                        {
+                          "name": "privateDnsZoneTableStorage",
+                          "properties": {
+                            "privateDnsZoneId": "[parameters('tableStoragePrivateDnsZoneId')]"
+                          }
+                        },
+                        {
+                          "name": "privateDnsZoneQueueStorage",
+                          "properties": {
+                            "privateDnsZoneId": "[parameters('queueStoragePrivateDnsZoneId')]"
+                          }
+                        },
+                        {
+                          "name": "privateDnsZoneKusto",
+                          "properties": {
+                            "privateDnsZoneId": "[parameters('kustoPrivateDnsZoneId')]"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "blobStoragePrivateDnsZoneId": {
+                  "value": "[parameters('blobStoragePrivateDnsZoneId')]"
+                },
+                "tableStoragePrivateDnsZoneId": {
+                  "value": "[parameters('tableStoragePrivateDnsZoneId')]"
+                },
+                "queueStoragePrivateDnsZoneId": {
+                  "value": "[parameters('queueStoragePrivateDnsZoneId')]"
+                },
+                "kustoPrivateDnsZoneId": {
+                  "value": "[parameters('kustoPrivateDnsZoneId')]"
+                },
+                "privateEndpointName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
