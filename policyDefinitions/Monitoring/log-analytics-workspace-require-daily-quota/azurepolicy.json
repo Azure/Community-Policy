@@ -5,7 +5,7 @@
     "displayName": "Deny creation of Log Analytics workspace without daily quota",
     "description": "This policy denies the creation of Log Analytics workspaces if the daily quota is not set.",
     "metadata": {
-      "category": "Log Analytics",
+      "category": "Monitoring",
       "version": "1.0.0"
     },
     "mode": "all",
