@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.OperationalInsights/workspaces"
+      },
+      {
+        "field": "Microsoft.OperationalInsights/workspaces/workspaceCapping.dailyQuotaGb",
+        "exists": false
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
