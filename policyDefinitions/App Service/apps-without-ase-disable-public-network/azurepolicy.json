@@ -1,0 +1,57 @@
+{
+  "name": "dc8de25a-113a-44d6-bf16-eb1a70c26bd2",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Apps without ASE should disable public network access",
+    "description": "Disable public network access for your apps without an ASE, so that it is not accessible over the public internet. However, apps with ASE can use the ingress for ASE instead of individual private endpoints to reduce cost and complexity. This can reduce data leakage risks. Learn more at: https://aka.ms/app-service-private-endpoint.",
+    "metadata": {
+      "category": "App Service",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "Microsoft.Web/sites/hostingEnvironmentProfile.type",
+            "notEquals": "Microsoft.Web/hostingEnvironments"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Web/sites/publicNetworkAccess",
+                "exists": "false"
+              },
+              {
+                "field": "Microsoft.Web/sites/publicNetworkAccess",
+                "notEquals": "Disabled"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
