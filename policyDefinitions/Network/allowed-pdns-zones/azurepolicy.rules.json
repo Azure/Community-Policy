@@ -1,0 +1,19 @@
+{
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Network/privateDnsZones"
+        },
+        {
+          "not": {
+            "field": "name",
+            "in": "[parameters('allowedPrivateDnsZones')]"
+          }
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+}

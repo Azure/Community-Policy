@@ -1,0 +1,22 @@
+{
+    "effect": {
+        "type": "String",
+        "metadata": {
+        "displayName": "Effect",
+        "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+            "Audit", 
+            "Deny", 
+            "Disabled"
+        ],
+        "defaultValue": "Deny"
+    },
+    "allowedPrivateDnsZones": {
+        "type": "Array",
+        "metadata": {
+        "displayName": "Allowed Private DNS Zones",
+        "description": "List of allowed private DNS zones. Any other zones will be denied."
+        }
+    }
+}
