@@ -4,7 +4,6 @@
   "properties": {
     "displayName": "Allowed Private DNS Zones",
     "description": "This policy restricts the creation of private DNS zones to a specified list.",
-    "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {
       "version": "1.0.0",
