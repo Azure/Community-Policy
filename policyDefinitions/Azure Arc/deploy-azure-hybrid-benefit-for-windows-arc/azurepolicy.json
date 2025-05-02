@@ -1,0 +1,101 @@
+{
+  "name": "d013f814-3e4c-4599-a2be-ecb214064dfe",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deploy Azure Hybrid Benefit for Windows ARC.",
+    "description": "Check Azure ARC objects for OS \"serverstandard\" and enable softwareAssurance if not enabled already.",
+    "metadata": {
+      "category": "Azure Arc",
+      "updatedBy": "",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "microsoft.hybridcompute/machines"
+          },
+          {
+            "field": "microsoft.hybridcompute/machines/osEdition",
+            "equals": "serverstandard"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "microsoft.hybridcompute/machines/licenseProfiles",
+          "name": "default",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.HybridCompute/machines/licenseProfiles/softwareAssurance.softwareAssuranceCustomer",
+                "Equals": true
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/cd570a14-e51a-42ad-bac8-bafd67325302",
+            "/providers/Microsoft.Authorization/roleDefinitions/b748a06d-6150-4f8a-aaa9-ce3940cd96cb"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "vmName": {
+                    "type": "String"
+                  }
+                },
+                "variables": {},
+                "resources": [
+                  {
+                    "type": "microsoft.hybridcompute/machines/licenseProfiles",
+                    "apiVersion": "2024-11-10-preview",
+                    "name": "[concat(parameters('vmName'),'/default')]",
+                    "location": "[resourceGroup().location]",
+                    "properties": {
+                      "softwareAssurance": {
+                        "softwareAssuranceCustomer": true
+                      }
+                    }
+                  }
+                ],
+                "outputs": {
+                  "policy": {
+                    "type": "string",
+                    "value": "[concat('Changed softwareAssurance for Windows VM: ', parameters('vmName'), ' -> true')]"
+                  }
+                }
+              },
+              "parameters": {
+                "vmName": {
+                  "value": "[field('fullName')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
