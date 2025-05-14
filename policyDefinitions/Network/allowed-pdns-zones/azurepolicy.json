@@ -1,0 +1,54 @@
+{
+  "name": "b4028c7f-dace-44be-b194-6501ba609343",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Allowed Private DNS Zones",
+    "description": "This policy restricts the creation of private DNS zones to a specified list.",
+    "mode": "Indexed",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+            "Audit", 
+            "Deny", 
+            "Disabled"
+        ],
+        "defaultValue": "Deny"
+      },
+      "allowedPrivateDnsZones": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed Private DNS Zones",
+          "description": "List of allowed private DNS zones. Any other zones will be denied."
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/privateDnsZones"
+          },
+          {
+            "not": {
+              "field": "name",
+              "in": "[parameters('allowedPrivateDnsZones')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
