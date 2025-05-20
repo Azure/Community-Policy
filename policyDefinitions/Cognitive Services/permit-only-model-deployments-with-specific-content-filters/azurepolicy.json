@@ -3,6 +3,7 @@
   "name": "9e5e5a2e-bda3-4cba-944c-966046f6472f",
   "properties": {
     "displayName": "Responsible AI - Content Filter for Model Deployment of Azure AI Service",
+    "description": "Check that every model deployment of the cognitive services account has a Content Filter with a specified name",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -23,11 +24,11 @@
             "description": "Deny, Audit or Disabled the execution of the Policy"
           },
           "allowedValues": [
-            "Deny",
-            "Audit",
-            "Disabled"
+            "deny",
+            "audit",
+            "disabled"
           ],
-          "defaultValue": "Audit"
+          "defaultValue": "audit"
         }
       }
     },
