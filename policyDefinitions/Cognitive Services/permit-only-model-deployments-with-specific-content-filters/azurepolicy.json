@@ -1,5 +1,6 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "9e5e5a2e-bda3-4cba-944c-966046f6472f",
   "properties": {
     "displayName": "Responsible AI - Content Filter for Model Deployment of Azure AI Service",
     "policyType": "Custom",
