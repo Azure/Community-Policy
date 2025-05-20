@@ -4,10 +4,10 @@
   "properties": {
     "displayName": "Responsible AI - Content Filter for Model Deployment of Azure AI Service",
     "description": "Check that every model deployment of the cognitive services account has a Content Filter with a specified name",
-    "policyType": "Custom",
     "mode": "All",
     "metadata": {
-      "category": "Cognitive Services"
+      "category": "Cognitive Services",
+      "version": "1.0.0"
     },
     "version": "1.0.0",
     "parameters": {
