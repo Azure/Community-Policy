@@ -17,7 +17,7 @@
           "displayName": "Enforce content filter",
           "description": "Enforce a Responsible AI Policy Name / Content Filter for all model deployments."
         }
-      }
+      },
       "effect": {
         "type": "String",
         "metadata": {
