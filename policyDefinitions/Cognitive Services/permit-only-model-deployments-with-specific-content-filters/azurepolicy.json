@@ -16,20 +16,20 @@
         "metadata": {
           "displayName": "Enforce content filter",
           "description": "Enforce a Responsible AI Policy Name / Content Filter for all model deployments."
-        },
-        "effect": {
-          "type": "String",
-          "metadata": {
-            "displayName": "Effect",
-            "description": "Deny, Audit or Disabled the execution of the Policy"
-          },
-          "allowedValues": [
-            "deny",
-            "audit",
-            "disabled"
-          ],
-          "defaultValue": "audit"
         }
+      }
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "deny",
+          "audit",
+          "disabled"
+        ],
+        "defaultValue": "audit"
       }
     },
     "policyRule": {
