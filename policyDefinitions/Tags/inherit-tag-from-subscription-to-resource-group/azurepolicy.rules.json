@@ -1,0 +1,33 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+      },
+      {
+        "field": "[concat('tags[', parameters('tagName'), ']')]",
+        "exists": "false"
+      },
+      {
+        "value": "[subscription().tags[parameters('tagName')]]",
+        "notEquals": ""
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+      ],
+      "operations": [
+        {
+          "operation": "add",
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "value": "[subscription().tags[parameters('tagName')]]"
+        }
+      ]
+    }
+  }
+}
