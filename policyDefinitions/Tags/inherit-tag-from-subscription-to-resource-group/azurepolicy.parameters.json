@@ -1,0 +1,23 @@
+{
+  "tagName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "tagName",
+      "description": "Name of the tag that should be inherited from the subscription, such as 'environment'"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Modify, Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Modify",
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Modify"
+  }
+}
