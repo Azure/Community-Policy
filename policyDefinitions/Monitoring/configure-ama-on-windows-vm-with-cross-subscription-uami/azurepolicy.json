@@ -1,3 +1,5 @@
+// Consent for Sharing
+//I, Richard Tunega, provide consent for this policy to be shared and used within the Azure Community Policy repository.
 {
     "name": "bdffab46-452d-5c4d-aacb-bdf9e45fd363",
     "type": "Microsoft.Authorization/policyDefinitions",
@@ -193,7 +195,12 @@
                                             {
                                                 "field": "Microsoft.Compute/imageSku",
                                                 "like": "2022-*"
+                                            },
+                                                                                        {
+                                                "field": "Microsoft.Compute/imageSku",
+                                                "like": "2025-*"
                                             }
+
                                         ]
                                     }
                                 ]
@@ -238,6 +245,10 @@
                                     },
                                     {
                                         "anyOf": [
+                                            {
+                                                "field": "Microsoft.Compute/imageOffer",
+                                                "like": "*-WS2025"
+                                            },
                                             {
                                                 "field": "Microsoft.Compute/imageOffer",
                                                 "like": "*-WS2022"
