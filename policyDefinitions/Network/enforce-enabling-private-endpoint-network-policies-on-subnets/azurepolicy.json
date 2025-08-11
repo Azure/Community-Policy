@@ -1,0 +1,71 @@
+{
+  "name": "d2f65624-c453-4423-bc8d-13204ff3f754",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Enforce Enabling-Private Endpoint Network Policies on Subnets",
+    "description": "This policy enables the privateEndpointNetworkPolicies for subnets with Modify effect.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "mode": "All",
+    "parameters": {
+      "privateEndpointNetworkPoliciesValue": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private Endpoint Network Policies Value."
+        },
+        "allowedValues": [
+          "Enabled",
+          "NetworkSecurityGroupEnabled",
+          "RouteTableEnabled"
+        ],
+        "defaultValue": "Enabled"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Modify, Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Modify",
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Modify"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks/subnets"
+          },
+          {
+            "field": "Microsoft.Network/virtualNetworks/subnets/privateEndpointNetworkPolicies",
+            "notEquals": "[parameters('privateEndpointNetworkPoliciesValue')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/microsoft.authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+          ],
+          "conflictEffect": "audit",
+          "operations": [
+            {
+              "operation": "addOrReplace",
+              "field": "Microsoft.Network/virtualNetworks/subnets/privateEndpointNetworkPolicies",
+              "value": "[parameters('privateEndpointNetworkPoliciesValue')]"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

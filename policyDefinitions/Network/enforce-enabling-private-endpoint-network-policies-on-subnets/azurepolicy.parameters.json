@@ -1,0 +1,28 @@
+{
+  "privateEndpointNetworkPoliciesValue": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private Endpoint Network Policies Value."
+    },
+    "allowedValues": [
+      "Enabled",
+      "NetworkSecurityGroupEnabled",
+      "RouteTableEnabled"
+    ],
+    "defaultValue": "Enabled"
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Modify, Deny, Audit or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "Modify",
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "defaultValue": "Modify"
+  }
+}

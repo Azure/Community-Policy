@@ -1,0 +1,30 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/virtualNetworks/subnets"
+      },
+      {
+        "field": "Microsoft.Network/virtualNetworks/subnets/privateEndpointNetworkPolicies",
+        "notEquals": "[parameters('privateEndpointNetworkPoliciesValue')]"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "roleDefinitionIds": [
+        "/providers/microsoft.authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+      ],
+      "conflictEffect": "audit",
+      "operations": [
+        {
+          "operation": "addOrReplace",
+          "field": "Microsoft.Network/virtualNetworks/subnets/privateEndpointNetworkPolicies",
+          "value": "[parameters('privateEndpointNetworkPoliciesValue')]"
+        }
+      ]
+    }
+  }
+}
