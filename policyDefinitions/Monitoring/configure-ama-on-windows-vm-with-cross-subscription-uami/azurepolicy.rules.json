@@ -1,5 +1,3 @@
-// Consent for Sharing
-//I, Richard Tunega, provide consent for this policy to be shared and used within the Azure Community Policy repository.
 {
     "if": {
         "allOf": [
