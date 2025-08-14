@@ -4,7 +4,6 @@
     "properties": {
         "displayName": "Protect selected resources from deletion",
         "description": "This policy protects selected resource types from accidental or malicious deletion.",
-        "policyType": "Custom",
         "mode": "Indexed",
         "metadata": {
             "version": "1.0.0",
@@ -16,7 +15,7 @@
                 "type": "String",
                 "metadata": {
                     "displayName": "Effect",
-                    "description": "Deny, or Disables the execution of the Policy"
+                    "description": "Deny, or Disables the execution of the Policy."
                 },
                 "allowedValues": [
                     "DenyAction",
@@ -40,7 +39,7 @@
                 "type": "Array",
                 "metadata": {
                     "displayName": "Protected Resource Types",
-                    "description": "Array of resource types to protect from deletion (e.g., ['Microsoft.Network/vpnSites', 'Microsoft.Storage/storageAccounts'])"
+                    "description": "Array of resource types to protect from deletion (e.g., ['Microsoft.Network/vpnSites', 'Microsoft.Storage/storageAccounts'])."
                 }
             }
         },
@@ -50,7 +49,7 @@
                 "in": "[parameters('protectedResourceTypes')]"
             },
             "then": {
-                "effect": "[parameters('DenyAction')]",
+                "effect": "[parameters('effect')]",
                 "details": {
                     "actionNames": [
                         "delete"
