@@ -16,7 +16,7 @@
                 "type": "String",
                 "metadata": {
                     "displayName": "Effect",
-                    "description": "Deny, or Disabled the execution of the Policy"
+                    "description": "Deny, or Disables the execution of the Policy"
                 },
                 "allowedValues": [
                     "DenyAction",
