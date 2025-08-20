@@ -1,5 +1,5 @@
 {
-    "name": "bdffab46-452d-5c4d-aacb-bdf9e45fd363",
+    "name": "a7adb719-061a-49ff-bba7-8e23e10e1133",
     "type": "Microsoft.Authorization/policyDefinitions",
     "properties": {
         "displayName": "Configure Windows virtual machines to run AMA with cross subscription user-assigned managed identity-based authentication",
@@ -193,7 +193,12 @@
                                             {
                                                 "field": "Microsoft.Compute/imageSku",
                                                 "like": "2022-*"
+                                            },
+                                                                                        {
+                                                "field": "Microsoft.Compute/imageSku",
+                                                "like": "2025-*"
                                             }
+
                                         ]
                                     }
                                 ]
@@ -238,6 +243,10 @@
                                     },
                                     {
                                         "anyOf": [
+                                            {
+                                                "field": "Microsoft.Compute/imageOffer",
+                                                "like": "*-WS2025"
+                                            },
                                             {
                                                 "field": "Microsoft.Compute/imageOffer",
                                                 "like": "*-WS2022"

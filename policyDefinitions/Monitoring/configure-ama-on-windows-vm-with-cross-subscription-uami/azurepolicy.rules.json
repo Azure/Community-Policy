@@ -58,7 +58,12 @@
                                     {
                                         "field": "Microsoft.Compute/imageSku",
                                         "like": "2022-*"
+                                    },
+                                    {
+                                        "field": "Microsoft.Compute/imageSku",
+                                        "like": "2025-*"
                                     }
+
                                 ]
                             }
                         ]
@@ -103,6 +108,10 @@
                             },
                             {
                                 "anyOf": [
+                                    {
+                                        "field": "Microsoft.Compute/imageOffer",
+                                        "like": "*-WS2025"
+                                    },
                                     {
                                         "field": "Microsoft.Compute/imageOffer",
                                         "like": "*-WS2022"
