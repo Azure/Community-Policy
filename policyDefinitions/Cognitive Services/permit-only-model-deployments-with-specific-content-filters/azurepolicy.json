@@ -1,0 +1,50 @@
+{
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "9e5e5a2e-bda3-4cba-944c-966046f6472f",
+  "properties": {
+    "displayName": "Responsible AI - Content Filter for Model Deployment of Azure AI Service",
+    "description": "Check that every model deployment of the cognitive services account has a Content Filter with a specified name",
+    "mode": "All",
+    "metadata": {
+      "category": "Cognitive Services",
+      "version": "1.0.0"
+    },
+    "version": "1.0.0",
+    "parameters": {
+      "raiPolicyNameParam": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enforce content filter",
+          "description": "Enforce a Responsible AI Policy Name / Content Filter for all model deployments."
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "deny",
+          "audit",
+          "disabled"
+        ],
+        "defaultValue": "audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "not": {
+          "field": "Microsoft.CognitiveServices/accounts/deployments/raiPolicyName",
+          "equals": "[parameters('raiPolicyNameParam')]"
+        }
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "versions": [
+      "1.0.0"
+    ]
+  }
+}
