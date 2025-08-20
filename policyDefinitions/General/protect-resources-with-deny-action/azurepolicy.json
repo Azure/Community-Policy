@@ -1,0 +1,67 @@
+{
+    "name": "927f91cf-9e9f-4d95-9deb-1579aed07ace",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "properties": {
+        "displayName": "Protect selected resources from deletion",
+        "description": "This policy protects selected resource types from accidental or malicious deletion.",
+        "mode": "Indexed",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "General"
+        },
+        "version": "1.0.0",
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Deny, or Disables the execution of the Policy."
+                },
+                "allowedValues": [
+                    "DenyAction",
+                    "Disabled"
+                ],
+                "defaultValue": "DenyAction"
+            },
+            "cascadeBehavior": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Cascade Behavior",
+                    "description": "Defines which behavior is followed when a resource is implicitly deleted when a resource group is removed."
+                },
+                "allowedValues": [
+                    "deny",
+                    "allow"
+                ],
+                "defaultValue": "deny"
+            },
+            "protectedResourceTypes": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "Protected Resource Types",
+                    "description": "Array of resource types to protect from deletion (e.g., ['Microsoft.Network/vpnSites', 'Microsoft.Storage/storageAccounts'])."
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "field": "type",
+                "in": "[parameters('protectedResourceTypes')]"
+            },
+            "then": {
+                "effect": "[parameters('effect')]",
+                "details": {
+                    "actionNames": [
+                        "delete"
+                    ],
+                    "cascadeBehaviors": {
+                        "resourceGroup": "[parameters('cascadeBehavior')]"
+                    }
+                }
+            }
+        },
+        "versions": [
+            "1.0.0"
+        ]
+    }
+}

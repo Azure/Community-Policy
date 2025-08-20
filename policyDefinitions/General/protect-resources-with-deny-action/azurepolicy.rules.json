@@ -1,0 +1,17 @@
+{
+    "if": {
+        "field": "type",
+        "in": "[parameters('protectedResourceTypes')]"
+    },
+    "then": {
+        "effect": "[parameters('DenyAction')]",
+        "details": {
+            "actionNames": [
+                "delete"
+            ],
+            "cascadeBehaviors": {
+                "resourceGroup": "[parameters('cascadeBehavior')]"
+            }
+        }
+    }
+}

@@ -1,0 +1,33 @@
+{
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Deny, or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+            "DenyAction",
+            "Disabled"
+        ],
+        "defaultValue": "DenyAction"
+    },
+    "cascadeBehavior": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Cascade Behavior",
+            "description": "Defines which behavior is followed when a resource is implicitly deleted when a resource group is removed."
+        },
+        "allowedValues": [
+            "deny",
+            "allow"
+        ],
+        "defaultValue": "deny"
+    },
+    "protectedResourceTypes": {
+        "type": "Array",
+        "metadata": {
+            "displayName": "Protected Resource Types",
+            "description": "Array of resource types to protect from deletion (e.g., ['Microsoft.Network/vpnSites', 'Microsoft.Storage/storageAccounts'])"
+        }
+    }
+}
