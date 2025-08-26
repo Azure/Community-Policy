@@ -10,7 +10,7 @@ The purpose of this repo is for Azure Policy users and Microsoft internal teams 
 
 For Built-in policies repo, please visit here: [azure-policy](https://github.com/Azure/azure-policy)
 
-
+<!-- IntelliJ test commit -->
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
