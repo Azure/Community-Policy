@@ -41,6 +41,10 @@
               },
               {
                 "field": "Microsoft.Sql/servers/privateEndpointConnections/privateLinkServiceConnectionState.status",
+                "equals": "Approved"
+              },
+              {
+                "field": "Microsoft.Sql/servers/privateEndpointConnections/provisioningState",
                 "equals": "Ready"
               }
             ]
