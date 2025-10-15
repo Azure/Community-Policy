@@ -45,7 +45,7 @@
           },
           {
             "field": "Microsoft.Authorization/roleDefinitions/roleName",
-            "notIn": "[parameters('ExcludedRoleNames')]"
+            "notIn": "[parameters('excludedRoleNames')]"
           }
         ]
       },
