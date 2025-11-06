@@ -3,7 +3,7 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Activate Azure Benefits for Windows Arc Machines",
-    "description": "Activate Azure benefits for Windows ARC Machines\n\nFor 2025 server, if license type is paygo, then this will check paygo box in license menu.  If 2025 and not paygo license or not 2025 server then check Software Assurance box.  This policy only checks Windows Server resources and will NOT check unlicensed servers",
+    "description": "Activate Azure benefits for Windows ARC Machines\n\nFor 2025 server, if license type is Pay-as-you-go, then this will check Pay-as-you-go box in license menu.  If 2025 and not Pay-as-you-go license or not 2025 server then check Software Assurance box.  This policy only checks Windows Server resources and will NOT check unlicensed servers",
     "metadata": {
       "version": "1.0.0",
       "category": "Compute"
