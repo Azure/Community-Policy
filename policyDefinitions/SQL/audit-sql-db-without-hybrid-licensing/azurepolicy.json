@@ -35,8 +35,28 @@
             "contains": "vcore"
           },
           {
+            "field": "kind",
+            "notContains": "pool"
+          },
+          {
+            "field": "kind",
+            "notContains": "serverless"
+          },
+          {
+            "field": "kind",
+            "notContains": "hyperscale"
+          },
+          {
             "field": "Microsoft.Sql/servers/databases/licenseType",
             "notEquals": "BasePrice"
+          },
+          {
+            "field": "Microsoft.Sql/servers/databases/currentSku.name",
+            "notContains": "GP_S"
+          },
+          {
+            "field": "Microsoft.Sql/servers/databases/currentSku.name",
+            "notEquals": "ElasticPool"
           }
         ]
       },
