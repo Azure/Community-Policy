@@ -32,7 +32,7 @@
         "effect": "[parameters('effect')]",
         "details": {
           "name": "default",
-          "type": "Microsoft.Sql/servers",
+          "type": "Microsoft.Sql/servers/privateEndpointConnections",
           "existenceCondition": {
             "allOf": [
               {
