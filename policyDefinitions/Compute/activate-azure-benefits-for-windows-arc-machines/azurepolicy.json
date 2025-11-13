@@ -1,0 +1,198 @@
+{
+  "name": "8afa5ca1-7115-489a-8b1f-209602402816",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Activate Azure Benefits for Windows Arc Machines",
+    "description": "Activate Azure benefits for Windows ARC Machines\n\nFor 2025 server, if license type is Pay-as-you-go, then this will check Pay-as-you-go box in license menu.  If 2025 and not Pay-as-you-go license or not 2025 server then check Software Assurance box.  This policy only checks Windows Server resources and will NOT check unlicensed servers",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Compute"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.HybridCompute/machines"
+          },
+          {
+            "field": "Microsoft.HybridCompute/machines/osType",
+            "equals": "windows"
+          },
+          {
+            "field": "Microsoft.HybridCompute/machines/licenseProfile.licenseStatus",
+            "equals": "Licensed"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.HybridCompute/machines",
+          "name": "[field('name')]",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "existenceCondition": {
+            "anyOf": [
+              {
+                "allOf": [
+                  {
+                    "field": "Microsoft.HybridCompute/machines/osSku",
+                    "contains": "2025"
+                  },
+                  {
+                    "field": "Microsoft.HybridCompute/machines/licenseProfile.licenseChannel",
+                    "contains": "PGS"
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.HybridCompute/machines/licenseProfile.productProfile.subscriptionStatus",
+                        "equals": "Enabled"
+                      },
+                      {
+                        "field": "Microsoft.HybridCompute/machines/licenseProfile.productProfile.productFeatures[*].subscriptionStatus",
+                        "equals": "Enabled"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "Microsoft.HybridCompute/machines/osSku",
+                    "contains": "2025"
+                  },
+                  {
+                    "not": {
+                      "field": "Microsoft.HybridCompute/machines/licenseProfile.licenseChannel",
+                      "contains": "PGS"
+                    }
+                  },
+                  {
+                    "field": "Microsoft.HybridCompute/machines/licenseProfile.softwareAssurance.softwareAssuranceCustomer",
+                    "equals": true
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "not": {
+                      "field": "Microsoft.HybridCompute/machines/osSku",
+                      "contains": "2025"
+                    }
+                  },
+                  {
+                    "field": "Microsoft.HybridCompute/machines/licenseProfile.softwareAssurance.softwareAssuranceCustomer",
+                    "equals": true
+                  }
+                ]
+              }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "vmName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "osSku": {
+                    "type": "string"
+                  },
+                  "licenseChannel": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "productType": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "condition": "[and(equals(parameters('status'), 'Connected'), contains(parameters('licenseChannel'), 'PGS'))]",
+                    "name": "[concat(parameters('vmName'), '/default')]",
+                    "type": "Microsoft.HybridCompute/machines/licenseProfiles",
+                    "location": "[parameters('location')]",
+                    "apiVersion": "2025-01-13",
+                    "properties": {
+                      "productProfile": {
+                        "productType": "[parameters('productType')]",
+                        "subscriptionStatus": "Enabled"
+                      }
+                    }
+                  },
+                  {
+                    "condition": "[and(equals(parameters('status'), 'Connected'), not(contains(parameters('licenseChannel'), 'PGS')))]",
+                    "name": "[concat(parameters('vmName'), '/default')]",
+                    "type": "Microsoft.HybridCompute/machines/licenseProfiles",
+                    "location": "[parameters('location')]",
+                    "apiVersion": "2025-01-13",
+                    "properties": {
+                      "softwareAssurance": {
+                        "softwareAssuranceCustomer": true
+                      }
+                    }
+                  }
+                ],
+                "outputs": {
+                  "policy": {
+                    "type": "string",
+                    "value": "[concat('Enabled Software Assurance for VM', ': ', parameters('vmName'))]"
+                  }
+                }
+              },
+              "parameters": {
+                "vmName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                },
+                "osSku": {
+                  "value": "[field('Microsoft.HybridCompute/machines/osSku')]"
+                },
+                "licenseChannel": {
+                  "value": "[field('Microsoft.HybridCompute/machines/licenseProfile.licenseChannel')]"
+                },
+                "status": {
+                  "value": "[field('Microsoft.HybridCompute/machines/status')]"
+                },
+                "productType": {
+                  "value": "[field('Microsoft.HybridCompute/machines/licenseProfile.productProfile.productType')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

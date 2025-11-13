@@ -20,13 +20,13 @@ Output directory. Default is output.
 Category of the Policy definition. Default is empty indicating to preserve the existing category in metadata.
 
 .EXAMPLE
-Out-FormattedPolicyDefinitionToOneFiles.ps1 -fileName azurepolicy.json -category "Custom"
+Out-FormattedPolicyDefinition.ps1 -fileName azurepolicy.json -category "Custom"
 
 .EXAMPLE
-Out-FormattedPolicyDefinitionToOneFiles.ps1 -fileName azurepolicy.json
+Out-FormattedPolicyDefinition.ps1 -fileName azurepolicy.json
 
 .EXAMPLE
-Out-FormattedPolicyDefinitionToOneFiles.ps1 -fileName azurepolicy.json -outputDirectory "output"
+Out-FormattedPolicyDefinition.ps1 -fileName azurepolicy.json -outputDirectory "output"
 
 #>
 
