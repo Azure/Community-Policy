@@ -1,0 +1,48 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "e62541ee-b22d-4942-afa0-e15ecb4472da",
+    "properties": {
+      "displayName": "Auth failure should return 403 when in transition from api keys to RBAC authentication",
+      "mode": "All",
+      "description": "Set auth failure mode to https403 for search services in the transition state between using api keys for authentication to RBAC",
+      "metadata": {
+        "category": "Search",
+        "version": "1.0.0"
+      },
+      "parameters": {
+        "effect": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": [
+            "Audit",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        }
+      },
+      "policyRule": {
+        "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Search/searchServices"
+            },
+            {
+              "field": "Microsoft.Search/searchServices/disableLocalAuth",
+              "notEquals": "true"
+            },
+            {
+              "field": "Microsoft.Search/searchServices/authOptions.aadOrApiKey.aadAuthFailureMode",
+              "notEquals": "http403"
+            }
+          ]
+        },
+        "then": {
+          "effect": "[parameters('effect')]"
+        }
+      }
+    }
+  }
