@@ -1,0 +1,21 @@
+{
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Search/searchServices"
+        },
+        {
+          "field": "Microsoft.Search/searchServices/disableLocalAuth",
+          "notEquals": "true"
+        },
+        {
+          "field": "Microsoft.Search/searchServices/authOptions.aadOrApiKey.aadAuthFailureMode",
+          "notEquals": "http403"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+}
