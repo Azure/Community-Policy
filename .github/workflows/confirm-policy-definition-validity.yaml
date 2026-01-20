@@ -17,7 +17,7 @@ jobs:
 
       - name: Get changed files
         id: changed_files
-        uses: tj-actions/changed-files@v42.0.2
+        uses: tj-actions/changed-files@v45.0.8
         with:
           separator: "§" # Character not used within a file name or path
           safe_output: true # Enable safe_output for security
