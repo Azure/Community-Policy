@@ -1,0 +1,52 @@
+{
+  "name": "83b29693-de0d-4c2f-87b8-1d57eee8d08c",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Require lowercase tag values",
+    "description": "This policy denies resource creation or update if the specified tag does not exist or contains uppercase letters. Tag values must be lowercase only.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Tags"
+    },
+    "mode": "Indexed",
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "exists": "false"
+          },
+          {
+            "value": "[equals(toLower(field(concat('tags[', parameters('tagName'), ']'))), field(concat('tags[', parameters('tagName'), ']')))]",
+            "equals": false
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag to check for existence and lowercase value"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disable the execution of the Policy"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "tagName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag Name",
+      "description": "Name of the tag to check. Must be lowercase."
+    }
+  },
+  "effect": {
+    "type": "String",
+    "defaultValue": "Audit",
+    "allowedValues": [
+      "Deny",
+      "Audit",
+      "Disabled"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Deny, Audit or Disable the execution of the Policy"
+    }
+  }
+}

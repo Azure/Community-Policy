@@ -1,0 +1,21 @@
+{
+  "if": {
+    "anyOf": [
+      {
+        "value": "[equals(toLower(parameters('tagName')), parameters('tagName'))]",
+        "equals": false
+      },
+      {
+        "field": "[concat('tags[', parameters('tagName'), ']')]",
+        "exists": "false"
+      },
+      {
+        "value": "[equals(toLower(field(concat('tags[', parameters('tagName'), ']'))), field(concat('tags[', parameters('tagName'), ']')))]",
+        "equals": false
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
