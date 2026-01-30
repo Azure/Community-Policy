@@ -3,7 +3,7 @@
     "type": "String",
     "metadata": {
       "displayName": "Tag Name",
-      "description": "Name of the tag to check. Must be lowercase."
+      "description": "Name of the tag to check for existence and lowercase value"
     }
   },
   "effect": {

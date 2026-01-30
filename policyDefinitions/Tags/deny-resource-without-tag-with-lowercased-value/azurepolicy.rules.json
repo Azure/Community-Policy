@@ -2,10 +2,6 @@
   "if": {
     "anyOf": [
       {
-        "value": "[equals(toLower(parameters('tagName')), parameters('tagName'))]",
-        "equals": false
-      },
-      {
         "field": "[concat('tags[', parameters('tagName'), ']')]",
         "exists": "false"
       },
