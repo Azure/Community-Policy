@@ -1,5 +1,5 @@
 {
-  "name": "83b29693-de0d-4c2f-87b8-1d57eee8d08c",
+  "name": "ea5e9133-0c52-4bea-88cd-278e7cd363fc",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Require lowercase tag values",
