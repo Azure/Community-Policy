@@ -1,0 +1,233 @@
+{
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.resources/subscriptions"
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]",
+            "details": {
+                "type": "Microsoft.Insights/activityLogAlerts",
+                "roleDefinitionIds": [
+                    "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                ],
+                "existenceCondition": {
+                    "allOf": [
+                        {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
+                            "equals": "true"
+                        },
+                        {
+                            "count": {
+                                "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                                "where": {
+                                    "anyOf": [
+                                        {
+                                            "allOf": [
+                                                {
+                                                    "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                                                    "equals": "category"
+                                                },
+                                                {
+                                                    "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                                                    "equals": "[parameters('activityLogCategory')]"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "allOf": [
+                                                {
+                                                    "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                                                    "equals": "operationName"
+                                                },
+                                                {
+                                                    "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                                                    "equals": "[parameters('activityLogOperationName')]"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            },
+                            "equals": 2
+                        },
+                        {
+                            "not": {
+                                "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                                "equals": "category"
+                            }
+                        },
+                        {
+                            "not": {
+                                "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                                "equals": "operationName"
+                            }
+                        }
+                    ]
+                },
+                "deploymentScope": "subscription",
+                "resourceGroupName":"[if(parameters('appendSubscriptionNameAsPrefix'), concat(subscription().displayName,'-', parameters('activityLogAlertResourceGroupName')), parameters('activityLogAlertResourceGroupName'))]",
+                "deployment": {
+                    "location": "eastus",
+                    "properties": {
+                        "mode": "incremental",
+                        "template": {
+                            "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                            "contentVersion": "1.0.0.0",
+                            "parameters": {
+                                "activityLogAlertResourceGroupName": {
+                                    "type": "string"
+                                },
+                                "activityLogAlertResourceGroupLocation": {
+                                    "type": "string"
+                                },
+                                "actionGroupResourceId": {
+                                    "type": "string"
+                                },
+                                "activityLogAlertName": {
+                                    "type": "string"
+                                },
+                                "activityLogCategory": {
+                                    "type": "string"
+                                },
+                                "activityLogOperationName": {
+                                    "type": "string"
+                                },
+                                "appendSubscriptionNameAsPrefix": {
+                                    "type": "bool"
+                                }
+                            },
+                            "variables": {
+                                "createRg": "[concat('deployRG-', uniqueString(deployment().name))]",
+                                "createAlert": "[concat('deployAlert-', uniqueString(deployment().name))]",
+                                "alertRGNAme": "[if(parameters('appendSubscriptionNameAsPrefix'), concat(subscription().displayName,'-', parameters('activityLogAlertResourceGroupName')), parameters('activityLogAlertResourceGroupName'))]"
+                            },
+                            "resources": [
+                                {
+                                    "type": "Microsoft.Resources/resourceGroups",
+                                    "apiVersion": "2022-09-01",
+                                    "name": "[variables('alertRGNAme')]",
+                                    "location": "[parameters('activityLogAlertResourceGroupLocation')]"
+                                },
+                                {
+                                    "type": "Microsoft.Resources/deployments",
+                                    "apiVersion": "2020-06-01",
+                                    "name": "[variables('createAlert')]",
+                                    "resourceGroup": "[variables('alertRGNAme')]",
+                                    "dependsOn": [
+                                        "[resourceId('Microsoft.Resources/resourceGroups', variables('alertRGNAme'))]"
+                                    ],
+                                    "properties": {
+                                        "expressionEvaluationOptions": {
+                                            "scope": "inner"
+                                        },
+                                        "mode": "Incremental",
+                                        "parameters": {
+                                            "activityLogAlertName": {
+                                                "value": "[trim(parameters('activityLogAlertName'))]"
+                                            },
+                                            "actionGroupResourceId": {
+                                                "value": "[trim(parameters('actionGroupResourceId'))]"
+                                            },
+                                            "activityLogCategory": {
+                                                "value": "[parameters('activityLogCategory')]"
+                                            },
+                                            "activityLogOperationName": {
+                                                "value": "[trim(parameters('activityLogOperationName'))]"
+                                            },
+                                            "appendSubscriptionNameAsPrefix": {
+                                                "value": "[parameters('appendSubscriptionNameAsPrefix')]"
+                                            }
+                                        },
+                                        "template": {
+                                            "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                                            "contentVersion": "1.0.0.0",
+                                            "parameters": {
+                                                "actionGroupResourceId": {
+                                                    "type": "string"
+                                                },
+                                                "activityLogAlertName": {
+                                                    "type": "string"
+                                                },
+                                                "activityLogCategory": {
+                                                    "type": "string"
+                                                },
+                                                "activityLogOperationName": {
+                                                    "type": "string"
+                                                },
+                                                "appendSubscriptionNameAsPrefix": {
+                                                    "type": "bool"
+                                                }
+                                            },
+                                            "variables": {
+                                                "alertName": "[if(parameters('appendSubscriptionNameAsPrefix'), concat(subscription().displayName,'-', parameters('activityLogAlertName')), parameters('activityLogAlertName'))]"
+                                            },
+                                            "resources": [
+                                                {
+                                                    "type": "Microsoft.Insights/activityLogAlerts",
+                                                    "apiVersion": "2017-04-01",
+                                                    "name": "[substring(variables('alertName') ,0 , min(createArray(length(variables('alertName')), 259)))]",
+                                                    "location": "Global",
+                                                    "properties": {
+                                                        "enabled": true,
+                                                        "scopes": [
+                                                            "[subscription().id]"
+                                                        ],
+                                                        "condition": {
+                                                            "allOf": [
+                                                                {
+                                                                    "field": "category",
+                                                                    "equals": "[parameters('activityLogCategory')]"
+                                                                },
+                                                                {
+                                                                    "field": "operationName",
+                                                                    "equals": "[parameters('activityLogOperationName')]"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "actions": {
+                                                            "actionGroups": [
+                                                                {
+                                                                    "actionGroupId": "[parameters('actionGroupResourceId')]"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "parameters": {
+                            "activityLogAlertName": {
+                                "value": "[trim(parameters('activityLogAlertName'))]"
+                            },
+                            "actionGroupResourceId": {
+                                "value": "[trim(parameters('actionGroupResourceId'))]"
+                            },
+                            "activityLogCategory": {
+                                "value": "[parameters('activityLogCategory')]"
+                            },
+                            "activityLogOperationName": {
+                                "value": "[trim(parameters('activityLogOperationName'))]"
+                            },
+                            "appendSubscriptionNameAsPrefix": {
+                                "value": "[parameters('appendSubscriptionNameAsPrefix')]"
+                            },
+                            "activityLogAlertResourceGroupName": {
+                                "value": "[parameters('activityLogAlertResourceGroupName')]"
+                            },
+                            "activityLogAlertResourceGroupLocation": {
+                                "value": "[parameters('activityLogAlertResourceGroupLocation')]"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }

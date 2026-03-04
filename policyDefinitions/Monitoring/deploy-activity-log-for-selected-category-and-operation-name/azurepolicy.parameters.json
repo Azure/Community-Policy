@@ -1,0 +1,82 @@
+{
+        "actionGroupResourceId": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the Action group.",
+                "displayName": "Action Group Resource ID"
+            }
+        },
+        "activityLogAlertName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the Activity log alert.",
+                "displayName": "Alert Name"
+            }
+        },
+        "appendSubscriptionNameAsPrefix": {
+            "type": "boolean",
+            "metadata": {
+                "description": "Append the Subscription Name to the parameter for the name of the Activity log alert and for the rg name.",
+                "displayName": "Append Subscription Name as Prefix"
+            },
+            "defaultValue": false,
+            "allowedValues":[
+              true,
+              false
+            ]
+        },
+        "activityLogCategory": {
+            "type": "string",
+            "metadata": {
+                "description": "Category for the Activity log alert.",
+                "displayName": "Alert Category"
+            },
+            "allowedValues": [
+                "Administrative",
+                "Security",
+                "ServiceHealth",
+                "Alert",
+                "Recommendation",
+                "Policy",
+                "Autoscale",
+                "ResourceHealth"
+            ],
+            "defaultValue": "Administrative"
+        },
+        "activityLogOperationName": {
+            "type": "string",
+            "metadata": {
+                "description": "Operation Name for the Activity log alert. format: Microsoft.Provider/resourceType/actionOrOperation examples: Microsoft.Sql/servers/firewallRules/write, Microsoft.Security/policies/write",
+                "displayName": "Alert Operation Name"
+            }
+        },
+        "activityLogAlertResourceGroupName": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the name of the Resource Group that will contain the Activity log alert resource.",
+                "displayName": "Alert Resource Group Name"
+            }
+        },
+        "activityLogAlertResourceGroupLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the location of the Resource Group that will contain the Activity log alert resource.",
+                "displayName": "Alert Resource Group Location",
+                "strongType": "location"
+            },
+            "defaultValue": "northeurope"
+        },
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+            },
+            "allowedValues": [
+                "DeployIfNotExists",
+                "AuditIfNotExists",
+                "Disabled"
+            ],
+            "defaultValue": "DeployIfNotExists"
+        }
+    }
