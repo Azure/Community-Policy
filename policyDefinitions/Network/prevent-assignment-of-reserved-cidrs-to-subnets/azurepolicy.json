@@ -1,0 +1,162 @@
+{
+  "name": "dd573e60-c793-4d20-b170-04fadf4d6298",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Prevent assignment of reserved CIDRs to subnets",
+    "description": "This policy prevents subnets from being assigned address ranges that overlap with specified reserved CIDR ranges. It checks both VNet-level subnet definitions and standalone subnet resources to ensure no overlap occurs with restricted IP ranges.",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0.0"
+    },
+    "mode": "All",
+    "parameters": {
+      "restrictedCIDRs": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Restricted CIDR Ranges",
+          "description": "Array of CIDR ranges that subnets cannot overlap with (e.g., ['10.0.0.0/8', '172.16.0.0/12'])"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+                  "where": {
+                    "anyOf": [
+                      {
+                        "count": {
+                          "value": "[parameters('restrictedCIDRs')]",
+                          "name": "restrictedCIDR",
+                          "where": {
+                            "anyOf": [
+                              {
+                                "value": "[ipRangeContains(current('restrictedCIDR'), if(empty(current('Microsoft.Network/virtualNetworks/subnets[*].addressPrefix')), '0.0.0.0/32', current('Microsoft.Network/virtualNetworks/subnets[*].addressPrefix')))]",
+                                "equals": true
+                              },
+                              {
+                                "value": "[ipRangeContains(if(empty(current('Microsoft.Network/virtualNetworks/subnets[*].addressPrefix')), '0.0.0.0/32', current('Microsoft.Network/virtualNetworks/subnets[*].addressPrefix')), current('restrictedCIDR'))]",
+                                "equals": true
+                              }
+                            ]
+                          }
+                        },
+                        "greater": 0
+                      },
+                      {
+                        "count": {
+                          "field": "Microsoft.Network/virtualNetworks/subnets[*].addressPrefixes[*]",
+                          "where": {
+                            "count": {
+                              "value": "[parameters('restrictedCIDRs')]",
+                              "name": "restrictedCIDR",
+                              "where": {
+                                "anyOf": [
+                                  {
+                                    "value": "[ipRangeContains(current('restrictedCIDR'), current('Microsoft.Network/virtualNetworks/subnets[*].addressPrefixes[*]'))]",
+                                    "equals": true
+                                  },
+                                  {
+                                    "value": "[ipRangeContains(current('Microsoft.Network/virtualNetworks/subnets[*].addressPrefixes[*]'), current('restrictedCIDR'))]",
+                                    "equals": true
+                                  }
+                                ]
+                              }
+                            },
+                            "greater": 0
+                          }
+                        },
+                        "greater": 0
+                      }
+                    ]
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks/subnets"
+              },
+              {
+                "anyOf": [
+                  {
+                    "count": {
+                      "value": "[parameters('restrictedCIDRs')]",
+                      "name": "restrictedCIDR",
+                      "where": {
+                        "anyOf": [
+                          {
+                            "value": "[ipRangeContains(current('restrictedCIDR'), if(empty(field('Microsoft.Network/virtualNetworks/subnets/addressPrefix')), '0.0.0.0/32', field('Microsoft.Network/virtualNetworks/subnets/addressPrefix')))]",
+                            "equals": true
+                          },
+                          {
+                            "value": "[ipRangeContains(if(empty(field('Microsoft.Network/virtualNetworks/subnets/addressPrefix')), '0.0.0.0/32', field('Microsoft.Network/virtualNetworks/subnets/addressPrefix')), current('restrictedCIDR'))]",
+                            "equals": true
+                          }
+                        ]
+                      }
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Network/virtualNetworks/subnets/addressPrefixes[*]",
+                      "where": {
+                        "count": {
+                          "value": "[parameters('restrictedCIDRs')]",
+                          "name": "restrictedCIDR",
+                          "where": {
+                            "anyOf": [
+                              {
+                                "value": "[ipRangeContains(current('restrictedCIDR'), current('Microsoft.Network/virtualNetworks/subnets/addressPrefixes[*]'))]",
+                                "equals": true
+                              },
+                              {
+                                "value": "[ipRangeContains(current('Microsoft.Network/virtualNetworks/subnets/addressPrefixes[*]'), current('restrictedCIDR'))]",
+                                "equals": true
+                              }
+                            ]
+                          }
+                        },
+                        "greater": 0
+                      }
+                    },
+                    "greater": 0
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+    "restrictedCIDRs": {
+        "type": "Array",
+        "metadata": {
+            "displayName": "Restricted CIDR Ranges",
+            "description": "Array of CIDR ranges that subnets cannot overlap with (e.g., ['10.0.0.0/8', '172.16.0.0/12'])"
+        }
+    },
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+            "Audit",
+            "Deny",
+            "Disabled"
+        ],
+        "defaultValue": "Deny"
+    }
+}
