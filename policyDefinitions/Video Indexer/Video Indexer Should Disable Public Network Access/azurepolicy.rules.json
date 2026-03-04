@@ -1,0 +1,17 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.VideoIndexer/accounts"
+      },
+      {          
+          "field": "Microsoft.VideoIndexer/accounts/publicNetworkAccess",
+          "notEquals": "Disabled"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
