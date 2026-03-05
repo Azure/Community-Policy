@@ -2,8 +2,8 @@
   "name": "a3c7bb4e-8e62-4f1d-9c3a-bf5d42e6f9d1",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "Configure Smart tier for ZRS storage accounts",
-    "description": "This policy ensures that all Standard ZRS storage accounts use the Smart access tier. The Smart tier automatically optimizes storage costs by moving data between access tiers based on access patterns. This policy targets Standard_ZRS, Standard_GZRS, and Standard_RAGZRS SKUs. Requests to modify must use API version 2025-08-01 or later.",
+    "displayName": "Deny ZRS storage accounts without Smart tier",
+    "description": "This policy ensures that all Standard ZRS storage accounts use the Smart access tier. The Smart tier automatically optimizes storage costs by moving data between access tiers based on access patterns. This policy targets Standard_ZRS, Standard_GZRS, and Standard_RAGZRS SKUs of kind StorageV2 or BlobStorage. Only requests using API version 2025-08-01 or later are evaluated, as earlier versions do not support the Smart tier.",
     "metadata": {
       "version": "1.0.0",
       "category": "Storage"
@@ -14,15 +14,14 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Modify, Deny, Audit or Disabled the execution of the Policy"
+          "description": "Deny, Audit or Disabled the execution of the Policy"
         },
         "allowedValues": [
-          "Modify",
           "Deny",
           "Audit",
           "Disabled"
         ],
-        "defaultValue": "Modify"
+        "defaultValue": "Deny"
       }
     },
     "policyRule": {
@@ -58,20 +57,7 @@
         ]
       },
       "then": {
-        "effect": "[parameters('effect')]",
-        "details": {
-          "conflictEffect": "audit",
-          "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab"
-          ],
-          "operations": [
-            {
-              "operation": "addOrReplace",
-              "field": "Microsoft.Storage/storageAccounts/accessTier",
-              "value": "Smart"
-            }
-          ]
-        }
+        "effect": "[parameters('effect')]"
       }
     }
   }
