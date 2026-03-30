@@ -1,0 +1,208 @@
+{
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Network/privateEndpoints"
+        },
+        {
+          "count": {
+            "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*]",
+            "where": {
+              "allOf": [
+                {
+                  "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
+                  "contains": "[parameters('privateEndpointPrivateLinkServiceId')]"
+                },
+                {
+                  "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].groupIds[*]",
+                  "equals": "[parameters('privateEndpointGroupId')]"
+                }
+              ]
+            }
+          },
+          "greaterOrEquals": 1
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]",
+      "details": {
+        "type": "Microsoft.Network/privateEndpoints",
+        "evaluationDelay": "PT5M",
+        "name": "[field('name')]",
+        "existenceCondition": {
+          "allOf": [
+            {
+              "field": "Microsoft.Network/privateEndpoints/customDnsConfigs[*]",
+              "exists": true
+            },
+            {
+              "count": {
+                "field": "Microsoft.Network/privateEndpoints/customDnsConfigs[*]"
+              },
+              "equals": 0
+            }
+          ]
+        },
+        "roleDefinitionIds": [
+          "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+        ],
+        "deployment": {
+          "properties": {
+            "mode": "incremental",
+            "parameters": {
+              "privateEndpointName": {
+                "value": "[field('name')]"
+              },
+              "privateEndpointId": {
+                "value": "[field('id')]"
+              },
+              "location": {
+                "value": "[field('location')]"
+              },
+              "dnsZoneGroupName": {
+                "value": "[parameters('dnsZoneGroupName')]"
+              },
+              "dnsConfigsRG": {
+                "value": "[parameters('dnsConfigsRG')]"
+              }
+            },
+            "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": {
+                "privateEndpointName": {
+                  "type": "string"
+                },
+                "privateEndpointId": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                },
+                "dnsZoneGroupName": {
+                  "type": "string"
+                },
+                "dnsConfigsRG": {
+                  "type": "string"
+                }
+              },
+              "variables": {
+                "getPECurrentProperties": "[concat('getPECurrentProperties-', uniqueString(deployment().name))]",
+                "deployPEDNSConfigs": "[concat('deployPEDNSConfigs-', uniqueString(deployment().name))]"
+              },
+              "resources": [
+                {
+                  "type": "Microsoft.Resources/deployments",
+                  "apiVersion": "2020-06-01",
+                  "name": "[variables('getPECurrentProperties')]",
+                  "properties": {
+                    "expressionEvaluationOptions": {
+                      "scope": "inner"
+                    },
+                    "mode": "Incremental",
+                    "parameters": {
+                      "privateEndpointId": {
+                        "value": "[parameters('privateEndpointId')]"
+                      }
+                    },
+                    "template": {
+                      "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                      "contentVersion": "1.0.0.0",
+                      "parameters": {
+                        "privateEndpointId": {
+                          "type": "string"
+                        }
+                      },
+                      "outputs": {
+                        "resource": {
+                          "type": "object",
+                          "value": "[reference(parameters('privateEndpointId'), '2024-10-01', 'Full')]"
+                        }
+                      },
+                      "resources": []
+                    }
+                  }
+                },
+                {
+                  "type": "Microsoft.Resources/deployments",
+                  "apiVersion": "2020-06-01",
+                  "dependsOn": [
+                    "[variables('getPECurrentProperties')]"
+                  ],
+                  "name": "[variables('deployPEDNSConfigs')]",
+                  "properties": {
+                    "expressionEvaluationOptions": {
+                      "scope": "inner"
+                    },
+                    "mode": "Incremental",
+                    "parameters": {
+                      "privateEndpointName": {
+                        "value": "[parameters('privateEndpointName')]"
+                      },
+                      "location": {
+                        "value": "[parameters('location')]"
+                      },
+                      "customDnsConfigs": {
+                        "value": "[map(coalesce(reference(variables('getPECurrentProperties')).outputs.resource.value.properties.customDnsConfigs, createArray()), lambda('dns', lambdaVariables('dns').fqdn))]"
+                      },
+                      "dnsZoneGroupName": {
+                        "value": "[parameters('dnsZoneGroupName')]"
+                      },
+                      "dnsConfigsRG": {
+                        "value": "[parameters('dnsConfigsRG')]"
+                      }
+                    },
+                    "template": {
+                      "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                      "contentVersion": "1.0.0.0",
+                      "parameters": {
+                        "privateEndpointName": {
+                          "type": "string"
+                        },
+                        "location": {
+                          "type": "string"
+                        },
+                        "customDnsConfigs": {
+                          "type": "array"
+                        },
+                        "dnsZoneGroupName": {
+                          "type": "string"
+                        },
+                        "dnsConfigsRG": {
+                          "type": "string"
+                        }
+                      },
+                      "resources": [
+                        {
+                          "name": "[concat(parameters('privateEndpointName'), '/', parameters('dnsZoneGroupName'))]",
+                          "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+                          "apiVersion": "2024-10-01",
+                          "location": "[parameters('location')]",
+                          "properties": {
+                            "copy": [
+                              {
+                                "name": "privateDnsZoneConfigs",
+                                "count": "[length(parameters('customDnsConfigs'))]",
+                                "input": {
+                                  "name": "[concat('privatelink', replace(substring(parameters('customDnsConfigs')[copyIndex('privateDnsZoneConfigs')], indexOf(parameters('customDnsConfigs')[copyIndex('privateDnsZoneConfigs')], '.'), sub(length(parameters('customDnsConfigs')[copyIndex('privateDnsZoneConfigs')]), indexOf(parameters('customDnsConfigs')[copyIndex('privateDnsZoneConfigs')], '.'))), '.', '-'))]",
+                                  "properties": {
+                                    "privateDnsZoneId": "[concat(parameters('dnsConfigsRG'), '/providers/Microsoft.Network/privateDnsZones/privatelink', substring(parameters('customDnsConfigs')[copyIndex('privateDnsZoneConfigs')], indexOf(parameters('customDnsConfigs')[copyIndex('privateDnsZoneConfigs')], '.'), sub(length(parameters('customDnsConfigs')[copyIndex('privateDnsZoneConfigs')]), indexOf(parameters('customDnsConfigs')[copyIndex('privateDnsZoneConfigs')], '.'))) ) ]"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
