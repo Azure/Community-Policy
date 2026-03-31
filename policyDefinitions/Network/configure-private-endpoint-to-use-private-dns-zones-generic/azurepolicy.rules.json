@@ -66,6 +66,12 @@
               },
               "dnsConfigsRG": {
                 "value": "[parameters('dnsConfigsRG')]"
+              },
+              "privateEndpointPrivateLinkServiceId": {
+                "value": "[parameters('privateEndpointPrivateLinkServiceId')]"
+              },
+              "privateEndpointGroupId": {
+                "value": "[parameters('privateEndpointGroupId')]"
               }
             },
             "template": {
@@ -86,11 +92,24 @@
                 },
                 "dnsConfigsRG": {
                   "type": "string"
+                },
+                "privateEndpointPrivateLinkServiceId": {
+                  "type": "string"
+                },
+                "privateEndpointGroupId": {
+                  "type": "string"
                 }
               },
               "variables": {
                 "getPECurrentProperties": "[concat('getPECurrentProperties-', uniqueString(deployment().name))]",
-                "deployPEDNSConfigs": "[concat('deployPEDNSConfigs-', uniqueString(deployment().name))]"
+                "deployPEDNSConfigs": "[concat('deployPEDNSConfigs-', uniqueString(deployment().name))]",
+                "mappedName": "[concat(tolower(parameters('privateEndpointPrivateLinkServiceId')), '/', tolower(parameters('privateEndpointGroupId')) )]",
+                "mappings":{
+                  "microsoft.keyvault/vaults/vault" : [
+                    ".vault.",
+                    ".vaultcore."
+                  ]
+                }
               },
               "resources": [
                 {
@@ -145,7 +164,7 @@
                         "value": "[parameters('location')]"
                       },
                       "customDnsConfigs": {
-                        "value": "[map(coalesce(reference(variables('getPECurrentProperties')).outputs.resource.value.properties.customDnsConfigs, createArray()), lambda('dns', lambdaVariables('dns').fqdn))]"
+                        "value": "[if(equals(tryGet(variables('mappings'), variables('mappedName')), null()), map(coalesce(reference(variables('getPECurrentProperties')).outputs.resource.value.properties.customDnsConfigs, createArray()), lambda('dns', lambdaVariables('dns').fqdn)),  map(coalesce(reference(variables('getPECurrentProperties')).outputs.resource.value.properties.customDnsConfigs, createArray()), lambda('dns', replace(lambdaVariables('dns').fqdn, tryGet(variables('mappings'), variables('mappedName'))[0], tryGet(variables('mappings'), variables('mappedName'))[1]))) )]"
                       },
                       "dnsZoneGroupName": {
                         "value": "[parameters('dnsZoneGroupName')]"
