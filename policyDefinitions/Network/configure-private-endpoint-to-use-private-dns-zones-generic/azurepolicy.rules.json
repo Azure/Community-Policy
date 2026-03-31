@@ -29,7 +29,7 @@
       "effect": "[parameters('effect')]",
       "details": {
         "type": "Microsoft.Network/privateEndpoints",
-        "evaluationDelay": "PT5M",
+        "evaluationDelay": "PT1M",
         "name": "[field('name')]",
         "existenceCondition": {
           "allOf": [
