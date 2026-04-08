@@ -1,0 +1,41 @@
+{
+  "cogsvcPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Cognitive Services Private DNS Zone id",
+      "description": "A private DNS zone id to connect to the Cognitive Services private endpoint. (privatelink.cognitiveservices.azure.com)",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "aoaiPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Open AI Private DNS Zone id",
+      "description": "A private DNS zone id to connect to the OpenAI private endpoint. (privatelink.openai.azure.com)",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    },
+    "defaultValue": ""
+  },
+  "aisvcPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "AI Services Private DNS Zone id",
+      "description": "A private DNS zone id to connect to the AI Services private endpoint. (privatelink.services.ai.azure.com)",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    },
+    "defaultValue": ""
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}
