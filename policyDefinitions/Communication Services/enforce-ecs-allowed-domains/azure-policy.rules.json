@@ -1,0 +1,17 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Communication/emailServices/domains"
+            },
+            {
+                "value": "[last(split(field('name'), '/'))]",
+                "notIn": "[parameters('allowedDomains')]"
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}
