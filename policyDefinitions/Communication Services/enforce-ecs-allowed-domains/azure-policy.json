@@ -2,7 +2,7 @@
   "name": "2fc0f268-7ac0-4975-b33f-cd967a773e7b",
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
-    "displayName": "Allow only allowed domains on ECS",
+    "displayName": "Enforce allowed domains on ECS",
     "policyType": "Custom",
     "mode": "All",
     "description": "Denies creation of Email Communication Service domains unless the domain is explicitly approved.",
