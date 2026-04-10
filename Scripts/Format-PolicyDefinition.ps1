@@ -59,6 +59,7 @@ function Format-PolicyDefinition {
             "CDN",
             "ChangeTrackingAndInventory",
             "Cognitive Services",
+            "Communication",
             "Compute",
             "Container Apps",
             "Container Instance",

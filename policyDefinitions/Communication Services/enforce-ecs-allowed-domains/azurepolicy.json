@@ -3,7 +3,6 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Enforce allowed domains on ECS",
-    "policyType": "Custom",
     "mode": "All",
     "description": "Denies creation of Email Communication Service domains unless the domain is explicitly approved.",
     "metadata": {
@@ -24,7 +23,8 @@
       "effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect"
+          "displayName": "Effect",
+          "description": "Specifies whether non-approved Email Communication Service domains are denied, audited, or ignored."
         },
         "allowedValues": [
           "Deny",
