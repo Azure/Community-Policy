@@ -34,7 +34,7 @@
 		"type": "Boolean",
 		"metadata": {
 			"displayName": "Treat Failure As Deployment Failure",
-			"description": " Mark application failure as VM deployment failure for failure handling while being installed/updated/removed",
+			"description": "Mark application failure as VM deployment failure for failure handling while being installed/updated/removed",
 			"portalReview": true
 		},
 		"defaultValue": false
