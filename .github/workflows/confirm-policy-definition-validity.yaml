@@ -39,7 +39,7 @@ jobs:
           SANITIZED_FILES: ${{ env.SANITIZED_FILES }}
 
       - name: Run if changed files are found
-        if: ${{ steps.changed_files.outputs.any_changed }} == 'true'
+        if: ${{ steps.changed_files.outputs.any_changed == 'true' }}
         run: |
           $files = "${{ env.SANITIZED_FILES }}"
           $files = $files.Split("§")
