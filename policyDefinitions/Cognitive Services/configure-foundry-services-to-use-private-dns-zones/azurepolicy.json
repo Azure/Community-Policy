@@ -24,8 +24,7 @@
           "displayName": "Open AI Private DNS Zone id",
           "description": "A private DNS zone id to connect to the OpenAI private endpoint. (privatelink.openai.azure.com)",
           "strongType": "Microsoft.Network/privateDnsZones"
-        },
-        "defaultValue": ""
+        }
       },
       "aisvcPrivateDnsZoneId": {
         "type": "String",
@@ -33,8 +32,7 @@
           "displayName": "AI Services Private DNS Zone id",
           "description": "A private DNS zone id to connect to the AI Services private endpoint. (privatelink.services.ai.azure.com)",
           "strongType": "Microsoft.Network/privateDnsZones"
-        },
-        "defaultValue": ""
+        }
       },
       "effect": {
         "type": "String",
