@@ -1,0 +1,45 @@
+{
+  "name": "27e66ba1-7f71-4a8e-b981-ef06d5c78c1b",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Azure AI Video Indexer Should Disable Public Network Access",
+    "description": "This policy Denies the creation of AI Video Indexer accounts with Public Network Access enabled. Disabling Public Network Access helps to enhance the security of your Video Indexer accounts by restricting access to trusted networks only.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Video Indexer"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.VideoIndexer/accounts"
+          },
+          {          
+              "field": "Microsoft.VideoIndexer/accounts/publicNetworkAccess",
+              "notEquals": "Disabled"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
