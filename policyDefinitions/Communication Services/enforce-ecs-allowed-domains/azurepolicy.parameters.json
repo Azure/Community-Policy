@@ -1,0 +1,24 @@
+{
+    "allowedDomains": {
+        "type": "Array",
+        "metadata": {
+            "displayName": "Allowed domains",
+            "description": "List of approved domain resource names, for example contoso.com"
+        },
+        "defaultValue": [
+            "defensie.nl"
+        ]
+    },
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect"
+        },
+        "allowedValues": [
+            "Deny",
+            "Audit",
+            "Disabled"
+        ],
+        "defaultValue": "Deny"
+    }
+}

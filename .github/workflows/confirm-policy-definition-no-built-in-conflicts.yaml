@@ -26,9 +26,11 @@ jobs:
           separator: "§"  # we need a character which isn't used within a file name or path
 
       - name: Validate Policy Definition Unique ID & Check for Built-In Policy Conflicts
-        if: ${{ steps.changed_files.outputs.any_changed }} == 'true'
+        if: ${{ steps.changed_files.outputs.any_changed == 'true' }}
         shell: bash
-        run: >
+        run: |
+          set -euo pipefail
+
           echo 'Step 1: Checking if azurepolicy.json file exists...'
 
           filesString="${{ steps.changed_files.outputs.all_changed_files }}"
@@ -39,83 +41,83 @@ jobs:
 
           echo "   Info: changed files converted to array, ready to check each file..."
 
+          policyFile=""
           for rawfile in "${files[@]}"; do
             echo "      Checking file name: ${rawfile}"
 
-            # Trim backspaces from the file name
-            file=$(echo $rawfile | tr -d '\\')
+            file=$(echo "$rawfile" | tr -d '\\')
 
             echo "      Trimmed file name: ${file}"
             echo ""
 
             if echo "$file" | grep -q 'github/workflows'; then
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
               echo '   |                  -   VALIDATION EXEMPT   -                     |'
               echo '   |            .github/workflows directory detected                |'
               echo '   |       This directory is exempt from policy validation          |'
               echo '   |                                                                |'
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
             fi
             if echo "$file" | grep -q 'Scripts/'; then
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
               echo '   |                  -   VALIDATION EXEMPT   -                     |'
               echo '   |                 Scripts directory detected                     |'
               echo '   |       This directory is exempt from policy validation          |'
               echo '   |                                                                |'
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
             fi
             if echo "$file" | grep -q 'README.md'; then
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
               echo '   |                  -   VALIDATION EXEMPT   -                     |'
               echo '   |                    readme file detected                        |'
               echo '   |          This file is exempt from policy validation            |'
               echo '   |                                                                |'
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
             fi
             if echo "$file" | grep -q 'CODE_OF_CONDUCT.md'; then
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
               echo '   |                  -   VALIDATION EXEMPT   -                     |'
               echo '   |                code of conduct file detected                   |'
               echo '   |          This file is exempt from policy validation            |'
               echo '   |                                                                |'
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
             fi
             if echo "$file" | grep -q 'CONTRIBUTING.md'; then
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
               echo '   |                  -   VALIDATION EXEMPT   -                     |'
               echo '   |                contributing file detected                      |'
               echo '   |          This file is exempt from policy validation            |'
               echo '   |                                                                |'
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
             fi
             if echo "$file" | grep -q 'SECURITY.md'; then
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
               echo '   |                  -   VALIDATION EXEMPT   -                     |'
               echo '   |                   security file detected                       |'
               echo '   |          This file is exempt from policy validation            |'
               echo '   |                                                                |'
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
             fi
             if echo "$file" | grep -q 'LICENSE'; then
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
               echo '   |                  -   VALIDATION EXEMPT   -                     |'
               echo '   |                    license file detected                       |'
               echo '   |          This file is exempt from policy validation            |'
               echo '   |                                                                |'
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
             fi
             if echo "$file" | grep -q 'azurepolicy.json'; then
@@ -124,25 +126,25 @@ jobs:
               break
             fi
           done
-          
+
           if [ ! -f "$policyFile" ]; then
             echo ""
             echo ""
-            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
             echo '   |                                                                |'
             echo '   |                   -   VALIDATION FAILED   -                    |'
             echo '   |               File NOT FOUND: azurepolicy.json                 |'
             echo '   |                                                                |'
-            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
             echo ""
             echo ""
-            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
             echo '   |                                                                |'
             echo '   |                       -   NEXT STEPS   -                       |'
             echo '   | Please make sure your main Policy Definition file is included, |'
             echo '   |           and the file is named azurepolicy.json.              |'
             echo '   |                                                                |'
-            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
             echo ""
             echo ""
             exit 1
@@ -157,119 +159,89 @@ jobs:
           if [ -z "$policyName" ]; then
             echo ""
             echo ""
-            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
             echo '   |                                                                |'
             echo '   |                   -   VALIDATION FAILED   -                    |'
             echo '   |         Policy Name not found in azurepolicy.json file         |'
             echo '   |                                                                |'
-            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
-            echo ""
-            echo ""
-            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
-            echo '   |                                                                |'
-            echo '   |                       -   NEXT STEPS   -                       |'
-            echo '   |     Please make sure a name is present in azurepolicy.json     |'
-            echo '   |            Please make sure the name is a valid GUID           |'
-            echo '   |                                                                |'
-            echo '   |     What is a GUID? https://www.rfc-editor.org/rfc/rfc4122     |'
-            echo '   |     Make a new GUID in PowerShell: https://aka.ms/new-guid     |'
-            echo '   |                                                                |'
-            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
             echo ""
             echo ""
             exit 1
           elif [[ ! $policyName =~ ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ ]]; then
             echo ""
             echo ""
-            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
             echo '   |                                                                |'
             echo '   |                   -   VALIDATION FAILED   -                    |'
             echo '   |                Policy name is not a valid GUID                 |'
             echo '   |                                                                |'
-            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
-            echo ""
-            echo ""
-            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
-            echo '   |                                                                |'
-            echo '   |                       -   NEXT STEPS   -                       |'
-            echo '   |         Please change the policy name to a unique GUID         |'
-            echo '   |                                                                |'
-            echo '   |     What is a GUID? https://www.rfc-editor.org/rfc/rfc4122     |'
-            echo '   |     Make a new GUID in PowerShell: https://aka.ms/new-guid     |'
-            echo '   |                                                                |'
-            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+            echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
             echo ""
             echo ""
             exit 1
           else
             echo "   Success: Policy Name $policyName exists and is a valid GUID."
-            
-            echo 'Step 3: Sending request to AzAdvertizer API to search for Policy Name in existing resources.'
+            echo 'Step 3: Downloading AzAdvertizer CSV to search for Policy GUID in existing resources.'
 
-            response=$(curl -s --compressed "https://www.azadvertizer.net/AzPolicyAdvertizerRuleThemAllData.json")
-            
-            if [ -z "$response" ]; then
-              echo '   Error: API Response - No response from AzAdvertizer.'
+            csvFile=$(mktemp)
+            httpStatus=$(curl -sS -L --compressed \
+              -H 'Accept: text/csv' \
+              -H 'User-Agent: GitHubActions-CommunityPolicyValidation' \
+              -o "$csvFile" \
+              -w '%{http_code}' \
+              'https://www.azadvertizer.net/azpolicyadvertizer-comma.csv')
+
+            if [ -z "$httpStatus" ] || [ "$httpStatus" != '200' ]; then
+              echo "   Error: AzAdvertizer CSV returned HTTP $httpStatus."
+              rm -f "$csvFile"
               exit 1
-            else
-              echo '   Success: Response from AzAdvertizer received.'
             fi
 
-            if [ "$(echo $response | jq length)" -le 0 ]; then
-              echo '   Error: API Response - No data found in response body.'
-              echo '      Next Steps: This one is on us, please open a GitHub issue if you see this error.'
+            if [ ! -s "$csvFile" ]; then
+              echo '   Error: API Response - No data found in CSV body.'
+              rm -f "$csvFile"
               exit 1
-            else
-              echo '   Success: Data found in response body.'
             fi
 
-            echo "   Info: Searching for policy name in response body..."
-            filteredResponse=$(echo $response | jq --arg a "$policyName" '.[] | select(.n == $a)')
-            echo "   Info: Search complete"
+            echo '   Success: CSV data received from AzAdvertizer.'
+            echo '   Info: Searching for policy GUID in CSV data...'
 
-            if [ ! -z "$filteredResponse" ]; then
+            filteredResponse=$(python3 -c "import csv,sys; target=sys.argv[2].strip().lower(); rows=csv.DictReader(open(sys.argv[1], newline='', encoding='utf-8-sig')); match=next((r for r in rows if (r.get('policyId') or '').strip().lower()==target), None); print('\n'.join([ (match.get('policyId') or '').strip(), (match.get('policyName') or '').strip(), (match.get('policyDescription') or '').strip() ])) if match else sys.exit(1)" "$csvFile" "$policyName" || true)
+
+            echo '   Info: Search complete'
+            rm -f "$csvFile"
+
+            if [ -n "$filteredResponse" ]; then
+              existingId=$(echo "$filteredResponse" | sed -n '1p')
+              existingDisplayName=$(echo "$filteredResponse" | sed -n '2p')
+              existingDescription=$(echo "$filteredResponse" | sed -n '3p')
+
               echo ""
               echo ""
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
               echo '   |                   -   VALIDATION FAILED   -                    |'
-              echo '   |     Policy name exists as another Azure Policy Definition      |'
+              echo '   |     Policy GUID exists as another Azure Policy Definition      |'
               echo '   |                                                                |'
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo ""
-              echo "   This pull request's name: ${policyName} == existing definition name: $(echo $filteredResponse | jq -r '.n')"
+              echo "   This pull request GUID: ${policyName} == existing definition GUID: ${existingId}"
               echo ""
               echo '   Conflicting Policy Definition Details:'
-              echo "      Name: $(echo $filteredResponse | jq -r '.n')"
-              echo "      Display Name: $(echo $filteredResponse | jq -r '.def' | jq -r '.displayName')"
-              echo "      Description: $(echo $filteredResponse | jq -r '.def' | jq -r '.description')"
-              echo ""
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
-              echo '   |                                                                 |'
-              echo '   |                       -   NEXT STEPS   -                        |'
-              echo '   |         Please change the policy name to a unique GUID          |'
-              echo '   |  Please do not submit only slightly altered built-in policies   |'
-              echo '   |                                                                 |'
-              echo '   |                      ----   NOTE   ----                         |'
-              echo '   | If you are intentionally updating an existing Community Policy  |'
-              echo '   | Azure Policy Definition, then this check failure can be ignored |'
-              echo '   |                                                                 |'
-              echo '   |     What is a GUID? https://www.rfc-editor.org/rfc/rfc4122      |'
-              echo '   |     Make a new GUID in PowerShell: https://aka.ms/new-guid      |'
-              echo '   |                                                                 |'
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
-              echo ""
+              echo "      Display Name: ${existingDisplayName}"
+              echo "      Description: ${existingDescription}"
               echo ""
               exit 1
             else
               echo '   Success: GUID not found in Built-In or Community Azure Policy Repo.'
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               echo '   |                                                                |'
               echo '   |                  -   VALIDATION SUCCESS   -                    |'
               echo '   |                  Policy name is a valid GUID                   |'
               echo '   |        and does not match an existing Policy Definition        |'
               echo '   |                                                                |'
-              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
+              echo '   \\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////////////'
               exit 0
             fi
           fi
