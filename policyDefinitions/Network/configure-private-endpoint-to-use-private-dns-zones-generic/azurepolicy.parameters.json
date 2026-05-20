@@ -1,0 +1,43 @@
+{
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Enable or disable the execution of the policy"
+      },
+      "allowedValues": [
+        "DeployIfNotExists",
+        "Disabled"
+      ],
+      "defaultValue": "DeployIfNotExists"
+    },
+    "privateEndpointPrivateLinkServiceId": {
+      "type": "string",
+      "metadata": {
+        "displayName": "Private Endpoint Link Service Id. The list is available in this link: https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration",
+        "description": "A group Id for the private endpoint"
+      }
+    },
+    "privateEndpointGroupId": {
+      "type": "string",
+      "metadata": {
+        "displayName": "Private Endpoint Group Id",
+        "description": "A group Id for the private endpoint. The list is available in this link: https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns#azure-services-dns-zone-configuration"
+      }
+    },
+    "dnsZoneGroupName": {
+      "type": "String",
+      "metadata": {
+        "displayName": "DNS Zone Group Name",
+        "description": "Private DNS Zone Group Name"
+      },
+      "defaultValue": "deployedByPolicy"
+    },
+    "dnsConfigsRG": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Private DNS Zone Resource Group Resource ID",
+        "description": "Private DNS Zone Resource Group where the private dns zones exist."
+      }
+    }
+  }
