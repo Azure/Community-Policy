@@ -1,0 +1,101 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Storage/storageAccounts"
+            },
+            {
+                "field": "location",
+                "equals": "[parameters('nspRegion')]"
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+            "type": "Microsoft.Network/networkSecurityPerimeters/resourceAssociations",
+            "name": "[concat(parameters('nspName'), '/', field('name'), '-nsp-assoc')]",
+            "resourceGroupName": "[parameters('nspResourceGroupName')]",
+            "existenceCondition": {
+                "allOf": [
+                    {
+                        "field": "Microsoft.Network/networkSecurityPerimeters/resourceAssociations/privateLinkResource.id",
+                        "equals": "[field('id')]"
+                    }
+                ]
+            },
+            "roleDefinitionIds": [
+                "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7",
+                "/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab"
+            ],
+            "deployment": {
+                "properties": {
+                    "mode": "incremental",
+                    "template": {
+                        "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "parameters": {
+                            "nspName": {
+                                "type": "string"
+                            },
+                            "storageAccountId": {
+                                "type": "string"
+                            },
+                            "storageAccountName": {
+                                "type": "string"
+                            },
+                            "nspProfileId": {
+                                "type": "string"
+                            },
+                            "accessMode": {
+                                "type": "string"
+                            },
+                            "location": {
+                                "type": "string"
+                            }
+                        },
+                        "resources": [
+                            {
+                                "type": "Microsoft.Network/networkSecurityPerimeters/resourceAssociations",
+                                "apiVersion": "2025-05-01",
+                                "name": "[concat(parameters('nspName'), '/', parameters('storageAccountName'), '-nsp-assoc')]",
+                                "location": "[parameters('location')]",
+                                "properties": {
+                                    "privateLinkResource": {
+                                        "id": "[parameters('storageAccountId')]"
+                                    },
+                                    "profile": {
+                                        "id": "[parameters('nspProfileId')]"
+                                    },
+                                    "accessMode": "[parameters('accessMode')]"
+                                }
+                            }
+                        ],
+                        "outputs": {}
+                    },
+                    "parameters": {
+                        "nspName": {
+                            "value": "[parameters('nspName')]"
+                        },
+                        "storageAccountId": {
+                            "value": "[field('id')]"
+                        },
+                        "storageAccountName": {
+                            "value": "[field('name')]"
+                        },
+                        "nspProfileId": {
+                            "value": "[parameters('nspProfileId')]"
+                        },
+                        "accessMode": {
+                            "value": "[parameters('accessMode')]"
+                        },
+                        "location": {
+                            "value": "[field('location')]"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
