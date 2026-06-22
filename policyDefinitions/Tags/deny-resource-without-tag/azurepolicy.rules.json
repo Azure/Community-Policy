@@ -1,9 +1,21 @@
 {
   "if": {
-    "allof": [
+    "allOf": [
       {
-        "field": "[concat('tags[', parameters('tagName'), ']')]",
-        "exists": "false"
+        "field": "type",
+        "notIn": "[parameters('excludedResourceTypes')]"
+      },
+      {
+        "anyOf": [
+          {
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "exists": "false"
+          },
+          {
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "equals": ""
+          }
+        ]
       }
     ]
   },

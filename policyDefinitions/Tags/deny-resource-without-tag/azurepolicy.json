@@ -3,9 +3,9 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "Deny-resource-without-tag",
-    "description": "need to add description",
+    "description": "Requires that a specified tag exists and is not empty on resources. Resource types that do not support tags can be excluded via the excludedResourceTypes parameter. Does not apply to resource groups (mode Indexed).",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Tags"
     },
     "mode": "Indexed",
@@ -14,8 +14,17 @@
         "type": "String",
         "metadata": {
           "displayName": "Tag name",
-          "description": "Name of the tag to enforce"
+          "description": "Name of the tag to enforce, such as 'Environment' or 'CostCenter'."
         }
+      },
+      "excludedResourceTypes": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Excluded Resource Types",
+          "description": "Resource types to exclude from this policy. Useful for resource types that do not support tags.",
+          "strongType": "ResourceType"
+        },
+        "defaultValue": []
       },
       "effect": {
         "type": "String",
@@ -33,10 +42,22 @@
     },
     "policyRule": {
       "if": {
-        "allof": [
+        "allOf": [
           {
-            "field": "[concat('tags[', parameters('tagName'), ']')]",
-            "exists": "false"
+            "field": "type",
+            "notIn": "[parameters('excludedResourceTypes')]"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "exists": "false"
+              },
+              {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "equals": ""
+              }
+            ]
           }
         ]
       },
