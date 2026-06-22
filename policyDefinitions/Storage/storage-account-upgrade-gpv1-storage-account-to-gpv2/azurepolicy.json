@@ -1,5 +1,5 @@
 {
-  "name": "45b0c7e7-c546-4aa4-94ec-188951feecc6",
+  "name": "d5a4e29c-8c1a-4d59-9f42-7b1b2f8a6e31",
   "mode": "Indexed",
   "displayName": "Upgrade GPv1 storage accounts to GPv2",
   "description": "Audits or upgrades legacy General Purpose v1 (GPv1) storage accounts to General Purpose v2 (GPv2) while preserving the existing storage account redundancy SKU.",
