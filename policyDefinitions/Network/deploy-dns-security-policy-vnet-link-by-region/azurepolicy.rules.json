@@ -1,0 +1,185 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+            },
+            {
+                "anyOf": [
+                    {
+                        "field": "Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers",
+                        "exists": false
+                    },
+                    {
+                        "count": {
+                            "field": "Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers[*]"
+                        },
+                        "equals": 0
+                    }
+                ]
+            },
+            {
+                "field": "location",
+                "in": "[parameters('supportedLocations')]"
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[field('name')]",
+            "existenceCondition": {
+                "field": "tags['dnsSecurityPolicyLinked']",
+                "exists": true
+            },
+            "roleDefinitionIds": [
+                "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7",
+                "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+            ],
+            "deployment": {
+                "properties": {
+                    "mode": "incremental",
+                    "parameters": {
+                        "vnetName": {
+                            "value": "[field('name')]"
+                        },
+                        "vnetResourceId": {
+                            "value": "[field('id')]"
+                        },
+                        "vnetLocation": {
+                            "value": "[field('location')]"
+                        },
+                        "vnetResourceGroup": {
+                            "value": "[resourceGroup().name]"
+                        },
+                        "locationToPolicyMap": {
+                            "value": "[parameters('locationToPolicyMap')]"
+                        },
+                        "securitySubscriptionId": {
+                            "value": "[parameters('securitySubscriptionId')]"
+                        },
+                        "securityResourceGroup": {
+                            "value": "[parameters('securityResourceGroup')]"
+                        },
+                        "existingTags": {
+                            "value": "[if(empty(field('tags')), createObject(), field('tags'))]"
+                        }
+                    },
+                    "template": {
+                        "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "parameters": {
+                            "vnetName": {
+                                "type": "string"
+                            },
+                            "vnetResourceId": {
+                                "type": "string"
+                            },
+                            "vnetLocation": {
+                                "type": "string"
+                            },
+                            "vnetResourceGroup": {
+                                "type": "string"
+                            },
+                            "locationToPolicyMap": {
+                                "type": "object"
+                            },
+                            "securitySubscriptionId": {
+                                "type": "string"
+                            },
+                            "securityResourceGroup": {
+                                "type": "string"
+                            },
+                            "existingTags": {
+                                "type": "object"
+                            }
+                        },
+                        "variables": {
+                            "cleanRg": "[toLower(replace(replace(replace(parameters('vnetResourceGroup'), '_', '-'), '.', '-'), ' ', '-'))]",
+                            "cleanName": "[toLower(replace(replace(replace(parameters('vnetName'), '_', '-'), '.', '-'), ' ', '-'))]",
+                            "linkName": "[take(concat(variables('cleanRg'), '-', variables('cleanName'), '-dnsl'), 80)]",
+                            "policyName": "[parameters('locationToPolicyMap')[parameters('vnetLocation')]]",
+                            "deployHash": "[take(uniqueString(parameters('vnetResourceId'), deployment().name), 8)]",
+                            "crossSubDeployName": "[take(concat('dnslink-', variables('deployHash')), 64)]",
+                            "mergedTags": "[union(parameters('existingTags'), createObject('dnsSecurityPolicyLinked', variables('policyName')))]"
+                        },
+                        "resources": [
+                            {
+                                "type": "Microsoft.Resources/deployments",
+                                "apiVersion": "2022-09-01",
+                                "name": "[variables('crossSubDeployName')]",
+                                "subscriptionId": "[parameters('securitySubscriptionId')]",
+                                "resourceGroup": "[parameters('securityResourceGroup')]",
+                                "properties": {
+                                    "expressionEvaluationOptions": {
+                                        "scope": "inner"
+                                    },
+                                    "mode": "Incremental",
+                                    "template": {
+                                        "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                                        "contentVersion": "1.0.0.0",
+                                        "parameters": {
+                                            "policyName": {
+                                                "type": "string"
+                                            },
+                                            "linkName": {
+                                                "type": "string"
+                                            },
+                                            "vnetLocation": {
+                                                "type": "string"
+                                            },
+                                            "vnetResourceId": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "resources": [
+                                            {
+                                                "type": "Microsoft.Network/dnsResolverPolicies/virtualNetworkLinks",
+                                                "apiVersion": "2025-10-01-preview",
+                                                "name": "[concat(parameters('policyName'), '/', parameters('linkName'))]",
+                                                "location": "[parameters('vnetLocation')]",
+                                                "properties": {
+                                                    "virtualNetwork": {
+                                                        "id": "[parameters('vnetResourceId')]"
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "parameters": {
+                                        "policyName": {
+                                            "value": "[variables('policyName')]"
+                                        },
+                                        "linkName": {
+                                            "value": "[variables('linkName')]"
+                                        },
+                                        "vnetLocation": {
+                                            "value": "[parameters('vnetLocation')]"
+                                        },
+                                        "vnetResourceId": {
+                                            "value": "[parameters('vnetResourceId')]"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "type": "Microsoft.Resources/tags",
+                                "apiVersion": "2024-03-01",
+                                "name": "default",
+                                "scope": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
+                                "dependsOn": [
+                                    "[variables('crossSubDeployName')]"
+                                ],
+                                "properties": {
+                                    "tags": "[variables('mergedTags')]"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
