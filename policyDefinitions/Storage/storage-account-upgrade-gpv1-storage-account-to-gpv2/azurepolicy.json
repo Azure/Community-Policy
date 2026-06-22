@@ -31,7 +31,10 @@
         },
         {
           "field": "kind",
-          "equals": "Storage"
+          "in": [
+            "Storage",
+            "StorageV2"
+          ]
         }
       ]
     },
