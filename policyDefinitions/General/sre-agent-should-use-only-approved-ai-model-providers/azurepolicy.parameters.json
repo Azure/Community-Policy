@@ -1,0 +1,25 @@
+{
+  "allowedModelProviders": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Allowed AI model providers",
+      "description": "The SRE Agent default model providers that are permitted. The control plane currently represents Azure AI Foundry as MicrosoftFoundry."
+    },
+    "defaultValue": [
+      "MicrosoftFoundry"
+    ]
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Audit, Deny, or disable the policy."
+    },
+    "allowedValues": [
+      "Audit",
+      "Deny",
+      "Disabled"
+    ],
+    "defaultValue": "Audit"
+  }
+}

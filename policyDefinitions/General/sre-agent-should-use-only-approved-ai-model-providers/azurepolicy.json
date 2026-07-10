@@ -1,0 +1,64 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2020-10-01/policyDefinition.json#",
+  "name": "d56cddda-67d5-41d1-9b2d-4d9269e5c675",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "SRE Agent should use only approved AI model providers",
+    "description": "Audits or denies Microsoft.App/agents resources without an explicitly configured approved default AI model provider. Assign Audit first to inventory existing agents before enforcing Deny.",
+    "mode": "All",
+    "metadata": {
+      "category": "General",
+      "version": "1.0.0"
+    },
+    "parameters": {
+      "allowedModelProviders": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed AI model providers",
+          "description": "The SRE Agent default model providers that are permitted. The control plane currently represents Azure AI Foundry as MicrosoftFoundry."
+        },
+        "defaultValue": [
+          "MicrosoftFoundry"
+        ]
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit, Deny, or disable the policy."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.App/agents"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.App/agents/defaultModel.provider",
+                "exists": "false"
+              },
+              {
+                "field": "Microsoft.App/agents/defaultModel.provider",
+                "notIn": "[parameters('allowedModelProviders')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
