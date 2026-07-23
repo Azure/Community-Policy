@@ -1,0 +1,47 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  },
+  "supportedImagePublishers": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Supported image publishers",
+      "description": "Marketplace image publishers whose distributions are supported by the AADSSHLoginForLinux extension. Virtual machines built from other publishers are not targeted unless matchAllLinuxImages is set to true."
+    },
+    "defaultValue": [
+      "Canonical",
+      "Debian",
+      "credativ",
+      "RedHat",
+      "SUSE",
+      "Oracle",
+      "almalinux",
+      "resf",
+      "MicrosoftCBLMariner",
+      "almalinuxosfoundation1628089859865",
+      "erockyenterprisesoftwarefoundationinc1653071250513"
+    ]
+  },
+  "matchAllLinuxImages": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Match all Linux images",
+      "description": "Set to true to target every Linux virtual machine regardless of its image reference, for example when custom images are used. Set to false to only target the image publishers listed in supportedImagePublishers."
+    },
+    "allowedValues": [
+      true,
+      false
+    ],
+    "defaultValue": false
+  }
+}
