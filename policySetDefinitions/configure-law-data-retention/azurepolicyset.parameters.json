@@ -1,0 +1,71 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "The effect applied by all member policies. DeployIfNotExists remediates non-compliant workspaces and tables, AuditIfNotExists only reports them, Disabled turns the policies off."
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  },
+  "workspaceRetentionInDays": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "Workspace retention (days)",
+      "description": "Workspace-level analytics data retention in days. Allowed range is 30-730. Defaults to 30 (the minimum)."
+    },
+    "defaultValue": 30
+  },
+  "tableRetentionInDays": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "Table analytics retention (days)",
+      "description": "Analytics (interactive) retention in days for each table. Allowed range is 4-730. Defaults to 30. Keep this low to control cost; use total retention for long-term storage."
+    },
+    "defaultValue": 30
+  },
+  "tableTotalRetentionInDays": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "Table total retention (days)",
+      "description": "Total retention in days (analytics + long-term) for each table. Allowed values are 4-730, or 1095, 1460, 1826, 2191, 2556, 2922, 3288, 3653, 4018, 4383. Defaults to 30."
+    },
+    "defaultValue": 30
+  },
+  "tableNameLike": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Table name include pattern",
+      "description": "Only tables whose name matches this wildcard pattern are governed by the table policy. '*' = all tables, 'App*' = Application Insights tables. Defaults to '*'."
+    },
+    "defaultValue": "*"
+  },
+  "tableNameNotLike": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Table name exclude pattern",
+      "description": "Tables whose name matches this wildcard pattern are skipped by the table policy. E.g. 'App*' excludes Application Insights tables. Defaults to a value that matches nothing (exclude none)."
+    },
+    "defaultValue": "~noexclude~"
+  },
+  "appInsightsRetentionInDays": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "Application Insights table analytics retention (days)",
+      "description": "Analytics (interactive) retention in days for the workspace-based Application Insights tables (App*). Allowed range is 4-730. Defaults to 90 (free with workspace-based Application Insights)."
+    },
+    "defaultValue": 90
+  },
+  "appInsightsTotalRetentionInDays": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "Application Insights table total retention (days)",
+      "description": "Total retention in days (analytics + long-term) for the Application Insights tables. Allowed values are 4-730, or 1095, 1460, 1826, 2191, 2556, 2922, 3288, 3653, 4018, 4383. Defaults to 90."
+    },
+    "defaultValue": 90
+  }
+}
