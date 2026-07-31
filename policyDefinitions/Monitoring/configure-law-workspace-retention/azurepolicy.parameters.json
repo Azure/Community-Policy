@@ -1,0 +1,23 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "The policy effect. DeployIfNotExists remediates non-compliant workspaces, AuditIfNotExists only reports them, Disabled turns the policy off."
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  },
+  "workspaceRetentionInDays": {
+    "type": "Integer",
+    "metadata": {
+      "displayName": "Workspace retention (days)",
+      "description": "Workspace-level analytics data retention in days. This becomes the default analytics retention for all Analytics tables that still inherit the workspace setting. Allowed range is 30-730. Defaults to 30 (the minimum)."
+    },
+    "defaultValue": 30
+  }
+}

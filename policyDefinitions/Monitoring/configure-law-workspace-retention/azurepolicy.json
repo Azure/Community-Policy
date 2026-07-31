@@ -1,0 +1,99 @@
+{
+  "name": "a4f8e2c1-1b23-4c7a-9d5e-3f6a7b8c9d01",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Configure Log Analytics workspace data retention (workspace level)",
+    "mode": "Indexed",
+    "description": "Configures the workspace-level analytics data retention (retentionInDays) of Log Analytics workspaces via DeployIfNotExists; create a remediation task to fix existing workspaces. Requires a managed identity with the Log Analytics Contributor role. Defaults to 30 days. Part of the Log Analytics data retention guardrails set (workspace, table, and Application Insights retention policies); combined initiative and one-click deployment: https://github.com/claestom/law-retention-guardrails",
+    "metadata": {
+      "category": "Monitoring",
+      "version": "2.0.0",
+      "source": "https://learn.microsoft.com/azure/azure-monitor/logs/data-retention-configure"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "The policy effect. DeployIfNotExists remediates non-compliant workspaces, AuditIfNotExists only reports them, Disabled turns the policy off."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "workspaceRetentionInDays": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Workspace retention (days)",
+          "description": "Workspace-level analytics data retention in days. This becomes the default analytics retention for all Analytics tables that still inherit the workspace setting. Allowed range is 30-730. Defaults to 30 (the minimum)."
+        },
+        "defaultValue": 30
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.OperationalInsights/workspaces"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.OperationalInsights/workspaces",
+          "name": "[field('name')]",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+          ],
+          "existenceCondition": {
+            "field": "Microsoft.OperationalInsights/workspaces/retentionInDays",
+            "equals": "[parameters('workspaceRetentionInDays')]"
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "workspaceName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                },
+                "retentionInDays": {
+                  "value": "[parameters('workspaceRetentionInDays')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "workspaceName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "retentionInDays": {
+                    "type": "int"
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.OperationalInsights/workspaces",
+                    "apiVersion": "2022-10-01",
+                    "name": "[parameters('workspaceName')]",
+                    "location": "[parameters('location')]",
+                    "properties": {
+                      "retentionInDays": "[parameters('retentionInDays')]"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
