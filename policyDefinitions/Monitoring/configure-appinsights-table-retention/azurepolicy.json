@@ -1,0 +1,135 @@
+{
+  "name": "e9c3f6a5-5f67-4a1e-b1c2-7d0e1f2a3b45",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Configure Application Insights table data retention (analytics and total retention)",
+    "mode": "All",
+    "description": "Configures analytics (retentionInDays) and total (totalRetentionInDays) retention for the workspace-based Application Insights App* tables via DeployIfNotExists; create a remediation task to fix existing tables. Requires a managed identity with Log Analytics Contributor. Part of the Log Analytics data retention guardrails set (workspace, table, and App Insights policies); initiative and one-click deploy: https://github.com/claestom/law-retention-guardrails",
+    "metadata": {
+      "category": "Monitoring",
+      "version": "1.0.0",
+      "source": "https://learn.microsoft.com/azure/azure-monitor/app/data-model-complete"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "The policy effect. DeployIfNotExists remediates non-compliant tables, AuditIfNotExists only reports them, Disabled turns the policy off."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "tableRetentionInDays": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Table analytics retention (days)",
+          "description": "Analytics (interactive) retention in days for the Application Insights tables. Allowed range is 4-730. Defaults to 90 (free with workspace-based Application Insights)."
+        },
+        "defaultValue": 90
+      },
+      "tableTotalRetentionInDays": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Table total retention (days)",
+          "description": "Total retention in days (analytics + long-term) for the Application Insights tables. Valid values are 4-730, or 1095, 1460, 1826, 2191, 2556, 2922, 3288, 3653, 4018, 4383. Defaults to 90."
+        },
+        "defaultValue": 90
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.OperationalInsights/workspaces/tables"
+          },
+          {
+            "field": "name",
+            "in": [
+              "AppAvailabilityResults",
+              "AppBrowserTimings",
+              "AppDependencies",
+              "AppEvents",
+              "AppExceptions",
+              "AppMetrics",
+              "AppPageViews",
+              "AppPerformanceCounters",
+              "AppRequests",
+              "AppSystemEvents",
+              "AppTraces"
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.OperationalInsights/workspaces/tables",
+          "name": "[field('fullName')]",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+          ],
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.OperationalInsights/workspaces/tables/retentionInDays",
+                "equals": "[parameters('tableRetentionInDays')]"
+              },
+              {
+                "field": "Microsoft.OperationalInsights/workspaces/tables/totalRetentionInDays",
+                "equals": "[parameters('tableTotalRetentionInDays')]"
+              }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "parameters": {
+                "tableFullName": {
+                  "value": "[field('fullName')]"
+                },
+                "retentionInDays": {
+                  "value": "[parameters('tableRetentionInDays')]"
+                },
+                "totalRetentionInDays": {
+                  "value": "[parameters('tableTotalRetentionInDays')]"
+                }
+              },
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "tableFullName": {
+                    "type": "string"
+                  },
+                  "retentionInDays": {
+                    "type": "int"
+                  },
+                  "totalRetentionInDays": {
+                    "type": "int"
+                  }
+                },
+                "resources": [
+                  {
+                    "type": "Microsoft.OperationalInsights/workspaces/tables",
+                    "apiVersion": "2022-10-01",
+                    "name": "[parameters('tableFullName')]",
+                    "properties": {
+                      "retentionInDays": "[parameters('retentionInDays')]",
+                      "totalRetentionInDays": "[parameters('totalRetentionInDays')]"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
