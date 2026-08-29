@@ -17,11 +17,11 @@ jobs:
     permissions:
       pull-requests: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Get changed files
         id: changed_files
-        uses: tj-actions/changed-files@v45.0.8
+        uses: tj-actions/changed-files@a284dc1814e3fd07f2e34267fc8f81227ed29fb8 # v45.0.8
         with:
           separator: "§"  # we need a character which isn't used within a file name or path
 
