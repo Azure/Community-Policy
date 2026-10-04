@@ -1,0 +1,160 @@
+{
+  "resourceGroupName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Resource group name",
+      "description": "The resource group name where the export to Event Hub configuration is created. If you enter a name for a resource group that doesn't exist, it'll be created in the subscription. Note that each resource group can only have one export to Event Hub configured."
+    }
+  },
+  "resourceGroupLocation": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Resource group location",
+      "description": "The location where the resource group and the export to Event Hub configuration are created.",
+      "strongType": "location"
+    }
+  },
+  "createResourceGroup": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Create resource group",
+      "description": "Use true only for a new resource group. Use false for an existing group to preserve and merge its tags. After initial creation, change this to false before subsequent remediation. True redeploys the group and can replace existing tags."
+    },
+    "allowedValues": [
+      true,
+      false
+    ],
+    "defaultValue": true
+  },
+  "resourceGroupTags": {
+    "type": "Object",
+    "metadata": {
+      "displayName": "Resource group tags",
+      "description": "Tags applied at creation or merged into an existing group when createResourceGroup is false. Supplied values override matching tag names; an empty object leaves existing tags unchanged in existing-group mode."
+    },
+    "defaultValue": {}
+  },
+  "exportedDataTypes": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Exported data types",
+      "description": "Select at least one data type. Snapshot data is exported once a week; other data is streamed in real time. Empty arrays are rejected during deployment."
+    },
+    "allowedValues": [
+      "Security recommendations",
+      "Security alerts",
+      "Overall secure score",
+      "Secure score controls",
+      "Regulatory compliance",
+      "Overall secure score - snapshot",
+      "Secure score controls - snapshot",
+      "Regulatory compliance - snapshot",
+      "Security recommendations - snapshot",
+      "Security findings - snapshot"
+    ],
+    "defaultValue": [
+      "Security recommendations",
+      "Security alerts",
+      "Overall secure score",
+      "Secure score controls",
+      "Regulatory compliance",
+      "Overall secure score - snapshot",
+      "Secure score controls - snapshot",
+      "Regulatory compliance - snapshot",
+      "Security recommendations - snapshot",
+      "Security findings - snapshot"
+    ]
+  },
+  "recommendationNames": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Recommendation IDs",
+      "description": "Applicable only for export of security recommendations. To export all recommendations, leave this empty. To export specific recommendations, enter a list of recommendation IDs separated by semicolons (';'). Recommendation IDs are available through the Assessments API (https://docs.microsoft.com/rest/api/securitycenter/assessments), or Azure Resource Graph Explorer, choose securityresources and microsoft.security/assessments."
+    },
+    "defaultValue": []
+  },
+  "recommendationSeverities": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Recommendation severities",
+      "description": "Recommendation severities to export. Select at least one severity; empty arrays are rejected during deployment. Example: High;Medium;Low;"
+    },
+    "allowedValues": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "defaultValue": [
+      "High",
+      "Medium",
+      "Low"
+    ]
+  },
+  "isSecurityFindingsEnabled": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Include security findings",
+      "description": "Security findings are results from vulnerability assessment solutions, and can be thought of as 'sub' recommendations grouped into a 'parent' recommendation."
+    },
+    "allowedValues": [
+      true,
+      false
+    ],
+    "defaultValue": true
+  },
+  "secureScoreControlsNames": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Secure Score Controls IDs",
+      "description": "Applicable only for export of secure score controls. To export all secure score controls, leave this empty. To export specific secure score controls, enter a list of secure score controls IDs separated by semicolons (';'). Secure score controls IDs are available through the Secure score controls API (https://docs.microsoft.com/rest/api/securitycenter/securescorecontrols), or Azure Resource Graph Explorer, choose securityresources and microsoft.security/securescores/securescorecontrols."
+    },
+    "defaultValue": []
+  },
+  "alertSeverities": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Alert severities",
+      "description": "Alert severities to export. Select at least one severity; empty arrays are rejected during deployment. Example: High;Medium;Low;"
+    },
+    "allowedValues": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "defaultValue": [
+      "High",
+      "Medium",
+      "Low"
+    ]
+  },
+  "regulatoryComplianceStandardsNames": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Regulatory compliance standards names",
+      "description": "Applicable only for export of regulatory compliance. To export all regulatory compliance, leave this empty. To export specific regulatory compliance standards, enter a list of these standards names separated by semicolons (';'). Regulatory compliance standards names are available through the regulatory compliance standards API (https://docs.microsoft.com/rest/api/securitycenter/regulatorycompliancestandards), or Azure Resource Graph Explorer, choose securityresources and microsoft.security/regulatorycompliancestandards."
+    },
+    "defaultValue": []
+  },
+  "eventHubDetails": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Event Hub details",
+      "description": "The Event Hub details of where the data should be exported to: Subscription, Event Hub Namespace, Event Hub.",
+      "strongType": "Microsoft.EventHub/namespaces/eventhubs",
+      "assignPermissions": true
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}
