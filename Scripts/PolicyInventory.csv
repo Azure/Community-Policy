@@ -395,6 +395,8 @@
 "Security Center","Deny Enabling Security Center Auto-Provisioning","Security Center\deny-enabling-security-center-auto-provisioning","560f9617-9300-40ae-bcbc-c2e7742186ca"
 "Security Center","Deploy Azure Security Center Pricing Tier","Security Center\deploy-azure-security-center-pricing-tier","337abb15-b4b8-490a-92b9-0e4aa72e99b4"
 "Security Center","Deploy Azure Security Center Vulnerability Assessment extension if does not exist","Security Center\deploy-azure-security-center-vulnerability-assessment-extension-if-does-not-exist","08bf35f1-4e1c-4b95-819e-9c1547f70622"
+"Security Center","Deploy export to Event Hub as a trusted service for MDfC","Security Center\deploy-export-to-event-hub-as-a-trusted-service-for-mdfc","9ea5bdb6-1773-412c-a431-96d19c42b0be"
+"Security Center","Deploy export to Event Hub for MDfC","Security Center\deploy-export-to-event-hub-for-mdfc","57ef7078-bc66-4739-83d8-d1715a70d91a"
 "Security Center","Deploy Security Center Standard to Workspaces","Security Center\deploy-security-center-standard-to-workspaces","eea09cce-11b4-48ea-af42-815e817f50f2"
 "Service Bus","Service Bus Namespace - Customer Managed Keys AUDIT","Service Bus\service-bus-namespace-customer-managed-keys-audit","ff100af1-70f2-4521-8c0e-d3b90ae13741"
 "Service Bus","Service Bus Namespace - Customer Managed Keys DENY","Service Bus\service-bus-namespace-customer-managed-keys-deny","c4639a6d-2ec5-470a-8e8f-0a2c150c48fc"
