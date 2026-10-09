@@ -1,0 +1,24 @@
+{
+  "privateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Configure a private DNS Zone ID for Azure Database for PostgreSQL flexible server postgresqlServer groupID",
+      "description": "Configure private DNS zone group to override the DNS resolution for a Azure Database for PostgreSQL flexible server postgresqlServer groupID private endpoint.",
+      "strongType": "Microsoft.Network/privateDnsZones",
+      "assignPermissions": true
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}
