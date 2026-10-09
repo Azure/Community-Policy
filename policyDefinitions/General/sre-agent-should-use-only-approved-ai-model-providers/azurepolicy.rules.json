@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.App/agents"
+      },
+      {
+        "anyOf": [
+          {
+            "field": "Microsoft.App/agents/defaultModel.provider",
+            "exists": "false"
+          },
+          {
+            "field": "Microsoft.App/agents/defaultModel.provider",
+            "notIn": "[parameters('allowedModelProviders')]"
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
