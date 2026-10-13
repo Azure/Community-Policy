@@ -1,0 +1,90 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.OperationalInsights/workspaces/tables"
+      },
+      {
+        "field": "name",
+        "in": [
+          "AppAvailabilityResults",
+          "AppBrowserTimings",
+          "AppDependencies",
+          "AppEvents",
+          "AppExceptions",
+          "AppMetrics",
+          "AppPageViews",
+          "AppPerformanceCounters",
+          "AppRequests",
+          "AppSystemEvents",
+          "AppTraces"
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.OperationalInsights/workspaces/tables",
+      "name": "[field('fullName')]",
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+      ],
+      "existenceCondition": {
+        "allOf": [
+          {
+            "field": "Microsoft.OperationalInsights/workspaces/tables/retentionInDays",
+            "equals": "[parameters('tableRetentionInDays')]"
+          },
+          {
+            "field": "Microsoft.OperationalInsights/workspaces/tables/totalRetentionInDays",
+            "equals": "[parameters('tableTotalRetentionInDays')]"
+          }
+        ]
+      },
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "parameters": {
+            "tableFullName": {
+              "value": "[field('fullName')]"
+            },
+            "retentionInDays": {
+              "value": "[parameters('tableRetentionInDays')]"
+            },
+            "totalRetentionInDays": {
+              "value": "[parameters('tableTotalRetentionInDays')]"
+            }
+          },
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "tableFullName": {
+                "type": "string"
+              },
+              "retentionInDays": {
+                "type": "int"
+              },
+              "totalRetentionInDays": {
+                "type": "int"
+              }
+            },
+            "resources": [
+              {
+                "type": "Microsoft.OperationalInsights/workspaces/tables",
+                "apiVersion": "2022-10-01",
+                "name": "[parameters('tableFullName')]",
+                "properties": {
+                  "retentionInDays": "[parameters('retentionInDays')]",
+                  "totalRetentionInDays": "[parameters('totalRetentionInDays')]"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
