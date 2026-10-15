@@ -1,0 +1,59 @@
+[
+  {
+    "policyDefinitionReferenceId": "configureLawWorkspaceRetention",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a4f8e2c1-1b23-4c7a-9d5e-3f6a7b8c9d01",
+    "groupNames": [
+      "workspace-retention"
+    ],
+    "parameters": {
+      "effect": {
+        "value": "[parameters('effect')]"
+      },
+      "workspaceRetentionInDays": {
+        "value": "[parameters('workspaceRetentionInDays')]"
+      }
+    }
+  },
+  {
+    "policyDefinitionReferenceId": "configureLawTableRetention",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b5f9e3d2-2c34-4d8b-ae6f-4a7b8c9d0e12",
+    "groupNames": [
+      "table-retention"
+    ],
+    "parameters": {
+      "effect": {
+        "value": "[parameters('effect')]"
+      },
+      "tableRetentionInDays": {
+        "value": "[parameters('tableRetentionInDays')]"
+      },
+      "tableTotalRetentionInDays": {
+        "value": "[parameters('tableTotalRetentionInDays')]"
+      },
+      "tableNameLike": {
+        "value": "[parameters('tableNameLike')]"
+      },
+      "tableNameNotLike": {
+        "value": "[parameters('tableNameNotLike')]"
+      }
+    }
+  },
+  {
+    "policyDefinitionReferenceId": "configureAppInsightsTableRetention",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e9c3f6a5-5f67-4a1e-b1c2-7d0e1f2a3b45",
+    "groupNames": [
+      "appinsights-retention"
+    ],
+    "parameters": {
+      "effect": {
+        "value": "[parameters('effect')]"
+      },
+      "tableRetentionInDays": {
+        "value": "[parameters('appInsightsRetentionInDays')]"
+      },
+      "tableTotalRetentionInDays": {
+        "value": "[parameters('appInsightsTotalRetentionInDays')]"
+      }
+    }
+  }
+]
