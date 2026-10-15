@@ -118,7 +118,13 @@
                 "mappings":{
                   "microsoft.keyvault/vaults/vault" : [
                     ".vault.",
-                    ".vaultcore."
+                    ".vaultcore.",
+                    "partial"
+                  ],
+                  "Microsoft.Cache/RedisEnterprise/redisEnterprise" : [
+                    ".redis.azure.net",
+                    ".redis.azure.net",
+                    "full"
                   ]
                 }
               },
@@ -175,7 +181,7 @@
                         "value": "[parameters('location')]"
                       },
                       "customDnsConfigs": {
-                        "value": "[if(equals(tryGet(variables('mappings'), variables('mappedName')), null()), map(coalesce(reference(variables('getPECurrentProperties')).outputs.resource.value.properties.customDnsConfigs, createArray()), lambda('dns', lambdaVariables('dns').fqdn)),  map(coalesce(reference(variables('getPECurrentProperties')).outputs.resource.value.properties.customDnsConfigs, createArray()), lambda('dns', replace(lambdaVariables('dns').fqdn, tryGet(variables('mappings'), variables('mappedName'))[0], tryGet(variables('mappings'), variables('mappedName'))[1]))) )]"
+                        "value": "[if(equals(tryGet(variables('mappings'), variables('mappedName')), null()), map(coalesce(reference(variables('getPECurrentProperties')).outputs.resource.value.properties.customDnsConfigs, createArray()), lambda('dns', lambdaVariables('dns').fqdn)), map( coalesce(reference(variables('getPECurrentProperties')).outputs.resource.value.properties.customDnsConfigs, createArray()), lambda( 'dns', if(equals(tryGet(variables('mappings'), variables('mappedName'))[2], 'partial'), replace(lambdaVariables('dns').fqdn, tryGet(variables('mappings'), variables('mappedName'))[0], tryGet(variables('mappings'), variables('mappedName'))[1]), if(equals(tryGet(variables('mappings'), variables('mappedName'))[2], 'full'), tryGet(variables('mappings'), variables('mappedName'))[1], lambdaVariables('dns').fqdn)))))]"
                       },
                       "dnsZoneGroupName": {
                         "value": "[parameters('dnsZoneGroupName')]"
