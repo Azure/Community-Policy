@@ -1,0 +1,161 @@
+{
+  "name": "5fc585fc-9c50-471f-b19e-013cd1bca813",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Configure Linux virtual machines to use Microsoft Entra login",
+    "description": "Deploys the AADSSHLoginForLinux extension to Linux virtual machines from a supported image publisher, so users can sign in over SSH with Microsoft Entra credentials and OpenSSH certificates. Only virtual machines that already have a system-assigned managed identity are targeted, because the extension fails with exit code 22 without one. Set matchAllLinuxImages to true for custom images. Machines need a running VM agent, 1 GB of memory and outbound HTTPS to packages.microsoft.com.",
+    "metadata": {
+      "category": "Compute",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "supportedImagePublishers": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Supported image publishers",
+          "description": "Marketplace image publishers whose distributions are supported by the AADSSHLoginForLinux extension. Virtual machines built from other publishers are not targeted unless matchAllLinuxImages is set to true."
+        },
+        "defaultValue": [
+          "Canonical",
+          "Debian",
+          "credativ",
+          "RedHat",
+          "SUSE",
+          "Oracle",
+          "almalinux",
+          "resf",
+          "MicrosoftCBLMariner",
+          "almalinuxosfoundation1628089859865",
+          "erockyenterprisesoftwarefoundationinc1653071250513"
+        ]
+      },
+      "matchAllLinuxImages": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Match all Linux images",
+          "description": "Set to true to target every Linux virtual machine regardless of its image reference, for example when custom images are used. Set to false to only target the image publishers listed in supportedImagePublishers."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": false
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+            "equals": "Linux"
+          },
+          {
+            "field": "identity.type",
+            "contains": "SystemAssigned"
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[parameters('matchAllLinuxImages')]",
+                "equals": true
+              },
+              {
+                "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.publisher",
+                "in": "[parameters('supportedImagePublishers')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "evaluationDelay": "AfterProvisioningSuccess",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+                "equals": "Microsoft.Azure.ActiveDirectory"
+              },
+              {
+                "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                "equals": "AADSSHLoginForLinux"
+              },
+              {
+                "field": "Microsoft.Compute/virtualMachines/extensions/provisioningState",
+                "equals": "Succeeded"
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "vmName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "name": "[concat(parameters('vmName'), '/AADSSHLoginForLinux')]",
+                    "type": "Microsoft.Compute/virtualMachines/extensions",
+                    "location": "[parameters('location')]",
+                    "apiVersion": "2023-03-01",
+                    "properties": {
+                      "publisher": "Microsoft.Azure.ActiveDirectory",
+                      "type": "AADSSHLoginForLinux",
+                      "typeHandlerVersion": "1.0",
+                      "autoUpgradeMinorVersion": true
+                    }
+                  }
+                ],
+                "outputs": {
+                  "policy": {
+                    "type": "string",
+                    "value": "[concat('Enabled Microsoft Entra login for Linux VM', ': ', parameters('vmName'))]"
+                  }
+                }
+              },
+              "parameters": {
+                "vmName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
