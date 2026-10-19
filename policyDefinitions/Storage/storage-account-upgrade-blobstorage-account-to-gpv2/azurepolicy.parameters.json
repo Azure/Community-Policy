@@ -1,0 +1,15 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Audit or automatically upgrade BlobStorage accounts to StorageV2."
+    },
+    "allowedValues": [
+      "AuditIfNotExists",
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists"
+  }
+}

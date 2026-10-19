@@ -1,0 +1,56 @@
+{
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+            "DeployIfNotExists",
+            "AuditIfNotExists",
+            "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+    },
+    "nspName": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Network Security Perimeter Name",
+            "description": "The name of the Network Security Perimeter resource, e.g. 'nsp-germanywestcentral'"
+        }
+    },
+    "nspResourceGroupName": {
+        "type": "String",
+        "metadata": {
+            "displayName": "NSP Resource Group Name",
+            "description": "The resource group where the Network Security Perimeter is deployed, e.g. 'rg-nsp-platform'"
+        }
+    },
+    "nspProfileId": {
+        "type": "String",
+        "metadata": {
+            "displayName": "NSP Profile Resource ID",
+            "description": "The full resource ID of the NSP profile to associate storage accounts with, e.g. /subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.Network/networkSecurityPerimeters/{nspName}/profiles/{profileName}"
+        }
+    },
+    "accessMode": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Access Mode",
+            "description": "The access mode for the NSP resource association. 'Learning' (also known as Transition) allows existing firewall rules to continue working alongside NSP rules. 'Enforced' restricts access to NSP rules only."
+        },
+        "allowedValues": [
+            "Learning",
+            "Enforced"
+        ],
+        "defaultValue": "Learning"
+    },
+    "nspRegion": {
+        "type": "String",
+        "metadata": {
+            "displayName": "NSP Region",
+            "description": "The Azure region where the NSP is deployed. Only storage accounts in this region will be associated. Must match the NSP location, e.g. 'germanywestcentral'"
+        },
+        "defaultValue": ""
+    }
+}

@@ -1,0 +1,27 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  },
+  "matchAllWindowsImages": {
+    "type": "Boolean",
+    "metadata": {
+      "displayName": "Match all Windows images",
+      "description": "Set to true to target every Windows virtual machine regardless of its image reference, for example when custom or golden images are used. Set to false to only target the marketplace images that Microsoft documents as supported."
+    },
+    "allowedValues": [
+      true,
+      false
+    ],
+    "defaultValue": false
+  }
+}

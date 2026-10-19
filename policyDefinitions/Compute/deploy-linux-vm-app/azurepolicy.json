@@ -42,8 +42,8 @@
 			"treatFailureAsDeploymentFailure": {
 				"type": "Boolean",
 				"metadata": {
-					"displayName": "Treat Failure As Deployment Success",
-					"description": "The VM application extension always returns a success regardless of whether any VM app failed while being installed/updated/removed",
+					"displayName": "Treat Failure As Deployment Failure",
+					"description": "Mark application failure as VM deployment failure for failure handling while being installed/updated/removed",
 					"portalReview": true
 				},
 				"defaultValue": false

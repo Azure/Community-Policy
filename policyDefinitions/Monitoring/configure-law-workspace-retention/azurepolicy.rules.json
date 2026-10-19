@@ -1,0 +1,62 @@
+{
+  "if": {
+    "field": "type",
+    "equals": "Microsoft.OperationalInsights/workspaces"
+  },
+  "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+      "type": "Microsoft.OperationalInsights/workspaces",
+      "name": "[field('name')]",
+      "roleDefinitionIds": [
+        "/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+      ],
+      "existenceCondition": {
+        "field": "Microsoft.OperationalInsights/workspaces/retentionInDays",
+        "equals": "[parameters('workspaceRetentionInDays')]"
+      },
+      "deployment": {
+        "properties": {
+          "mode": "incremental",
+          "parameters": {
+            "workspaceName": {
+              "value": "[field('name')]"
+            },
+            "location": {
+              "value": "[field('location')]"
+            },
+            "retentionInDays": {
+              "value": "[parameters('workspaceRetentionInDays')]"
+            }
+          },
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "workspaceName": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              },
+              "retentionInDays": {
+                "type": "int"
+              }
+            },
+            "resources": [
+              {
+                "type": "Microsoft.OperationalInsights/workspaces",
+                "apiVersion": "2022-10-01",
+                "name": "[parameters('workspaceName')]",
+                "location": "[parameters('location')]",
+                "properties": {
+                  "retentionInDays": "[parameters('retentionInDays')]"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

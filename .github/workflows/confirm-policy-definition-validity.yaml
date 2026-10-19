@@ -13,11 +13,11 @@ jobs:
       pull-requests: read
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Get changed files
         id: changed_files
-        uses: tj-actions/changed-files@v45.0.8
+        uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
         with:
           separator: "§" # Character not used within a file name or path
           safe_output: true # Enable safe_output for security
@@ -39,7 +39,7 @@ jobs:
           SANITIZED_FILES: ${{ env.SANITIZED_FILES }}
 
       - name: Run if changed files are found
-        if: ${{ steps.changed_files.outputs.any_changed }} == 'true'
+        if: ${{ steps.changed_files.outputs.any_changed == 'true' }}
         run: |
           $files = "${{ env.SANITIZED_FILES }}"
           $files = $files.Split("§")

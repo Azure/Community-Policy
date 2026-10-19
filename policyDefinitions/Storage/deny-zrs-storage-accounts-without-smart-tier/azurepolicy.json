@@ -1,0 +1,64 @@
+{
+  "name": "a3c7bb4e-8e62-4f1d-9c3a-bf5d42e6f9d1",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Deny ZRS storage accounts without Smart tier",
+    "description": "This policy ensures that all Standard ZRS storage accounts use the Smart access tier. The Smart tier automatically optimizes storage costs by moving data between access tiers based on access patterns. This policy targets Standard_ZRS, Standard_GZRS, and Standard_RAGZRS SKUs of kind StorageV2 or BlobStorage. Only requests using API version 2025-08-01 or later are evaluated, as earlier versions do not support the Smart tier.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "mode": "All",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "kind",
+            "in": [
+              "StorageV2",
+              "BlobStorage"
+            ]
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/sku.name",
+            "in": [
+              "Standard_ZRS",
+              "Standard_GZRS",
+              "Standard_RAGZRS"
+            ]
+          },
+          {
+            "value": "[requestContext().apiVersion]",
+            "greaterOrEquals": "2025-08-01"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/accessTier",
+            "notEquals": "Smart"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

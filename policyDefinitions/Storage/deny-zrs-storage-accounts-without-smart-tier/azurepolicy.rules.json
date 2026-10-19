@@ -1,0 +1,36 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Storage/storageAccounts"
+      },
+      {
+        "field": "kind",
+        "in": [
+          "StorageV2",
+          "BlobStorage"
+        ]
+      },
+      {
+        "field": "Microsoft.Storage/storageAccounts/sku.name",
+        "in": [
+          "Standard_ZRS",
+          "Standard_GZRS",
+          "Standard_RAGZRS"
+        ]
+      },
+      {
+        "value": "[requestContext().apiVersion]",
+        "greaterOrEquals": "2025-08-01"
+      },
+      {
+        "field": "Microsoft.Storage/storageAccounts/accessTier",
+        "notEquals": "Smart"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

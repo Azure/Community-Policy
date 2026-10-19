@@ -3,8 +3,17 @@
     "type": "String",
     "metadata": {
       "displayName": "Tag name",
-      "description": "Name of the tag to enforce"
+      "description": "Name of the tag to enforce, such as 'Environment' or 'CostCenter'."
     }
+  },
+  "excludedResourceTypes": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Excluded Resource Types",
+      "description": "Resource types to exclude from this policy. Useful for resource types that do not support tags.",
+      "strongType": "ResourceType"
+    },
+    "defaultValue": []
   },
   "effect": {
     "type": "String",

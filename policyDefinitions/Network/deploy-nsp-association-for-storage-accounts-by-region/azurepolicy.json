@@ -1,0 +1,170 @@
+{
+    "name": "8e73616c-5b04-4592-bc0e-e9a50c37f348",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "properties": {
+        "displayName": "Deploy NSP Association for Storage Accounts by Region",
+        "description": "Automatically associates Storage Accounts to a regional Network Security Perimeter (NSP) using DeployIfNotExists. When a storage account in the specified region lacks an NSP resource association, this policy creates one under the target NSP with the configured access mode (Learning or Enforced). Prerequisites: The NSP and its profile must already exist. Requires one assignment per NSP region.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Network"
+        },
+        "mode": "All",
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+                },
+                "allowedValues": [
+                    "DeployIfNotExists",
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "DeployIfNotExists"
+            },
+            "nspName": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Network Security Perimeter Name",
+                    "description": "The name of the Network Security Perimeter resource, e.g. 'nsp-germanywestcentral'"
+                }
+            },
+            "nspResourceGroupName": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "NSP Resource Group Name",
+                    "description": "The resource group where the Network Security Perimeter is deployed, e.g. 'rg-nsp-platform'"
+                }
+            },
+            "nspProfileId": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "NSP Profile Resource ID",
+                    "description": "The full resource ID of the NSP profile to associate storage accounts with, e.g. /subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.Network/networkSecurityPerimeters/{nspName}/profiles/{profileName}"
+                }
+            },
+            "accessMode": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Access Mode",
+                    "description": "The access mode for the NSP resource association. 'Learning' (also known as Transition) allows existing firewall rules to continue working alongside NSP rules. 'Enforced' restricts access to NSP rules only."
+                },
+                "allowedValues": [
+                    "Learning",
+                    "Enforced"
+                ],
+                "defaultValue": "Learning"
+            },
+            "nspRegion": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "NSP Region",
+                    "description": "The Azure region where the NSP is deployed. Only storage accounts in this region will be associated. Must match the NSP location, e.g. 'germanywestcentral'"
+                },
+                "defaultValue": ""
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Storage/storageAccounts"
+                    },
+                    {
+                        "field": "location",
+                        "equals": "[parameters('nspRegion')]"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]",
+                "details": {
+                    "type": "Microsoft.Network/networkSecurityPerimeters/resourceAssociations",
+                    "name": "[concat(parameters('nspName'), '/', field('name'), '-nsp-assoc')]",
+                    "resourceGroupName": "[parameters('nspResourceGroupName')]",
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Network/networkSecurityPerimeters/resourceAssociations/privateLinkResource.id",
+                                "equals": "[field('id')]"
+                            }
+                        ]
+                    },
+                    "roleDefinitionIds": [
+                        "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7",
+                        "/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab"
+                    ],
+                    "deployment": {
+                        "properties": {
+                            "mode": "incremental",
+                            "template": {
+                                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {
+                                    "nspName": {
+                                        "type": "string"
+                                    },
+                                    "storageAccountId": {
+                                        "type": "string"
+                                    },
+                                    "storageAccountName": {
+                                        "type": "string"
+                                    },
+                                    "nspProfileId": {
+                                        "type": "string"
+                                    },
+                                    "accessMode": {
+                                        "type": "string"
+                                    },
+                                    "location": {
+                                        "type": "string"
+                                    }
+                                },
+                                "resources": [
+                                    {
+                                        "type": "Microsoft.Network/networkSecurityPerimeters/resourceAssociations",
+                                        "apiVersion": "2025-05-01",
+                                        "name": "[concat(parameters('nspName'), '/', parameters('storageAccountName'), '-nsp-assoc')]",
+                                        "location": "[parameters('location')]",
+                                        "properties": {
+                                            "privateLinkResource": {
+                                                "id": "[parameters('storageAccountId')]"
+                                            },
+                                            "profile": {
+                                                "id": "[parameters('nspProfileId')]"
+                                            },
+                                            "accessMode": "[parameters('accessMode')]"
+                                        }
+                                    }
+                                ],
+                                "outputs": {}
+                            },
+                            "parameters": {
+                                "nspName": {
+                                    "value": "[parameters('nspName')]"
+                                },
+                                "storageAccountId": {
+                                    "value": "[field('id')]"
+                                },
+                                "storageAccountName": {
+                                    "value": "[field('name')]"
+                                },
+                                "nspProfileId": {
+                                    "value": "[parameters('nspProfileId')]"
+                                },
+                                "accessMode": {
+                                    "value": "[parameters('accessMode')]"
+                                },
+                                "location": {
+                                    "value": "[field('location')]"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

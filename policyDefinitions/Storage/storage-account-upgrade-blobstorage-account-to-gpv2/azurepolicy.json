@@ -1,0 +1,106 @@
+{
+  "name": "c0f34c64-8a8f-4e9c-b6b3-3f5cf0d3e001",
+  "mode": "Indexed",
+  "displayName": "Upgrade BlobStorage accounts to StorageV2",
+  "description": "Audits or upgrades legacy BlobStorage accounts to StorageV2 while preserving the existing storage account redundancy SKU and access tier.",
+  "metadata": {
+    "category": "Storage",
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Audit or automatically upgrade BlobStorage accounts to StorageV2."
+      },
+      "allowedValues": [
+        "AuditIfNotExists",
+        "DeployIfNotExists",
+        "Disabled"
+      ],
+      "defaultValue": "AuditIfNotExists"
+    }
+  },
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Storage/storageAccounts"
+        },
+        {
+          "field": "kind",
+          "equals": "BlobStorage"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]",
+      "details": {
+        "type": "Microsoft.Storage/storageAccounts",
+        "name": "[field('name')]",
+        "existenceCondition": {
+          "field": "kind",
+          "equals": "StorageV2"
+        },
+        "roleDefinitionIds": [
+          "/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab"
+        ],
+        "deploymentScope": "resourceGroup",
+        "deployment": {
+          "properties": {
+            "mode": "Incremental",
+            "parameters": {
+              "storageAccountName": {
+                "value": "[field('name')]"
+              },
+              "location": {
+                "value": "[field('location')]"
+              },
+              "skuName": {
+                "value": "[field('Microsoft.Storage/storageAccounts/sku.name')]"
+              },
+              "accessTier": {
+                "value": "[field('Microsoft.Storage/storageAccounts/accessTier')]"
+              }
+            },
+            "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": {
+                "storageAccountName": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                },
+                "skuName": {
+                  "type": "string"
+                },
+                "accessTier": {
+                  "type": "string"
+                }
+              },
+              "resources": [
+                {
+                  "type": "Microsoft.Storage/storageAccounts",
+                  "apiVersion": "2023-01-01",
+                  "name": "[parameters('storageAccountName')]",
+                  "location": "[parameters('location')]",
+                  "sku": {
+                    "name": "[parameters('skuName')]"
+                  },
+                  "kind": "StorageV2",
+                  "properties": {
+                    "accessTier": "[parameters('accessTier')]"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -56,6 +56,10 @@
               },
               {
                 "field": "Microsoft.Storage/storageAccounts/blobServices/containerDeleteRetentionPolicy.enabled",
+                "exists": false
+              },
+              {
+                "field": "Microsoft.Storage/storageAccounts/blobServices/containerDeleteRetentionPolicy.enabled",
                 "equals": false
               }
             ]

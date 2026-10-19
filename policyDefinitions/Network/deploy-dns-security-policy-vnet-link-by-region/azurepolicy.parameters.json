@@ -1,0 +1,43 @@
+{
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+            "DeployIfNotExists",
+            "AuditIfNotExists",
+            "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+    },
+    "securitySubscriptionId": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Security Subscription ID",
+            "description": "Subscription ID where the DNS Resolver Policies are deployed."
+        }
+    },
+    "securityResourceGroup": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Security Resource Group",
+            "description": "Resource group containing the DNS Resolver Policies."
+        }
+    },
+    "supportedLocations": {
+        "type": "Array",
+        "metadata": {
+            "displayName": "Supported Locations",
+            "description": "ARM location names where DNS Security Policies exist. VNets in other locations are ignored."
+        }
+    },
+    "locationToPolicyMap": {
+        "type": "Object",
+        "metadata": {
+            "displayName": "Location to Policy Name Map",
+            "description": "Maps ARM location name (key) to the DNS Resolver Policy resource name (value). Example: {\"westeurope\":\"weu-dnsrp-blocklist\"}"
+        }
+    }
+}

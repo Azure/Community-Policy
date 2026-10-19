@@ -1,0 +1,15 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Audit or automatically upgrade GPv1 storage accounts to GPv2."
+    },
+    "allowedValues": [
+      "AuditIfNotExists",
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists"
+  }
+}

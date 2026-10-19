@@ -1,0 +1,189 @@
+{
+  "name": "304dff40-5056-4cbb-986c-58dc7edc8ee3",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "Configure Windows virtual machines to use Microsoft Entra login",
+    "description": "Deploys the AADLoginForWindows extension to Windows virtual machines running a supported image, so users can sign in over RDP with Microsoft Entra credentials. Only virtual machines that already have a system-assigned managed identity are targeted, because the extension cannot install without one. Set matchAllWindowsImages to true for custom or golden images. Installing the extension joins the virtual machine to Microsoft Entra ID, which prevents an Active Directory domain join.",
+    "metadata": {
+      "category": "Compute",
+      "version": "1.0.0"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "matchAllWindowsImages": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Match all Windows images",
+          "description": "Set to true to target every Windows virtual machine regardless of its image reference, for example when custom or golden images are used. Set to false to only target the marketplace images that Microsoft documents as supported."
+        },
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": false
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+            "equals": "Windows"
+          },
+          {
+            "field": "identity.type",
+            "contains": "SystemAssigned"
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[parameters('matchAllWindowsImages')]",
+                "equals": true
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.publisher",
+                    "equals": "MicrosoftWindowsServer"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.offer",
+                    "equals": "WindowsServer"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.sku",
+                    "notContains": "core"
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.sku",
+                        "like": "2022-*"
+                      },
+                      {
+                        "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.sku",
+                        "like": "2025-*"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.publisher",
+                    "equals": "MicrosoftWindowsDesktop"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.sku",
+                    "like": "win11-*"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.sku",
+                    "notLike": "win11-21h2*"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.sku",
+                    "notLike": "win11-22h2*"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.sku",
+                    "notLike": "win11-23h2*"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "evaluationDelay": "AfterProvisioningSuccess",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+                "equals": "Microsoft.Azure.ActiveDirectory"
+              },
+              {
+                "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                "equals": "AADLoginForWindows"
+              },
+              {
+                "field": "Microsoft.Compute/virtualMachines/extensions/provisioningState",
+                "equals": "Succeeded"
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "vmName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "name": "[concat(parameters('vmName'), '/AADLoginForWindows')]",
+                    "type": "Microsoft.Compute/virtualMachines/extensions",
+                    "location": "[parameters('location')]",
+                    "apiVersion": "2023-03-01",
+                    "properties": {
+                      "publisher": "Microsoft.Azure.ActiveDirectory",
+                      "type": "AADLoginForWindows",
+                      "typeHandlerVersion": "1.0",
+                      "autoUpgradeMinorVersion": true
+                    }
+                  }
+                ],
+                "outputs": {
+                  "policy": {
+                    "type": "string",
+                    "value": "[concat('Enabled Microsoft Entra login for Windows VM', ': ', parameters('vmName'))]"
+                  }
+                }
+              },
+              "parameters": {
+                "vmName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
