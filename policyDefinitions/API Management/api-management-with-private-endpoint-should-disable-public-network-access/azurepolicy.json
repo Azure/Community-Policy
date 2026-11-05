@@ -3,7 +3,7 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "properties": {
     "displayName": "API Management with private endpoint should disable public network access",
-    "description": "Audits or denies API Management services with at least one approved private endpoint connection when public network access to the gateway remains enabled. Services without an approved private endpoint are not evaluated because public network access can only be disabled after a private endpoint is configured. Only SKUs that support inbound private endpoints are evaluated; Consumption, Basic v2, and classic tiers injected into a virtual network are excluded.",
+    "description": "Audits or denies API Management services with at least one approved private endpoint connection when public network access to the gateway remains enabled. Services without an approved private endpoint are not evaluated because public network access can only be disabled after a private endpoint is configured. SKUs and network configurations that do not support private endpoints cannot meet the approved private endpoint condition and are therefore not evaluated.",
     "metadata": {
       "version": "1.0.0",
       "category": "API Management"
@@ -30,17 +30,6 @@
           {
             "field": "type",
             "equals": "Microsoft.ApiManagement/service"
-          },
-          {
-            "field": "Microsoft.ApiManagement/service/sku.name",
-            "in": [
-              "Developer",
-              "Basic",
-              "Standard",
-              "Premium",
-              "StandardV2",
-              "PremiumV2"
-            ]
           },
           {
             "count": {
