@@ -1,0 +1,38 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.ApiManagement/service"
+      },
+      {
+        "field": "Microsoft.ApiManagement/service/sku.name",
+        "in": [
+          "Developer",
+          "Basic",
+          "Standard",
+          "Premium",
+          "StandardV2",
+          "PremiumV2"
+        ]
+      },
+      {
+        "count": {
+          "field": "Microsoft.ApiManagement/service/privateEndpointConnections[*]",
+          "where": {
+            "field": "Microsoft.ApiManagement/service/privateEndpointConnections[*].privateLinkServiceConnectionState.status",
+            "equals": "Approved"
+          }
+        },
+        "greaterOrEquals": 1
+      },
+      {
+        "field": "Microsoft.ApiManagement/service/publicNetworkAccess",
+        "notEquals": "Disabled"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
