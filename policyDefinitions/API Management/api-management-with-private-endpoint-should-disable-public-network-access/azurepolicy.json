@@ -1,0 +1,55 @@
+{
+  "name": "3a374935-c7d3-415f-9d51-e29bdf7fad8a",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "properties": {
+    "displayName": "API Management with private endpoint should disable public network access",
+    "description": "Audits or denies API Management services with at least one approved private endpoint connection when public network access to the gateway remains enabled. Services without an approved private endpoint are not evaluated because public network access can only be disabled after a private endpoint is configured. SKUs and network configurations that do not support private endpoints cannot meet the approved private endpoint condition and are therefore not evaluated.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "API Management"
+    },
+    "mode": "Indexed",
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Deny, Audit or Disabled the execution of the Policy"
+        },
+        "allowedValues": [
+          "Deny",
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ApiManagement/service"
+          },
+          {
+            "count": {
+              "field": "Microsoft.ApiManagement/service/privateEndpointConnections[*]",
+              "where": {
+                "field": "Microsoft.ApiManagement/service/privateEndpointConnections[*].privateLinkServiceConnectionState.status",
+                "equals": "Approved"
+              }
+            },
+            "greaterOrEquals": 1
+          },
+          {
+            "field": "Microsoft.ApiManagement/service/publicNetworkAccess",
+            "notEquals": "Disabled"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

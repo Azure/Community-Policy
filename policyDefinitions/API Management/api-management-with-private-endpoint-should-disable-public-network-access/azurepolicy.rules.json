@@ -1,0 +1,27 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.ApiManagement/service"
+      },
+      {
+        "count": {
+          "field": "Microsoft.ApiManagement/service/privateEndpointConnections[*]",
+          "where": {
+            "field": "Microsoft.ApiManagement/service/privateEndpointConnections[*].privateLinkServiceConnectionState.status",
+            "equals": "Approved"
+          }
+        },
+        "greaterOrEquals": 1
+      },
+      {
+        "field": "Microsoft.ApiManagement/service/publicNetworkAccess",
+        "notEquals": "Disabled"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
