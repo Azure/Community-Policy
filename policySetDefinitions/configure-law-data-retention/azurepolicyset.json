@@ -1,0 +1,157 @@
+{
+  "name": "c6f0e4e3-3d45-4e9c-bf70-5b8c9d0e1f23",
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "properties": {
+    "displayName": "Configure Log Analytics data retention (workspace and table level)",
+    "description": "Configures Log Analytics data retention at the workspace level, the individual table level, and for Application Insights (App*) tables, using DeployIfNotExists. Create remediation tasks to bring existing resources into compliance. Requires a managed identity with the Log Analytics Contributor role at the assignment scope. The member policy definitions must be created at the same scope (subscription or management group) as this initiative.",
+    "metadata": {
+      "category": "Monitoring",
+      "version": "2.0.0",
+      "source": "https://learn.microsoft.com/azure/azure-monitor/logs/data-retention-configure"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "The effect applied by all member policies. DeployIfNotExists remediates non-compliant workspaces and tables, AuditIfNotExists only reports them, Disabled turns the policies off."
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "workspaceRetentionInDays": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Workspace retention (days)",
+          "description": "Workspace-level analytics data retention in days. Allowed range is 30-730. Defaults to 30 (the minimum)."
+        },
+        "defaultValue": 30
+      },
+      "tableRetentionInDays": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Table analytics retention (days)",
+          "description": "Analytics (interactive) retention in days for each table. Allowed range is 4-730. Defaults to 30. Keep this low to control cost; use total retention for long-term storage."
+        },
+        "defaultValue": 30
+      },
+      "tableTotalRetentionInDays": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Table total retention (days)",
+          "description": "Total retention in days (analytics + long-term) for each table. Allowed values are 4-730, or 1095, 1460, 1826, 2191, 2556, 2922, 3288, 3653, 4018, 4383. Defaults to 30."
+        },
+        "defaultValue": 30
+      },
+      "tableNameLike": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Table name include pattern",
+          "description": "Only tables whose name matches this wildcard pattern are governed by the table policy. '*' = all tables, 'App*' = Application Insights tables. Defaults to '*'."
+        },
+        "defaultValue": "*"
+      },
+      "tableNameNotLike": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Table name exclude pattern",
+          "description": "Tables whose name matches this wildcard pattern are skipped by the table policy. E.g. 'App*' excludes Application Insights tables. Defaults to a value that matches nothing (exclude none)."
+        },
+        "defaultValue": "~noexclude~"
+      },
+      "appInsightsRetentionInDays": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Application Insights table analytics retention (days)",
+          "description": "Analytics (interactive) retention in days for the workspace-based Application Insights tables (App*). Allowed range is 4-730. Defaults to 90 (free with workspace-based Application Insights)."
+        },
+        "defaultValue": 90
+      },
+      "appInsightsTotalRetentionInDays": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "Application Insights table total retention (days)",
+          "description": "Total retention in days (analytics + long-term) for the Application Insights tables. Allowed values are 4-730, or 1095, 1460, 1826, 2191, 2556, 2922, 3288, 3653, 4018, 4383. Defaults to 90."
+        },
+        "defaultValue": 90
+      }
+    },
+    "policyDefinitionGroups": [
+      {
+        "name": "workspace-retention",
+        "displayName": "Workspace-level data retention"
+      },
+      {
+        "name": "table-retention",
+        "displayName": "Table-level data retention"
+      },
+      {
+        "name": "appinsights-retention",
+        "displayName": "Application Insights table data retention"
+      }
+    ],
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "configureLawWorkspaceRetention",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a4f8e2c1-1b23-4c7a-9d5e-3f6a7b8c9d01",
+        "groupNames": [
+          "workspace-retention"
+        ],
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          },
+          "workspaceRetentionInDays": {
+            "value": "[parameters('workspaceRetentionInDays')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "configureLawTableRetention",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b5f9e3d2-2c34-4d8b-ae6f-4a7b8c9d0e12",
+        "groupNames": [
+          "table-retention"
+        ],
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          },
+          "tableRetentionInDays": {
+            "value": "[parameters('tableRetentionInDays')]"
+          },
+          "tableTotalRetentionInDays": {
+            "value": "[parameters('tableTotalRetentionInDays')]"
+          },
+          "tableNameLike": {
+            "value": "[parameters('tableNameLike')]"
+          },
+          "tableNameNotLike": {
+            "value": "[parameters('tableNameNotLike')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "configureAppInsightsTableRetention",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e9c3f6a5-5f67-4a1e-b1c2-7d0e1f2a3b45",
+        "groupNames": [
+          "appinsights-retention"
+        ],
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effect')]"
+          },
+          "tableRetentionInDays": {
+            "value": "[parameters('appInsightsRetentionInDays')]"
+          },
+          "tableTotalRetentionInDays": {
+            "value": "[parameters('appInsightsTotalRetentionInDays')]"
+          }
+        }
+      }
+    ]
+  }
+}
